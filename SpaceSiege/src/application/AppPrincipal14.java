@@ -1,4 +1,4 @@
-package main;
+package application;
 
 import java.awt.EventQueue;
 
@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-public class Main extends JFrame {
+public class AppPrincipal14 extends JFrame {
 
 	private JPanel contentPane;
 
@@ -17,7 +17,7 @@ public class Main extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Main frame = new Main();
+					AppPrincipal14 frame = new AppPrincipal14();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -29,7 +29,7 @@ public class Main extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Main() {
+	public AppPrincipal14() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
