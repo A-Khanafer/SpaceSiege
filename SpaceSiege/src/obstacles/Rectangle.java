@@ -22,6 +22,7 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 	private double coinXGauche,coinYGauche;
 	private double coinXDroite,coinYDroite;
 	private double centreX, centreY;
+	private AffineTransform matRot = new AffineTransform();
 
 	
 	
@@ -33,10 +34,18 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 	}
 	
 	private void creerLaGeometrie() {
-		coinXDroite = coinXGauche + width; 
-		centreX  = coinXGauche + width/2;
-		centreY = coinYGauche + height/2;
+		
+		coinXDroite = coinXGauche + width;
 		rectangle = new Rectangle2D.Double(coinXGauche, coinYGauche, width, height);
+		
+		centreX  = rectangle.getCenterX();
+		centreY = rectangle.getCenterY();
+		if(coinXGauche < centreX ) {
+			coinXDroite = rectangle.getMaxX();
+			
+		}else{
+			coinXDroite = rectangle.getMinX();
+		}
 		aire = new Area(rectangle);
 			
 	}
@@ -49,32 +58,28 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 
 	@Override
 	public void rotate(double pixelMillieuForme, int eX, int eY) {
-		
+		double angleRotation;
 		if(eX <= centreX) {
 		double longeurCoteOpose = eX - centreX ;
 			if(eY < centreY) {
 				double longeurCoteAdjacent = centreY - eY;
-				double angleRotation = Math.atan2(longeurCoteOpose, longeurCoteAdjacent);
+				angleRotation = Math.atan2(longeurCoteOpose, longeurCoteAdjacent);
 			}else {
 				double longeurCoteAdjacent = centreY - eY;
-				double angleRotation = -Math.PI + Math.atan2(longeurCoteOpose, longeurCoteAdjacent);
+				angleRotation = -Math.PI + Math.atan2(longeurCoteOpose, longeurCoteAdjacent);
 			}
 		}else{
 			double longeurCoteOpose = eX - centreX ;
 				if(eY < centreY) {
 					double longeurCoteAdjacent = centreY - eY;
-					double angleRotation = Math.atan2(longeurCoteOpose, longeurCoteAdjacent);
+					angleRotation = Math.atan2(longeurCoteOpose, longeurCoteAdjacent);
 				}else {
-					double longeurCoteAdjacent = centreY - eY;
-					double angleRotation = -Math.PI + Math.atan2(longeurCoteOpose, longeurCoteAdjacent);
+					double longeurCoteAdjacent = eY - centreY;
+					angleRotation = Math.PI - Math.atan2(longeurCoteOpose, longeurCoteAdjacent);
 				}
 		}
-		
-		
-		
-		
-		AffineTransform matRot = new AffineTransform();
-//		matRot.rotate(angleRotation);
+		matRot.rotate(angleRotation);
+//		Coin
 		
 	}
 
@@ -92,6 +97,8 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 		Graphics2D g2dCopy = g2d;
 		g2dCopy.setColor(Color.black);
 		g2dCopy.draw(rectangle);
+		
+		
 	}
 
 }
