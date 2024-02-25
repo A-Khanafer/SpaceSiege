@@ -2,6 +2,7 @@ package obstacles;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 
@@ -20,7 +21,8 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 	private Area aire;
 	private double coinXGauche,coinYGauche;
 	private double coinXDroite,coinYDroite;
-	private double pixelMillieuX;
+	private double centreX, centreY;
+
 	
 	
 	
@@ -32,7 +34,8 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 	
 	private void creerLaGeometrie() {
 		coinXDroite = coinXGauche + width; 
-		pixelMillieuX = coinXGauche + width/2;
+		centreX  = coinXGauche + width/2;
+		centreY = coinYGauche + height/2;
 		rectangle = new Rectangle2D.Double(coinXGauche, coinYGauche, width, height);
 		aire = new Area(rectangle);
 			
@@ -46,10 +49,32 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 
 	@Override
 	public void rotate(double pixelMillieuForme, int eX, int eY) {
-		double longeurCoteOpose = eX - pixelMillieuForme ;
-		double longeurCoteAdjacent = pixelMillieuForme - eY;
+		
+		if(eX <= centreX) {
+		double longeurCoteOpose = eX - centreX ;
+			if(eY < centreY) {
+				double longeurCoteAdjacent = centreY - eY;
+				double angleRotation = Math.atan2(longeurCoteOpose, longeurCoteAdjacent);
+			}else {
+				double longeurCoteAdjacent = centreY - eY;
+				double angleRotation = -Math.PI + Math.atan2(longeurCoteOpose, longeurCoteAdjacent);
+			}
+		}else{
+			double longeurCoteOpose = eX - centreX ;
+				if(eY < centreY) {
+					double longeurCoteAdjacent = centreY - eY;
+					double angleRotation = Math.atan2(longeurCoteOpose, longeurCoteAdjacent);
+				}else {
+					double longeurCoteAdjacent = centreY - eY;
+					double angleRotation = -Math.PI + Math.atan2(longeurCoteOpose, longeurCoteAdjacent);
+				}
+		}
 		
 		
+		
+		
+		AffineTransform matRot = new AffineTransform();
+//		matRot.rotate(angleRotation);
 		
 	}
 
