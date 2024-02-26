@@ -20,6 +20,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	private static final long serialVersionUID = 1L;
 	boolean enCoursDAnimation;
 	private Rectangle rec = new Rectangle(50,50);
+	private boolean onOff = false;
 	
 	public ZoneAnimationPhysique() {
 		setBackground(new Color(255, 255, 255));
@@ -53,15 +54,21 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 				@Override
 				
 				public void mouseClicked(MouseEvent e) {
-					
+					if(rec.contient(e.getX(), e.getY())) {
+						onOff = true;
+						repaint();
+					}else {
+						onOff = false;
+						repaint();
+					}
 				}
 			});
 			addMouseMotionListener(new MouseMotionAdapter() {
 				@Override
 				
 				public void mouseDragged(MouseEvent e) {
-					if(rec.contient(e.getX(), e.getY())) {
-						
+					if(rec.contient(e.getX(), e.getY()) && onOff == true) {
+						System.out.println();
 						rec.rotate( e.getX(), e.getY());
 						repaint();
 					}
