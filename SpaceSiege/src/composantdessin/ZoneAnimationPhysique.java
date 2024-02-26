@@ -4,6 +4,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
+
+import balle.BalleBasique;
+import balle.Canon;
+
 import java.awt.Color;
 
 public class ZoneAnimationPhysique extends JPanel implements Runnable {
@@ -22,6 +26,18 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	public void paintComponent(Graphics g ) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		Canon AllahUAkbar=new Canon(10,80);
+		AllahUAkbar.dessiner(g2d);
 	}
 
 	public void run() {
