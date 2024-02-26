@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import composantdessin.ZoneAnimationPhysique;
 
 public class FenetreDeJeu extends JFrame {
 
@@ -38,6 +39,10 @@ public class FenetreDeJeu extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		ZoneAnimationPhysique zoneAnimationPhysique = new ZoneAnimationPhysique();
+		zoneAnimationPhysique.setBounds(32, 26, 660, 407);
+		contentPane.add(zoneAnimationPhysique);
 	}
-
 }

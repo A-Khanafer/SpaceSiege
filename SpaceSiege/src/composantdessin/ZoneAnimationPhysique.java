@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
+import java.awt.Color;
 
 import obstacles.Rectangle;
 
@@ -16,6 +17,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	boolean enCoursDAnimation;
 	
 	public ZoneAnimationPhysique() {
+		setBackground(new Color(255, 255, 255));
 		
 	}
 	
