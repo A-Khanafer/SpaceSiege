@@ -15,7 +15,7 @@ import interfaces.Selectionnable;
 
 public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 
-	private double pixelsParMetre;
+	private double pixelsParMetre= 10;
 	private double width = 10*pixelsParMetre;
 	private double height = 10*pixelsParMetre;
 	private Rectangle2D.Double rectangle;
@@ -23,6 +23,7 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 	private double coinXGauche,coinYGauche;
 	private double coinXDroite,coinYDroite;
 	private double centreX, centreY;
+	private double angleRotation;
 	private AffineTransform matRot = new AffineTransform();
 
 	
@@ -64,8 +65,8 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 	}
 
 	@Override
-	public void rotate(double pixelMillieuForme, int eX, int eY) {
-		double angleRotation;
+	public void rotate( int eX, int eY) {
+		
 		if(eX <= centreX) {
 		double longeurCoteOpose = eX - centreX ;
 			if(eY < centreY) {
@@ -85,14 +86,15 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 					angleRotation = Math.PI - Math.atan2(longeurCoteOpose, longeurCoteAdjacent);
 				}
 		}
-		matRot.rotate(angleRotation);
-//		Coin
+		
+
 		
 	}
 
 	@Override
 	public boolean contient(double xPix, double yPix) {
 		if (aire.contains(xPix, yPix)) {
+			
 			return true;
 		}else {
 		    return false;
@@ -102,8 +104,9 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 	@Override
 	public void dessiner(Graphics2D g2d) {
 		Graphics2D g2dCopy = g2d;
+		g2dCopy.rotate(angleRotation, centreX, centreY);
 		g2dCopy.setColor(Color.black);
-		g2dCopy.draw(rectangle);
+		g2dCopy.fill(rectangle);
 		
 		
 	}

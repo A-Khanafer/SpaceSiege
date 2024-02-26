@@ -2,6 +2,10 @@ package composantdessin;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionAdapter;
 
 import javax.swing.JPanel;
 import java.awt.Color;
@@ -15,16 +19,18 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	 */
 	private static final long serialVersionUID = 1L;
 	boolean enCoursDAnimation;
+	private Rectangle rec = new Rectangle(50,50);
 	
 	public ZoneAnimationPhysique() {
 		setBackground(new Color(255, 255, 255));
-		
+		ecouteurSouris();
 	}
 	
 	public void paintComponent(Graphics g ) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
-		Rectangle rec = new Rectangle(100,100);
+		
+		rec.dessiner(g2d);
 	}
 
 	public void run() {
@@ -37,4 +43,34 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 			enCoursDAnimation = true;
 		}
 	}//fin methode
+	
+	
+	
+	
+	
+	 private void ecouteurSouris() {
+		  addMouseListener((MouseListener) new MouseAdapter() {
+				@Override
+				
+				public void mouseClicked(MouseEvent e) {
+					
+				}
+			});
+			addMouseMotionListener(new MouseMotionAdapter() {
+				@Override
+				
+				public void mouseDragged(MouseEvent e) {
+					if(rec.contient(e.getX(), e.getY())) {
+						
+						rec.rotate( e.getX(), e.getY());
+						repaint();
+					}
+				}
+
+			});
+			
+	  }
+
+	
+	
 }
