@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
 
@@ -40,19 +41,25 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 		
 		centreX  = rectangle.getCenterX();
 		centreY = rectangle.getCenterY();
-		if(coinXGauche < centreX ) {
-			coinXDroite = rectangle.getMaxX();
-			
-		}else{
-			coinXDroite = rectangle.getMinX();
-		}
+//		if(coinXGauche < centreX ) {
+//			coinXDroite = rectangle.getMaxX();
+//			
+//		}else{
+//			coinXDroite = rectangle.getMinX();
+//		}
 		aire = new Area(rectangle);
 			
 	}
 
 	@Override
 	public void resize(double topRightCornerX,double topRightCornerY, int eX, int eY) {
-		// TODO Auto-generated method stub
+		
+		double radius = 4;
+		Ellipse2D.Double clickAv = new Ellipse2D.Double(topRightCornerX-radius, topRightCornerY-radius, radius, radius);
+		
+		if(clickAv.contains(eX, eY)) {
+			
+		}
 		
 	}
 
