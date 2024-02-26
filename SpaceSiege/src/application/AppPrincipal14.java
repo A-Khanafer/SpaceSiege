@@ -46,17 +46,14 @@ public class AppPrincipal14 extends JFrame {
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
-		JMenu mnNewMenu = new JMenu("Auteurs");
-		menuBar.add(mnNewMenu);
+		JMenu menuAuteur = new JMenu("Auteurs");
+		menuBar.add(menuAuteur);
 		
-		JMenuItem mntmNewMenuItem_1 = new JMenuItem("New menu item");
-		mnNewMenu.add(mntmNewMenuItem_1);
-		
-		JMenu mnNewMenu_1 = new JMenu("À propos");
-		menuBar.add(mnNewMenu_1);
+		JMenu menuApropos = new JMenu("À propos");
+		menuBar.add(menuApropos);
 		
 		JMenuItem mntmNewMenuItem = new JMenuItem("New menu item");
-		mnNewMenu_1.add(mntmNewMenuItem);
+		menuApropos.add(mntmNewMenuItem);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -69,26 +66,26 @@ public class AppPrincipal14 extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("SPACE SIEGE");
-		lblNewLabel.setBounds(10, 21, 293, 67);
-		panel.add(lblNewLabel);
-		lblNewLabel.setBackground(new Color(0, 0, 0));
-		lblNewLabel.setForeground(new Color(255, 255, 255));
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 37));
+		JLabel lblTitre = new JLabel("SPACE SIEGE");
+		lblTitre.setBounds(10, 21, 293, 67);
+		panel.add(lblTitre);
+		lblTitre.setBackground(new Color(0, 0, 0));
+		lblTitre.setForeground(new Color(255, 255, 255));
+		lblTitre.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTitre.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 37));
 		
-		JButton btnNewButton_1 = new JButton("JOUER");
-		btnNewButton_1.addActionListener(new ActionListener() {
+		JButton btnJouer = new JButton("JOUER");
+		btnJouer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				FenetreDeJeu page = new FenetreDeJeu();
+				FenetreDeJeu.afficherFenetre();
 				dispose();
 			}
 		});
-		btnNewButton_1.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 23));
-		btnNewButton_1.setBounds(46, 105, 216, 69);
-		panel.add(btnNewButton_1);
-		
+		btnJouer.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 23));
+		btnJouer.setBounds(46, 105, 216, 69);
+		panel.add(btnJouer);
+
 		JButton btnNewButton = new JButton("QUITTER");
 		btnNewButton.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 23));
 		btnNewButton.setBounds(46, 196, 216, 69);
@@ -116,5 +113,11 @@ public class AppPrincipal14 extends JFrame {
 		System.out.println("kiss me on my hot mouth");
 		System.out.println("kiss me on my hot mouth");
 		System.out.println("kiss me on my hot mouth");
+
+		JButton btnQuitter = new JButton("QUITTER");
+		btnQuitter.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 23));
+		btnQuitter.setBounds(46, 196, 216, 69);
+		panel.add(btnQuitter);
+
 	}
 }

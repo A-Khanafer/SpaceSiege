@@ -8,6 +8,10 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 
 import javax.swing.JPanel;
+
+import balle.BalleBasique;
+import balle.Canon;
+
 import java.awt.Color;
 
 import obstacles.Rectangle;
@@ -31,7 +35,21 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
 		
+
 		rec.dessiner(g2d);
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		Canon AllahUAkbar=new Canon(10,80);
+		AllahUAkbar.dessiner(g2d);
+
 	}
 
 	public void run() {
