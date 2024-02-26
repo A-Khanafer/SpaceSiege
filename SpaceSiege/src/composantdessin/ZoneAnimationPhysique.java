@@ -5,6 +5,8 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
+import obstacles.Rectangle;
+
 public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	
 	/**
@@ -20,6 +22,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	public void paintComponent(Graphics g ) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
+		Rectangle rec = new Rectangle(100,100);
 	}
 
 	public void run() {
