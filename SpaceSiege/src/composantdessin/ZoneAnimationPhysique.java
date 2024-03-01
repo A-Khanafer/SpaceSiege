@@ -40,15 +40,6 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		Canon AllahUAkbar=new Canon(10,80);
-		AllahUAkbar.dessiner(g2d);
 
 	}
 
@@ -73,10 +64,12 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 				
 				public void mouseClicked(MouseEvent e) {
 					if(rec.contient(e.getX(), e.getY())) {
-						onOff = true;
+						System.out.println(rec.isClickedOnIt());
+						rec.setClickedOnIt(true);
 						repaint();
 					}else {
-						onOff = false;
+						System.out.println(rec.isClickedOnIt());
+						rec.setClickedOnIt(false);
 						repaint();
 					}
 				}
@@ -85,11 +78,29 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 				@Override
 				
 				public void mouseDragged(MouseEvent e) {
-					if(rec.contient(e.getX(), e.getY()) && onOff == true) {
-						System.out.println();
+					
+					if(rec.contient(e.getX(), e.getY()) && rec.isClickedOnIt() == true) {
+						System.out.println(rec.isClickedOnIt());
 						rec.rotate( e.getX(), e.getY());
 						repaint();
 					}
+					
+					
+					if(rec.contient(e.getX(), e.getY()) && rec.isClickedOnIt() == false) {
+						System.out.println(rec.isClickedOnIt());
+						rec.move( e.getX(), e.getY());
+						repaint();
+						
+						if(rec.contient(e.getX(), e.getY()) == false) {
+							rec.setClickedOnIt(false);
+							repaint();
+						}
+						
+					}
+					
+					
+					
+					
 				}
 
 			});

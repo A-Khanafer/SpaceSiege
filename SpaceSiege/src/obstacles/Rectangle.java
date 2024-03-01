@@ -3,6 +3,7 @@ package obstacles;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
@@ -56,9 +57,9 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 	}
 
 	@Override
-	public void resize(double topRightCornerX,double topRightCornerY, int eX, int eY) {
+	public void resize( int eX, int eY) {
 		
-		clickAv = new Ellipse2D.Double(topRightCornerX-radius, topRightCornerY-radius, radius, radius);
+		clickAv = new Ellipse2D.Double(coinXDroite-radius, coinYDroite-radius, radius, radius);
 		if(clickAv.contains(eX, eY)) {
 			
 		}
@@ -87,27 +88,28 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 					angleRotation = Math.PI - Math.atan2(longeurCoteOpose, longeurCoteAdjacent);
 				}
 		}
-		
-
-		
 	}
 
 	@Override
 	public boolean contient(double xPix, double yPix) {
 		if (aire.contains(xPix, yPix)) {
-			clickedOnIt = true;
 			return true;
 		}else {
-			clickedOnIt = false;
 		    return false;
 		}
 	}
 
-	
+	@Override
+	public void move(int eX, int eY) {
+			this.coinXGauche = eX - width/2 ;
+			this.coinYGauche = eY - height/2 ;
+			creerLaGeometrie();	
+	}
 
 	@Override
 	public void dessiner(Graphics2D g2d) {
-		Graphics2D g2dCopy = g2d;
+		Graphics2D g2dCopy = (Graphics2D) g2d.create();
+		g2dCopy.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		g2dCopy.rotate(angleRotation, centreX, centreY);
 		
 		g2dCopy.setColor(Color.blue);
@@ -118,6 +120,9 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 			g2dCopy.setStroke(pointille);
 			g2dCopy.setColor(Color.black);
 			g2dCopy.draw(rectangle);
+			
+			
+			
 			
 		}
 		
@@ -133,6 +138,8 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 	public void setClickedOnIt(boolean clickedOnIt) {
 		this.clickedOnIt = clickedOnIt;
 	}
+
+	
 	
 
 }
