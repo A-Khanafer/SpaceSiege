@@ -2,6 +2,7 @@ package composantdessin;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
 import javax.swing.JPanel;
 
@@ -26,17 +27,15 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	public void paintComponent(Graphics g ) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
+		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		
 		
 		
 		
 		
 		
-		
-		
-		
-		
-		Canon AllahUAkbar=new Canon(10,80);
+		Canon AllahUAkbar=new Canon(0,80);
+		AllahUAkbar.rotate(10);
 		AllahUAkbar.dessiner(g2d);
 	}
 
