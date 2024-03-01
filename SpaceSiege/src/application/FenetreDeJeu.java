@@ -12,6 +12,13 @@ import javax.swing.JTable;
 import javax.swing.JButton;
 import javax.swing.JSlider;
 import java.awt.Font;
+import javax.swing.JSpinner;
+import javax.swing.JCheckBox;
+import javax.swing.JRadioButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class FenetreDeJeu extends JFrame {
 
@@ -22,13 +29,13 @@ public class FenetreDeJeu extends JFrame {
 	private JButton btnBacAsable;
 	private JButton btnNiveauPrecedent;
 	private JButton btnNiveauSuivant;
-	private JButton btnNewButton_3;
-	private JButton btnNewButton_4;
-	private JButton btnNewButton_5;
-	private JButton btnNewButton_6;
+	private JButton btnPause;
+	private JButton btnReinitialiser;
+	private JButton btnDemarrer;
+	private JButton btn1Image;
 
 	public static void afficherFenetre() {
-        // Création d'une instance de MaFenetre
+       
 		FenetreDeJeu fenetre = new FenetreDeJeu();
         fenetre.setVisible(true);
     }
@@ -53,38 +60,104 @@ public class FenetreDeJeu extends JFrame {
 		panelFonctionnalites.setLayout(null);
 		
 		btnBacAsable = new JButton("BAC A SABLE");
-		btnBacAsable.setBounds(918, 208, 159, 68);
+		btnBacAsable.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				FenetreBacASable.afficherFenetre();
+				dispose();
+			}
+		});
+		btnBacAsable.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
+		btnBacAsable.setBounds(870, 204, 209, 68);
 		panelFonctionnalites.add(btnBacAsable);
 		
 		btnNiveauPrecedent = new JButton("NIVEAU PRECEDENT");
-		btnNiveauPrecedent.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 11));
-		btnNiveauPrecedent.setBounds(918, 115, 159, 62);
+		btnNiveauPrecedent.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
+		btnNiveauPrecedent.setBounds(870, 131, 209, 62);
 		panelFonctionnalites.add(btnNiveauPrecedent);
 		
 		btnNiveauSuivant = new JButton("NIVEAU SUIVANT");
-		btnNiveauSuivant.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 11));
-		btnNiveauSuivant.setBounds(918, 11, 159, 68);
+		btnNiveauSuivant.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
+		btnNiveauSuivant.setBounds(870, 52, 209, 68);
 		panelFonctionnalites.add(btnNiveauSuivant);
 		
-		btnNewButton_3 = new JButton("New button");
-		btnNewButton_3.setBounds(749, 11, 159, 68);
-		panelFonctionnalites.add(btnNewButton_3);
+		btnPause = new JButton("PAUSE");
+		btnPause.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
+		btnPause.setBounds(623, 52, 209, 68);
+		panelFonctionnalites.add(btnPause);
 		
-		btnNewButton_4 = new JButton("New button");
-		btnNewButton_4.setBounds(749, 115, 159, 62);
-		panelFonctionnalites.add(btnNewButton_4);
+		btnReinitialiser = new JButton("REINITIALISER");
+		btnReinitialiser.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
+		btnReinitialiser.setBounds(623, 131, 209, 62);
+		panelFonctionnalites.add(btnReinitialiser);
 		
-		btnNewButton_5 = new JButton("New button");
-		btnNewButton_5.setBounds(580, 11, 159, 68);
-		panelFonctionnalites.add(btnNewButton_5);
+		btnDemarrer = new JButton("DEMARRER");
+		btnDemarrer.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
+		btnDemarrer.setBounds(377, 52, 209, 68);
+		panelFonctionnalites.add(btnDemarrer);
 		
-		btnNewButton_6 = new JButton("New button");
-		btnNewButton_6.setBounds(580, 115, 159, 62);
-		panelFonctionnalites.add(btnNewButton_6);
+		btn1Image = new JButton("+1 IMAGE");
+		btn1Image.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
+		btn1Image.setBounds(377, 131, 209, 62);
+		panelFonctionnalites.add(btn1Image);
 		
 		JSlider slider = new JSlider();
-		slider.setBounds(449, 232, 440, 26);
+		slider.setBounds(377, 242, 440, 26);
 		panelFonctionnalites.add(slider);
+		
+		JSpinner spinner = new JSpinner();
+		spinner.setBounds(167, 52, 109, 46);
+		panelFonctionnalites.add(spinner);
+		
+		JSpinner spinner_1 = new JSpinner();
+		spinner_1.setBounds(167, 131, 109, 44);
+		panelFonctionnalites.add(spinner_1);
+		
+		JCheckBox chckbxNewCheckBox = new JCheckBox("New check box");
+		chckbxNewCheckBox.setBounds(990, 0, 97, 23);
+		panelFonctionnalites.add(chckbxNewCheckBox);
+		
+		JRadioButton rdbBalleNormal = new JRadioButton("Balles Normales");
+		rdbBalleNormal.setBounds(16, 53, 109, 23);
+		panelFonctionnalites.add(rdbBalleNormal);
+		
+		JRadioButton rdbBalleElastique = new JRadioButton("Balles Elastiques");
+		rdbBalleElastique.setBounds(16, 97, 109, 23);
+		panelFonctionnalites.add(rdbBalleElastique);
+		
+		JRadioButton rdbBalleNova = new JRadioButton("Balles Novas");
+		rdbBalleNova.setBounds(16, 139, 109, 23);
+		panelFonctionnalites.add(rdbBalleNova);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(167, 235, 109, 37);
+		panelFonctionnalites.add(comboBox);
+		
+		JButton btnNewButton = new JButton("MODES EXTRA");
+		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 8));
+		btnNewButton.setBounds(16, 189, 109, 37);
+		panelFonctionnalites.add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("QUITTER");
+		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 8));
+		btnNewButton_1.setBounds(16, 235, 109, 37);
+		panelFonctionnalites.add(btnNewButton_1);
+		
+		JLabel lblNewLabel = new JLabel("CHOIX DE BALLES :");
+		lblNewLabel.setBounds(16, 11, 109, 26);
+		panelFonctionnalites.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("MASSE DES BALLES :");
+		lblNewLabel_1.setBounds(167, 14, 137, 20);
+		panelFonctionnalites.add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("VIES DES MONSTRES :");
+		lblNewLabel_2.setBounds(167, 106, 148, 26);
+		panelFonctionnalites.add(lblNewLabel_2);
+		
+		JLabel lblNewLabel_3 = new JLabel("TYPE DE GRAVITÉ :");
+		lblNewLabel_3.setBounds(167, 214, 109, 23);
+		panelFonctionnalites.add(lblNewLabel_3);
 		
 		panelTable = new JPanel();
 		panelTable.setBackground(new Color(255, 255, 255));
