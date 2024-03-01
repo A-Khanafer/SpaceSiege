@@ -86,10 +86,39 @@ public class AppPrincipal14 extends JFrame {
 		btnJouer.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 23));
 		btnJouer.setBounds(46, 105, 216, 69);
 		panel.add(btnJouer);
+
+		JButton btnNewButton = new JButton("QUITTER");
+		btnNewButton.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 23));
+		btnNewButton.setBounds(46, 196, 216, 69);
+		panel.add(btnNewButton);
 		
+		System.out.println("kiss me on my hot mouth");
+		System.out.println("kiss me on my hot mouth");
+		System.out.println("kiss me on my hot mouth");
+		System.out.println("kiss me on my hot mouth");
+		System.out.println("kiss me on my hot mouth");
+		System.out.println("kiss me on my hot mouth");
+		System.out.println("kiss me on my hot mouth");
+		System.out.println("kiss me on my hot mouth");
+		System.out.println("kiss me on my hot mouth");
+		System.out.println("kiss me on my hot mouth");
+		System.out.println("kiss me on my hot mouth");
+		System.out.println("kiss me on my hot mouth");
+		System.out.println("kiss me on my hot mouth");
+		System.out.println("kiss me on my hot mouth");
+		System.out.println("kiss me on my hot mouth");
+		System.out.println("kiss me on my hot mouth");
+		System.out.println("kiss me on my hot mouth");
+		System.out.println("kiss me on my hot mouth");
+		System.out.println("kiss me on my hot mouth");
+		System.out.println("kiss me on my hot mouth");
+		System.out.println("kiss me on my hot mouth");
+		System.out.println("kiss me on my hot mouth");
+
 		JButton btnQuitter = new JButton("QUITTER");
 		btnQuitter.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 23));
 		btnQuitter.setBounds(46, 196, 216, 69);
 		panel.add(btnQuitter);
+
 	}
 }
