@@ -1,9 +1,12 @@
 package obstacles;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
 
@@ -14,7 +17,7 @@ import interfaces.Selectionnable;
 
 public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 
-	private double pixelsParMetre;
+	private double pixelsParMetre= 10;
 	private double width = 10*pixelsParMetre;
 	private double height = 10*pixelsParMetre;
 	private Rectangle2D.Double rectangle;
@@ -22,7 +25,10 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 	private double coinXGauche,coinYGauche;
 	private double coinXDroite,coinYDroite;
 	private double centreX, centreY;
-	private AffineTransform matRot = new AffineTransform();
+	private double angleRotation;
+	private Ellipse2D.Double clickAv;
+	private double radius = 1;
+	private boolean clickedOnIt = false;
 
 	
 	
@@ -40,25 +46,29 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 		
 		centreX  = rectangle.getCenterX();
 		centreY = rectangle.getCenterY();
-		if(coinXGauche < centreX ) {
-			coinXDroite = rectangle.getMaxX();
-			
-		}else{
-			coinXDroite = rectangle.getMinX();
-		}
+//		if(coinXGauche < centreX ) {
+//			coinXDroite = rectangle.getMaxX();
+//			
+//		}else{
+//			coinXDroite = rectangle.getMinX();
+//		}
 		aire = new Area(rectangle);
 			
 	}
 
 	@Override
-	public void resize(double topRightCornerX,double topRightCornerY, int eX, int eY) {
-		// TODO Auto-generated method stub
+	public void resize( int eX, int eY) {
+		
+		clickAv = new Ellipse2D.Double(coinXDroite-radius, coinYDroite-radius, radius, radius);
+		if(clickAv.contains(eX, eY)) {
+			
+		}
 		
 	}
 
 	@Override
-	public void rotate(double pixelMillieuForme, int eX, int eY) {
-		double angleRotation;
+	public void rotate( int eX, int eY) {
+		
 		if(eX <= centreX) {
 		double longeurCoteOpose = eX - centreX ;
 			if(eY < centreY) {
@@ -78,9 +88,6 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 					angleRotation = Math.PI - Math.atan2(longeurCoteOpose, longeurCoteAdjacent);
 				}
 		}
-		matRot.rotate(angleRotation);
-//		Coin
-		
 	}
 
 	@Override
@@ -93,12 +100,46 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 	}
 
 	@Override
+	public void move(int eX, int eY) {
+			this.coinXGauche = eX - width/2 ;
+			this.coinYGauche = eY - height/2 ;
+			creerLaGeometrie();	
+	}
+
+	@Override
 	public void dessiner(Graphics2D g2d) {
-		Graphics2D g2dCopy = g2d;
-		g2dCopy.setColor(Color.black);
-		g2dCopy.draw(rectangle);
+		Graphics2D g2dCopy = (Graphics2D) g2d.create();
+		g2dCopy.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+		g2dCopy.rotate(angleRotation, centreX, centreY);
+		
+		g2dCopy.setColor(Color.blue);
+		g2dCopy.fill(rectangle);
+		
+		if(clickedOnIt) {
+			BasicStroke pointille = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{4}, 0); //creation de la ligne pointille
+			g2dCopy.setStroke(pointille);
+			g2dCopy.setColor(Color.black);
+			g2dCopy.draw(rectangle);
+			
+			
+			
+			
+		}
 		
 		
 	}
+	
+	
+	
+	public boolean isClickedOnIt() {
+		return clickedOnIt;
+	}
+
+	public void setClickedOnIt(boolean clickedOnIt) {
+		this.clickedOnIt = clickedOnIt;
+	}
+
+	
+	
 
 }
