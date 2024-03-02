@@ -19,8 +19,8 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 	 private Ellipse2D.Double base ;
 	 private double pixelsParMetre;
 	 private double diametreCercle;
-	 private double largeur = 30;
-	 private double hauteur = 15;
+	 private double largeur = 100;  //30
+	 private double hauteur = 50;   //15
 	 private Area aireCercle;
 	 private Area aireRect;
 	 private Area aireBase;
@@ -68,5 +68,8 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 	        AffineTransform transform = AffineTransform.getRotateInstance(angle,10+hauteur/2,y+hauteur/2);
 	        aireRect.transform(transform);
 	}
-
+	public void move( int eY) {
+		this.y = eY - hauteur/2;
+		creerLaGeometrie();	
+}
 }

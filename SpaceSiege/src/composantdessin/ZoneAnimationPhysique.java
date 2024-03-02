@@ -29,6 +29,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	boolean enCoursDAnimation;
 	private Rectangle rec = new Rectangle(50,50);
 	private boolean onOff = false;
+	private Canon AllahUAkbar= new Canon (0,80);
 	
 	public ZoneAnimationPhysique() {
 		setBackground(new Color(255, 255, 255));
@@ -48,9 +49,8 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 
 		
 		
+		 
 		
-		Canon AllahUAkbar=new Canon(0,80);
-		AllahUAkbar.rotate(10);
 		AllahUAkbar.dessiner(g2d);
 
 	}
@@ -84,6 +84,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 						rec.setClickedOnIt(false);
 						repaint();
 					}
+				
 				}
 			});
 			addMouseMotionListener(new MouseMotionAdapter() {
@@ -109,7 +110,11 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 						}
 						
 					}
-					
+                      if(AllahUAkbar.contient(e.getX(), e.getY())) {
+                    	  System.out.println("JE touche le canon");
+						AllahUAkbar.move(e.getY());
+						repaint();
+					}
 					
 					
 					
