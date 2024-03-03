@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 
 import balle.BalleBasique;
 import balle.Canon;
+import balle.FlecheDeTir;
 
 import java.awt.Color;
 
@@ -30,6 +31,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	private Rectangle rec = new Rectangle(50,50);
 	private boolean onOff = false;
 	private Canon AllahUAkbar= new Canon (0,80);
+	private FlecheDeTir fleche=new FlecheDeTir(0, 0, 0, 0);
 	
 	public ZoneAnimationPhysique() {
 		setBackground(new Color(255, 255, 255));
@@ -46,12 +48,13 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 
 		
 		
-
+		fleche.dessiner(g2d);
 		
 		
 		 
 		
 		AllahUAkbar.dessiner(g2d);
+	//	AllahUAkbar.rotate(fleche.getAngle());
 
 	}
 
@@ -75,6 +78,11 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 				@Override
 				
 				public void mouseClicked(MouseEvent e) {
+					
+					fleche.setPointInitial(e.getX(),e.getY());
+					repaint();
+					
+					
 					if(rec.contient(e.getX(), e.getY())) {
 						System.out.println(rec.isClickedOnIt());
 						rec.setClickedOnIt(true);
@@ -91,6 +99,8 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 				@Override
 				
 				public void mouseDragged(MouseEvent e) {
+					fleche.setPointFinal(e.getX(), e.getY());
+					repaint();
 					
 					if(rec.contient(e.getX(), e.getY()) && rec.isClickedOnIt() == true) {
 						System.out.println(rec.isClickedOnIt());
@@ -111,7 +121,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 						
 					}
                       if(AllahUAkbar.contient(e.getX(), e.getY())) {
-                    	  System.out.println("JE touche le canon");
+                    	  System.out.println("JE touche le JONHSON");
 						AllahUAkbar.move(e.getY());
 						repaint();
 					}

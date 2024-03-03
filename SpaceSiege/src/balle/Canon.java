@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 
 import interfaces.Dessinable;
 import interfaces.Selectionnable;
+import physique.Vecteur2D;
 
 public class Canon extends JPanel implements Selectionnable, Dessinable {
 	 private double x,y;
@@ -25,12 +26,14 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 	 private Area aireRect;
 	 private Area aireBase;
 	 private Area aireJohnson;
+	 private BalleBasique balle;
 	public Canon(int x,int y) {
 		this.x=x;
 		this.y=y;
 		creerLaGeometrie();
 	}
 	private void creerLaGeometrie() {
+		
 		rectangleCanon=new Rectangle2D.Double(3+hauteur/2, y, largeur, hauteur);
 		base=new Ellipse2D.Double(0,y-10,3,hauteur+20);
 		cercle=new Ellipse2D.Double(3,y,hauteur,hauteur);
@@ -72,4 +75,5 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 		this.y = eY - hauteur/2;
 		creerLaGeometrie();	
 }
+
 }

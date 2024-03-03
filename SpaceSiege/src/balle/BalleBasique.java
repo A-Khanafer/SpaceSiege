@@ -1,5 +1,6 @@
 package balle;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
@@ -20,7 +21,8 @@ private void creerLaGeometrie() {
 }
 public void dessiner(Graphics2D g2d) {
 	Graphics2D g2dPrive = (Graphics2D) g2d.create();
-	g2dPrive.scale(pixelsParMetre, pixelsParMetre);
+	//g2dPrive.scale(pixelsParMetre, pixelsParMetre);
+	g2dPrive.setColor(Color.MAGENTA);
 	g2dPrive.fill(cercle);
 }
 public void setPixelsParMetre(double pixelParMetre) {
