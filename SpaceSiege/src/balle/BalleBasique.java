@@ -29,4 +29,5 @@ public void dessiner(Graphics2D g2d) {
 public void setPixelsParMetre(double pixelParMetre) {
 	this.pixelsParMetre=pixelParMetre;
 }
+
 }

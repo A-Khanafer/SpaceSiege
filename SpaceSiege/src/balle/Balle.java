@@ -52,4 +52,7 @@ public class Balle {
 		position = MoteurPhysique.calculPosition(deltaT, position, vitesse);
 		
 	}
+	public int getMasse() {
+		return this.masse;
+	}
 }
