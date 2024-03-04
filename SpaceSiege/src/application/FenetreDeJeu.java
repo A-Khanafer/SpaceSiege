@@ -44,6 +44,7 @@ public class FenetreDeJeu extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1500, 1000);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(0, 0, 0));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
@@ -59,11 +60,11 @@ public class FenetreDeJeu extends JFrame {
 		contentPane.add(panelFonctionnalites);
 		panelFonctionnalites.setLayout(null);
 		
-		btnBacAsable = new JButton("BAC A SABLE");
+		btnBacAsable = new JButton("RETOUR");
 		btnBacAsable.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				FenetreBacASable.afficherFenetre();
+				FenetreModeDeJeu.afficherFenetre();
 				dispose();
 			}
 		});
@@ -164,6 +165,10 @@ public class FenetreDeJeu extends JFrame {
 		panelTable.setBounds(1097, 674, 387, 287);
 		contentPane.add(panelTable);
 		panelTable.setLayout(null);
+		
+		JPanel panelGraphique = new JPanel();
+		panelGraphique.setBounds(1097, 0, 387, 663);
+		contentPane.add(panelGraphique);
 		
 	}
 }
