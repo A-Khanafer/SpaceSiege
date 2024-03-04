@@ -31,7 +31,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	private Rectangle rec = new Rectangle(50,50);
 	private boolean onOff = false;
 	private Canon AllahUAkbar= new Canon (0,80);
-	private FlecheDeTir fleche=new FlecheDeTir(0, 0, 0, 0);
+	private FlecheDeTir fleche=new FlecheDeTir(AllahUAkbar.getPointX(),AllahUAkbar.getPointY(), 0, 0);
 	
 	public ZoneAnimationPhysique() {
 		setBackground(new Color(255, 255, 255));
@@ -54,7 +54,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 		 
 		
 		AllahUAkbar.dessiner(g2d);
-	//	AllahUAkbar.rotate(fleche.getAngle());
+	//AllahUAkbar.rotate(40);
 
 	}
 
@@ -79,7 +79,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 				
 				public void mouseClicked(MouseEvent e) {
 					
-					fleche.setPointInitial(e.getX(),e.getY());
+					fleche.setPointInitial(AllahUAkbar.getPointX(),AllahUAkbar.getPointY());
 					repaint();
 					
 					

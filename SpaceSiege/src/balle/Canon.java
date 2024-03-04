@@ -14,14 +14,14 @@ import interfaces.Selectionnable;
 import physique.Vecteur2D;
 
 public class Canon extends JPanel implements Selectionnable, Dessinable {
-	 private double x,y;
+	 private int x,y;
 	 private Rectangle2D.Double rectangleCanon ;
 	 private Ellipse2D.Double cercle ;
 	 private Ellipse2D.Double base ;
 	 private double pixelsParMetre;
 	 private double diametreCercle;
-	 private double largeur = 100;  //30
-	 private double hauteur = 50;   //15
+	 private int largeur = 100;  //30
+	 private int hauteur = 50;   //15
 	 private Area aireCercle;
 	 private Area aireRect;
 	 private Area aireBase;
@@ -41,7 +41,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 		aireCercle=new Area(cercle);
 		aireBase= new Area(base);
 		aireRect.add(aireCercle);
-		
+		balle= new BalleBasique(50, 3, hauteur, new Vecteur2D(x+largeur+hauteur/2,y));
 	
 	
 	}
@@ -55,6 +55,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 		g2dPrive.fill(aireBase);
 		g2dPrive.setColor(Color.BLACK);
 		g2dPrive.fill(aireRect);
+	//	balle.dessiner(g2dPrive);
 		
 	}
 
@@ -75,5 +76,10 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 		this.y = eY - hauteur/2;
 		creerLaGeometrie();	
 }
-
+	public int getPointX() {
+		return (int) rectangleCanon.getCenterX();
+	}
+	public int getPointY() {
+		return (int) rectangleCanon.getCenterY();
+	}
 }
