@@ -79,8 +79,8 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 				
 				public void mouseClicked(MouseEvent e) {
 					
-					fleche.setPointInitial(e.getX(),e.getY());
-					repaint();
+//					fleche.setPointInitial(e.getX(),e.getY());
+//					repaint();
 					
 					
 					if(rec.contient(e.getX(), e.getY())) {
@@ -99,18 +99,22 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 				@Override
 				
 				public void mouseDragged(MouseEvent e) {
-					fleche.setPointFinal(e.getX(), e.getY());
-					repaint();
+//					fleche.setPointFinal(e.getX(), e.getY());
+//					repaint();
 					
-					if(rec.contient(e.getX(), e.getY()) && rec.isClickedOnIt() == true) {
-						System.out.println(rec.isClickedOnIt());
+					if(rec.contient(e.getX(), e.getY()) && rec.isClickedOnIt() == true && rec.getClickAv().contains(e.getX(), e.getY()) == false) {
+						
 						rec.rotate( e.getX(), e.getY());
+						repaint();
+					}else if(rec.getClickAv().contains(e.getX(), e.getY()) && rec.isClickedOnIt() == true) {
+						
+						rec.resize(e.getX(), e.getY());
 						repaint();
 					}
 					
 					
 					if(rec.contient(e.getX(), e.getY()) && rec.isClickedOnIt() == false) {
-						System.out.println(rec.isClickedOnIt());
+						
 						rec.move( e.getX(), e.getY());
 						repaint();
 						
@@ -118,8 +122,9 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 							rec.setClickedOnIt(false);
 							repaint();
 						}
-						
 					}
+					
+					
                       if(AllahUAkbar.contient(e.getX(), e.getY())) {
                     	  System.out.println("JE touche le JONHSON");
 						AllahUAkbar.move(e.getY());
