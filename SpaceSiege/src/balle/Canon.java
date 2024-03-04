@@ -27,6 +27,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 	 private Area aireBase;
 	 private Area aireJohnson;
 	 private BalleBasique balle;
+	 private double rotation;
 	public Canon(int x,int y) {
 		this.x=x;
 		this.y=y;
@@ -68,18 +69,25 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 		return false;
 	}
 	public void rotate(double tetha) {
-		 double angle = Math.toRadians(tetha);
-	        AffineTransform transform = AffineTransform.getRotateInstance(angle,10+hauteur/2,y+hauteur/2);
+		 rotation = Math.toRadians(tetha);
+	        AffineTransform transform = AffineTransform.getRotateInstance(rotation,10+hauteur/2,y+hauteur/2);
 	        aireRect.transform(transform);
 	}
 	public void move( int eY) {
 		this.y = eY - hauteur/2;
 		creerLaGeometrie();	
 }
-	public int getPointX() {
-		return (int) rectangleCanon.getCenterX();
+	public int getPointeX() {
+	    return (int) (x + hauteur / 2 + Math.cos(Math.toRadians(rotation)) * largeur);
 	}
-	public int getPointY() {
-		return (int) rectangleCanon.getCenterY();
+
+	public int getPointeY() {
+	    return (int) (y + hauteur / 2 + Math.sin(Math.toRadians(rotation)) * largeur);
+	}
+	public BalleBasique getBalle() {
+		return this.balle;
+	}
+	public int getMasseBalleBasique() {
+	return 0;
 	}
 }
