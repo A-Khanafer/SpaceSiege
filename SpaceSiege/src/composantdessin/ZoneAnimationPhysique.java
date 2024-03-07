@@ -30,14 +30,16 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private boolean enCoursDAnimation=false;
-	private double deltaT=0;
+	private double deltaT=0.01;
+	private double rotation=20;
 	private int tempsDuSleep = 50;
 	private Rectangle rec = new Rectangle(50,50);
 	private boolean onOff = false;
 	private Canon AllahUAkbar= new Canon (0,80);
-	private FlecheDeTir fleche=new FlecheDeTir(AllahUAkbar.getPointeX(),AllahUAkbar.getPointeY(), 0, 0);
+	private FlecheDeTir fleche = new FlecheDeTir(AllahUAkbar.getPointeX(), AllahUAkbar.getPointeY(), 0, 0, rotation);
+
 	private boolean premierFois=false;
-	private double tempsTotalEcoule ;
+	private double tempsTotalEcoule =0;
 	public ZoneAnimationPhysique() {
 		setBackground(new Color(255, 255, 255));
 		ecouteurSouris();
@@ -53,7 +55,8 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 
 		
 		fleche.setPointInitial(AllahUAkbar.getPointeX(), AllahUAkbar.getPointeY());
-		fleche.dessiner(g2d);
+	    fleche.setRotation(rotation); 
+	    fleche.dessiner(g2d);
 		
 		
 		 
@@ -61,13 +64,14 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 		AllahUAkbar.dessiner(g2d);
 		if (!premierFois) {
 			premierFois=true;
-	AllahUAkbar.rotate(40);
+	//AllahUAkbar.rotate(rotation);
 		}
 	}
 
 	public void run() {
 		while (enCoursDAnimation) {	
 			System.out.println("Un tour de run...on avance de " + deltaT + " secondes");
+			System.out.println("Temps ecoule "+tempsTotalEcoule);
 			calculerUneIterationPhysique(deltaT);
 			
 			repaint();
@@ -91,14 +95,15 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	
 	private void calculerUneIterationPhysique(double deltaT) {
 		tempsTotalEcoule += deltaT;
-		AllahUAkbar.getBalle().avancerUnPas( deltaT );
+		calculerLesForces();
+		AllahUAkbar.avancerUnPas(deltaT);
 		
 	
 	}
 	
-	//private void calculerLesForces() {
-	//	double forceDeGravité=MoteurPhysique.calculForceGrav(AllahUAkbar.getBalle(), deltaT)
-		
+	private void calculerLesForces() {
+	Vecteur2D forceDeGravité=MoteurPhysique.calculForceGrav(AllahUAkbar.getBalle().getMasse(), deltaT);
+		AllahUAkbar.getBalle().setSommeDesForces(forceDeGravité);
 		
 	  //   Vecteur2D forceFrottemenrRouge=new Vecteur2D(forceFrottementRougeX,0);
 	  //   Vecteur2D forceGRouge=new Vecteur2D(0,0);    
@@ -108,7 +113,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	     
 	  //   route.getAutoRouge().setSommeDesForces(sommeForceRouge);
 	     
-	//}
+	}
 	 private void ecouteurSouris() {
 		  addMouseListener((MouseListener) new MouseAdapter() {
 				@Override

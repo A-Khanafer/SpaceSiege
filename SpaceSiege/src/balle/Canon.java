@@ -56,7 +56,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 		g2dPrive.fill(aireBase);
 		g2dPrive.setColor(Color.BLACK);
 		g2dPrive.fill(aireRect);
-	//	balle.dessiner(g2dPrive);
+		balle.dessiner(g2dPrive);
 		
 	}
 
@@ -89,5 +89,9 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 	}
 	public int getMasseBalleBasique() {
 	return 0;
+	}
+	public void avancerUnPas(double deltaT) {
+		this.balle.avancerUnPas(deltaT);
+		creerLaGeometrie();
 	}
 }
