@@ -20,14 +20,14 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 	private double pixelsParMetre= 10;
 	private double width = 10*pixelsParMetre;
 	private double height = 10*pixelsParMetre;
-	private Rectangle2D.Double rectangle;
-	private Area aire;
+	private Rectangle2D.Double rectangle, rectanglePointille;
+	private Area aireRec, aireRotate;
 	private double coinXGauche,coinYGauche;
 	private double coinXDroite,coinYDroite;
 	private double centreX, centreY;
 	private double angleRotation;
-	private Ellipse2D.Double clickAv;
-	private double radius = 1;
+	private Ellipse2D.Double resizeHandle;
+	private double diametre = 2*pixelsParMetre;
 	private boolean clickedOnIt = false;
 
 	
@@ -42,29 +42,47 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 	private void creerLaGeometrie() {
 		
 		coinXDroite = coinXGauche + width;
+		coinYDroite = coinYGauche;
 		rectangle = new Rectangle2D.Double(coinXGauche, coinYGauche, width, height);
-		
+		rectanglePointille = rectangle;
 		centreX  = rectangle.getCenterX();
 		centreY = rectangle.getCenterY();
-//		if(coinXGauche < centreX ) {
-//			coinXDroite = rectangle.getMaxX();
-//			
-//		}else{
-//			coinXDroite = rectangle.getMinX();
-//		}
-		aire = new Area(rectangle);
-			
+
+		aireRec = new Area(rectangle);
+		resizeHandle = new Ellipse2D.Double(coinXDroite-diametre/2, coinYDroite-diametre/2, diametre, diametre);
 	}
 
 	@Override
 	public void resize( int eX, int eY) {
 		
-		clickAv = new Ellipse2D.Double(coinXDroite-radius, coinYDroite-radius, radius, radius);
-		if(clickAv.contains(eX, eY)) {
+	
 			
-		}
+			System.out.println("bigbangbussybuss");
+			
+			  if (clickedOnIt) {
+		            double offsetX = eX - resizeHandle.getCenterX();
+		            double offsetY = eY - resizeHandle.getCenterY();
+
+		            if (rectangle.width + offsetX >= 0 && rectangle.height - offsetY >= 0) {
+		                rectangle.width += offsetX;
+		                rectangle.height -= offsetY;
+		                rectangle.y += offsetY;
+		                resizeHandle.setFrame(rectangle.x + rectangle.width - 10, rectangle.y - 10, 20, 20);
+
+		     
+		            }
+		        }
+			
+			
+			
+			
+			
+		
+		
+		
 		
 	}
+
 
 	@Override
 	public void rotate( int eX, int eY) {
@@ -88,16 +106,20 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 					angleRotation = Math.PI - Math.atan2(longeurCoteOpose, longeurCoteAdjacent);
 				}
 		}
+		
 	}
 
 	@Override
 	public boolean contient(double xPix, double yPix) {
-		if (aire.contains(xPix, yPix)) {
+		
+		if (aireRec.contains(xPix, yPix)) {
 			return true;
 		}else {
 		    return false;
 		}
+		
 	}
+	
 
 	@Override
 	public void move(int eX, int eY) {
@@ -119,13 +141,10 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 			BasicStroke pointille = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{4}, 0); //creation de la ligne pointille
 			g2dCopy.setStroke(pointille);
 			g2dCopy.setColor(Color.black);
-			g2dCopy.draw(rectangle);
-			
-			
-			
-			
+			g2dCopy.draw(rectanglePointille);
+			g2dCopy.setColor(Color.red);
+			g2dCopy.fill(resizeHandle);
 		}
-		
 		
 	}
 	
@@ -138,7 +157,26 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 	public void setClickedOnIt(boolean clickedOnIt) {
 		this.clickedOnIt = clickedOnIt;
 	}
+	
 
+	public Ellipse2D.Double getClickAv() {
+		return resizeHandle;
+	}
+
+	public void setClickAv(Ellipse2D.Double clickAv) {
+		this.resizeHandle = clickAv;
+	}
+
+	
+//	private boolean clickSurZoneRouge(int eX, int eY) {
+//		
+//		if(clickAv.contains(eX, eY)) {
+//			return true;
+//		}else {
+//			return false;
+//		}
+//		
+//	}
 	
 	
 
