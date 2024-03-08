@@ -35,8 +35,8 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	private int tempsDuSleep = 50;
 	private Rectangle rec = new Rectangle(50,50);
 	private boolean onOff = false;
-	private Canon AllahUAkbar= new Canon (0,80);
-	private FlecheDeTir fleche = new FlecheDeTir(AllahUAkbar.getPointeX(), AllahUAkbar.getPointeY(), 0, 0, rotation);
+	private Canon canon= new Canon (0,80);
+	private FlecheDeTir fleche = new FlecheDeTir(canon.getPointeX(), canon.getPointeY(), 0, 0, rotation);
 
 	private boolean premierFois=false;
 	private double tempsTotalEcoule =0;
@@ -51,21 +51,18 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		
 
-		rec.dessiner(g2d);
-
-		
-		fleche.setPointInitial(AllahUAkbar.getPointeX(), AllahUAkbar.getPointeY());
-	    fleche.setRotation(rotation); 
-	    fleche.dessiner(g2d);
-		
-		
-		 
-		
-		AllahUAkbar.dessiner(g2d);
+//		rec.dessiner(g2d);
+		canon.dessiner(g2d);
 		if (!premierFois) {
 			premierFois=true;
 	//AllahUAkbar.rotate(rotation);
 		}
+		
+		fleche.setPointInitial(canon.getPointeX(), canon.getPointeY());
+	    fleche.setRotation(rotation); 
+	    fleche.dessiner(g2d);
+		
+	
 	}
 
 	public void run() {
@@ -96,14 +93,14 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	private void calculerUneIterationPhysique(double deltaT) {
 		tempsTotalEcoule += deltaT;
 		calculerLesForces();
-		AllahUAkbar.avancerUnPas(deltaT);
+		canon.avancerUnPas(deltaT);
 		
 	
 	}
 	
 	private void calculerLesForces() {
-	Vecteur2D forceDeGravité=MoteurPhysique.calculForceGrav(AllahUAkbar.getBalle().getMasse(), deltaT);
-		AllahUAkbar.getBalle().setSommeDesForces(forceDeGravité);
+	Vecteur2D forceDeGravité=MoteurPhysique.calculForceGrav(canon.getBalle().getMasse(), deltaT);
+		canon.getBalle().setSommeDesForces(forceDeGravité);
 		
 	  //   Vecteur2D forceFrottemenrRouge=new Vecteur2D(forceFrottementRougeX,0);
 	  //   Vecteur2D forceGRouge=new Vecteur2D(0,0);    
@@ -122,7 +119,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 					
 
 
-					fleche.setPointInitial(AllahUAkbar.getPointeX(),AllahUAkbar.getPointeY());
+					fleche.setPointInitial(canon.getPointeX(),canon.getPointeY());
 					repaint();
 
 					
@@ -169,9 +166,9 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 					}
 					
 					
-                      if(AllahUAkbar.contient(e.getX(), e.getY())) {
+                      if(canon.contient(e.getX(), e.getY())) {
                     	  System.out.println("JE touche le JONHSON");
-						AllahUAkbar.move(e.getY());
+						canon.move(e.getY());
 						repaint();
 					}
 					
