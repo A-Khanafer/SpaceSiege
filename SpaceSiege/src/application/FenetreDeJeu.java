@@ -93,6 +93,11 @@ public class FenetreDeJeu extends JFrame {
 		panelFonctionnalites.add(btnReinitialiser);
 		
 		btnDemarrer = new JButton("DEMARRER");
+		btnDemarrer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				zoneAnimationPhysique.demarrer();
+			}
+		});
 		btnDemarrer.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
 		btnDemarrer.setBounds(377, 52, 209, 68);
 		panelFonctionnalites.add(btnDemarrer);

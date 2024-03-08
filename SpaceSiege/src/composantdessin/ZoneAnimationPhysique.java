@@ -13,6 +13,7 @@ import java.awt.event.MouseMotionAdapter;
 
 import javax.swing.JPanel;
 
+import balle.Balle;
 import balle.BalleBasique;
 import balle.Canon;
 import balle.FlecheDeTir;
@@ -30,17 +31,24 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private boolean enCoursDAnimation=false;
-	private double deltaT=0;
+	private double deltaT=0.05;
+	private double rotation=20;
 	private int tempsDuSleep = 50;
 	private Rectangle rec = new Rectangle(50,50);
 	private boolean onOff = false;
-	private Canon AllahUAkbar= new Canon (0,80);
-	private FlecheDeTir fleche=new FlecheDeTir(AllahUAkbar.getPointeX(),AllahUAkbar.getPointeY(), 0, 0);
+	private Canon canon= new Canon (0,80);
+	private FlecheDeTir fleche = new FlecheDeTir(canon.getPointeX(), canon.getPointeY(), 0, 0, rotation);
+
 	private boolean premierFois=false;
-	private double tempsTotalEcoule ;
+	private double tempsTotalEcoule =0;
+	
+	double hauteurComposant,largeurComposant ;
+	
+	
 	public ZoneAnimationPhysique() {
 		setBackground(new Color(255, 255, 255));
 		ecouteurSouris();
+		
 	}
 	
 	public void paintComponent(Graphics g ) {
@@ -49,26 +57,33 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		
 
-		rec.dessiner(g2d);
-
-		
-		fleche.setPointInitial(AllahUAkbar.getPointeX(), AllahUAkbar.getPointeY());
-		fleche.dessiner(g2d);
-		
-		
-		 
-		
-		AllahUAkbar.dessiner(g2d);
+//		rec.dessiner(g2d);
+		canon.dessiner(g2d);
 		if (!premierFois) {
 			premierFois=true;
-	AllahUAkbar.rotate(40);
+	//AllahUAkbar.rotate(rotation);
 		}
+		
+		fleche.setPointInitial(canon.getPointeX(), canon.getPointeY());
+	    fleche.setRotation(rotation); 
+	    fleche.dessiner(g2d);
+		
+	
+	    hauteurComposant = getHeight();
+	    largeurComposant = getWidth();
 	}
 
 	public void run() {
 		while (enCoursDAnimation) {	
 			System.out.println("Un tour de run...on avance de " + deltaT + " secondes");
+			System.out.println("Temps ecoule "+tempsTotalEcoule);
+			
 			calculerUneIterationPhysique(deltaT);
+			testerCollisionsEtAjusterVitesses();
+				
+				
+			
+			
 			
 			repaint();
 			try {
@@ -76,10 +91,11 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			
 		}//fin while
 		System.out.println("Le thread est mort...!");
 	}
-	
+
 	
 	public void demarrer() {
 		if (!enCoursDAnimation) { 
@@ -91,32 +107,45 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	
 	private void calculerUneIterationPhysique(double deltaT) {
 		tempsTotalEcoule += deltaT;
-		AllahUAkbar.getBalle().avancerUnPas( deltaT );
+		calculerLesForces();
+		canon.avancerUnPas(deltaT);
 		
 	
 	}
 	
-	//private void calculerLesForces() {
-	//	double forceDeGravité=MoteurPhysique.calculForceGrav(AllahUAkbar.getBalle(), deltaT)
+	
+	private void testerCollisionsEtAjusterVitesses() {	
+		 
+		canon.getBalle().gererCollisions(hauteurComposant, largeurComposant);
 		
+	}
+	
+	private void calculerLesForces() {
+	Vecteur2D forceDeGravité=MoteurPhysique.calculForceGrav(canon.getBalle().getMasse(), Math.toRadians(90));
+	Vecteur2D ForcesX = new Vecteur2D(1000,0);
+	Vecteur2D somme = new Vecteur2D();
+	somme = forceDeGravité.additionne(ForcesX);
+		canon.getBalle().setSommeDesForces(somme);
 		
 	  //   Vecteur2D forceFrottemenrRouge=new Vecteur2D(forceFrottementRougeX,0);
 	  //   Vecteur2D forceGRouge=new Vecteur2D(0,0);    
 	  //   Vecteur2D sommeForceRouge=forceGRouge.additionne(forceFrottemenrRouge);
 	     
-	   //  sommeForcesA = sommeForceRouge;
-	     
+	
 	  //   route.getAutoRouge().setSommeDesForces(sommeForceRouge);
 	     
-	//}
+	}
 	 private void ecouteurSouris() {
 		  addMouseListener((MouseListener) new MouseAdapter() {
 				@Override
 				
 				public void mouseClicked(MouseEvent e) {
 					
-					fleche.setPointInitial(AllahUAkbar.getPointeX(),AllahUAkbar.getPointeY());
+
+
+					fleche.setPointInitial(canon.getPointeX(),canon.getPointeY());
 					repaint();
+
 					
 					
 					if(rec.contient(e.getX(), e.getY())) {
@@ -135,18 +164,22 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 				@Override
 				
 				public void mouseDragged(MouseEvent e) {
-					fleche.setPointFinal(e.getX(), e.getY());
-					repaint();
+//					fleche.setPointFinal(e.getX(), e.getY());
+//					repaint();
 					
-					if(rec.contient(e.getX(), e.getY()) && rec.isClickedOnIt() == true) {
-						System.out.println(rec.isClickedOnIt());
+					if(rec.contient(e.getX(), e.getY()) && rec.isClickedOnIt() == true && rec.getClickAv().contains(e.getX(), e.getY()) == false) {
+						
 						rec.rotate( e.getX(), e.getY());
+						repaint();
+					}else if(rec.getClickAv().contains(e.getX(), e.getY()) && rec.isClickedOnIt() == true) {
+						
+						rec.resize(e.getX(), e.getY());
 						repaint();
 					}
 					
 					
 					if(rec.contient(e.getX(), e.getY()) && rec.isClickedOnIt() == false) {
-						System.out.println(rec.isClickedOnIt());
+						
 						rec.move( e.getX(), e.getY());
 						repaint();
 						
@@ -154,11 +187,12 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 							rec.setClickedOnIt(false);
 							repaint();
 						}
-						
 					}
-                      if(AllahUAkbar.contient(e.getX(), e.getY())) {
+					
+					
+                      if(canon.contient(e.getX(), e.getY())) {
                     	  System.out.println("JE touche le JONHSON");
-						AllahUAkbar.move(e.getY());
+						canon.move(e.getY());
 						repaint();
 					}
 					

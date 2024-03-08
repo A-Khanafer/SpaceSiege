@@ -14,12 +14,13 @@ import interfaces.Selectionnable;
 import physique.Vecteur2D;
 
 public class Canon extends JPanel implements Selectionnable, Dessinable {
+	 private static final long serialVersionUID = 1L;
 	 private int x,y;
 	 private Rectangle2D.Double rectangleCanon ;
 	 private Ellipse2D.Double cercle ;
 	 private Ellipse2D.Double base ;
-	 private double pixelsParMetre;
-	 private double diametreCercle;
+	 private double pixelsParMetre = 10;
+	 private boolean firt = true;
 	 private int largeur = 100;  //30
 	 private int hauteur = 50;   //15
 	 private Area aireCercle;
@@ -28,12 +29,19 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 	 private Area aireJohnson;
 	 private BalleBasique balle;
 	 private double rotation;
+	 private Vecteur2D positionInitial= new Vecteur2D(x+largeur+hauteur/2,y);
+	 private Vecteur2D positionNul= new Vecteur2D(0,0);
 	public Canon(int x,int y) {
 		this.x=x;
 		this.y=y;
 		creerLaGeometrie();
 	}
 	private void creerLaGeometrie() {
+		
+		if(firt == true) {
+			balle= new BalleBasique(50, 2, (int) (3*pixelsParMetre),new Vecteur2D(x+largeur+hauteur/2,y));
+			firt = false;
+		}
 		
 		rectangleCanon=new Rectangle2D.Double(3+hauteur/2, y, largeur, hauteur);
 		base=new Ellipse2D.Double(0,y-10,3,hauteur+20);
@@ -42,9 +50,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 		aireCercle=new Area(cercle);
 		aireBase= new Area(base);
 		aireRect.add(aireCercle);
-		//balle= new BalleBasique(50, 3, hauteur, new Vecteur2D(x+largeur+hauteur/2,y));
-	
-		balle.creerLaGeometrie()	;
+		balle.creerLaGeometrie();
 	}
 	@Override
 	public void dessiner(Graphics2D g2d) {
@@ -56,7 +62,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 		g2dPrive.fill(aireBase);
 		g2dPrive.setColor(Color.BLACK);
 		g2dPrive.fill(aireRect);
-	//	balle.dessiner(g2dPrive);
+		balle.dessiner(g2dPrive);
 		
 	}
 
@@ -89,5 +95,10 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 	}
 	public int getMasseBalleBasique() {
 	return 0;
+	}
+	public void avancerUnPas(double deltaT) {
+		this.balle.avancerUnPas(deltaT);
+		creerLaGeometrie();
+		
 	}
 }
