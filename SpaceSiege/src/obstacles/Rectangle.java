@@ -9,10 +9,11 @@ import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
-
+import balle.BalleBasique;
 import interfaces.Dessinable;
 import interfaces.Obstacles;
 import interfaces.Selectionnable;
+import physique.Vecteur2D;
  
 
 public class Rectangle implements Obstacles, Dessinable, Selectionnable {
@@ -29,6 +30,7 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 	private Ellipse2D.Double resizeHandle;
 	private double diametre = 2*pixelsParMetre;
 	private boolean clickedOnIt = false;
+	private boolean first = true;
 
 	
 	
@@ -41,46 +43,35 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 	
 	private void creerLaGeometrie() {
 		
-		coinXDroite = coinXGauche + width;
-		coinYDroite = coinYGauche;
-		rectangle = new Rectangle2D.Double(coinXGauche, coinYGauche, width, height);
-		rectanglePointille = rectangle;
-		centreX  = rectangle.getCenterX();
-		centreY = rectangle.getCenterY();
-
-		aireRec = new Area(rectangle);
-		resizeHandle = new Ellipse2D.Double(coinXDroite-diametre/2, coinYDroite-diametre/2, diametre, diametre);
+		
+			coinXDroite = coinXGauche + width;
+			coinYDroite = coinYGauche;
+			rectangle = new Rectangle2D.Double(coinXGauche, coinYGauche, width, height);
+			rectanglePointille = rectangle;
+			centreX  = rectangle.getCenterX();
+			centreY = rectangle.getCenterY();
+			aireRec = new Area(rectangle);
+			resizeHandle = new Ellipse2D.Double(coinXDroite-diametre/2, coinYDroite-diametre/2, diametre, diametre);
+			
+		
+		
 	}
 
 	@Override
 	public void resize( int eX, int eY) {
-		
-	
-			
-			System.out.println("bigbangbussybuss");
-			
+
 			  if (clickedOnIt) {
 		            double offsetX = eX - resizeHandle.getCenterX();
 		            double offsetY = eY - resizeHandle.getCenterY();
 
 		            if (rectangle.width + offsetX >= 0 && rectangle.height - offsetY >= 0) {
-		                rectangle.width += offsetX;
-		                rectangle.height -= offsetY;
-		                rectangle.y += offsetY;
-		                resizeHandle.setFrame(rectangle.x + rectangle.width - 10, rectangle.y - 10, 20, 20);
-
-		     
+		                width += offsetX;
+		                height -= offsetY;
+		                coinYGauche += offsetY;
+		                resizeHandle.setFrame(coinXGauche + rectangle.width - 10, coinYDroite - 10, 20, 20);
+		                creerLaGeometrie();
 		            }
 		        }
-			
-			
-			
-			
-			
-		
-		
-		
-		
 	}
 
 
@@ -133,7 +124,6 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 		Graphics2D g2dCopy = (Graphics2D) g2d.create();
 		g2dCopy.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		g2dCopy.rotate(angleRotation, centreX, centreY);
-		
 		g2dCopy.setColor(Color.blue);
 		g2dCopy.fill(rectangle);
 		

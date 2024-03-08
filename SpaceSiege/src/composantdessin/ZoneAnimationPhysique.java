@@ -51,7 +51,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		
 
-//		rec.dessiner(g2d);
+		rec.dessiner(g2d);
 		canon.dessiner(g2d);
 		if (!premierFois) {
 			premierFois=true;
