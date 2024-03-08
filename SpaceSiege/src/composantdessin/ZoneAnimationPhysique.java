@@ -30,7 +30,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private boolean enCoursDAnimation=false;
-	private double deltaT=0.01;
+	private double deltaT=0.1;
 	private double rotation=20;
 	private int tempsDuSleep = 50;
 	private Rectangle rec = new Rectangle(50,50);
@@ -100,7 +100,8 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	}
 	
 	private void calculerLesForces() {
-	Vecteur2D forceDeGravité=MoteurPhysique.calculForceGrav(canon.getBalle().getMasse(), deltaT);
+	Vecteur2D forceDeGravité=MoteurPhysique.calculForceGrav(canon.getBalle().getMasse(), Math.toRadians(90));
+	
 		canon.getBalle().setSommeDesForces(forceDeGravité);
 		
 	  //   Vecteur2D forceFrottemenrRouge=new Vecteur2D(forceFrottementRougeX,0);

@@ -50,6 +50,7 @@ public class Balle {
 		}
 	}
 	public void avancerUnPas(double deltaT) {
+		System.out.println();
 		vitesse = MoteurPhysique.calculVitesse(deltaT, vitesse, accel);
 		position = MoteurPhysique.calculPosition(deltaT, position, vitesse);
 		

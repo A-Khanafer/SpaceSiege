@@ -18,8 +18,8 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 	 private Rectangle2D.Double rectangleCanon ;
 	 private Ellipse2D.Double cercle ;
 	 private Ellipse2D.Double base ;
-	 private double pixelsParMetre;
-	 
+	 private double pixelsParMetre = 10;
+	 private boolean firt = true;
 	 private int largeur = 100;  //30
 	 private int hauteur = 50;   //15
 	 private Area aireCercle;
@@ -37,6 +37,11 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 	}
 	private void creerLaGeometrie() {
 		
+		if(firt == true) {
+			balle= new BalleBasique(50, 2, (int) (3*pixelsParMetre),new Vecteur2D(x+largeur+hauteur/2,y));
+			firt = false;
+		}
+		
 		rectangleCanon=new Rectangle2D.Double(3+hauteur/2, y, largeur, hauteur);
 		base=new Ellipse2D.Double(0,y-10,3,hauteur+20);
 		cercle=new Ellipse2D.Double(3,y,hauteur,hauteur);
@@ -44,7 +49,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 		aireCercle=new Area(cercle);
 		aireBase= new Area(base);
 		aireRect.add(aireCercle);
-	    balle= new BalleBasique(50, 3, hauteur,new Vecteur2D(x+largeur+hauteur/2,y));
+	    
 	    System.out.println("JE PASSE ICi");
 	
 	
