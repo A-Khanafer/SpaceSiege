@@ -20,6 +20,7 @@ public class Balle {
 	 
 	 protected Vecteur2D position= new Vecteur2D(0,0); 
 	 
+	 
 	 protected Vecteur2D vitesse = new Vecteur2D(0,0);
 	 
 	 protected Vecteur2D accel = new Vecteur2D(0,0); 
@@ -43,6 +44,7 @@ public class Balle {
 		 
 		try {
 			accel = MoteurPhysique.calculAcceleration(sommeForcesSurLaBalle, masse);
+			System.out.println(sommeForcesSurLaBalle.getY()+"N");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -51,8 +53,20 @@ public class Balle {
 		vitesse = MoteurPhysique.calculVitesse(deltaT, vitesse, accel);
 		position = MoteurPhysique.calculPosition(deltaT, position, vitesse);
 		
+		initialiserCercle();
+		
 	}
 	public int getMasse() {
 		return this.masse;
+	}
+	public String toString(int nbDecimales){
+		String s =  "Balle : position=[ " +  String.format("%."+nbDecimales+"f", position.getX()) + ", " + String.format("%."+nbDecimales+"f", position.getY())  + "]" ;
+return s;
+	}
+	public Vecteur2D getPosition() {
+		return this.position;
+	}
+	public double getDiametre() {
+		return this.diametre;
 	}
 }
