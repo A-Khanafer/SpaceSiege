@@ -42,9 +42,9 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 		aireCercle=new Area(cercle);
 		aireBase= new Area(base);
 		aireRect.add(aireCercle);
-		balle= new BalleBasique(50, 3, hauteur, new Vecteur2D(x+largeur+hauteur/2,y));
+		//balle= new BalleBasique(50, 3, hauteur, new Vecteur2D(x+largeur+hauteur/2,y));
 	
-	
+		balle.creerLaGeometrie()	;
 	}
 	@Override
 	public void dessiner(Graphics2D g2d) {

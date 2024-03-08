@@ -9,13 +9,14 @@ import physique.Vecteur2D;
 
 public class BalleBasique extends Balle {
 	private Ellipse2D.Double cercle;
+	
 
 
 public BalleBasique(int masseDonne,int chargeDonne,int diametreDonne,Vecteur2D position) {
 	super(masseDonne, chargeDonne, diametreDonne,position);
 	creerLaGeometrie();
 }
-private void creerLaGeometrie() {
+public void creerLaGeometrie() {
 	cercle = new Ellipse2D.Double(this.position.getX(),this.position.getY(), diametre, diametre);
 
 }
@@ -28,6 +29,11 @@ public void dessiner(Graphics2D g2d) {
 }
 public void setPixelsParMetre(double pixelParMetre) {
 	this.pixelsParMetre=pixelParMetre;
+}
+public void avancerUnPas ( double deltaT ) {
+	super.avancerUnPas(deltaT);
+	creerLaGeometrie();
+
 }
 
 }
