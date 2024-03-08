@@ -19,7 +19,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 	 private Ellipse2D.Double cercle ;
 	 private Ellipse2D.Double base ;
 	 private double pixelsParMetre;
-	 private double diametreCercle;
+	 
 	 private int largeur = 100;  //30
 	 private int hauteur = 50;   //15
 	 private Area aireCercle;
@@ -28,6 +28,8 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 	 private Area aireJohnson;
 	 private BalleBasique balle;
 	 private double rotation;
+	 private Vecteur2D positionInitial= new Vecteur2D(x+largeur+hauteur/2,y);
+	 private Vecteur2D positionNul= new Vecteur2D(0,0);
 	public Canon(int x,int y) {
 		this.x=x;
 		this.y=y;
@@ -42,7 +44,8 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 		aireCercle=new Area(cercle);
 		aireBase= new Area(base);
 		aireRect.add(aireCercle);
-		balle= new BalleBasique(50, 3, hauteur, new Vecteur2D(x+largeur+hauteur/2,y));
+	    balle= new BalleBasique(50, 3, hauteur,new Vecteur2D(x+largeur+hauteur/2,y));
+	    System.out.println("JE PASSE ICi");
 	
 	
 	}
@@ -93,5 +96,6 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 	public void avancerUnPas(double deltaT) {
 		this.balle.avancerUnPas(deltaT);
 		creerLaGeometrie();
+		
 	}
 }

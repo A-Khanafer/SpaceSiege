@@ -72,6 +72,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 		while (enCoursDAnimation) {	
 			System.out.println("Un tour de run...on avance de " + deltaT + " secondes");
 			System.out.println("Temps ecoule "+tempsTotalEcoule);
+			
 			calculerUneIterationPhysique(deltaT);
 			
 			repaint();
