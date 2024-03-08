@@ -13,6 +13,7 @@ import java.awt.event.MouseMotionAdapter;
 
 import javax.swing.JPanel;
 
+import balle.Balle;
 import balle.BalleBasique;
 import balle.Canon;
 import balle.FlecheDeTir;
@@ -30,7 +31,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private boolean enCoursDAnimation=false;
-	private double deltaT=0.1;
+	private double deltaT=0.05;
 	private double rotation=20;
 	private int tempsDuSleep = 50;
 	private Rectangle rec = new Rectangle(50,50);
@@ -40,9 +41,14 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 
 	private boolean premierFois=false;
 	private double tempsTotalEcoule =0;
+	
+	double hauteurComposant,largeurComposant ;
+	
+	
 	public ZoneAnimationPhysique() {
 		setBackground(new Color(255, 255, 255));
 		ecouteurSouris();
+		
 	}
 	
 	public void paintComponent(Graphics g ) {
@@ -63,6 +69,8 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	    fleche.dessiner(g2d);
 		
 	
+	    hauteurComposant = getHeight();
+	    largeurComposant = getWidth();
 	}
 
 	public void run() {
@@ -71,6 +79,11 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 			System.out.println("Temps ecoule "+tempsTotalEcoule);
 			
 			calculerUneIterationPhysique(deltaT);
+			testerCollisionsEtAjusterVitesses();
+				
+				
+			
+			
 			
 			repaint();
 			try {
@@ -78,10 +91,11 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			
 		}//fin while
 		System.out.println("Le thread est mort...!");
 	}
-	
+
 	
 	public void demarrer() {
 		if (!enCoursDAnimation) { 
@@ -99,17 +113,25 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	
 	}
 	
+	
+	private void testerCollisionsEtAjusterVitesses() {	
+		 
+		canon.getBalle().gererCollisions(hauteurComposant, largeurComposant);
+		
+	}
+	
 	private void calculerLesForces() {
 	Vecteur2D forceDeGravité=MoteurPhysique.calculForceGrav(canon.getBalle().getMasse(), Math.toRadians(90));
-	
-		canon.getBalle().setSommeDesForces(forceDeGravité);
+	Vecteur2D ForcesX = new Vecteur2D(1000,0);
+	Vecteur2D somme = new Vecteur2D();
+	somme = forceDeGravité.additionne(ForcesX);
+		canon.getBalle().setSommeDesForces(somme);
 		
 	  //   Vecteur2D forceFrottemenrRouge=new Vecteur2D(forceFrottementRougeX,0);
 	  //   Vecteur2D forceGRouge=new Vecteur2D(0,0);    
 	  //   Vecteur2D sommeForceRouge=forceGRouge.additionne(forceFrottemenrRouge);
 	     
-	   //  sommeForcesA = sommeForceRouge;
-	     
+	
 	  //   route.getAutoRouge().setSommeDesForces(sommeForceRouge);
 	     
 	}

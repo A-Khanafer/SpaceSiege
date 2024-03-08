@@ -5,6 +5,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import outils.OutilsImage;
+
 import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -71,6 +74,7 @@ public class FenetreBacASable extends JFrame {
 		JButton btnCarre = new JButton("Carre");
 		btnCarre.setBounds(10, 11, 146, 135);
 		panel.add(btnCarre);
+		OutilsImage.lireImageEtPlacerSurBouton("carre.png", btnCarre);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(255, 255, 255));
@@ -138,6 +142,7 @@ public class FenetreBacASable extends JFrame {
 		JButton btnCercle = new JButton("Cercle");
 		btnCercle.setBounds(10, 11, 153, 135);
 		panel_2.add(btnCercle);
+		OutilsImage.lireImageEtPlacerSurBouton("cercle.png", btnCercle);
 		
 		JPanel panel_3 = new JPanel();
 		panel_3.setBounds(368, 793, 166, 157);
@@ -147,6 +152,7 @@ public class FenetreBacASable extends JFrame {
 		JButton btnTriangle = new JButton("Triangle");
 		btnTriangle.setBounds(10, 11, 146, 135);
 		panel_3.add(btnTriangle);
+		OutilsImage.lireImageEtPlacerSurBouton("imageTriangle.jpg", btnTriangle);
 		
 		JPanel panel_4 = new JPanel();
 		panel_4.setBounds(544, 793, 174, 157);
@@ -156,6 +162,7 @@ public class FenetreBacASable extends JFrame {
 		JButton btnSpikes = new JButton("Spikes");
 		btnSpikes.setBounds(10, 11, 154, 135);
 		panel_4.add(btnSpikes);
+		OutilsImage.lireImageEtPlacerSurBouton("spikes.png", btnSpikes);
 		
 		JPanel panel_5 = new JPanel();
 		panel_5.setBounds(728, 793, 166, 157);
@@ -165,6 +172,7 @@ public class FenetreBacASable extends JFrame {
 		JButton btnBounce = new JButton("Plaque Rebondissante");
 		btnBounce.setBounds(10, 11, 146, 135);
 		panel_5.add(btnBounce);
+		OutilsImage.lireImageEtPlacerSurBouton("bouncePad.png", btnBounce);
 		
 		JPanel panel_6 = new JPanel();
 		panel_6.setBounds(904, 793, 166, 157);
@@ -174,6 +182,7 @@ public class FenetreBacASable extends JFrame {
 		JButton btnAiment = new JButton("BouleAiment");
 		btnAiment.setBounds(10, 11, 146, 135);
 		panel_6.add(btnAiment);
+		OutilsImage.lireImageEtPlacerSurBouton("balle.png", btnAiment);
 		
 		JPanel panel_7 = new JPanel();
 		panel_7.setBounds(1080, 793, 197, 157);
@@ -183,6 +192,7 @@ public class FenetreBacASable extends JFrame {
 		JButton btnCanon = new JButton("Position Canon");
 		btnCanon.setBounds(10, 11, 177, 135);
 		panel_7.add(btnCanon);
+		OutilsImage.lireImageEtPlacerSurBouton("canon.png", btnCanon);
 		
 		JPanel panel_8 = new JPanel();
 		panel_8.setBounds(1287, 793, 187, 157);
@@ -192,5 +202,7 @@ public class FenetreBacASable extends JFrame {
 		JButton btnMonstre = new JButton("Monstres");
 		btnMonstre.setBounds(10, 11, 167, 135);
 		panel_8.add(btnMonstre);
+		OutilsImage.lireImageEtPlacerSurBouton("images.jpg", btnMonstre);
+
 	}
 }

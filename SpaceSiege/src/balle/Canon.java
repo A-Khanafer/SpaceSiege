@@ -14,6 +14,7 @@ import interfaces.Selectionnable;
 import physique.Vecteur2D;
 
 public class Canon extends JPanel implements Selectionnable, Dessinable {
+	 private static final long serialVersionUID = 1L;
 	 private int x,y;
 	 private Rectangle2D.Double rectangleCanon ;
 	 private Ellipse2D.Double cercle ;
@@ -49,10 +50,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 		aireCercle=new Area(cercle);
 		aireBase= new Area(base);
 		aireRect.add(aireCercle);
-	    
-	    System.out.println("JE PASSE ICi");
-	
-	
+		balle.creerLaGeometrie();
 	}
 	@Override
 	public void dessiner(Graphics2D g2d) {
