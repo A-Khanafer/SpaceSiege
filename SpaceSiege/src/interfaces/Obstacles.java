@@ -2,8 +2,10 @@ package interfaces;
 
 public interface Obstacles {
 	
-	public void resize(double topRightCornerX,double topRightCornerY,int eX , int eY);
+	public void resize(int eX , int eY);
 	
 	public void rotate( int eX, int eY);
+	
+	public void move(int eX, int eY);
 
 }

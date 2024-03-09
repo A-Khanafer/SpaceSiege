@@ -18,11 +18,16 @@ import java.awt.event.ActionEvent;
 
 public class AppPrincipal14 extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	
+	public static void afficherFenetre() {
+	       
+		AppPrincipal14 fenetre = new AppPrincipal14();
+        fenetre.setVisible(true);
+    }
 
-	/**
-	 * Launch the application.
-	 */
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -78,7 +83,7 @@ public class AppPrincipal14 extends JFrame {
 		btnJouer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				FenetreDeJeu.afficherFenetre();
+				FenetreModeDeJeu.afficherFenetre();
 				dispose();
 			}
 		});
@@ -86,38 +91,18 @@ public class AppPrincipal14 extends JFrame {
 		btnJouer.setBounds(46, 105, 216, 69);
 		panel.add(btnJouer);
 
-		JButton btnNewButton = new JButton("QUITTER");
-		btnNewButton.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 23));
-		btnNewButton.setBounds(46, 196, 216, 69);
-		panel.add(btnNewButton);
-		
-		System.out.println("kiss me on my hot mouth");
-		System.out.println("kiss me on my hot mouth");
-		System.out.println("kiss me on my hot mouth");
-		System.out.println("kiss me on my hot mouth");
-		System.out.println("kiss me on my hot mouth");
-		System.out.println("kiss me on my hot mouth");
-		System.out.println("kiss me on my hot mouth");
-		System.out.println("kiss me on my hot mouth");
-		System.out.println("kiss me on my hot mouth");
-		System.out.println("kiss me on my hot mouth");
-		System.out.println("kiss me on my hot mouth");
-		System.out.println("kiss me on my hot mouth");
-		System.out.println("kiss me on my hot mouth");
-		System.out.println("kiss me on my hot mouth");
-		System.out.println("kiss me on my hot mouth");
-		System.out.println("kiss me on my hot mouth");
-		System.out.println("kiss me on my hot mouth");
-		System.out.println("kiss me on my hot mouth");
-		System.out.println("kiss me on my hot mouth");
-		System.out.println("kiss me on my hot mouth");
-		System.out.println("kiss me on my hot mouth");
-		System.out.println("kiss me on my hot mouth");
-
 		JButton btnQuitter = new JButton("QUITTER");
+		btnQuitter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
 		btnQuitter.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 23));
 		btnQuitter.setBounds(46, 196, 216, 69);
 		panel.add(btnQuitter);
+		
+		
+		
 
 	}
 }
