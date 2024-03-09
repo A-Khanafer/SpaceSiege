@@ -47,8 +47,8 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 		
 		
 		
-		Canon AllahUAkbar=new Canon(10,80);
-		AllahUAkbar.dessiner(g2d);
+//		Canon AllahUAkbar=new Canon(10,80);
+//		AllahUAkbar.dessiner(g2d);
 
 	}
 
@@ -86,7 +86,6 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 				
 				public void mouseDragged(MouseEvent e) {
 					if(rec.contient(e.getX(), e.getY()) && onOff == true) {
-						System.out.println();
 						rec.rotate( e.getX(), e.getY());
 						repaint();
 					}
