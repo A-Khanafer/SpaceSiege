@@ -7,6 +7,7 @@ import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Ellipse2D.Double;
 import java.awt.geom.Rectangle2D;
 
 import balle.BalleBasique;
@@ -27,7 +28,7 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 	private double coinXDroite,coinYDroite;
 	private double centreX, centreY;
 	private double angleRotation;
-	private Ellipse2D.Double resizeHandle;
+	private Double[] resizeHandles;
 	private double diametre = 2*pixelsParMetre;
 	private boolean clickedOnIt = false;
 	private boolean first = true;
@@ -38,12 +39,11 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 	public Rectangle(double posX, double posY) {
 		this.coinXGauche = posX;
 		this.coinYGauche = posY;
+		resizeHandles = new Ellipse2D.Double[8];
 		creerLaGeometrie();
 	}
 	
 	private void creerLaGeometrie() {
-		
-		
 			coinXDroite = coinXGauche + width;
 			coinYDroite = coinYGauche;
 			rectangle = new Rectangle2D.Double(coinXGauche, coinYGauche, width, height);
@@ -51,27 +51,80 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 			centreX  = rectangle.getCenterX();
 			centreY = rectangle.getCenterY();
 			aireRec = new Area(rectangle);
-			resizeHandle = new Ellipse2D.Double(coinXDroite-diametre/2, coinYDroite-diametre/2, diametre, diametre);
-			
-		
-		
+			creationResizeHandles();
 	}
+	
+	 private void creationResizeHandles() {
+	        double tailleHandle = 15;
+	        // En haut a gauche
+	        resizeHandles[0] = new Ellipse2D.Double(coinXGauche - tailleHandle / 2, coinYGauche - tailleHandle / 2, tailleHandle, tailleHandle);
+	        // en haut millieu
+	        resizeHandles[1] = new Ellipse2D.Double(coinXGauche + width / 2 - tailleHandle / 2, coinYGauche - tailleHandle / 2, tailleHandle, tailleHandle);
+	        // En haut a droite
+	        resizeHandles[2] = new Ellipse2D.Double(coinXGauche + width - tailleHandle / 2, coinYGauche - tailleHandle / 2, tailleHandle, tailleHandle);
+	        // Millieu droit
+	        resizeHandles[3] = new Ellipse2D.Double(coinXGauche + width - tailleHandle / 2, coinYGauche + height / 2 - tailleHandle / 2, tailleHandle, tailleHandle);
+	        // en bas droite
+	        resizeHandles[4] = new Ellipse2D.Double(coinXGauche + width - tailleHandle / 2, coinYGauche + height - tailleHandle / 2, tailleHandle, tailleHandle);
+	        // en bas millieu
+	        resizeHandles[5] = new Ellipse2D.Double(coinXGauche + width / 2 - tailleHandle / 2, coinYGauche + height - tailleHandle / 2, tailleHandle, tailleHandle);
+	        // en bas Guache
+	        resizeHandles[6] = new Ellipse2D.Double(coinXGauche - tailleHandle / 2, coinYGauche + height - tailleHandle / 2, tailleHandle, tailleHandle);
+	        // Millieu gauche
+	        resizeHandles[7] = new Ellipse2D.Double(coinXGauche - tailleHandle / 2, coinYGauche + height / 2 - tailleHandle / 2, tailleHandle, tailleHandle);
+	    }
 
 	@Override
-	public void resize( int eX, int eY) {
+	public void resize( int index, int eX, int eY) {
+		System.out.println("JE RESIZE ");
+		double offsetX = eX - resizeHandles[index].getCenterX();
+        double offsetY = eY - resizeHandles[index].getCenterY();
 
-			  if (clickedOnIt) {
-		            double offsetX = eX - resizeHandle.getCenterX();
-		            double offsetY = eY - resizeHandle.getCenterY();
 
-		            if (rectangle.width + offsetX >= 0 && rectangle.height - offsetY >= 0) {
-		                width += offsetX;
-		                height -= offsetY;
-		                coinYGauche += offsetY;
-		                resizeHandle.setFrame(coinXGauche + rectangle.width - 10, coinYDroite - 10, 20, 20);
-		                creerLaGeometrie();
-		            }
-		        }
+		    if (clickedOnIt) {
+			    switch (index) {
+			        case 0: // En haut à gauche
+			        	if (rectangle.width - offsetX >= 20 && rectangle.height - offsetY >= 20) {
+			        		width -= offsetX; // Subtract offsetX from width
+			                height -= offsetY;
+			                coinXGauche += offsetX; // Adjust coinXGauche instead of coinYGauche
+			                coinYGauche += offsetY; // Adjust coinYGauche based on offsetY
+			                coinXDroite += offsetY;
+		        	 }
+			            break;
+			        case 1: // En haut au milieu
+			        	if (rectangle.height - offsetY >= 0) { // Check if the new height is non-negative
+			                height -= offsetY; // Update the height by subtracting offsetY
+			                coinYGauche += offsetY; // Adjust the position of the top-left corner based on offsetY
+			                creerLaGeometrie(); // Recreate the geometry
+			            }
+			            break;
+			        case 2: // En haut à droite
+			        	 if (rectangle.width + offsetX >= 20 && rectangle.height - offsetY >= 20) {
+				                width += offsetX;
+				                height -= offsetY;
+				                coinYGauche += offsetY;
+			        	 }
+			            break;
+			        case 3: // Au milieu à droite
+			            
+			            break;
+			        case 4: // En bas à droite
+			           
+			            break;
+			        case 5: // En bas au milieu
+			            
+			            break;
+			        case 6: // En bas à gauche
+			            
+			            break;
+			        case 7: // Au milieu à gauche
+			            
+			            break;
+			    }
+			    creerLaGeometrie(); // Recréer la géométrie avec les nouvelles dimensions
+		    }
+		    
 	}
 
 
@@ -102,7 +155,6 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 
 	@Override
 	public boolean contient(double xPix, double yPix) {
-		
 		if (aireRec.contains(xPix, yPix)) {
 			return true;
 		}else {
@@ -111,7 +163,6 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 		
 	}
 	
-
 	@Override
 	public void move(int eX, int eY) {
 			this.coinXGauche = eX - width/2 ;
@@ -133,12 +184,12 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 			g2dCopy.setColor(Color.black);
 			g2dCopy.draw(rectanglePointille);
 			g2dCopy.setColor(Color.red);
-			g2dCopy.fill(resizeHandle);
+			 for (Ellipse2D.Double handle : resizeHandles) {
+				 	g2dCopy.fill(handle);
+		        }
 		}
 		
 	}
-	
-	
 	
 	public boolean isClickedOnIt() {
 		return clickedOnIt;
@@ -148,25 +199,24 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 		this.clickedOnIt = clickedOnIt;
 	}
 	
-
-	public Ellipse2D.Double getClickAv() {
-		return resizeHandle;
-	}
-
-	public void setClickAv(Ellipse2D.Double clickAv) {
-		this.resizeHandle = clickAv;
-	}
-
+	public int getClickedResizeHandleIndex(double x, double y) {
+        for (int i = 0; i < resizeHandles.length; i++) {
+            if (resizeHandles[i].contains(x, y)) {
+                return i;
+            }
+        }
+        return -1; // Aucun point de contrôle trouvé à cet endroit
+    }
 	
-//	private boolean clickSurZoneRouge(int eX, int eY) {
-//		
-//		if(clickAv.contains(eX, eY)) {
-//			return true;
-//		}else {
-//			return false;
-//		}
-//		
+//	public Ellipse2D.Double getClickAv() {
+//		return resizeHandle;
 //	}
+//
+//	public void setClickAv(Ellipse2D.Double clickAv) {
+//		this.resizeHandle = clickAv;
+//	}
+
+
 	
 	
 

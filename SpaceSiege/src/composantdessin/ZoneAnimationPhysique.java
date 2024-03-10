@@ -44,6 +44,8 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	
 	double hauteurComposant,largeurComposant ;
 	
+	private int index = -1;
+	
 	
 	public ZoneAnimationPhysique() {
 		setBackground(new Color(255, 255, 255));
@@ -136,28 +138,22 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	     
 	}
 	 private void ecouteurSouris() {
+		 
 		  addMouseListener((MouseListener) new MouseAdapter() {
+			  
 				@Override
-				
 				public void mouseClicked(MouseEvent e) {
-					
 
 
-					fleche.setPointInitial(canon.getPointeX(),canon.getPointeY());
-					repaint();
 
-					
-					
 					if(rec.contient(e.getX(), e.getY())) {
-						System.out.println(rec.isClickedOnIt());
 						rec.setClickedOnIt(true);
 						repaint();
 					}else {
-						System.out.println(rec.isClickedOnIt());
+						
 						rec.setClickedOnIt(false);
 						repaint();
 					}
-				
 				}
 			});
 			addMouseMotionListener(new MouseMotionAdapter() {
@@ -166,20 +162,18 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 				public void mouseDragged(MouseEvent e) {
 //					fleche.setPointFinal(e.getX(), e.getY());
 //					repaint();
-					
-					if(rec.contient(e.getX(), e.getY()) && rec.isClickedOnIt() == true && rec.getClickAv().contains(e.getX(), e.getY()) == false) {
-						
-						rec.rotate( e.getX(), e.getY());
+					index = rec.getClickedResizeHandleIndex(e.getX(), e.getY());
+
+					if (rec.isClickedOnIt() == true && index != -1) {
+//						System.out.println("RESIZE");
+						rec.resize(index, e.getX(), e.getY());
 						repaint();
-					}else if(rec.getClickAv().contains(e.getX(), e.getY()) && rec.isClickedOnIt() == true) {
-						
-						rec.resize(e.getX(), e.getY());
+					}else if(rec.contient(e.getX(), e.getY()) && rec.isClickedOnIt() == true && index == -1 ) {
+						rec.rotate( e.getX(), e.getY());
 						repaint();
 					}
 					
-					
 					if(rec.contient(e.getX(), e.getY()) && rec.isClickedOnIt() == false) {
-						
 						rec.move( e.getX(), e.getY());
 						repaint();
 						
@@ -188,16 +182,11 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 							repaint();
 						}
 					}
-					
-					
                       if(canon.contient(e.getX(), e.getY())) {
                     	  System.out.println("JE touche le JONHSON");
 						canon.move(e.getY());
 						repaint();
 					}
-					
-					
-					
 				}
 
 			});
