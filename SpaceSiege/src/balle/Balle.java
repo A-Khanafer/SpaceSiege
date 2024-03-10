@@ -70,4 +70,8 @@ public class Balle {
 	public double getDiametre() {
 		return this.diametre;
 	}
+	
+	
+	
+	
 }

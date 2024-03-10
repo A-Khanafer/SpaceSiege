@@ -11,7 +11,9 @@ import physique.Vecteur2D;
 public class BalleBasique extends Balle {
 	private Ellipse2D.Double cercle;
 
+
 	protected Vecteur2D position= new Vecteur2D(50,50);
+
 
 
 	public BalleBasique(int masseDonne,int chargeDonne,int diametreDonne,Vecteur2D position) {
@@ -40,4 +42,22 @@ public class BalleBasique extends Balle {
 		System.out.println(position.toString());
 		creerLaGeometrie();
 	}
+
+
+
+	public void gererCollisions(double posSol, double posMur) {
+		
+		if ( (position.getY() + diametre) >= ( posSol ) ) {
+			
+			vitesse.setY(-vitesse.getY());
+			position.setY(posSol-diametre);
+		}
+        if ( (position.getX() + diametre) >= ( posMur ) ) {
+			
+			vitesse.setX(-vitesse.getX());
+			position.setX(posMur-diametre);
+		}
+	
 }
+}
+

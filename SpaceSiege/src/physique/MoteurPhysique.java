@@ -49,11 +49,6 @@ public class MoteurPhysique {
 	}
 
 	
-	public static double calculForceFrottementVoiture (double coeff, double masse, double angle) {
-		return Math.cos(Math.toRadians(angle))*(-coeff*( masse*ACCEL_G ));
-	}
-
-	
 	
 	public static double sommeDesForces (double Fa, double Fb, double Fc) {
 		double Ft = Fa + Fb + Fc;
