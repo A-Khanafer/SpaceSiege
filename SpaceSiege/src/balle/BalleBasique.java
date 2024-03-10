@@ -10,8 +10,8 @@ import physique.Vecteur2D;
 
 public class BalleBasique extends Balle {
 	private Ellipse2D.Double cercle;
-	
-	 protected Vecteur2D position= new Vecteur2D(50,50); 
+
+	protected Vecteur2D position= new Vecteur2D(50,50);
 
 
 	public BalleBasique(int masseDonne,int chargeDonne,int diametreDonne,Vecteur2D position) {
@@ -35,9 +35,9 @@ public class BalleBasique extends Balle {
 	public void avancerUnPas(double deltaT) {
 		vitesse = MoteurPhysique.calculVitesse(deltaT, vitesse, accel);
 		position = MoteurPhysique.calculPosition(deltaT, position, vitesse);
-		
-	    System.out.println("JE RENTRE DANS LA METHODE AVAnCEPAS DANS BALLE BASIQUE");
-	    System.out.println(position.toString());
+
+		System.out.println("JE RENTRE DANS LA METHODE AVAnCEPAS DANS BALLE BASIQUE");
+		System.out.println(position.toString());
 		creerLaGeometrie();
 	}
 }

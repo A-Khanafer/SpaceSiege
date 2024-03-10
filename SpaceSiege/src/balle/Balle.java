@@ -10,38 +10,38 @@ public class Balle {
 	protected int masse;
 
 	protected double diametre;
-	
-	protected double pixelsParMetre;
-	
-	protected Area aire;
-	
-	protected int charge;
-	
-	 
-	 protected Vecteur2D position= new Vecteur2D(0,0); 
-	 
-	 
-	 protected Vecteur2D vitesse = new Vecteur2D(0,0);
-	 
-	 protected Vecteur2D accel = new Vecteur2D(0,0); 
-  
-	 Ellipse2D.Double cercle=new Ellipse2D.Double(position.getX(),position.getY(), diametre, diametre);
-	
-	   public Balle(int masseDonne, int chargeDonne, int diametreDonne, Vecteur2D position) {
-	        masse = masseDonne;
-	        charge = chargeDonne;
-	        diametre = diametreDonne;
-	        this.position = new Vecteur2D(position);
-	        initialiserCercle();
-	    }
 
-	    private void initialiserCercle() {
-	        cercle = new Ellipse2D.Double(position.getX(), position.getY(), diametre, diametre);
-	        aire = new Area(cercle);
-	    }
-	    
+	protected double pixelsParMetre;
+
+	protected Area aire;
+
+	protected int charge;
+
+
+	protected Vecteur2D position= new Vecteur2D(0,0);
+
+
+	protected Vecteur2D vitesse = new Vecteur2D(0,0);
+
+	protected Vecteur2D accel = new Vecteur2D(0,0);
+
+	Ellipse2D.Double cercle=new Ellipse2D.Double(position.getX(),position.getY(), diametre, diametre);
+
+	public Balle(int masseDonne, int chargeDonne, int diametreDonne, Vecteur2D position) {
+		masse = masseDonne;
+		charge = chargeDonne;
+		diametre = diametreDonne;
+		this.position = new Vecteur2D(position);
+		initialiserCercle();
+	}
+
+	private void initialiserCercle() {
+		cercle = new Ellipse2D.Double(position.getX(), position.getY(), diametre, diametre);
+		aire = new Area(cercle);
+	}
+
 	public void setSommeDesForces(Vecteur2D sommeForcesSurLaBalle) {
-		 
+
 		try {
 			accel = MoteurPhysique.calculAcceleration(sommeForcesSurLaBalle, masse);
 			System.out.println(sommeForcesSurLaBalle.getY()+"N");
@@ -50,18 +50,19 @@ public class Balle {
 		}
 	}
 	public void avancerUnPas(double deltaT) {
+		System.out.println();
 		vitesse = MoteurPhysique.calculVitesse(deltaT, vitesse, accel);
 		position = MoteurPhysique.calculPosition(deltaT, position, vitesse);
-		
+
 		initialiserCercle();
-		
+
 	}
 	public int getMasse() {
 		return this.masse;
 	}
 	public String toString(int nbDecimales){
-		String s =  "Balle : position=[ " +  String.format("%."+nbDecimales+"f", position.getX()) + ", " + String.format("%."+nbDecimales+"f", position.getY())  + "]" ;
-return s;
+		String s = "Balle : position=[ " + String.format("%."+nbDecimales+"f", position.getX()) + ", " + String.format("%."+nbDecimales+"f", position.getY()) + "]" ;
+		return s;
 	}
 	public Vecteur2D getPosition() {
 		return this.position;
