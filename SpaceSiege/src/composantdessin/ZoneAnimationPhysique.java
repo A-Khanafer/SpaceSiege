@@ -4,7 +4,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import java.awt.RenderingHints;
-
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -37,16 +38,15 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	private double deltaT=0.5;
 
 	private double rotation=20;
-	private int tempsDuSleep = 50;
+	private int tempsDuSleep = 5;
 	private Rectangle rec = new Rectangle(50,50);
 	private boolean onOff = false;
 	private Canon canon= new Canon (0,80);
 
-
 	private boolean premierFois=false;
 	private double tempsTotalEcoule =0;
 	
-	double hauteurComposant,largeurComposant ;
+	double posMurSol,posMurDroit, posMurHaut,posMurGauche ;
 	
 	private int index = -1;
 	
@@ -54,6 +54,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	public ZoneAnimationPhysique() {
 		setBackground(new Color(255, 255, 255));
 		ecouteurSouris();
+		ecouteurClavier();
 		
 	}
 
@@ -61,22 +62,15 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-
-
+		
+		posMurSol = getHeight();
+	    posMurDroit = getWidth();
+	    posMurGauche = 0;
+	    posMurHaut = 0;
 
 		canon.dessiner(g2d);
 
-
-
-		
-
-		rec.dessiner(g2d);
-
-
-		
-	
-	    hauteurComposant = getHeight();
-	    largeurComposant = getWidth();
+	    
 
 	}
 
@@ -124,7 +118,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	
 	private void testerCollisionsEtAjusterVitesses() {	
 		 
-		canon.getBalle().gererCollisions(hauteurComposant, largeurComposant);
+		canon.getBalle().gererCollisions(posMurSol, posMurDroit , posMurHaut, posMurGauche);
 		
 	}
 	
@@ -138,10 +132,30 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	}
 
 	private void calculerLesForces() {
-
+		Vecteur2D forceDeGravite=MoteurPhysique.calculForceGrav(canon.getBalle().getMasse(), Math.toRadians(90));
+        Vecteur2D forceUtilisateur= new Vecteur2D(canon.getFleche().calculerComposantX(),canon.getFleche().calculerComposantY());
+        
+		canon.getBalle().setSommeDesForces(forceUtilisateur);
 
 	}
 	
+	private void ecouteurClavier() {
+	    addKeyListener(new KeyAdapter() {
+	        @Override
+	        public void keyPressed(KeyEvent e) {
+	            switch (e.getKeyCode()) {
+	                case KeyEvent.VK_W: 
+	                	 System.out.println("SALUT JE ne VAIS pas ICI");
+	                    break;
+	                case KeyEvent.VK_S: 
+	                   System.out.println("SALUT JE VAIS ICI");
+	                    break;
+	            }
+	            repaint();
+	        }
+	    });
+	}
+
 
 
 	private void ecouteurSouris() {
@@ -173,17 +187,18 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 
 			}
 		});
-		
+	
 			addMouseMotionListener(new MouseMotionAdapter() {
 				@Override
 				
 				public void mouseDragged(MouseEvent e) {
-					
-					repaint();
+					System.out.println("kpdvmwkpvnw");
+					canon.rotate(e.getX(),e.getY());
+		        	canon.changerTaille(e.getX(), e.getY());
 					index = rec.getClickedResizeHandleIndex(e.getX(), e.getY());
-
+					repaint();
 					if (rec.isClickedOnIt() == true && index != -1) {
-
+//						System.out.println("RESIZE");
 						rec.resize(index, e.getX(), e.getY());
 						repaint();
 					}else if(rec.contient(e.getX(), e.getY()) && rec.isClickedOnIt() == true && index == -1 ) {
@@ -212,6 +227,8 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 
 
 			}
+	
+	
 }
 		
 			

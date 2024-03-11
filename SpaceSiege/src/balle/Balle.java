@@ -31,7 +31,7 @@ public class Balle {
 		masse = masseDonne;
 		charge = chargeDonne;
 		diametre = diametreDonne;
-		this.position = new Vecteur2D(position);
+		this.position = position;
 		initialiserCercle();
 	}
 
@@ -43,7 +43,7 @@ public class Balle {
 	public void setSommeDesForces(Vecteur2D sommeForcesSurLaBalle) {
 
 		try {
-			accel = MoteurPhysique.calculAcceleration(sommeForcesSurLaBalle, masse);
+			// accel = MoteurPhysique.calculAcceleration(sommeForcesSurLaBalle, masse);
 			System.out.println(sommeForcesSurLaBalle.getY()+"N");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -70,6 +70,17 @@ public class Balle {
 	public double getDiametre() {
 		return this.diametre;
 	}
+	
+	//zk
+	public double getPosXCentre() {
+		return this.position.getX()+diametre/2;
+	}
+	//zk
+	public double getPosYCentre() {
+		return this.position.getY()+diametre/2;
+	}
+	
+	
 	
 	
 	
