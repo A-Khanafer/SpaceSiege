@@ -31,7 +31,7 @@ public class Balle {
 		masse = masseDonne;
 		charge = chargeDonne;
 		diametre = diametreDonne;
-		this.position = new Vecteur2D(position);
+		this.position = position;
 		initialiserCercle();
 	}
 

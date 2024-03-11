@@ -12,7 +12,7 @@ public class BalleBasique extends Balle {
 	private Ellipse2D.Double cercle;
 
 
-	protected Vecteur2D position= new Vecteur2D(50,50);
+	
 
 
 
@@ -21,7 +21,7 @@ public class BalleBasique extends Balle {
 		creerLaGeometrie();
 	}
 	public void creerLaGeometrie() {
-		cercle = new Ellipse2D.Double(this.position.getX(),this.position.getY(), diametre, diametre);
+		cercle = new Ellipse2D.Double(position.getX(),position.getY(), diametre, diametre);
 
 	}
 	public void dessiner(Graphics2D g2d) {
