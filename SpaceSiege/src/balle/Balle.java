@@ -21,7 +21,7 @@ public class Balle {
 	protected Vecteur2D position= new Vecteur2D(0,0);
 
 
-	protected Vecteur2D vitesse = new Vecteur2D(0,0);
+	protected Vecteur2D vitesse = new Vecteur2D(10,10);
 
 	protected Vecteur2D accel = new Vecteur2D(0,0);
 
@@ -43,7 +43,7 @@ public class Balle {
 	public void setSommeDesForces(Vecteur2D sommeForcesSurLaBalle) {
 
 		try {
-			accel = MoteurPhysique.calculAcceleration(sommeForcesSurLaBalle, masse);
+			// accel = MoteurPhysique.calculAcceleration(sommeForcesSurLaBalle, masse);
 			System.out.println(sommeForcesSurLaBalle.getY()+"N");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -70,6 +70,17 @@ public class Balle {
 	public double getDiametre() {
 		return this.diametre;
 	}
+	
+	//zk
+	public double getPosXCentre() {
+		return this.position.getX()+diametre/2;
+	}
+	//zk
+	public double getPosYCentre() {
+		return this.position.getY()+diametre/2;
+	}
+	
+	
 	
 	
 	

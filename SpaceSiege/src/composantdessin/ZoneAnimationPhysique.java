@@ -37,7 +37,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	private double deltaT=0.5;
 
 	private double rotation=20;
-	private int tempsDuSleep = 50;
+	private int tempsDuSleep = 5;
 	private Rectangle rec = new Rectangle(50,50);
 	private boolean onOff = false;
 	private Canon canon= new Canon (0,80);
@@ -46,7 +46,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	private boolean premierFois=false;
 	private double tempsTotalEcoule =0;
 	
-	double hauteurComposant,largeurComposant ;
+	double posMurSol,posMurDroit, posMurHaut,posMurGauche ;
 	
 	private int index = -1;
 	
@@ -85,8 +85,10 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	    fleche.dessiner(g2d);
 		
 	
-	    hauteurComposant = getHeight();
-	    largeurComposant = getWidth();
+	    posMurSol = getHeight();
+	    posMurDroit = getWidth();
+	    posMurGauche = 0;
+	    posMurHaut = 0;
 
 	}
 
@@ -134,7 +136,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	
 	private void testerCollisionsEtAjusterVitesses() {	
 		 
-		canon.getBalle().gererCollisions(hauteurComposant, largeurComposant);
+		canon.getBalle().gererCollisions(posMurSol, posMurDroit , posMurHaut, posMurGauche);
 		
 	}
 	
@@ -271,6 +273,8 @@ double newAngleDegrees = Math.toDegrees(fleche.getAngle());
 
 
 			}
+	
+	
 }
 		
 			
