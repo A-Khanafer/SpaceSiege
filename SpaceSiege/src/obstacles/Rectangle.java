@@ -85,18 +85,18 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 			    switch (index) {
 			        case 0: // En haut à gauche
 			        	if (rectangle.width - offsetX >= 20 && rectangle.height - offsetY >= 20) {
-			        		width -= offsetX; // Subtract offsetX from width
+			        		width -= offsetX; 
 			                height -= offsetY;
-			                coinXGauche += offsetX; // Adjust coinXGauche instead of coinYGauche
-			                coinYGauche += offsetY; // Adjust coinYGauche based on offsetY
+			                coinXGauche += offsetX; 
+			                coinYGauche += offsetY; 
 			                coinXDroite += offsetY;
 		        	 }
 			            break;
 			        case 1: // En haut au milieu
-			        	if (rectangle.height - offsetY >= 0) { // Check if the new height is non-negative
-			                height -= offsetY; // Update the height by subtracting offsetY
-			                coinYGauche += offsetY; // Adjust the position of the top-left corner based on offsetY
-			                creerLaGeometrie(); // Recreate the geometry
+			        	if (rectangle.height - offsetY >= 0) { 
+			                height -= offsetY; 
+			                coinYGauche += offsetY; 
+			                creerLaGeometrie(); 
 			            }
 			            break;
 			        case 2: // En haut à droite

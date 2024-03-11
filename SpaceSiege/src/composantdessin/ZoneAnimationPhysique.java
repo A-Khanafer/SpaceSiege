@@ -41,7 +41,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	private Rectangle rec = new Rectangle(50,50);
 	private boolean onOff = false;
 	private Canon canon= new Canon (0,80);
-	private FlecheDeTir fleche = new FlecheDeTir(canon.getPointeX(), canon.getPointeY(), 0, 0, rotation);
+//	private FlecheDeTir fleche = new FlecheDeTir(canon.getPointeX(), canon.getPointeY(), 0, 0, rotation);
 
 	private boolean premierFois=false;
 	private double tempsTotalEcoule =0;
@@ -67,9 +67,9 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 		canon.dessiner(g2d);
 	
 
-		fleche.setPointInitial(canon.getPointeX(), canon.getPointeY());
-		fleche.setRotation(rotation);
-		fleche.dessiner(g2d);
+//		fleche.setPointInitial(canon.getPointeX(), canon.getPointeY());
+//		fleche.setRotation(rotation);
+//		fleche.dessiner(g2d);
 
 
 
@@ -80,9 +80,9 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	
 		
 		
-		fleche.setPointInitial(canon.getPointeX(), canon.getPointeY());
-	    fleche.setRotation(rotation); 
-	    fleche.dessiner(g2d);
+//		fleche.setPointInitial(canon.getPointeX(), canon.getPointeY());
+//	    fleche.setRotation(rotation); 
+//	    fleche.dessiner(g2d);
 		
 	
 	    hauteurComposant = getHeight();
@@ -144,14 +144,14 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	    int tipX = canon.getPointeX();
 	    int tipY = canon.getPointeY();
 
-	    fleche.setPointInitial(tipX, tipY);
+
 	}
 
 	private void calculerLesForces() {
 		//Vecteur2D forceDeGravite=MoteurPhysique.calculForceGrav(canon.getBalle().getMasse(), Math.toRadians(90));
-        Vecteur2D forceUtilisateur= new Vecteur2D(fleche.calculerComposantX(),fleche.calculerComposantY());
+//        Vecteur2D forceUtilisateur= new Vecteur2D(fleche.calculerComposantX(),fleche.calculerComposantY());
         
-		canon.getBalle().setSommeDesForces(forceUtilisateur);
+//		canon.getBalle().setSommeDesForces(forceUtilisateur);
 
 	}
 	
@@ -162,12 +162,12 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 			@Override
 
 			public void mouseClicked(MouseEvent e) {
-				fleche.setPointInitial(canon.getPointeX(), canon.getPointeY());
 
-double newAngleDegrees = Math.toDegrees(fleche.getAngle());
+
+			
 			    
 			  
-			    canon.rotate(newAngleDegrees);
+
 			
 			
 				repaint();
@@ -237,7 +237,7 @@ double newAngleDegrees = Math.toDegrees(fleche.getAngle());
 				@Override
 				
 				public void mouseDragged(MouseEvent e) {
-					fleche.setPointFinal(e.getX(), e.getY());
+					
 					repaint();
 					index = rec.getClickedResizeHandleIndex(e.getX(), e.getY());
 
