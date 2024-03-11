@@ -28,7 +28,7 @@ public class FlecheDeTir implements Dessinable {
 		creerLaGeometrie();
 	}
 
-	private void creerLaGeometrie() {
+	public void creerLaGeometrie() {
 		corps = new Line2D.Double(x1, y1, x2, y2);
 		double longueurFleche = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
 		double dxPetitTrait = longueurTraitDeTete * (x2 - x1) / longueurFleche;
@@ -99,6 +99,20 @@ public class FlecheDeTir implements Dessinable {
 	    
 	    return modulus * Math.sin(angleRadians);
 	}
-
+public double getDx() {
+	return x2-x1;
+}
+public double getDy() {
+	return y2-y1;
+}
+public void setDx(double ex) {
+	
+}
+public double getX1() {
+	return this.x1;
+}
+public double getY1() {
+	return this.y1;
+}
 
 }

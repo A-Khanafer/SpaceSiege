@@ -28,9 +28,14 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 	private Area aireBase;
 	private Area aireJohnson;
 	private BalleBasique balle;
-	private double rotation;
+	private double rotation= 0 ;
 	private Vecteur2D positionInitial= new Vecteur2D(x+largeur+hauteur/2,y);
 	private Vecteur2D positionNul= new Vecteur2D(0,0);
+	private FlecheDeTir positionDeTir;
+	private double dx=200;
+	private double dy=200;
+	
+	
 
 	public Canon(int x,int y) {
 		this.x=x;
@@ -38,14 +43,6 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 		creerLaGeometrie();
 	}
 	private void creerLaGeometrie() {
-
-		
-		if(firt == true) {
-			balle= new BalleBasique(50, 2, (int) (3*pixelsParMetre),new Vecteur2D(x+largeur+hauteur/2,y));
-			firt = false;
-		}
-		
-
 		rectangleCanon=new Rectangle2D.Double(3+hauteur/2, y, largeur, hauteur);
 		base=new Ellipse2D.Double(0,y-10,3,hauteur+20);
 		cercle=new Ellipse2D.Double(3,y,hauteur,hauteur);
@@ -53,7 +50,16 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 		aireCercle=new Area(cercle);
 		aireBase= new Area(base);
 		aireRect.add(aireCercle);
+		
+		if(firt == true) {
+			balle= new BalleBasique(50, 2, hauteur,new Vecteur2D(hauteur+3,y));
 
+			firt = false;
+		}
+		
+		positionDeTir = new FlecheDeTir(cercle.getCenterX(), cercle.getCenterY(), dx,dy, rotation);
+		
+		
 
 		System.out.println("JE PASSE ICi");
 
@@ -65,14 +71,16 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 	@Override
 	public void dessiner(Graphics2D g2d) {
 		Graphics2D g2dPrive = (Graphics2D) g2d.create();
-
 		g2dPrive.setColor(Color.BLUE);
-
-
 		g2dPrive.fill(aireBase);
+		
+		g2dPrive.rotate(rotation, cercle.getCenterX(), cercle.getCenterY());
+		balle.dessiner(g2dPrive);
+		positionDeTir.dessiner(g2dPrive);
 		g2dPrive.setColor(Color.BLACK);
 		g2dPrive.fill(aireRect);
-		balle.dessiner(g2dPrive);
+		
+
 
 	}
 
@@ -84,24 +92,24 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 		}
 		return false;
 	}
-	public void rotate(double newAngleDegrees) {
-	    
-	    double newAngleRadians = Math.toRadians(newAngleDegrees);
+	public void rotate(int ex, int ey) {
+	   
+		positionDeTir.setPointFinal(ex, ey);
+		
+		
+	    rotation = positionDeTir.getAngle();
 	  
-	    AffineTransform transform = AffineTransform.getRotateInstance(newAngleRadians, x + hauteur / 2, y + hauteur / 2);
-	
+	    AffineTransform transform = AffineTransform.getRotateInstance(rotation, x + hauteur / 2, y + hauteur / 2);
+	    
 	    aireRect = new Area(transform.createTransformedShape(new Rectangle2D.Double(3+hauteur/2, y, largeur, hauteur)));
-	    aireCercle = new Area(transform.createTransformedShape(new Ellipse2D.Double(3,y,hauteur,hauteur)));
-	  
-	    
-	    // Combine areas as needed
-	    aireRect.add(aireCercle);
-	    // Now 'aireRect' and 'aireBase' are at the correct angle
+	    aireCercle = new Area(transform.createTransformedShape(new Ellipse2D.Double(3,y,hauteur,hauteur)));	 
+	    creerLaGeometrie();
 	}
 
 	public void move( int eY) {
 		this.y = eY - hauteur/2;
 		creerLaGeometrie();
+	;
 	}
 	public int getPointeX() {
 	return   (int) rectangleCanon.getMaxX();
@@ -111,7 +119,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 	public int getPointeY() {
 	   
     return (int)  rectangleCanon.getCenterY();
-	    // Calculate the new tip position
+	 
 	   // return y + (int) ((hauteur / 2 + largeur) * Math.sin(rotation));
 	}
 
@@ -125,6 +133,14 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 		this.balle.avancerUnPas(deltaT);
 		creerLaGeometrie();
 
+	}
+	public FlecheDeTir getFleche() {
+		return this.positionDeTir;
+	} 
+	public void changerTaille(double x2,double y2) {
+		dx=x2-positionDeTir.getX1();
+		dy=y2-positionDeTir.getY1();
+		creerLaGeometrie();
 	}
 }
 

@@ -4,7 +4,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import java.awt.RenderingHints;
-
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -41,7 +42,6 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	private Rectangle rec = new Rectangle(50,50);
 	private boolean onOff = false;
 	private Canon canon= new Canon (0,80);
-	private FlecheDeTir fleche = new FlecheDeTir(canon.getPointeX(), canon.getPointeY(), 0, 0, rotation);
 
 	private boolean premierFois=false;
 	private double tempsTotalEcoule =0;
@@ -54,6 +54,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	public ZoneAnimationPhysique() {
 		setBackground(new Color(255, 255, 255));
 		ecouteurSouris();
+		ecouteurClavier();
 		
 	}
 
@@ -63,27 +64,14 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 
 
-		// rec.dessiner(g2d);
+
 		canon.dessiner(g2d);
-	
-
-		fleche.setPointInitial(canon.getPointeX(), canon.getPointeY());
-		fleche.setRotation(rotation);
-		fleche.dessiner(g2d);
 
 
 
 		
 
-		rec.dessiner(g2d);
-		canon.dessiner(g2d);
-	
-		
-		
-		fleche.setPointInitial(canon.getPointeX(), canon.getPointeY());
-	    fleche.setRotation(rotation); 
-	    fleche.dessiner(g2d);
-		
+	//	rec.dessiner(g2d);
 	
 	    posMurSol = getHeight();
 	    posMurDroit = getWidth();
@@ -146,17 +134,34 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	    int tipX = canon.getPointeX();
 	    int tipY = canon.getPointeY();
 
-	    fleche.setPointInitial(tipX, tipY);
+
 	}
 
 	private void calculerLesForces() {
-		//Vecteur2D forceDeGravite=MoteurPhysique.calculForceGrav(canon.getBalle().getMasse(), Math.toRadians(90));
-        Vecteur2D forceUtilisateur= new Vecteur2D(fleche.calculerComposantX(),fleche.calculerComposantY());
+		Vecteur2D forceDeGravite=MoteurPhysique.calculForceGrav(canon.getBalle().getMasse(), Math.toRadians(90));
+        Vecteur2D forceUtilisateur= new Vecteur2D(canon.getFleche().calculerComposantX(),canon.getFleche().calculerComposantY());
         
 		canon.getBalle().setSommeDesForces(forceUtilisateur);
 
 	}
 	
+	private void ecouteurClavier() {
+	    addKeyListener(new KeyAdapter() {
+	        @Override
+	        public void keyPressed(KeyEvent e) {
+	            switch (e.getKeyCode()) {
+	                case KeyEvent.VK_W: 
+	                	 System.out.println("SALUT JE ne VAIS pas ICI");
+	                    break;
+	                case KeyEvent.VK_S: 
+	                   System.out.println("SALUT JE VAIS ICI");
+	                    break;
+	            }
+	            repaint();
+	        }
+	    });
+	}
+
 
 
 	private void ecouteurSouris() {
@@ -164,12 +169,12 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 			@Override
 
 			public void mouseClicked(MouseEvent e) {
-				fleche.setPointInitial(canon.getPointeX(), canon.getPointeY());
 
-double newAngleDegrees = Math.toDegrees(fleche.getAngle());
+
+			
 			    
 			  
-			    canon.rotate(newAngleDegrees);
+
 			
 			
 				repaint();
@@ -188,61 +193,16 @@ double newAngleDegrees = Math.toDegrees(fleche.getAngle());
 
 			}
 		});
-		/*
-		addMouseMotionListener(new MouseMotionAdapter() {
-			@Override
-
-			public void mouseDragged(MouseEvent e) {
-				fleche.setPointInitial(canon.getPointeX(), canon.getPointeY());
-				fleche.setPointFinal(e.getX(), e.getY());
-				
-				double newAngleDegrees = Math.toDegrees(fleche.getAngle());
-			    
-			
-			    canon.rotate(newAngleDegrees);
-			    updateFlechePosition();
-				repaint();
-				
-				if(rec.contient(e.getX(), e.getY()) && rec.isClickedOnIt() == true && rec.getClickAv().contains(e.getX(), e.getY()) == false) {
-
-					rec.rotate( e.getX(), e.getY());
-					repaint();
-				}else if(rec.getClickAv().contains(e.getX(), e.getY()) && rec.isClickedOnIt() == true) {
-
-					rec.resize(e.getX(), e.getY());
-					repaint();
-				}
-*/
-/*
-				if(rec.contient(e.getX(), e.getY()) && rec.isClickedOnIt() == false) {
-
-					rec.move( e.getX(), e.getY());
-					repaint();
-
-					if(rec.contient(e.getX(), e.getY()) == false) {
-
-
-					if(rec.contient(e.getX(), e.getY())) {
-						rec.setClickedOnIt(true);
-						repaint();
-					}else {
-						
-
-						rec.setClickedOnIt(false);
-						repaint();
-					}
-
-				}
-			});
-			*/
+	
 			addMouseMotionListener(new MouseMotionAdapter() {
 				@Override
 				
 				public void mouseDragged(MouseEvent e) {
-					fleche.setPointFinal(e.getX(), e.getY());
-					repaint();
+					System.out.println("kpdvmwkpvnw");
+					canon.rotate(e.getX(),e.getY());
+		        	canon.changerTaille(e.getX(), e.getY());
 					index = rec.getClickedResizeHandleIndex(e.getX(), e.getY());
-
+					repaint();
 					if (rec.isClickedOnIt() == true && index != -1) {
 //						System.out.println("RESIZE");
 						rec.resize(index, e.getX(), e.getY());
