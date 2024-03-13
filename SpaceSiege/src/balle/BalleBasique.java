@@ -35,12 +35,13 @@ public class BalleBasique extends Balle {
 		this.pixelsParMetre=pixelParMetre;
 	}
 	public void avancerUnPas(double deltaT) {
-		vitesse = MoteurPhysique.calculVitesse(deltaT, vitesse, accel);
-		position = MoteurPhysique.calculPosition(deltaT, position, vitesse);
+		
+		super.avancerUnPas(deltaT);
 
 		System.out.println("JE RENTRE DANS LA METHODE AVAnCEPAS DANS BALLE BASIQUE");
 		System.out.println(position.toString());
 		creerLaGeometrie();
+		
 	}
 
 

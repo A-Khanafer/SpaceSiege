@@ -20,7 +20,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 	private Ellipse2D.Double cercle ;
 	private Ellipse2D.Double base ;
 	private double pixelsParMetre = 10;
-	private boolean firt = true;
+	private boolean balleTiree = false;
 	private int largeur = 100; //30
 	private int hauteur = 50; //15
 	private Area aireCercle;
@@ -51,31 +51,50 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 		aireBase= new Area(base);
 		aireRect.add(aireCercle);
 		
-		if(firt == true) {
-			balle= new BalleBasique(50, 2, hauteur,new Vecteur2D(hauteur+3,y));
-
-			firt = false;
-		}
-		
 		positionDeTir = new FlecheDeTir(cercle.getCenterX(), cercle.getCenterY(), dx,dy, rotation);
+		if(!balleTiree) {
+			balle= new BalleBasique(50, 2, hauteur,new Vecteur2D(hauteur+3,y));
+	}
+		/*if(balleTiree) {
+			System.out.println(" JE RENSTRE ICIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII");
+			tirerBalle();
+		}
+	
+		*/
 		
+
 		
 
-		System.out.println("JE PASSE ICi");
+      
 
-
-
-		//balle.creerLaGeometrie();
+		
 
 	}
 	@Override
 	public void dessiner(Graphics2D g2d) {
 		Graphics2D g2dPrive = (Graphics2D) g2d.create();
+		Graphics2D g2dPrive2=(Graphics2D) g2d.create();
 		g2dPrive.setColor(Color.BLUE);
 		g2dPrive.fill(aireBase);
-		
+
 		g2dPrive.rotate(rotation, cercle.getCenterX(), cercle.getCenterY());
+	balle.dessiner(g2dPrive);
+		positionDeTir.dessiner(g2dPrive);
+		g2dPrive.setColor(Color.BLACK);
+		g2dPrive.fill(aireRect);
+		
+
+
+	}
+	public void dessinerTirer(Graphics2D g2d) {
+		Graphics2D g2dPrive = (Graphics2D) g2d.create();
+		Graphics2D g2dPrive2=(Graphics2D) g2d.create();
+		g2dPrive.setColor(Color.BLUE);
+		g2dPrive.fill(aireBase);
+	if(balleTiree) {
 		balle.dessiner(g2dPrive);
+	}
+		g2dPrive.rotate(rotation, cercle.getCenterX(), cercle.getCenterY());
 		positionDeTir.dessiner(g2dPrive);
 		g2dPrive.setColor(Color.BLACK);
 		g2dPrive.fill(aireRect);
@@ -142,6 +161,21 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 		dy=y2-positionDeTir.getY1();
 		creerLaGeometrie();
 	}
+	public void setBalleTiree() {
+		balleTiree=true;
+		creerLaGeometrie();
+	}
+/*	public void tirerBalle() {
+	   
+	        double angleRad = Math.toRadians(rotation);
+	        double vitesseInitiale = positionDeTir.calculerModulus()/4;
+	        Vecteur2D vitesse = new Vecteur2D(Math.cos(angleRad) * vitesseInitiale, Math.sin(angleRad) * vitesseInitiale);
+	        balle.setVitesse(vitesse);
+	        System.out.println("JE SET LA VITESSE )))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))");
+	     
+	    
+	}
+	*/
 }
 
 
