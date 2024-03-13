@@ -44,7 +44,7 @@ protected boolean balleTiree=false;
 	public void setSommeDesForces(Vecteur2D sommeForcesSurLaBalle) {
 
 		try {
-			accel = MoteurPhysique.calculAcceleration(sommeForcesSurLaBalle, masse);
+			// accel = MoteurPhysique.calculAcceleration(sommeForcesSurLaBalle, masse);
 			System.out.println(sommeForcesSurLaBalle.getY()+"N");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -77,6 +77,17 @@ protected boolean balleTiree=false;
 	public  Vecteur2D getVitesse() {
 		return this.vitesse;
 	}
+	
+	//zk
+	public double getPosXCentre() {
+		return this.position.getX()+diametre/2;
+	}
+	//zk
+	public double getPosYCentre() {
+		return this.position.getY()+diametre/2;
+	}
+	
+	
 	
 	
 	

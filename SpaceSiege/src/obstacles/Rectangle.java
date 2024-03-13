@@ -3,11 +3,14 @@ package obstacles;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Ellipse2D.Double;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import balle.BalleBasique;
@@ -24,14 +27,21 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 	private double height = 10*pixelsParMetre;
 	private Rectangle2D.Double rectangle, rectanglePointille;
 	private Area aireRec, aireRotate;
-	private double coinXGauche,coinYGauche;
-	private double coinXDroite,coinYDroite;
+	
 	private double centreX, centreY;
 	private double angleRotation;
 	private Double[] resizeHandles;
 	private double diametre = 2*pixelsParMetre;
 	private boolean clickedOnIt = false;
 	private boolean first = true;
+	
+	//collisons
+	private Line2D.Double segmentHaut,segmentBas,segmentGauche,segmentDroite;
+	
+	private double coinXGauche,coinYGauche;
+	private double coinXDroite,coinYDroite;
+	private double coinXBasGauche,coinYBasGauche;
+	private double coinXBasDroit,coinYBasDroit;
 
 	
 	
@@ -41,17 +51,33 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 		this.coinYGauche = posY;
 		resizeHandles = new Ellipse2D.Double[8];
 		creerLaGeometrie();
+		
 	}
 	
 	private void creerLaGeometrie() {
 			coinXDroite = coinXGauche + width;
 			coinYDroite = coinYGauche;
+			
+			coinXBasGauche = coinXGauche;
+			coinYBasGauche = coinYGauche + height;
+			
+			coinXBasDroit = coinXDroite;
+			coinYBasDroit = coinYDroite + height;
+			
+			
 			rectangle = new Rectangle2D.Double(coinXGauche, coinYGauche, width, height);
 			rectanglePointille = rectangle;
 			centreX  = rectangle.getCenterX();
 			centreY = rectangle.getCenterY();
 			aireRec = new Area(rectangle);
 			creationResizeHandles();
+			
+			
+			segmentHaut = new Line2D.Double(coinXGauche, coinYGauche, coinXDroite, coinYDroite);
+			segmentBas = new Line2D.Double(coinXBasGauche, coinYBasGauche,coinXBasDroit ,coinYBasDroit );
+			segmentGauche = new Line2D.Double(coinXGauche, coinYGauche, coinXBasGauche, coinYBasGauche);
+			segmentDroite = new Line2D.Double(coinXDroite, coinYDroite, coinXBasDroit, coinYBasDroit);
+			
 	}
 	
 	 private void creationResizeHandles() {
@@ -188,7 +214,13 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 				 	g2dCopy.fill(handle);
 		        }
 		}
-		
+		g2dCopy.setColor(Color.red);
+		g2dCopy.draw(segmentBas);
+		g2dCopy.draw(segmentGauche);
+		g2dCopy.draw(segmentDroite);
+		g2dCopy.draw(segmentHaut);
+
+
 	}
 	
 	public boolean isClickedOnIt() {
@@ -216,8 +248,28 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 //		this.resizeHandle = clickAv;
 //	}
 
+	public Line2D.Double getSegment1(){
+		return segmentBas;
+	}
+    public Line2D.Double getSegment2(){
+		return segmentDroite;
+	}
+    public Line2D.Double getSegment3(){
+	return segmentHaut;
+    }
+    public Line2D.Double getSegment4(){
+	return segmentGauche;
+    }
 
-	
+    //zk point de chaque coter d'un segment
+    public static double[] getPointsSegment(Line2D.Double segment) {
+        double[] points = new double[4];
+        points[0] = segment.getX1();
+        points[1] = segment.getY1();
+        points[2] = segment.getX2();
+        points[3] = segment.getY2();
+        return points;
+    }
 	
 
 }

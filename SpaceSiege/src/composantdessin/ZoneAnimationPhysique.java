@@ -35,7 +35,9 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	private static final long serialVersionUID = 1L;
 	private boolean enCoursDAnimation=false;
 
+
 	private double deltaT=0.05;
+
 
 	private double rotation=20;
 	private int tempsDuSleep = 5;
@@ -46,7 +48,8 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	private boolean premierFois=false;
 	private double tempsTotalEcoule =0;
 	
-	double hauteurComposant,largeurComposant ;
+	double posMurSol,posMurDroit, posMurHaut,posMurGauche ;
+	double   hauteurComposant, largeurComposant;
 	
 	private int index = -1;
 	
@@ -65,7 +68,10 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 
 
 /*if(!balleTiree) {
-		canon.dessiner(g2d);
+
+	
+
+
 }
 /*if(balleTiree) {
 	canon.dessinerTirer(g2d);
@@ -75,11 +81,17 @@ canon.dessiner(g2d);
 		
 
 	//	rec.dessiner(g2d);
-	
+
+posMurSol = getHeight();
+posMurDroit = getWidth();
+posMurGauche = 0;
+posMurHaut = 0;
+
 	    hauteurComposant = getHeight();
 	    largeurComposant = getWidth();
 	    g2d.setColor(Color.red);
 	    g2d.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
+
 	}
 
 	public void run() {
@@ -126,7 +138,7 @@ canon.dessiner(g2d);
 	
 	private void testerCollisionsEtAjusterVitesses() {	
 		 
-		canon.getBalle().gererCollisions(hauteurComposant, largeurComposant);
+		canon.getBalle().gererCollisions(posMurSol, posMurDroit , posMurHaut, posMurGauche);
 		
 	}
 	
@@ -239,6 +251,8 @@ canon.dessiner(g2d);
 
 
 			}
+	
+	
 }
 		
 			
