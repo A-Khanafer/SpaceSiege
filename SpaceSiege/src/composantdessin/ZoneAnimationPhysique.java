@@ -80,19 +80,15 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	canon.dessinerTirer(g2d);
 }
 */
-canon.dessiner(g2d);
 		
-
-	
-		
-		rec.dessiner(g2d);
+		canon.dessiner(g2d);
+//		rec.dessiner(g2d);
 	
 	    posMurSol = getHeight();
 	    posMurDroit = getWidth();
 	    posMurGauche = 0;
 	    posMurHaut = 0;
         canon.dessiner(g2d);
-        
 
 
 	    hauteurComposant = getHeight();
@@ -111,11 +107,11 @@ canon.dessiner(g2d);
 
 			testerCollisionsEtAjusterVitesses();
 			
-			if( 	CollisionRectangle.detectionCollisionBalleLigne(canon.getBalle(),rec )== true ) {
-				enCoursDAnimation=false;
-			}
-		
-				
+//			if( 	CollisionRectangle.detectionCollisionBalleLigne(canon.getBalle(),rec )== true ) {
+//				enCoursDAnimation=false;
+//			}
+//		
+//				
 			
 			
 				repaint();

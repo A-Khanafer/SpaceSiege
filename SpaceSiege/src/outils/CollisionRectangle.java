@@ -144,18 +144,21 @@ public class CollisionRectangle {
 		    		||distanceSeg4Balle <= balle.getDiametre()/2) {
 
 		    	
-		    	  for (int i = 0; i < 4; i++) {
-				    	
-				        Line2D.Double segment = rec.getSegment(i + 1);
-				        boolean surSegment= false;
-				        surSegment = detectionLigne(xProcheSegments[i], yProcheSegments[i],segment.x1,segment.y1,segment.x2,segment.y2, longueur[i]);
-				        
-				        if (surSegment) {
-				        	return true;
-				        }
-		    }
-		    	return true;
-		    }
+//		    	for (int i = 0; i < 4; i++) {
+//				    	
+//				        Line2D.Double segment = rec.getSegment(i + 1);
+//				        boolean surSegment= false;
+//				        surSegment = detectionLigne(xProcheSegments[i], yProcheSegments[i],segment.x1,segment.y1,segment.x2,segment.y2, longueur[i]);
+//				        
+//				        if (surSegment) {
+//				        	return true;
+//				        }
+//		    }
+//		    	return true;
+//		    }
+		   
+		    	
+	}
 		    return false;
 	}
 }
