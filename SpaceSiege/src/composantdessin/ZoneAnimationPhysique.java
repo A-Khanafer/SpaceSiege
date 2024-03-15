@@ -66,28 +66,21 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 
+/*
 
+		if(!balleTiree) {
 
-		/*if(!balleTiree) {
-
-
-		
-
-/*if(!balleTiree) {
-
-	
-
-}
-/*if(balleTiree) {
+canon.dessiner(g2d);
+		}
+if(balleTiree) {
 	canon.dessinerTirer(g2d);
 }
-		 */
-		canon.dessiner(g2d);
-
+		 
+*/
 
 	
 		
-		rec.dessiner(g2d);
+	//	rec.dessiner(g2d);
 	
 	    posMurSol = getHeight();
 	    posMurDroit = getWidth();
