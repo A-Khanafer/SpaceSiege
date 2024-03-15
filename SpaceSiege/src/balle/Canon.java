@@ -32,7 +32,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 	private double rotation= 0 ;
 	private Vecteur2D positionInitial= new Vecteur2D(x+largeur+hauteur/2,y);
 	private Vecteur2D positionNul= new Vecteur2D(0,0);
-	private Vecteur2D vitesse = new Vecteur2D(0,10);
+	private Vecteur2D vitesse = new Vecteur2D(0,0);
 	private FlecheDeTir positionDeTir;
 	private double dx=200;
 	private double dy=200;
@@ -58,7 +58,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 			balle= new BalleBasique(50, 2, hauteur,new Vecteur2D(3,y));
 		}
 		
-		balle.setVitesse(vitesse);
+		
 		
 
 	}
@@ -117,8 +117,10 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 	    double angleDegree = Math.toDegrees(rotation);
 	    System.out.println(rotation + "rot");
 	    System.out.println(angleDegree);
-        double vitesseInitiale = positionDeTir.calculerModulus()/4;
-        Vecteur2D vitesse = new Vecteur2D(Math.cos(angleDegree) * vitesseInitiale, Math.sin(angleDegree) * vitesseInitiale);
+       
+	   // double vitesseInitiale = positionDeTir.calculerModulus()/4;
+	    
+      //  Vecteur2D vitesse = new Vecteur2D(Math.cos(angleDegree) * vitesseInitiale, Math.sin(angleDegree) * vitesseInitiale);
 	    creerLaGeometrie();
 	}
 

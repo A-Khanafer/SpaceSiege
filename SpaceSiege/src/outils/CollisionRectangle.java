@@ -39,14 +39,6 @@ public class CollisionRectangle {
 		    double minY = Math.min(segY1, segY2);
 		    double maxY = Math.max(segY1, segY2);
 		    return  procheX >= minX && procheX <= maxX && procheY >= minY && procheY <= maxY;
-	
-//		double d1 = distanceEntreDeuxPoints(procheX, segX1, procheY, segY1);
-//		double d2 = distanceEntreDeuxPoints(procheX, segX2, procheY, segY2);
-//		if(d1+d2 >=  longueur -0.1 && d1+d2 <= longueur + 0.1 ) {
-//			return true;
-//		}
-//            return false;
-		    
 		
 		
 		
@@ -137,6 +129,10 @@ public class CollisionRectangle {
 		    double distanceSeg3Balle = distanceEntreDeuxPoints(balle.getPosXCentre(),xProcheSegments[2],balle.getPosYCentre(),yProcheSegments[2]);
 		    double distanceSeg4Balle = distanceEntreDeuxPoints(balle.getPosXCentre(),xProcheSegments[3],balle.getPosYCentre(),yProcheSegments[3]);
 		    
+		   // boolean seg1 = detectionLigne(xProcheSegments[0], yProcheSegments[0],rec.getSegment(1).x1,rec.getSegment(1).y1,rec.getSegment(1).x2,rec.getSegment(1).y2, longueur[0]);
+
+
+		    
 		    System.out.println("OOOOOOOOOOOOOOOOO"+ distanceSeg1Balle+"OOOOOOOOOOO"+distanceSeg2Balle+"OOOOOOOOOOOOOOO"+distanceSeg3Balle+"OOOOOOOOOOOOOO"+distanceSeg4Balle);
 		    
 		  {
@@ -148,16 +144,16 @@ public class CollisionRectangle {
 		    		||distanceSeg4Balle <= balle.getDiametre()/2) {
 
 		    	
-//		    	  for (int i = 0; i < 4; i++) {
-//				    	
-//				        Line2D.Double segment = rec.getSegment(i + 1);
-//				        boolean surSegment= false;
-//				        surSegment = detectionLigne(xProcheSegments[i], yProcheSegments[i],segment.x1,segment.y1,segment.x2,segment.y2, longueur[i]);
-//				        
-//				        if (surSegment) {
-//				        	return true;
-//				        }
-//		    }
+		    	  for (int i = 0; i < 4; i++) {
+				    	
+				        Line2D.Double segment = rec.getSegment(i + 1);
+				        boolean surSegment= false;
+				        surSegment = detectionLigne(xProcheSegments[i], yProcheSegments[i],segment.x1,segment.y1,segment.x2,segment.y2, longueur[i]);
+				        
+				        if (surSegment) {
+				        	return true;
+				        }
+		    }
 		    	return true;
 		    }
 		    return false;

@@ -22,7 +22,7 @@ protected boolean balleTiree=false;
 	protected Vecteur2D position= new Vecteur2D(0,0);
 
 
-	protected Vecteur2D vitesse = new Vecteur2D(0,0);
+	protected Vecteur2D vitesse = new Vecteur2D(10,0);
 
 	protected Vecteur2D accel = new Vecteur2D(0,0);
 
@@ -44,7 +44,7 @@ protected boolean balleTiree=false;
 	public void setSommeDesForces(Vecteur2D sommeForcesSurLaBalle) {
 
 		try {
-			 accel = MoteurPhysique.calculAcceleration(sommeForcesSurLaBalle, masse);
+			// accel = MoteurPhysique.calculAcceleration(sommeForcesSurLaBalle, masse);
 			System.out.println(sommeForcesSurLaBalle.getY()+"N");
 		} catch (Exception e) {
 			e.printStackTrace();
