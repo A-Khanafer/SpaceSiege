@@ -21,7 +21,7 @@ public class Balle {
 	protected Vecteur2D position= new Vecteur2D(0,0);
 
 
-	protected Vecteur2D vitesse = new Vecteur2D(10,10);
+	protected Vecteur2D vitesse = new Vecteur2D(10,0);
 
 	protected Vecteur2D accel = new Vecteur2D(0,0);
 

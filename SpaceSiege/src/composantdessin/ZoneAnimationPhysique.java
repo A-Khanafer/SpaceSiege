@@ -25,6 +25,7 @@ import physique.Vecteur2D;
 import java.awt.Color;
 
 import obstacles.Rectangle;
+import outils.CollisionRectangle;
 import physique.MoteurPhysique;
 
 public class ZoneAnimationPhysique extends JPanel implements Runnable {
@@ -35,7 +36,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	private static final long serialVersionUID = 1L;
 	private boolean enCoursDAnimation=false;
 
-	private double deltaT=0.5;
+	private double deltaT=0.09;
 
 	private double rotation=20;
 	private int tempsDuSleep = 5;
@@ -65,19 +66,22 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 
 
 
-		canon.dessiner(g2d);
+		
 
 
 
 		
 
-	//	rec.dessiner(g2d);
+	
+		
+		rec.dessiner(g2d);
 	
 	    posMurSol = getHeight();
 	    posMurDroit = getWidth();
 	    posMurGauche = 0;
 	    posMurHaut = 0;
-
+        canon.dessiner(g2d);
+        
 	}
 
 	public void run() {
@@ -88,7 +92,11 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 			calculerUneIterationPhysique(deltaT);
 
 			testerCollisionsEtAjusterVitesses();
-				
+			
+			if( 	CollisionRectangle.detectionCollisionBalleLigne(canon.getBalle(),rec )== true ) {
+				enCoursDAnimation=false;
+			}
+		
 				
 			
 			
