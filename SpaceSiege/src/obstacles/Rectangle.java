@@ -248,21 +248,27 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 //		this.resizeHandle = clickAv;
 //	}
 
-	public Line2D.Double getSegment1(){
-		return segmentBas;
+	public Line2D.Double getSegment(int num){
+		
+		Line2D.Double seg = new Line2D.Double();
+		if(num==1) {
+			seg= segmentBas;
+		}
+		if(num==2) {
+			seg= segmentDroite;
+		}
+		if(num==3) {
+			seg= segmentHaut;
+		}
+		if(num==4) {
+			seg= segmentGauche;
+		}
+		return seg;
+		
 	}
-    public Line2D.Double getSegment2(){
-		return segmentDroite;
-	}
-    public Line2D.Double getSegment3(){
-	return segmentHaut;
-    }
-    public Line2D.Double getSegment4(){
-	return segmentGauche;
-    }
 
     //zk point de chaque coter d'un segment
-    public static double[] getPointsSegment(Line2D.Double segment) {
+    public double[] getPointsSegment(Line2D.Double segment) {
         double[] points = new double[4];
         points[0] = segment.getX1();
         points[1] = segment.getY1();

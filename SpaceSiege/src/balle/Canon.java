@@ -32,7 +32,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 	private double rotation= 0 ;
 	private Vecteur2D positionInitial= new Vecteur2D(x+largeur+hauteur/2,y);
 	private Vecteur2D positionNul= new Vecteur2D(0,0);
-	private Vecteur2D vitesse = new Vecteur2D(0,0);
+	private Vecteur2D vitesse = new Vecteur2D(0,10);
 	private FlecheDeTir positionDeTir;
 	private double dx=200;
 	private double dy=200;
@@ -104,11 +104,10 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 		}
 		return false;
 	}
+	
 	public void rotate(int ex, int ey) {
 	   
 		positionDeTir.setPointFinal(ex, ey);
-		
-		
 	    rotation = positionDeTir.getAngle();
 	  
 	    AffineTransform transform = AffineTransform.getRotateInstance(rotation, x + hauteur / 2, y + hauteur / 2);
