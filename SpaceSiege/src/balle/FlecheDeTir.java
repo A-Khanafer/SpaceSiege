@@ -23,7 +23,7 @@ public class FlecheDeTir implements Dessinable {
 		this.x1 = x1;
 		this.y1 = y1;
 		this.x2 = x1 + dx;
-		this.y2 = y1;
+		this.y2 = y1 + dy;
 		this.rotation = rotation;
 		creerLaGeometrie();
 	}

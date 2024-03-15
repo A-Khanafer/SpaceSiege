@@ -22,16 +22,17 @@ protected boolean balleTiree=false;
 	protected Vecteur2D position= new Vecteur2D(0,0);
 
 
-	protected Vecteur2D vitesse = new Vecteur2D(0,0);
+	protected Vecteur2D vitesse ;
 
 	protected Vecteur2D accel = new Vecteur2D(0,0);
 
 	Ellipse2D.Double cercle=new Ellipse2D.Double(position.getX(),position.getY(), diametre, diametre);
 
-	public Balle(int masseDonne, int chargeDonne, int diametreDonne, Vecteur2D position) {
+	public Balle(int masseDonne, int chargeDonne, int diametreDonne, Vecteur2D position, Vecteur2D vitesse) {
 		masse = masseDonne;
 		charge = chargeDonne;
 		diametre = diametreDonne;
+		this.vitesse = vitesse;
 		this.position = position;
 		initialiserCercle();
 	}
@@ -44,7 +45,7 @@ protected boolean balleTiree=false;
 	public void setSommeDesForces(Vecteur2D sommeForcesSurLaBalle) {
 
 		try {
-			 accel = MoteurPhysique.calculAcceleration(sommeForcesSurLaBalle, masse);
+//			 accel = MoteurPhysique.calculAcceleration(sommeForcesSurLaBalle, masse);
 			System.out.println(sommeForcesSurLaBalle.getY()+"N");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -85,6 +86,10 @@ protected boolean balleTiree=false;
 	//zk
 	public double getPosYCentre() {
 		return this.position.getY()+diametre/2;
+	}
+
+	public void setPosition(Vecteur2D position) {
+		this.position = position;
 	}
 	
 	
