@@ -68,21 +68,9 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 
 
 		
-
-/*if(!balleTiree) {
-
-	
->>>>>>> branch 'master' of https://gitlab.com/AhmadKnf/spacesiege.git
-
-
-}
-/*if(balleTiree) {
-	canon.dessinerTirer(g2d);
-}
-*/
 		
 		canon.dessiner(g2d);
-//		rec.dessiner(g2d);
+		rec.dessiner(g2d);
 	
 	    posMurSol = getHeight();
 	    posMurDroit = getWidth();
@@ -107,11 +95,11 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 
 			testerCollisionsEtAjusterVitesses();
 			
-//			if( 	CollisionRectangle.detectionCollisionBalleLigne(canon.getBalle(),rec )== true ) {
-//				enCoursDAnimation=false;
-//			}
-//		
-//				
+			if( 	CollisionRectangle.detectionCollisionBalleLigne(canon.getBalle(),rec )== true ) {
+				enCoursDAnimation=false;
+			}
+		
+				
 			
 			
 				repaint();

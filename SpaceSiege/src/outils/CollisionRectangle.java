@@ -116,12 +116,7 @@ public class CollisionRectangle {
 		        xProcheSegments[i]= xProche;
 		        yProcheSegments[i]= yProche;
 		        
-//		        boolean surSegment;
-//		        surSegment = detectionLigne(xProche, yProche,segment.x1,segment.y1,segment.x2,segment.y2, longueur[i]);
-//		        
-//		        if (!surSegment) {
-//		        	return false;
-//		        }
+
 		    }
 		    
 		    double distanceSeg1Balle = distanceEntreDeuxPoints(balle.getPosXCentre(),xProcheSegments[0],balle.getPosYCentre(),yProcheSegments[0]);
@@ -129,7 +124,6 @@ public class CollisionRectangle {
 		    double distanceSeg3Balle = distanceEntreDeuxPoints(balle.getPosXCentre(),xProcheSegments[2],balle.getPosYCentre(),yProcheSegments[2]);
 		    double distanceSeg4Balle = distanceEntreDeuxPoints(balle.getPosXCentre(),xProcheSegments[3],balle.getPosYCentre(),yProcheSegments[3]);
 		    
-		   // boolean seg1 = detectionLigne(xProcheSegments[0], yProcheSegments[0],rec.getSegment(1).x1,rec.getSegment(1).y1,rec.getSegment(1).x2,rec.getSegment(1).y2, longueur[0]);
 
 
 		    
@@ -144,21 +138,22 @@ public class CollisionRectangle {
 		    		||distanceSeg4Balle <= balle.getDiametre()/2) {
 
 		    	
-//		    	for (int i = 0; i < 4; i++) {
-//				    	
-//				        Line2D.Double segment = rec.getSegment(i + 1);
-//				        boolean surSegment= false;
-//				        surSegment = detectionLigne(xProcheSegments[i], yProcheSegments[i],segment.x1,segment.y1,segment.x2,segment.y2, longueur[i]);
-//				        
-//				        if (surSegment) {
-//				        	return true;
-//				        }
-//		    }
-//		    	return true;
-//		    }
+		    	for (int i = 0; i < 4; i++) {
+				    	
+				        Line2D.Double segment = rec.getSegment(i + 1);
+				        boolean surSegment= false;
+				        surSegment = detectionLigne(xProcheSegments[i], yProcheSegments[i],segment.x1,segment.y1,segment.x2,segment.y2, longueur[i]);
+				        
+				        if (surSegment) {
+				        	return true;
+				        }
+		    
+		    	}
+		    	return true;
+		    }
 		   
 		    	
-	}
+	
 		    return false;
 	}
 }
