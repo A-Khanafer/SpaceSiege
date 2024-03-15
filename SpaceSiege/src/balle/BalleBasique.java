@@ -9,7 +9,7 @@ import physique.MoteurPhysique;
 import physique.Vecteur2D;
 
 public class BalleBasique extends Balle {
-	private Ellipse2D.Double cercle;
+
 	
 	public BalleBasique(int masseDonne,int chargeDonne,int diametreDonne,Vecteur2D position, Vecteur2D vitesse) {
 		super(masseDonne, chargeDonne, diametreDonne,position, vitesse);

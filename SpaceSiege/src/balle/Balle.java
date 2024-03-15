@@ -17,16 +17,16 @@ public class Balle {
 
 	protected int charge;
 
-protected boolean balleTiree=false;
+	protected boolean balleTiree=false;
 
-	protected Vecteur2D position= new Vecteur2D(0,0);
+	protected Vecteur2D position;
 
 
 	protected Vecteur2D vitesse ;
 
 	protected Vecteur2D accel = new Vecteur2D(0,0);
 
-	Ellipse2D.Double cercle=new Ellipse2D.Double(position.getX(),position.getY(), diametre, diametre);
+	protected Ellipse2D.Double cercle;
 
 	public Balle(int masseDonne, int chargeDonne, int diametreDonne, Vecteur2D position, Vecteur2D vitesse) {
 		masse = masseDonne;

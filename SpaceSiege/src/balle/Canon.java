@@ -53,8 +53,12 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 		if(!balleTiree && premiereFois ) {
 			balle= new BalleBasique(50, 2, hauteur,new Vecteur2D(3,y), new Vecteur2D(0,0));
 			premiereFois = false;
+			
 		}
-		
+		if(!balleTiree) {
+			balle.setPosition(new Vecteur2D(3, y));
+			System.out.println(balle.getPosition().toString());
+		}
 	}
 	@Override
 	public void dessiner(Graphics2D g2d) {
@@ -62,9 +66,9 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 		g2dPrive.setColor(Color.BLUE);
 		
 		g2dPrive.fill(aireBase);
-		
-		balle.dessiner(g2dPrive);
-		
+		if(balleTiree) {
+			balle.dessiner(g2dPrive);
+		}
 		positionDeTir.dessiner(g2dPrive);
 		
 		//ROTATED
