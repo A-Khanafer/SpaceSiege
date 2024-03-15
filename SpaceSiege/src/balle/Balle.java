@@ -22,6 +22,7 @@ public class Balle {
 	protected Vecteur2D position;
 
 
+
 	protected Vecteur2D vitesse ;
 
 	protected Vecteur2D accel = new Vecteur2D(0,0);
@@ -45,6 +46,7 @@ public class Balle {
 	public void setSommeDesForces(Vecteur2D sommeForcesSurLaBalle) {
 
 		try {
+
 //			 accel = MoteurPhysique.calculAcceleration(sommeForcesSurLaBalle, masse);
 			System.out.println(sommeForcesSurLaBalle.getY()+"N");
 		} catch (Exception e) {

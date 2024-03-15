@@ -29,6 +29,8 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 	private Area aireBase;
 	private BalleBasique balle;
 	private double rotation= 0 ;
+	private Vecteur2D positionInitial= new Vecteur2D(x+largeur+hauteur/2,y);
+	private Vecteur2D positionNul= new Vecteur2D(0,0);
 	private Vecteur2D vitesse = new Vecteur2D(20,20);
 	private FlecheDeTir positionDeTir;
 	private double dx=200;
@@ -55,10 +57,15 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 			premiereFois = false;
 			
 		}
+
 		if(!balleTiree) {
 			balle.setPosition(new Vecteur2D(3, y));
 			System.out.println(balle.getPosition().toString());
 		}
+
+		
+
+
 	}
 	@Override
 	public void dessiner(Graphics2D g2d) {
@@ -98,6 +105,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 	    
 	    aireRect = new Area(transform.createTransformedShape(new Rectangle2D.Double(3+hauteur/2, y, largeur, hauteur)));
 	    aireCercle = new Area(transform.createTransformedShape(new Ellipse2D.Double(3,y,hauteur,hauteur)));	 
+
 	    
 	    if(ey < cercle.getCenterY()) {
 	    	vitesse.setX(Math.cos(rotation)*positionDeTir.calculerModulus()/8);
