@@ -21,6 +21,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 	private Ellipse2D.Double base ;
 	private double pixelsParMetre = 10;
 	private boolean balleTiree = false;
+	private boolean premiereFois = true;
 	private int largeur = 100; //30
 	private int hauteur = 50; //15
 	private Area aireCercle;
@@ -31,6 +32,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 	private double rotation= 0 ;
 	private Vecteur2D positionInitial= new Vecteur2D(x+largeur+hauteur/2,y);
 	private Vecteur2D positionNul= new Vecteur2D(0,0);
+	private Vecteur2D vitesse = new Vecteur2D(0,0);
 	private FlecheDeTir positionDeTir;
 	private double dx=200;
 	private double dy=200;
@@ -52,21 +54,11 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 		aireRect.add(aireCercle);
 		
 		positionDeTir = new FlecheDeTir(cercle.getCenterX(), cercle.getCenterY(), dx,dy, rotation);
-		if(!balleTiree) {
-			balle= new BalleBasique(50, 2, hauteur,new Vecteur2D(hauteur+3,y));
-	}
-		/*if(balleTiree) {
-			System.out.println(" JE RENSTRE ICIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII");
-			tirerBalle();
+		if(!balleTiree && premiereFois ) {
+			balle= new BalleBasique(50, 2, hauteur,new Vecteur2D(3,y));
 		}
-	
-		*/
 		
-
-		
-
-      
-
+		balle.setVitesse(vitesse);
 		
 
 	}
@@ -78,12 +70,13 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 		g2dPrive.fill(aireBase);
 
 		g2dPrive.rotate(rotation, cercle.getCenterX(), cercle.getCenterY());
-	balle.dessiner(g2dPrive);
+		
+     //	balle.dessiner(g2dPrive2);
 		positionDeTir.dessiner(g2dPrive);
 		g2dPrive.setColor(Color.BLACK);
 		g2dPrive.fill(aireRect);
 		
-
+		balle.dessiner(g2dPrive2);
 
 	}
 	public void dessinerTirer(Graphics2D g2d) {
@@ -122,6 +115,11 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 	    
 	    aireRect = new Area(transform.createTransformedShape(new Rectangle2D.Double(3+hauteur/2, y, largeur, hauteur)));
 	    aireCercle = new Area(transform.createTransformedShape(new Ellipse2D.Double(3,y,hauteur,hauteur)));	 
+	    double angleDegree = Math.toDegrees(rotation);
+	    System.out.println(rotation + "rot");
+	    System.out.println(angleDegree);
+        double vitesseInitiale = positionDeTir.calculerModulus()/4;
+        Vecteur2D vitesse = new Vecteur2D(Math.cos(angleDegree) * vitesseInitiale, Math.sin(angleDegree) * vitesseInitiale);
 	    creerLaGeometrie();
 	}
 
@@ -165,17 +163,14 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 		balleTiree=true;
 		creerLaGeometrie();
 	}
-/*	public void tirerBalle() {
-	   
-	        double angleRad = Math.toRadians(rotation);
-	        double vitesseInitiale = positionDeTir.calculerModulus()/4;
-	        Vecteur2D vitesse = new Vecteur2D(Math.cos(angleRad) * vitesseInitiale, Math.sin(angleRad) * vitesseInitiale);
-	        balle.setVitesse(vitesse);
-	        System.out.println("JE SET LA VITESSE )))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))");
-	     
-	    
+	public boolean isPremiereFois() {
+		return premiereFois;
 	}
-	*/
+	public void setPremiereFois(boolean premiereFois) {
+		this.premiereFois = premiereFois;
+	}
+	
+	
 }
 
 

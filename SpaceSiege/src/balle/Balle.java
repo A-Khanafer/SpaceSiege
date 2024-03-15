@@ -44,7 +44,7 @@ protected boolean balleTiree=false;
 	public void setSommeDesForces(Vecteur2D sommeForcesSurLaBalle) {
 
 		try {
-			// accel = MoteurPhysique.calculAcceleration(sommeForcesSurLaBalle, masse);
+			 accel = MoteurPhysique.calculAcceleration(sommeForcesSurLaBalle, masse);
 			System.out.println(sommeForcesSurLaBalle.getY()+"N");
 		} catch (Exception e) {
 			e.printStackTrace();

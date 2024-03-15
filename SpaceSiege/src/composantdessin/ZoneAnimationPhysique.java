@@ -47,18 +47,18 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 
 	private boolean premierFois=false;
 	private double tempsTotalEcoule =0;
-	
+
 	double posMurSol,posMurDroit, posMurHaut,posMurGauche ;
 	double   hauteurComposant, largeurComposant;
-	
+
 	private int index = -1;
-	
-	
+
+
 	public ZoneAnimationPhysique() {
 		setBackground(new Color(255, 255, 255));
 		ecouteurSouris();
 		ecouteurClavier();
-		
+
 	}
 
 	public void paintComponent(Graphics g ) {
@@ -67,30 +67,27 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 
 
-/*if(!balleTiree) {
-
-	
-
+		/*if(!balleTiree) {
 
 }
 /*if(balleTiree) {
 	canon.dessinerTirer(g2d);
 }
-*/
-canon.dessiner(g2d);
-		
+		 */
+		canon.dessiner(g2d);
 
-	//	rec.dessiner(g2d);
 
-posMurSol = getHeight();
-posMurDroit = getWidth();
-posMurGauche = 0;
-posMurHaut = 0;
+		//	rec.dessiner(g2d);
 
-	    hauteurComposant = getHeight();
-	    largeurComposant = getWidth();
-	    g2d.setColor(Color.red);
-	    g2d.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
+		posMurSol = getHeight();
+		posMurDroit = getWidth();
+		posMurGauche = 0;
+		posMurHaut = 0;
+
+		hauteurComposant = getHeight();
+		largeurComposant = getWidth();
+		g2d.setColor(Color.red);
+		g2d.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
 
 	}
 
@@ -102,17 +99,17 @@ posMurHaut = 0;
 			calculerUneIterationPhysique(deltaT);
 
 			testerCollisionsEtAjusterVitesses();
-				
-				
-			
-			
-				repaint();
+
+
+
+
+			repaint();
 			try {
 				Thread.sleep(tempsDuSleep);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			
+
 		}//fin while
 		System.out.println("Le thread est mort...!");
 	}
@@ -123,6 +120,7 @@ posMurHaut = 0;
 			Thread proc = new Thread(this);
 			proc.start();
 			enCoursDAnimation = true;
+			canon.setPremiereFois(false);
 		}
 	}//fin methode
 
@@ -131,30 +129,30 @@ posMurHaut = 0;
 		calculerLesForces();
 		canon.avancerUnPas(deltaT);
 
-		
-	
+
+
 	}
-	
-	
+
+
 	private void testerCollisionsEtAjusterVitesses() {	
-		 
+
 		canon.getBalle().gererCollisions(posMurSol, posMurDroit , posMurHaut, posMurGauche);
-		
+
 	}
-	
-	 
+
+
 
 	public void updateFlechePosition() {
-	    int tipX = canon.getPointeX();
-	    int tipY = canon.getPointeY();
+		int tipX = canon.getPointeX();
+		int tipY = canon.getPointeY();
 
 
 	}
 
 	private void calculerLesForces() {
 		Vecteur2D forceDeGravite=MoteurPhysique.calculForceGrav(canon.getBalle().getMasse(), Math.toRadians(90));
-        Vecteur2D forceUtilisateur= new Vecteur2D(canon.getFleche().calculerComposantX(),canon.getFleche().calculerComposantY());
-        
+		Vecteur2D forceUtilisateur= new Vecteur2D(canon.getFleche().calculerComposantX(),canon.getFleche().calculerComposantY());
+
 		canon.getBalle().setSommeDesForces(forceUtilisateur);
 
 	}
@@ -162,23 +160,23 @@ posMurHaut = 0;
 		balleTiree=true;
 		canon.setBalleTiree();
 	}
-	
-	
+
+
 	private void ecouteurClavier() {
-	    addKeyListener(new KeyAdapter() {
-	        @Override
-	        public void keyPressed(KeyEvent e) {
-	            switch (e.getKeyCode()) {
-	                case KeyEvent.VK_W: 
-	                	 System.out.println("SALUT JE ne VAIS pas ICI");
-	                    break;
-	                case KeyEvent.VK_S: 
-	                   System.out.println("SALUT JE VAIS ICI");
-	                    break;
-	            }
-	            repaint();
-	        }
-	    });
+		addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				switch (e.getKeyCode()) {
+				case KeyEvent.VK_W: 
+					System.out.println("SALUT JE ne VAIS pas ICI");
+					break;
+				case KeyEvent.VK_S: 
+					System.out.println("SALUT JE VAIS ICI");
+					break;
+				}
+				repaint();
+			}
+		});
 	}
 
 
@@ -190,12 +188,12 @@ posMurHaut = 0;
 			public void mouseClicked(MouseEvent e) {
 
 
-			
-			    
-			  
 
-			
-			
+
+
+
+
+
 				repaint();
 
 
@@ -212,49 +210,48 @@ posMurHaut = 0;
 
 			}
 		});
-	
-			addMouseMotionListener(new MouseMotionAdapter() {
-				@Override
-				
-				public void mouseDragged(MouseEvent e) {
-				
-					canon.rotate(e.getX(),e.getY());
-		        	canon.changerTaille(e.getX(), e.getY());
-					index = rec.getClickedResizeHandleIndex(e.getX(), e.getY());
-					repaint();
-					if (rec.isClickedOnIt() == true && index != -1) {
-//						System.out.println("RESIZE");
-						rec.resize(index, e.getX(), e.getY());
-						repaint();
-					}else if(rec.contient(e.getX(), e.getY()) && rec.isClickedOnIt() == true && index == -1 ) {
-						rec.rotate( e.getX(), e.getY());
-						repaint();
-					}
-					
-					if(rec.contient(e.getX(), e.getY()) && rec.isClickedOnIt() == false) {
-						rec.move( e.getX(), e.getY());
-						repaint();
-						
-						if(rec.contient(e.getX(), e.getY()) == false) {
-							rec.setClickedOnIt(false);
-							repaint();
-						}
-					}
-                      if(canon.contient(e.getX(), e.getY())) {
-						canon.move(e.getY());
-						repaint();
-					}
 
+		addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
+
+			public void mouseDragged(MouseEvent e) {
+
+				canon.rotate(e.getX(),e.getY());
+				canon.changerTaille(e.getX(), e.getY());
+				index = rec.getClickedResizeHandleIndex(e.getX(), e.getY());
+				repaint();
+				if (rec.isClickedOnIt() == true && index != -1) {
+					//						System.out.println("RESIZE");
+					rec.resize(index, e.getX(), e.getY());
+					repaint();
+				}else if(rec.contient(e.getX(), e.getY()) && rec.isClickedOnIt() == true && index == -1 ) {
+					rec.rotate( e.getX(), e.getY());
+					repaint();
 				}
 
-			});
+				if(rec.contient(e.getX(), e.getY()) && rec.isClickedOnIt() == false) {
+					rec.move( e.getX(), e.getY());
+					repaint();
 
+					if(rec.contient(e.getX(), e.getY()) == false) {
+						rec.setClickedOnIt(false);
+						repaint();
+					}
+				}
+				if(canon.contient(e.getX(), e.getY())) {
+					canon.move(e.getY());
+					repaint();
+				}
 
 			}
-	
-	
-}
-		
-			
 
-		
+		});
+
+
+	}
+
+
+}
+
+
+
