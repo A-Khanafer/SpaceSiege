@@ -96,6 +96,7 @@ public class FenetreDeJeu extends JFrame {
 		btnDemarrer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				zoneAnimationPhysique.demarrer();
+				zoneAnimationPhysique.TirerBalle();
 			}
 		});
 		btnDemarrer.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));

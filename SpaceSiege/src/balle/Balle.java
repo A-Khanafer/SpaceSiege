@@ -17,6 +17,7 @@ public class Balle {
 
 	protected int charge;
 
+protected boolean balleTiree=false;
 
 	protected Vecteur2D position= new Vecteur2D(0,0);
 
@@ -50,12 +51,12 @@ public class Balle {
 		}
 	}
 	public void avancerUnPas(double deltaT) {
-		System.out.println();
+	
 		vitesse = MoteurPhysique.calculVitesse(deltaT, vitesse, accel);
 		position = MoteurPhysique.calculPosition(deltaT, position, vitesse);
 
 		initialiserCercle();
-
+		
 	}
 	public int getMasse() {
 		return this.masse;
@@ -69,6 +70,12 @@ public class Balle {
 	}
 	public double getDiametre() {
 		return this.diametre;
+	}
+	public void setVitesse(Vecteur2D vit) {
+		this.vitesse=vit;
+	}
+	public  Vecteur2D getVitesse() {
+		return this.vitesse;
 	}
 	
 	//zk

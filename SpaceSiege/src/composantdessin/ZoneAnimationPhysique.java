@@ -36,18 +36,22 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	private static final long serialVersionUID = 1L;
 	private boolean enCoursDAnimation=false;
 
-	private double deltaT=0.09;
+
+
+	private double deltaT=0.05;
+
 
 	private double rotation=20;
 	private int tempsDuSleep = 5;
 	private Rectangle rec = new Rectangle(50,50);
-	private boolean onOff = false;
+	private boolean balleTiree = false;
 	private Canon canon= new Canon (0,80);
 
 	private boolean premierFois=false;
 	private double tempsTotalEcoule =0;
 	
 	double posMurSol,posMurDroit, posMurHaut,posMurGauche ;
+	double   hauteurComposant, largeurComposant;
 	
 	private int index = -1;
 	
@@ -68,8 +72,18 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 
 		
 
+/*if(!balleTiree) {
+
+	
+>>>>>>> branch 'master' of https://gitlab.com/AhmadKnf/spacesiege.git
 
 
+}
+/*if(balleTiree) {
+	canon.dessinerTirer(g2d);
+}
+*/
+canon.dessiner(g2d);
 		
 
 	
@@ -82,6 +96,13 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	    posMurHaut = 0;
         canon.dessiner(g2d);
         
+
+
+	    hauteurComposant = getHeight();
+	    largeurComposant = getWidth();
+	    g2d.setColor(Color.red);
+	    g2d.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
+
 	}
 
 	public void run() {
@@ -152,6 +173,11 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 		canon.getBalle().setSommeDesForces(forceUtilisateur);
 
 	}
+	public  void TirerBalle() {
+		balleTiree=true;
+		canon.setBalleTiree();
+	}
+	
 	
 	private void ecouteurClavier() {
 	    addKeyListener(new KeyAdapter() {
@@ -206,7 +232,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 				@Override
 				
 				public void mouseDragged(MouseEvent e) {
-					System.out.println("kpdvmwkpvnw");
+				
 					canon.rotate(e.getX(),e.getY());
 		        	canon.changerTaille(e.getX(), e.getY());
 					index = rec.getClickedResizeHandleIndex(e.getX(), e.getY());
@@ -230,7 +256,6 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 						}
 					}
                       if(canon.contient(e.getX(), e.getY())) {
-                    	  System.out.println("JE touche le JONHSON");
 						canon.move(e.getY());
 						repaint();
 					}
