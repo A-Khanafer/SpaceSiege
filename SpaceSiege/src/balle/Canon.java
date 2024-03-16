@@ -60,7 +60,6 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 
 		if(!balleTiree) {
 			balle.setPosition(new Vecteur2D(3, y));
-			System.out.println(balle.getPosition().toString());
 		}
 
 		

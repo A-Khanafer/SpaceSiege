@@ -100,58 +100,87 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 	        resizeHandles[7] = new Ellipse2D.Double(coinXGauche - tailleHandle / 2, coinYGauche + height / 2 - tailleHandle / 2, tailleHandle, tailleHandle);
 	    }
 
-	@Override
-	public void resize( int index, int eX, int eY) {
-		System.out.println("JE RESIZE ");
-		double offsetX = eX - resizeHandles[index].getCenterX();
-        double offsetY = eY - resizeHandles[index].getCenterY();
-
-
+	 public void resize(int index, int eX, int eY) {
+		    // Vérifier si le redimensionnement est activé
 		    if (clickedOnIt) {
-			    switch (index) {
-			        case 0: // En haut à gauche
-			        	if (rectangle.width - offsetX >= 20 && rectangle.height - offsetY >= 20) {
-			        		width -= offsetX; 
-			                height -= offsetY;
-			                coinXGauche += offsetX; 
-			                coinYGauche += offsetY; 
-			                coinXDroite += offsetY;
-		        	 }
-			            break;
-			        case 1: // En haut au milieu
-			        	if (rectangle.height - offsetY >= 0) { 
-			                height -= offsetY; 
-			                coinYGauche += offsetY; 
-			                creerLaGeometrie(); 
-			            }
-			            break;
-			        case 2: // En haut à droite
-			        	 if (rectangle.width + offsetX >= 20 && rectangle.height - offsetY >= 20) {
-				                width += offsetX;
-				                height -= offsetY;
-				                coinYGauche += offsetY;
-			        	 }
-			            break;
-			        case 3: // Au milieu à droite
-			            
-			            break;
-			        case 4: // En bas à droite
-			           
-			            break;
-			        case 5: // En bas au milieu
-			            
-			            break;
-			        case 6: // En bas à gauche
-			            
-			            break;
-			        case 7: // Au milieu à gauche
-			            
-			            break;
-			    }
-			    creerLaGeometrie(); // Recréer la géométrie avec les nouvelles dimensions
+		        // Calculer le décalage entre la position actuelle et la position de la souris
+		        double offsetX = eX - resizeHandles[index].getCenterX();
+		        double offsetY = eY - resizeHandles[index].getCenterY();
+
+		        // Effectuer le redimensionnement en fonction de l'index du point de redimensionnement sélectionné
+		        switch (index) {
+		            case 0: // En haut à gauche
+		                // Vérifier si le redimensionnement est possible sans rétrécir le rectangle en dessous d'une taille minimale
+		                if (rectangle.width - offsetX >= 20 && rectangle.height - offsetY >= 20) {
+		                    // Redimensionner le rectangle
+		                    width -= offsetX;
+		                    height -= offsetY;
+		                    coinXGauche += offsetX;
+		                    coinYGauche += offsetY;
+		                }
+		                break;
+		            case 1: // En haut au milieu
+		                // Vérifier si le redimensionnement est possible sans rétrécir le rectangle en dessous d'une taille minimale
+		                if (rectangle.height - offsetY >= 20) {
+		                    // Redimensionner le rectangle
+		                    height -= offsetY;
+		                    coinYGauche += offsetY;
+		                }
+		                break;
+		            case 2: // En haut à droite
+		                // Vérifier si le redimensionnement est possible sans rétrécir le rectangle en dessous d'une taille minimale
+		                if (rectangle.width + offsetX >= 20 && rectangle.height - offsetY >= 20) {
+		                    // Redimensionner le rectangle
+		                    width += offsetX;
+		                    height -= offsetY;
+		                    coinYGauche += offsetY;
+		                }
+		                break;
+		            case 3: // Au milieu à droite
+		                // Vérifier si le redimensionnement est possible sans rétrécir le rectangle en dessous d'une taille minimale
+		                if (rectangle.width + offsetX >= 20) {
+		                    // Redimensionner le rectangle
+		                    width += offsetX;
+		                }
+		                break;
+		            case 4: // En bas à droite
+		                // Vérifier si le redimensionnement est possible sans rétrécir le rectangle en dessous d'une taille minimale
+		                if (rectangle.width + offsetX >= 20 && rectangle.height + offsetY >= 20) {
+		                    // Redimensionner le rectangle
+		                    width += offsetX;
+		                    height += offsetY;
+		                }
+		                break;
+		            case 5: // En bas au milieu
+		                // Vérifier si le redimensionnement est possible sans rétrécir le rectangle en dessous d'une taille minimale
+		                if (rectangle.height + offsetY >= 20) {
+		                    // Redimensionner le rectangle
+		                    height += offsetY;
+		                }
+		                break;
+		            case 6: // En bas à gauche
+		                // Vérifier si le redimensionnement est possible sans rétrécir le rectangle en dessous d'une taille minimale
+		                if (rectangle.width - offsetX >= 20 && rectangle.height + offsetY >= 20) {
+		                    // Redimensionner le rectangle
+		                    width -= offsetX;
+		                    height += offsetY;
+		                    coinXGauche += offsetX;
+		                }
+		                break;
+		            case 7: // Au milieu à gauche
+		                // Vérifier si le redimensionnement est possible sans rétrécir le rectangle en dessous d'une taille minimale
+		                if (rectangle.width - offsetX >= 20) {
+		                    // Redimensionner le rectangle
+		                    width -= offsetX;
+		                    coinXGauche += offsetX;
+		                }
+		                break;
+		        }
+
+		        // Recréer la géométrie avec les nouvelles dimensions
+		        creerLaGeometrie();
 		    }
-		    
-	}
+		}
 
 
 	@Override
@@ -239,14 +268,6 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
         }
         return -1; // Aucun point de contrôle trouvé à cet endroit
     }
-	
-//	public Ellipse2D.Double getClickAv() {
-//		return resizeHandle;
-//	}
-//
-//	public void setClickAv(Ellipse2D.Double clickAv) {
-//		this.resizeHandle = clickAv;
-//	}
 
 	public Line2D.Double getSegment(int num){
 		
@@ -277,5 +298,26 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
         return points;
     }
 	
+    private Point2D.Double calculateRightCorner() {
+        // Calculate the coordinates of the right corner before rotation
+        double rightCornerX = rectangle.getCenterX() + width / 2;
+        double rightCornerY = rectangle.getCenterY() - height / 2;
+
+        // Calculate the distance from the center to the right corner
+        double distanceToRightCorner = Math.sqrt((width / 2) * (width / 2) + (height / 2) * (height / 2));
+
+        // Calculate the angle between the center and the right corner before rotation
+        double angleToRightCorner = Math.atan2(rightCornerY - rectangle.getCenterY(), rightCornerX - rectangle.getCenterX());
+
+        // Calculate the new angle after rotation
+        double newAngle = angleToRightCorner + angleRotation;
+
+        // Calculate the coordinates of the right corner after rotation
+        double rotatedRightCornerX = rectangle.getCenterY() + distanceToRightCorner * Math.cos(newAngle);
+        double rotatedRightCornerY = rectangle.getCenterY() + distanceToRightCorner * Math.sin(newAngle);
+
+        // Return the coordinates of the rotated right corner
+        return new Point2D.Double(rotatedRightCornerX, rotatedRightCornerY);
+    }
 
 }
