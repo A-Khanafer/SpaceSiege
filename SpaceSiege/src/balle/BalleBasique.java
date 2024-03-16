@@ -9,15 +9,10 @@ import physique.MoteurPhysique;
 import physique.Vecteur2D;
 
 public class BalleBasique extends Balle {
-	private Ellipse2D.Double cercle;
-
 
 	
-
-
-
-	public BalleBasique(int masseDonne,int chargeDonne,int diametreDonne,Vecteur2D position) {
-		super(masseDonne, chargeDonne, diametreDonne,position);
+	public BalleBasique(int masseDonne,int chargeDonne,int diametreDonne,Vecteur2D position, Vecteur2D vitesse) {
+		super(masseDonne, chargeDonne, diametreDonne,position, vitesse);
 		creerLaGeometrie();
 	}
 	public void creerLaGeometrie() {
@@ -55,7 +50,6 @@ public class BalleBasique extends Balle {
 			position.setY(posSol-diametre);
 		}
         if ( (position.getX() + diametre) >= ( posMurDroit ) ) {
-			
 			vitesse.setX(-vitesse.getX());
 			position.setX(posMurDroit-diametre);
 		}

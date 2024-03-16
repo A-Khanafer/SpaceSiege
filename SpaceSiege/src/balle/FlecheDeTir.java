@@ -11,7 +11,7 @@ import interfaces.Dessinable;
 
 public class FlecheDeTir implements Dessinable {
 	private double x1, y1;
-	private double x2, y2;
+	private double x2=0, y2=0;
 	private Line2D.Double corps, traitDeTete, deuxiemeTraitDeTete;
 	private double angleTete = 45;
 	private double longueurTraitDeTete = 8;
@@ -19,12 +19,12 @@ public class FlecheDeTir implements Dessinable {
 	private double angleRadians;
 	private double rotation;
 
-	public FlecheDeTir(double x1, double y1, double dx, double dy, double rotation) {
+	public FlecheDeTir(double x1, double y1, double dx, double dy) {
 		this.x1 = x1;
 		this.y1 = y1;
 		this.x2 = x1 + dx;
-		this.y2 = y1;
-		this.rotation = rotation;
+		this.y2 = y1 + dy;
+	
 		creerLaGeometrie();
 	}
 
@@ -48,11 +48,12 @@ public class FlecheDeTir implements Dessinable {
 
 		mat.scale(pixelsParMetre, pixelsParMetre);
 
-		g2d.draw(mat.createTransformedShape(corps)); // corps de la fleche
+		g2d.draw(mat.createTransformedShape(corps)); 
 
 		mat.rotate(Math.toRadians(angleTete), x2, y2);
 		g2d.draw(mat.createTransformedShape(traitDeTete));
 		g2d.draw(mat.createTransformedShape(deuxiemeTraitDeTete));
+		
 	}
 
 	public void setPointInitial(int x1, int y1) {
