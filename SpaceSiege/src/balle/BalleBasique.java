@@ -8,63 +8,92 @@ import java.awt.geom.Ellipse2D;
 import physique.MoteurPhysique;
 import physique.Vecteur2D;
 
+/**
+ * La classe BalleBasique représente une balle simple dans une simulation physique.
+ * Elle hérite de la classe Balle et permet de dessiner la balle, de la faire avancer et de gérer ses collisions avec les murs.
+ */
 public class BalleBasique extends Balle {
 
-	
-	public BalleBasique(int masseDonne,int chargeDonne,int diametreDonne,Vecteur2D position, Vecteur2D vitesse) {
-		super(masseDonne, chargeDonne, diametreDonne,position, vitesse);
-		creerLaGeometrie();
-	}
-	public void creerLaGeometrie() {
-		cercle = new Ellipse2D.Double(position.getX(),position.getY(), diametre, diametre);
+    /**
+     * Constructeur de BalleBasique initialisant la balle avec des propriétés spécifiques.
+     *
+     * @param masseDonne La masse de la balle.
+     * @param chargeDonne La charge de la balle (non utilisée dans cette implémentation).
+     * @param diametreDonne Le diamètre de la balle.
+     * @param position La position initiale de la balle.
+     * @param vitesse La vitesse initiale de la balle.
+     */
+    public BalleBasique(int masseDonne, int chargeDonne, int diametreDonne, Vecteur2D position, Vecteur2D vitesse) {
+        super(masseDonne, chargeDonne, diametreDonne, position, vitesse);
+        creerLaGeometrie();
+    }
 
-	}
-	public void dessiner(Graphics2D g2d) {
-		Graphics2D g2dPrive = (Graphics2D) g2d.create();
-		//g2dPrive.scale(pixelsParMetre, pixelsParMetre);
-		g2dPrive.setColor(Color.MAGENTA);
-		g2dPrive.fill(cercle);
+    /**
+     * Crée la géométrie de la balle pour le dessin, en se basant sur sa position et son diamètre.
+     */
+    public void creerLaGeometrie() {
+        cercle = new Ellipse2D.Double(position.getX(), position.getY(), diametre, diametre);
+    }
 
-	}
-	public void setPixelsParMetre(double pixelParMetre) {
-		this.pixelsParMetre=pixelParMetre;
-	}
-	public void avancerUnPas(double deltaT) {
-		
-		vitesse = MoteurPhysique.calculVitesse(deltaT, vitesse, accel);
-		position = MoteurPhysique.calculPosition(deltaT, position, vitesse);
-		System.out.println("JE RENTRE DANS LA METHODE AVAnCEPAS DANS BALLE BASIQUE");
-		System.out.println(position.toString());
-		System.out.println(vitesse.toString());
-		creerLaGeometrie();
-		
-	}
+    /**
+     * Dessine la balle sur le composant graphique fourni.
+     *
+     * @param g2d L'objet Graphics2D utilisé pour dessiner la balle.
+     */
+    public void dessiner(Graphics2D g2d) {
+        Graphics2D g2dPrive = (Graphics2D) g2d.create();
+        g2dPrive.setColor(Color.MAGENTA);
+        g2dPrive.fill(cercle);
+    }
 
+    /**
+     * Définit le ratio de pixels par mètre pour la balle. Cette méthode peut être utilisée pour ajuster la taille de la balle à l'échelle du dessin.
+     *
+     * @param pixelsParMetre Le nouveau ratio de pixels par mètre.
+     */
+    public void setPixelsParMetre(double pixelsParMetre) {
+        this.pixelsParMetre = pixelsParMetre;
+    }
 
+    /**
+     * Fait avancer la balle d'un pas dans le temps, en utilisant la physique pour mettre à jour sa position et sa vitesse.
+     *
+     * @param deltaT Le temps écoulé depuis la dernière mise à jour, en secondes.
+     */
+    public void avancerUnPas(double deltaT) {
+        vitesse = MoteurPhysique.calculVitesse(deltaT, vitesse, accel);
+        position = MoteurPhysique.calculPosition(deltaT, position, vitesse);
+        creerLaGeometrie();
+    }
 
-	public void gererCollisions(double posSol, double posMurDroit, double posMurHaut, double posMurGauche) {
-		
-		if ( (position.getY() + diametre) >= ( posSol ) ) {
-			
-			vitesse.setY(-vitesse.getY());
-			position.setY(posSol-diametre);
-		}
-        if ( (position.getX() + diametre) >= ( posMurDroit ) ) {
-			vitesse.setX(-vitesse.getX());
-			position.setX(posMurDroit-diametre);
-		}
-        if ( (position.getY()) <= ( posMurHaut ) ) {
-			
-			vitesse.setY(-vitesse.getY());
-			position.setY(posMurHaut);
-		}
-        if ( (position.getX()) <= ( posMurGauche ) ) {
-			
-			vitesse.setX(-vitesse.getX());
-			position.setX(posMurGauche);
-		}
-        
-	
-}
+    /**
+     * Gère les collisions de la balle avec les murs en inversant sa vitesse lorsqu'une collision est détectée et en ajustant sa position pour éviter les chevauchements.
+     *
+     * @param posSol La position du sol dans la simulation.
+     * @param posMurDroit La position du mur droit.
+     * @param posMurHaut La position du mur haut.
+     * @param posMurGauche La position du mur gauche.
+     */
+    public void gererCollisions(double posSol, double posMurDroit, double posMurHaut, double posMurGauche) {
+    	if ( (position.getY() + diametre) >= ( posSol ) ) {
+    		
+    		vitesse.setY(-vitesse.getY());
+    		position.setY(posSol-diametre);
+    	}
+    	if ( (position.getX() + diametre) >= ( posMurDroit ) ) {
+    		vitesse.setX(-vitesse.getX());
+    		position.setX(posMurDroit-diametre);
+    	}
+    	if ( (position.getY()) <= ( posMurHaut ) ) {
+    		
+    		vitesse.setY(-vitesse.getY());
+    		position.setY(posMurHaut);
+    	}
+    	if ( (position.getX()) <= ( posMurGauche ) ) {
+    		
+    		vitesse.setX(-vitesse.getX());
+    		position.setX(posMurGauche);
+    	}
+    }
 }
 
