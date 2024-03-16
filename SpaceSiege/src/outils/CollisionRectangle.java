@@ -4,12 +4,10 @@ import java.awt.geom.Line2D;
 
 import balle.BalleBasique;
 import obstacles.Rectangle;
-import physique.Vecteur2D;
 import balle.Balle;
 
 
 public class CollisionRectangle {
-	
 	
 	
 	public static double distanceEntreDeuxPoints( double x1,double x2,double y1,double y2 ) {
@@ -34,30 +32,27 @@ public class CollisionRectangle {
 	//pour savoir si les point les plus proches sont sur la ligne
 	public static boolean detectionLigne( double procheX, double procheY, double segX1, double segY1, double segX2, double segY2,double longueur) {
 		
-		    double minX = Math.min(segX1, segX2);
-		    double maxX = Math.max(segX1, segX2);
-		    double minY = Math.min(segY1, segY2);
-		    double maxY = Math.max(segY1, segY2);
-		    return  procheX >= minX && procheX <= maxX && procheY >= minY && procheY <= maxY;
-		
-		
+		double d1 = distanceEntreDeuxPoints(segX1, procheX,segY1, procheY );
+		double d2 = distanceEntreDeuxPoints(segX2, procheX,segY2, procheY );
+
+		if( d1 + d2 >= longueur-0.01 && d1 + d2 <= longueur +0.01) {
+			return true;
+		}
+		return false;
 		
 	}
 	
 	
 	//point/ligne au debut les coins
-	public static boolean detectionPointLigne1(Rectangle rec, Balle balle) {
+	public static boolean detectionToucherCoinLigne(Rectangle rec, Balle balle) {
 		
-		boolean dansSeg1p1 = detectionPointCercle(rec.getSegment(1).x1,rec.getSegment(1).y1, balle.getPosXCentre(),balle.getPosYCentre(),balle.getDiametre()/2);
-		boolean dansSeg1p2 = detectionPointCercle(rec.getSegment(1).x2,rec.getSegment(1).y2, balle.getPosXCentre(),balle.getPosYCentre(),balle.getDiametre()/2);
+		boolean dansSeg1p1 = detectionPointCercle( balle.getPosXCentre() , rec.getSegment(1).getX1() ,balle.getPosYCentre() ,rec.getSegment(1).getY1() , balle.getDiametre()/2 );
+		boolean dansSeg1p2 = detectionPointCercle( balle.getPosXCentre() , rec.getSegment(1).getX2() ,balle.getPosYCentre() ,rec.getSegment(1).getY2() , balle.getDiametre()/2 );
 		
-		boolean dansSeg2p1 = detectionPointCercle(rec.getSegment(3).x1,rec.getSegment(3).y1, balle.getPosXCentre(),balle.getPosYCentre(),balle.getDiametre()/2);
-		boolean dansSeg2p2 = detectionPointCercle(rec.getSegment(3).x2,rec.getSegment(3).y2,balle.getPosXCentre(),balle.getPosYCentre(),balle.getDiametre()/2);
+		boolean dansSeg3p1 = detectionPointCercle( balle.getPosXCentre() , rec.getSegment(3).getX1() ,balle.getPosYCentre() ,rec.getSegment(3).getY1() , balle.getDiametre()/2 );
+		boolean dansSeg3p2 = detectionPointCercle( balle.getPosXCentre() , rec.getSegment(3).getX2() ,balle.getPosYCentre() ,rec.getSegment(3).getY2() , balle.getDiametre()/2 );
 
-
-	
-
-		if (dansSeg1p1 || dansSeg1p2 || dansSeg2p1 || dansSeg2p2) {
+		if (dansSeg1p1 || dansSeg1p2 || dansSeg3p1 || dansSeg3p2) {
 		 return true;
 		}
 	   	return false;
@@ -90,13 +85,16 @@ public class CollisionRectangle {
     	return dot;
     }
     
+    //calcul rebond Physique
+    private static void calculRebondPhysique() {
+    	
+    }
+    
 	public static boolean detectionCollisionBalleLigne(BalleBasique balle, Rectangle rec) {
 	        
-		
-		
-		    boolean extrimiteLigne = detectionPointLigne1(rec,balle);
+		    boolean toucherCoinsLigne = detectionToucherCoinLigne(rec,balle);
 		   
-		    if (extrimiteLigne) {
+		    if (toucherCoinsLigne) {
 		    	 return true;
 		     }
 
@@ -110,8 +108,8 @@ public class CollisionRectangle {
 		        Line2D.Double segment = rec.getSegment(i + 1);
 		  
 		        double dotCopy = dot[i]; 
-		        double xProche = segment.x1 + (dotCopy * (segment.x2 - segment.x1));
-		        double yProche = segment.y1 + (dotCopy * (segment.y2 - segment.y1));
+		        double xProche = segment.getX1() + (dotCopy * (segment.getX2() - segment.getX1()));
+		        double yProche = segment.getY1() + (dotCopy * (segment.getY2() - segment.getY1()));
 		        
 		        xProcheSegments[i]= xProche;
 		        yProcheSegments[i]= yProche;
@@ -119,42 +117,32 @@ public class CollisionRectangle {
 
 		    }
 		    
-		    double distanceSeg1Balle = distanceEntreDeuxPoints(balle.getPosXCentre(),xProcheSegments[0],balle.getPosYCentre(),yProcheSegments[0]);
-		    double distanceSeg2Balle = distanceEntreDeuxPoints(balle.getPosXCentre(),xProcheSegments[1],balle.getPosYCentre(),yProcheSegments[1]);
-		    double distanceSeg3Balle = distanceEntreDeuxPoints(balle.getPosXCentre(),xProcheSegments[2],balle.getPosYCentre(),yProcheSegments[2]);
-		    double distanceSeg4Balle = distanceEntreDeuxPoints(balle.getPosXCentre(),xProcheSegments[3],balle.getPosYCentre(),yProcheSegments[3]);
+		    //System.out.println("......."+ distanceSeg1Balle+"......."+distanceSeg2Balle+"......."+distanceSeg3Balle+"......."+distanceSeg4Balle);
 		    
+		    boolean[] seg = new boolean[4]; 
 
-
-		    
-		    System.out.println("OOOOOOOOOOOOOOOOO"+ distanceSeg1Balle+"OOOOOOOOOOO"+distanceSeg2Balle+"OOOOOOOOOOOOOOO"+distanceSeg3Balle+"OOOOOOOOOOOOOO"+distanceSeg4Balle);
-		    
-		  {
-		    	
-		    	
+		    for (int i = 0; i < 4; i++) {
+		        Line2D.Double segment = rec.getSegment(i + 1);
+		        double distanceSegBalle = distanceEntreDeuxPoints(balle.getPosXCentre(), xProcheSegments[i], balle.getPosYCentre(), yProcheSegments[i]) - balle.getDiametre()/2;
+		        
+		        if (distanceSegBalle <= 0) {
+		            seg[i] = true; 
+		            
+		            boolean surSegment = detectionLigne(xProcheSegments[i], yProcheSegments[i], segment.getX1(), segment.getY1(), segment.getX2(), segment.getY2(), longueur[i]);
+		            
+		            if (!surSegment) {
+		                seg[i] = false; 
+		            }
+		        }
 		    }
 		    
-		    if(distanceSeg1Balle <= balle.getDiametre()/2 || distanceSeg2Balle <= balle.getDiametre()/2 || distanceSeg3Balle <= balle.getDiametre()/2 
-		    		||distanceSeg4Balle <= balle.getDiametre()/2) {
-
-		    	
-		    	for (int i = 0; i < 4; i++) {
-				    	
-				        Line2D.Double segment = rec.getSegment(i + 1);
-				        boolean surSegment= false;
-				        surSegment = detectionLigne(xProcheSegments[i], yProcheSegments[i],segment.x1,segment.y1,segment.x2,segment.y2, longueur[i]);
-				        
-				        if (surSegment) {
-				        	return true;
-				        }
-		    
-		    	}
-		    	return true;
-		    }
-		   
-		    	
+		  	
 	
-		    return false;
+		  if( seg[0] || seg[1] || seg[2] || seg[3] == true) {
+			  return true;
+		  }else {
+			  return false;
+		  }
 	}
 }
 

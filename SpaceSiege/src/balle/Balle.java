@@ -48,7 +48,7 @@ public class Balle {
 		try {
 
 //			 accel = MoteurPhysique.calculAcceleration(sommeForcesSurLaBalle, masse);
-			System.out.println(sommeForcesSurLaBalle.getY()+"N");
+//			System.out.println(sommeForcesSurLaBalle.getY()+"N");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

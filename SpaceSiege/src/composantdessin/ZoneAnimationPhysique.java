@@ -36,7 +36,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	private static final long serialVersionUID = 1L;
 	private boolean enCoursDAnimation=false;
 
-	private double deltaT=0.05;
+	private double deltaT=0.02;
 
 	private double rotation=20;
 	private int tempsDuSleep = 5;
@@ -88,8 +88,8 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 
 	public void run() {
 		while (enCoursDAnimation) {
-			System.out.println("Un tour de run...on avance de " + deltaT + " secondes");
-			System.out.println("Temps ecoule "+tempsTotalEcoule);
+//			System.out.println("Un tour de run...on avance de " + deltaT + " secondes");
+//			System.out.println("Temps ecoule "+tempsTotalEcoule);
 
 			calculerUneIterationPhysique(deltaT);
 
@@ -166,10 +166,10 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	        public void keyPressed(KeyEvent e) {
 	            switch (e.getKeyCode()) {
 	                case KeyEvent.VK_W: 
-	                	 System.out.println("SALUT JE ne VAIS pas ICI");
+//	                	 System.out.println("SALUT JE ne VAIS pas ICI");
 	                    break;
 	                case KeyEvent.VK_S: 
-	                   System.out.println("SALUT JE VAIS ICI");
+//	                   System.out.println("SALUT JE VAIS ICI");
 	                    break;
 	            }
 	            repaint();

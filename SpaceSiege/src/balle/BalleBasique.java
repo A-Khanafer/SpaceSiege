@@ -33,9 +33,6 @@ public class BalleBasique extends Balle {
 		
 		vitesse = MoteurPhysique.calculVitesse(deltaT, vitesse, accel);
 		position = MoteurPhysique.calculPosition(deltaT, position, vitesse);
-		System.out.println("JE RENTRE DANS LA METHODE AVAnCEPAS DANS BALLE BASIQUE");
-		System.out.println(position.toString());
-		System.out.println(vitesse.toString());
 		creerLaGeometrie();
 		
 	}
