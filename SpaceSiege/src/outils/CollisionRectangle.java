@@ -2,10 +2,10 @@ package outils;
 
 import java.awt.geom.Line2D;
 
-import balle.BalleBasique;
+import composantjeu.Balle;
+import composantjeu.BalleBasique;
 import obstacles.Rectangle;
 import physique.Vecteur2D;
-import balle.Balle;
 
 
 public class CollisionRectangle {
