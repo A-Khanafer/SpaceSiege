@@ -23,6 +23,7 @@ public class BalleBasique extends Balle {
      * @param position La position initiale de la balle.
      * @param vitesse La vitesse initiale de la balle.
      */
+	//Benakmoum Walid
     public BalleBasique(int masseDonne, int chargeDonne, int diametreDonne, Vecteur2D position, Vecteur2D vitesse) {
         super(masseDonne, chargeDonne, diametreDonne, position, vitesse);
         creerLaGeometrie();
@@ -31,6 +32,7 @@ public class BalleBasique extends Balle {
     /**
      * Crée la géométrie de la balle pour le dessin, en se basant sur sa position et son diamètre.
      */
+  //Benakmoum Walid
     public void creerLaGeometrie() {
         cercle = new Ellipse2D.Double(position.getX(), position.getY(), diametre, diametre);
     }
@@ -42,6 +44,7 @@ public class BalleBasique extends Balle {
      *
      * @param g2d L'objet Graphics2D utilisé pour dessiner la balle.
      */
+  //Benakmoum Walid
     public void dessiner(Graphics2D g2d) {
         Graphics2D g2dPrive = (Graphics2D) g2d.create();
         g2dPrive.setColor(Color.MAGENTA);
@@ -53,6 +56,7 @@ public class BalleBasique extends Balle {
      *
      * @param pixelsParMetre Le nouveau ratio de pixels par mètre.
      */
+  //Benakmoum Walid
     public void setPixelsParMetre(double pixelsParMetre) {
         this.pixelsParMetre = pixelsParMetre;
     }
@@ -62,6 +66,7 @@ public class BalleBasique extends Balle {
      *
      * @param deltaT Le temps écoulé depuis la dernière mise à jour, en secondes.
      */
+  //Benakmoum Walid
     public void avancerUnPas(double deltaT) {
         vitesse = MoteurPhysique.calculVitesse(deltaT, vitesse, accel);
         position = MoteurPhysique.calculPosition(deltaT, position, vitesse);
@@ -76,6 +81,7 @@ public class BalleBasique extends Balle {
      * @param posMurHaut La position du mur haut.
      * @param posMurGauche La position du mur gauche.
      */
+  //Soudaki Zakaria
     public void gererCollisions(double posSol, double posMurDroit, double posMurHaut, double posMurGauche) {
     	if ( (position.getY() + diametre) >= ( posSol ) ) {
     		

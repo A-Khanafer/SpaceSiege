@@ -19,9 +19,12 @@ import javax.swing.JSlider;
 
 public class FenetreBacASable extends JFrame {
 
-	/**
-	 * 
+	/** Cette fenêtre est conçue pour tester différentes fonctionnalités graphiques et interactions dans un environnement contrôlé.
+	 * Elle peut être utilisée pour démontrer les capacités de manipulation d'objets graphiques ou pour développer de nouvelles
+	 * fonctionnalités avant leur intégration dans l'application principale.
+	 * @author Soudaki Zakaria
 	 */
+	 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	
@@ -32,7 +35,7 @@ public class FenetreBacASable extends JFrame {
     }
 
 	/**
-	 * Launch the application.
+	 * Permet de lancer l'application
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -48,7 +51,7 @@ public class FenetreBacASable extends JFrame {
 	}
 
 	/**
-	 * Create the frame.
+	 * Crée le panneau
 	 */
 	public FenetreBacASable() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

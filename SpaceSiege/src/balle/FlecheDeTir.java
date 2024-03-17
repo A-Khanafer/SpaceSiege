@@ -10,6 +10,7 @@ import java.awt.geom.Line2D;
 import interfaces.Dessinable;
 /**
  * Classe représentant une flèche utilisée pour indiquer la direction et la force de tir.
+ * @author Benakmoum Walid
  */
 public class FlecheDeTir implements Dessinable {
 	/**
@@ -53,6 +54,14 @@ public class FlecheDeTir implements Dessinable {
     private double rotation;
 
 
+ /**
+  * Constructeur de la classe.Permet de créer la fléche
+  * @param x1 position initial en x
+  * @param y1 position initial en y
+  * @param dx difference entre la position initial x en final
+  * @param dy difference entre la position initial y en final
+  */
+    //Benakmoum Walid
 	public FlecheDeTir(double x1, double y1, double dx, double dy) {
 		this.x1 = x1;
 		this.y1 = y1;
@@ -64,6 +73,7 @@ public class FlecheDeTir implements Dessinable {
 	/**
 	 * Crée la géométrie de la flèche, incluant son corps et sa tête, basée sur les coordonnées actuelles.
 	 */
+	  //Benakmoum Walid
 	public void creerLaGeometrie() {
 		corps = new Line2D.Double(x1, y1, x2, y2);
 		double longueurFleche = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
@@ -81,6 +91,7 @@ public class FlecheDeTir implements Dessinable {
 	 * @param g2d L'objet Graphics2D sur lequel la flèche sera dessinée.
 	 */
 	@Override
+	  //Benakmoum Walid
 	public void dessiner(Graphics2D g2d) {
 		AffineTransform mat = new AffineTransform();
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -102,6 +113,7 @@ public class FlecheDeTir implements Dessinable {
 	 * @param x1 La coordonnée X du point initial.
 	 * @param y1 La coordonnée Y du point initial.
 	 */
+	  //Benakmoum Walid
 	public void setPointInitial(int x1, int y1) {
 		this.x1 = x1;
 		this.y1 = y1;
@@ -113,6 +125,7 @@ public class FlecheDeTir implements Dessinable {
 	 * @param x2 La coordonnée X du point final.
 	 * @param y2 La coordonnée Y du point final.
 	 */
+	  //Benakmoum Walid
 	public void setPointFinal(int x2, int y2) {
 		this.x2 = x2;
 		this.y2 = y2;
@@ -123,6 +136,7 @@ public class FlecheDeTir implements Dessinable {
 	 * 
 	 * @param rotation La nouvelle valeur de rotation de la flèche.
 	 */
+	  //Benakmoum Walid
 	public void setRotation(double rotation) {
 		this.rotation = rotation;
 
@@ -134,6 +148,7 @@ public class FlecheDeTir implements Dessinable {
 	 *
 	 * @return L'angle de la flèche en radians.
 	 */
+	  //Benakmoum Walid
 	public double getAngle() {
 
 		double dx = x2 - x1;
@@ -148,7 +163,7 @@ public class FlecheDeTir implements Dessinable {
 	 *
 	 * @return La longueur de la flèche.
 	 */
-
+	  //Benakmoum Walid
 	public double calculerModulus() {
 		double dx = x2 - x1;
 		double dy = y2 - y1;
@@ -159,6 +174,7 @@ public class FlecheDeTir implements Dessinable {
 	 *
 	 * @return La composante X de la flèche.
 	 */
+	  //Benakmoum Walid
 	public double calculerComposantX() {
 
 		double modulus = calculerModulus();
@@ -171,6 +187,7 @@ public class FlecheDeTir implements Dessinable {
 	 *
 	 * @return La composante Y de la flèche.
 	 */
+	  //Benakmoum Walid
 	public double calculerComposantY() {
 
 		double modulus = calculerModulus();
@@ -182,6 +199,7 @@ public class FlecheDeTir implements Dessinable {
 	 * 
 	 * @return La différence en X (dx).
 	 */
+	  //Benakmoum Walid
 	public double getDx() {
 		return x2-x1;
 	}
@@ -190,6 +208,7 @@ public class FlecheDeTir implements Dessinable {
 	 * 
 	 * @return La différence en Y (dy).
 	 */
+	  //Benakmoum Walid
 	public double getDy() {
 		return y2-y1;
 	}
@@ -198,6 +217,7 @@ public class FlecheDeTir implements Dessinable {
 	 * 
 	 * @param ex La nouvelle différence en X.
 	 */
+	  //Benakmoum Walid
 	public void setDx(double ex) {
 
 	}
@@ -206,6 +226,7 @@ public class FlecheDeTir implements Dessinable {
 	 * 
 	 * @return La coordonnée X du point initial.
 	 */
+	  //Benakmoum Walid
 	public double getX1() {
 		return this.x1;
 	}
@@ -214,6 +235,7 @@ public class FlecheDeTir implements Dessinable {
 	 * 
 	 * @return La coordonnée Y du point initial.
 	 */
+	  //Benakmoum Walid
 	public double getY1() {
 		return this.y1;
 	}

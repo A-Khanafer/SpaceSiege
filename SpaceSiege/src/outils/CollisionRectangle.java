@@ -17,6 +17,7 @@ public class CollisionRectangle {
 	 * @param y1 position y premier point
 	 * @param y2 posiiton y deuxieme point
 	 * @return distance entre les deux point
+	 * @author Soudaki Zakaria
 	 */
 	public static double distanceEntreDeuxPoints( double x1,double x2,double y1,double y2 ) {
 		double distX = x2 - x1;
