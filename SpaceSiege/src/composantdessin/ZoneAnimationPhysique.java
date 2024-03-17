@@ -102,9 +102,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
     
     private Monstres monstre= new Monstres(400,400,"images.jpg");
     
-    private Area aa = monstre.getArea();
-    private Area bb = canon.getBalle().getArea();
-	
+    
 	/**
 	 * Constructeur de la classe. Permet de crée l'interface
 	 */
@@ -171,12 +169,14 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 			CollisionRectangle.detectionCollisionBalleLigne(canon.getBalle(),rec);
 				
 			
-			aa.intersect(bb);
-			
-			if( !aa.isEmpty()) {
-				System.out.println("TOUCHEEEEEEEEEEEEEEEEEEEEE");
-				enCoursDAnimation=false;
-			}
+			Area areaBalle = new Area(canon.getBalle().getCercle()); 
+	        Area areaMonstre = monstre.getArea();
+	        areaBalle.intersect(areaMonstre);
+
+	        if (!areaBalle.isEmpty()) {
+	            System.out.println("TOUCHEEEEEEEEEEEEEEEEEEEEE");
+	            enCoursDAnimation = false; 
+	        }
 			
 		   
 

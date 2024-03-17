@@ -8,6 +8,7 @@ import physique.Vecteur2D;
 
 /**
  * Classe de base pour représenter une balle dans une simulation physique. Cette classe gère les propriétés physiques de base comme la masse, la position, la vitesse, et l'accélération, ainsi que la représentation graphique de la balle.
+ * @author Benakmoum Walid
  */
 public class Balle {
     /**
@@ -68,6 +69,7 @@ public class Balle {
      * @param position La position initiale de la balle.
      * @param vitesse La vitesse initiale de la balle.
      */
+    //Benakmoum Walid
 	public Balle(int masseDonne, int chargeDonne, int diametreDonne, Vecteur2D position, Vecteur2D vitesse) {
 		masse = masseDonne;
 		charge = chargeDonne;
@@ -79,6 +81,7 @@ public class Balle {
 	/**
      * Initialise la représentation géométrique de la balle pour le dessin.
      */
+	  //Benakmoum Walid
 	private void initialiserCercle() {
 		cercle = new Ellipse2D.Double(position.getX(), position.getY(), diametre, diametre);
 		aire = new Area(cercle);
@@ -88,6 +91,7 @@ public class Balle {
      * 
      * @param sommeForcesSurLaBalle La somme des forces appliquées sur la balle.
      */
+	  //Benakmoum Walid
 	public void setSommeDesForces(Vecteur2D sommeForcesSurLaBalle) {
 
 		try {
@@ -105,6 +109,7 @@ public class Balle {
      * 
      * @param deltaT Le temps écoulé depuis la dernière mise à jour, en secondes.
      */
+	  //Benakmoum Walid
 	public void avancerUnPas(double deltaT) {
 	
 		vitesse = MoteurPhysique.calculVitesse(deltaT, vitesse, accel);
@@ -118,6 +123,7 @@ public class Balle {
 	 * 
 	 * @return La masse de la balle.
 	 */
+	  //Benakmoum Walid
 	public int getMasse() {
 	    return this.masse;
 	}
@@ -128,6 +134,7 @@ public class Balle {
 	 * @param nbDecimales Le nombre de décimales à afficher pour les coordonnées de la position.
 	 * @return Une chaîne de caractères décrivant la position de la balle.
 	 */
+	  //Benakmoum Walid
 	public String toString(int nbDecimales) {
 	    String s = "Balle : position=[ " + String.format("%."+nbDecimales+"f", position.getX()) + ", " + String.format("%."+nbDecimales+"f", position.getY()) + "]" ;
 	    return s;
@@ -138,6 +145,7 @@ public class Balle {
 	 * 
 	 * @return La position de la balle sous forme de vecteur.
 	 */
+	  //Benakmoum Walid
 	public Vecteur2D getPosition() {
 	    return this.position;
 	}
@@ -147,6 +155,7 @@ public class Balle {
 	 * 
 	 * @return Le diamètre de la balle.
 	 */
+	  //Benakmoum Walid
 	public double getDiametre() {
 	    return this.diametre;
 	}
@@ -156,6 +165,7 @@ public class Balle {
 	 * 
 	 * @param vit La nouvelle vitesse de la balle sous forme de vecteur.
 	 */
+	  //Benakmoum Walid
 	public void setVitesse(Vecteur2D vit) {
 	    this.vitesse = vit;
 	}
@@ -165,6 +175,7 @@ public class Balle {
 	 * 
 	 * @return La vitesse de la balle.
 	 */
+	  //Benakmoum Walid
 	public Vecteur2D getVitesse() {
 	    return this.vitesse;
 	}
@@ -174,6 +185,7 @@ public class Balle {
 	 * 
 	 * @return La coordonnée X du centre de la balle.
 	 */
+	  //Benakmoum Walid
 	public double getPosXCentre() {
 	    return this.position.getX() + diametre / 2;
 	}
@@ -183,6 +195,7 @@ public class Balle {
 	 * 
 	 * @return La coordonnée Y du centre de la balle.
 	 */
+	  //Benakmoum Walid
 	public double getPosYCentre() {
 	    return this.position.getY() + diametre / 2;
 	}
@@ -192,13 +205,18 @@ public class Balle {
 	 * 
 	 * @param position La nouvelle position de la balle sous forme de vecteur.
 	 */
+	  //Benakmoum Walid
 	public void setPosition(Vecteur2D position) {
 	    this.position = position;
 	}
-	
-	public Area getArea() {
-		return this.aire;
+	public Ellipse2D.Double getCercle() {
+		return cercle;
 	}
+	public void setCercle(Ellipse2D.Double cercle) {
+		this.cercle = cercle;
+	}
+	
+	
 	
 	
 	
