@@ -26,14 +26,12 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 	private double width = 10*pixelsParMetre;
 	private double height = 10*pixelsParMetre;
 	private Rectangle2D.Double rectangle, rectanglePointille;
-	private Area aireRec, aireRotate;
+	private Area aireRec;
 	
 	private double centreX, centreY;
 	private double angleRotation;
 	private Double[] resizeHandles;
-	private double diametre = 2*pixelsParMetre;
 	private boolean clickedOnIt = false;
-	private boolean first = true;
 	
 	//collisons
 	private Line2D.Double segmentHaut,segmentBas,segmentGauche,segmentDroite;
@@ -110,7 +108,6 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 		        // Effectuer le redimensionnement en fonction de l'index du point de redimensionnement sélectionné
 		        switch (index) {
 		            case 0: // En haut à gauche
-		                // Vérifier si le redimensionnement est possible sans rétrécir le rectangle en dessous d'une taille minimale
 		                if (rectangle.width - offsetX >= 20 && rectangle.height - offsetY >= 20) {
 		                    // Redimensionner le rectangle
 		                    width -= offsetX;
@@ -120,7 +117,6 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 		                }
 		                break;
 		            case 1: // En haut au milieu
-		                // Vérifier si le redimensionnement est possible sans rétrécir le rectangle en dessous d'une taille minimale
 		                if (rectangle.height - offsetY >= 20) {
 		                    // Redimensionner le rectangle
 		                    height -= offsetY;
@@ -128,49 +124,38 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 		                }
 		                break;
 		            case 2: // En haut à droite
-		                // Vérifier si le redimensionnement est possible sans rétrécir le rectangle en dessous d'une taille minimale
 		                if (rectangle.width + offsetX >= 20 && rectangle.height - offsetY >= 20) {
-		                    // Redimensionner le rectangle
 		                    width += offsetX;
 		                    height -= offsetY;
 		                    coinYGauche += offsetY;
 		                }
 		                break;
 		            case 3: // Au milieu à droite
-		                // Vérifier si le redimensionnement est possible sans rétrécir le rectangle en dessous d'une taille minimale
 		                if (rectangle.width + offsetX >= 20) {
 		                    // Redimensionner le rectangle
 		                    width += offsetX;
 		                }
 		                break;
 		            case 4: // En bas à droite
-		                // Vérifier si le redimensionnement est possible sans rétrécir le rectangle en dessous d'une taille minimale
 		                if (rectangle.width + offsetX >= 20 && rectangle.height + offsetY >= 20) {
-		                    // Redimensionner le rectangle
 		                    width += offsetX;
 		                    height += offsetY;
 		                }
 		                break;
 		            case 5: // En bas au milieu
-		                // Vérifier si le redimensionnement est possible sans rétrécir le rectangle en dessous d'une taille minimale
 		                if (rectangle.height + offsetY >= 20) {
-		                    // Redimensionner le rectangle
 		                    height += offsetY;
 		                }
 		                break;
 		            case 6: // En bas à gauche
-		                // Vérifier si le redimensionnement est possible sans rétrécir le rectangle en dessous d'une taille minimale
 		                if (rectangle.width - offsetX >= 20 && rectangle.height + offsetY >= 20) {
-		                    // Redimensionner le rectangle
 		                    width -= offsetX;
 		                    height += offsetY;
 		                    coinXGauche += offsetX;
 		                }
 		                break;
 		            case 7: // Au milieu à gauche
-		                // Vérifier si le redimensionnement est possible sans rétrécir le rectangle en dessous d'une taille minimale
 		                if (rectangle.width - offsetX >= 20) {
-		                    // Redimensionner le rectangle
 		                    width -= offsetX;
 		                    coinXGauche += offsetX;
 		                }
@@ -205,6 +190,8 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 					angleRotation = Math.PI - Math.atan2(longeurCoteOpose, longeurCoteAdjacent);
 				}
 		}
+		
+		creerLaGeometrie();
 		
 	}
 
@@ -241,8 +228,9 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 			g2dCopy.setColor(Color.red);
 			 for (Ellipse2D.Double handle : resizeHandles) {
 				 	g2dCopy.fill(handle);
-		        }
+		     }
 		}
+		
 		g2dCopy.setColor(Color.red);
 		g2dCopy.draw(segmentBas);
 		g2dCopy.draw(segmentGauche);
@@ -299,24 +287,19 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
     }
 	
     private Point2D.Double calculateRightCorner() {
-        // Calculate the coordinates of the right corner before rotation
+        
         double rightCornerX = rectangle.getCenterX() + width / 2;
         double rightCornerY = rectangle.getCenterY() - height / 2;
-
-        // Calculate the distance from the center to the right corner
+        
         double distanceToRightCorner = Math.sqrt((width / 2) * (width / 2) + (height / 2) * (height / 2));
-
-        // Calculate the angle between the center and the right corner before rotation
+        
         double angleToRightCorner = Math.atan2(rightCornerY - rectangle.getCenterY(), rightCornerX - rectangle.getCenterX());
-
-        // Calculate the new angle after rotation
+        
         double newAngle = angleToRightCorner + angleRotation;
 
-        // Calculate the coordinates of the right corner after rotation
         double rotatedRightCornerX = rectangle.getCenterY() + distanceToRightCorner * Math.cos(newAngle);
         double rotatedRightCornerY = rectangle.getCenterY() + distanceToRightCorner * Math.sin(newAngle);
 
-        // Return the coordinates of the rotated right corner
         return new Point2D.Double(rotatedRightCornerX, rotatedRightCornerY);
     }
 

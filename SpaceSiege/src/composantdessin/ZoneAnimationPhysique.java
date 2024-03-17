@@ -144,11 +144,11 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 
 			calculerUneIterationPhysique(deltaT);
 			testerCollisionsEtAjusterVitesses();
-		/*	
+			
 			if( 	CollisionRectangle.detectionCollisionBalleLigne(canon.getBalle(),rec )== true ) {
 				enCoursDAnimation=false;
 			}
-		*/
+		
 			repaint();
 			try {
 				Thread.sleep(tempsDuSleep);
