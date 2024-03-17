@@ -42,6 +42,7 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 	private double coinXDroite,coinYDroite;
 	private double coinXBasGauche,coinYBasGauche;
 	private double coinXBasDroit,coinYBasDroit;
+	
 
 	
 	
@@ -98,6 +99,8 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 	        resizeHandles[6] = new Ellipse2D.Double(coinXGauche - tailleHandle / 2, coinYGauche + height - tailleHandle / 2, tailleHandle, tailleHandle);
 	        // Millieu gauche
 	        resizeHandles[7] = new Ellipse2D.Double(coinXGauche - tailleHandle / 2, coinYGauche + height / 2 - tailleHandle / 2, tailleHandle, tailleHandle);
+	        
+	       
 	    }
 
 	@Override
@@ -248,6 +251,7 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 //		this.resizeHandle = clickAv;
 //	}
 
+	//zk
 	public Line2D.Double getSegment(int num){
 		
 		Line2D.Double seg = new Line2D.Double();
@@ -275,6 +279,17 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
         points[2] = segment.getX2();
         points[3] = segment.getY2();
         return points;
+    }
+    //zk
+    public void resetSegments() {
+//    	seg[0] = false;
+//    	seg[1] = false;
+//    	seg[2] = false;
+//    	seg[3] = false;
+    }
+    //zk
+    public void setSegment(int num, boolean etat) {
+//    	seg[num]= etat;
     }
 	
 

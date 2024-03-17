@@ -46,11 +46,11 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	/**
      * L'intervalle de temps (en secondes) utilisé pour chaque itération du calcul physique.
      */
-	private double deltaT=0.05;
+	private double deltaT=0.10;
 	/**
      * Le temps de pause (en millisecondes) entre chaque itération de l'animation.
      */
-	private int tempsDuSleep = 5;
+	private int tempsDuSleep = 10;
 	/**
      * Un rectangle servant d'obstacle dans la zone d'animation.
      */
@@ -120,9 +120,9 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 
 
 		
-		
+		 rec.dessiner(g2d);
 		canon.dessiner(g2d);
-	//	rec.dessiner(g2d);
+		
 
 	
 	    posMurSol = getHeight();
@@ -134,6 +134,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 
 	    hauteurComposant = getHeight();
 	    largeurComposant = getWidth();
+	    
 	    g2d.setColor(Color.red);
 	    g2d.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
 
@@ -150,11 +151,12 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 			calculerUneIterationPhysique(deltaT);
 
 			testerCollisionsEtAjusterVitesses();
-		/*	
-			if( 	CollisionRectangle.detectionCollisionBalleLigne(canon.getBalle(),rec )== true ) {
-				enCoursDAnimation=false;
-			}
-		*/
+			
+//			if ( 	(CollisionRectangle.detectionCollisionBalleLigne(canon.getBalle(),rec )) == true ) {
+//				enCoursDAnimation=false;
+//			}
+//		
+			CollisionRectangle.detectionCollisionBalleLigne(canon.getBalle(),rec);
 				
 			
 			
@@ -249,7 +251,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 		addMouseListener((MouseListener) new MouseAdapter() {
 			@Override
 
-			public void mousePressed(MouseEvent e) {
+			public void mouseClicked(MouseEvent e) {
                
             
 			

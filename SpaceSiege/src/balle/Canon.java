@@ -126,7 +126,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 		aireRect.add(aireCercle);
 		positionDeTir = new FlecheDeTir(cercle.getCenterX(), cercle.getCenterY(), dx,dy);
 		if(!balleTiree && premiereFois ) {
-			balle= new BalleBasique(50, 2, hauteur,new Vecteur2D(3,y), new Vecteur2D(0,0));
+			balle= new BalleBasique(50, 2,hauteur,new Vecteur2D(3,y), new Vecteur2D(0,0));
 			premiereFois = false;
 			
 		}
