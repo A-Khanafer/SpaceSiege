@@ -1,4 +1,4 @@
-package balle;
+package composantjeu;
 
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
@@ -196,7 +196,9 @@ public class Balle {
 	    this.position = position;
 	}
 	
-	
+	public Area getArea() {
+		return this.aire;
+	}
 	
 	
 	

@@ -12,14 +12,15 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 
 import java.awt.geom.AffineTransform;
-
+import java.awt.geom.Area;
 
 import javax.swing.JPanel;
 
-import balle.Balle;
-import balle.BalleBasique;
-import balle.Canon;
-import balle.FlecheDeTir;
+import composantjeu.Balle;
+import composantjeu.BalleBasique;
+import composantjeu.Canon;
+import composantjeu.FlecheDeTir;
+import composantjeu.Monstres;
 import physique.Vecteur2D;
 
 import java.awt.Color;
@@ -98,6 +99,11 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
      * Index utilisé pour identifier les manipulations spécifiques des éléments de l'interface, telles que le redimensionnement ou la rotation d'obstacles.
      */
     private int index = -1;
+    
+    private Monstres monstre= new Monstres(400,400,"images.jpg");
+    
+    private Area aa = monstre.getArea();
+    private Area bb = canon.getBalle().getArea();
 	
 	//
 	public ZoneAnimationPhysique() {
@@ -120,11 +126,11 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 
 
 
-		
+		  monstre.dessiner(g2d);
 		 rec.dessiner(g2d);
 
 		canon.dessiner(g2d);
-
+      
 
 		
 
@@ -162,7 +168,14 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 			CollisionRectangle.detectionCollisionBalleLigne(canon.getBalle(),rec);
 				
 			
+			aa.intersect(bb);
 			
+			if( !aa.isEmpty()) {
+				System.out.println("TOUCHEEEEEEEEEEEEEEEEEEEEE");
+				enCoursDAnimation=false;
+			}
+			
+		   
 
 		
 			repaint();

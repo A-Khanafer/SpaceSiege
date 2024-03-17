@@ -14,6 +14,7 @@ import java.awt.geom.Rectangle2D;
 import interfaces.Dessinable;
 import interfaces.Obstacles;
 import interfaces.Selectionnable;
+import outils.OutilsImage;
 
 /**
  * La classe Rectangle représente un obstacle rectangulaire dans un environnement graphique.
@@ -93,6 +94,8 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
         
         creerLaGeometrie();
     }
+   
+    
 
     // Méthode privée pour initialiser la géométrie du rectangle
     //Ahmad Khanafer

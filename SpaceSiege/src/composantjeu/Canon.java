@@ -1,4 +1,4 @@
-package balle;
+package composantjeu;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
