@@ -119,18 +119,19 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 
 
 
+
 		
 		 rec.dessiner(g2d);
+
 		canon.dessiner(g2d);
+
+
 		
 
-	
 	    posMurSol = getHeight();
 	    posMurDroit = getWidth();
 	    posMurGauche = 0;
 	    posMurHaut = 0;
-       
-
 
 	    hauteurComposant = getHeight();
 	    largeurComposant = getWidth();
@@ -145,13 +146,15 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	
 	public void run() {
 		while (enCoursDAnimation) {
+
 //			System.out.println("Un tour de run...on avance de " + deltaT + " secondes");
 //			System.out.println("Temps ecoule "+tempsTotalEcoule);
 
-			calculerUneIterationPhysique(deltaT);
 
+			calculerUneIterationPhysique(deltaT);
 			testerCollisionsEtAjusterVitesses();
 			
+
 //			if ( 	(CollisionRectangle.detectionCollisionBalleLigne(canon.getBalle(),rec )) == true ) {
 //				enCoursDAnimation=false;
 //			}
@@ -160,13 +163,14 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 				
 			
 			
-				repaint();
+
+		
+			repaint();
 			try {
 				Thread.sleep(tempsDuSleep);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			
 		}//fin while
 		System.out.println("Le thread est mort...!");
 	}
@@ -189,30 +193,28 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 		tempsTotalEcoule += deltaT;
 		calculerLesForces();
 		canon.avancerUnPas(deltaT);
-
-		
-	
 	}
 	
+
 	/**
      * Teste les collisions entre les éléments graphiques et ajuste leurs vitesses en conséquence.
      */
 	private void testerCollisionsEtAjusterVitesses() {	
 		 
 		canon.getBalle().gererCollisions(posMurSol, posMurDroit , posMurHaut, posMurGauche);
-		
 	}
-	
-	 
 
 	 /**
      * Calcule les forces agissant sur les objets de la zone d'animation, telles que la gravité.
      */
+
 	private void calculerLesForces() {
-		Vecteur2D forceDeGravite=MoteurPhysique.calculForceGrav(canon.getBalle().getMasse(), Math.toRadians(90));
-        //Vecteur2D forceUtilisateur= new Vecteur2D(canon.getFleche().calculerComposantX(),canon.getFleche().calculerComposantY());
-        
-		//canon.getBalle().setSommeDesForces(forceUtilisateur);
+
+//		Vecteur2D forceDeGravite=MoteurPhysique.calculForceGrav(canon.getBalle().getMasse(), Math.toRadians(90));
+//        Vecteur2D forceUtilisateur= new Vecteur2D(canon.getFleche().calculerComposantX(),canon.getFleche().calculerComposantY());
+//        
+//		canon.getBalle().setSommeDesForces(forceUtilisateur);
+
 
 	}
 	/**
@@ -247,17 +249,12 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	/**
      * Initialise les écouteurs de souris pour permettre l'interaction avec l'animation via la souris.
      */
+	//Ahmad Khanafer
 	private void ecouteurSouris() {
 		addMouseListener((MouseListener) new MouseAdapter() {
 			@Override
 
 			public void mouseClicked(MouseEvent e) {
-               
-            
-			
-			    
-			  
-
 			
 			
 				repaint();
@@ -265,11 +262,9 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 
 
 				if(rec.contient(e.getX(), e.getY())) {
-					System.out.println(rec.isClickedOnIt());
 					rec.setClickedOnIt(true);
 					repaint();
 				}else {
-					System.out.println(rec.isClickedOnIt());
 					rec.setClickedOnIt(false);
 					repaint();
 				}
@@ -277,46 +272,42 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 			}
 		});
 	
-			addMouseMotionListener(new MouseMotionAdapter() {
-				@Override
+		addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
 				
-				public void mouseDragged(MouseEvent e) {
+			public void mouseDragged(MouseEvent e) {
+				
+				gestionSourisRec(e);
+					
 				if(!balleTiree) {
 					canon.rotate(e.getX(),e.getY());
 		        	canon.changerTaille(e.getX(), e.getY());
 				}
-					index = rec.getClickedResizeHandleIndex(e.getX(), e.getY());
+                if(canon.contient(e.getX(), e.getY())) {
+					canon.move(e.getY());
 					repaint();
-					if (rec.isClickedOnIt() == true && index != -1) {
-//						System.out.println("RESIZE");
-						rec.resize(index, e.getX(), e.getY());
-						repaint();
-					}else if(rec.contient(e.getX(), e.getY()) && rec.isClickedOnIt() == true && index == -1 ) {
-						rec.rotate( e.getX(), e.getY());
-						repaint();
-					}
-					
-					if(rec.contient(e.getX(), e.getY()) && rec.isClickedOnIt() == false) {
-						rec.move( e.getX(), e.getY());
-						repaint();
-						
-						if(rec.contient(e.getX(), e.getY()) == false) {
-							rec.setClickedOnIt(false);
-							repaint();
-						}
-					}
-                      if(canon.contient(e.getX(), e.getY())) {
-						canon.move(e.getY());
-						repaint();
-					}
-
 				}
-
-			});
-
-
 			}
+		});
+	}
 	
+	//Méthode qui gère les click de la souris pour le rectangle
+	//Ahmad Khanafer
+	private void gestionSourisRec(MouseEvent e) {
+		index = rec.getClickedResizeHandleIndex(e.getX(), e.getY());
+		repaint();
+		if (rec.isClickedOnIt() == true && index != -1) {
+			rec.redimension(index, e.getX(), e.getY());
+			repaint();
+		}else if(rec.contient(e.getX(), e.getY()) && rec.isClickedOnIt() == true && index == -1 ) {
+			rec.rotate( e.getX(), e.getY());
+			repaint();
+		}
+		if(rec.contient(e.getX(), e.getY()) && rec.isClickedOnIt() == false) {
+			rec.move( e.getX(), e.getY());
+			repaint();
+		}
+	}
 	
 }
 		
