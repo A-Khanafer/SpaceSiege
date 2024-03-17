@@ -168,9 +168,8 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 			CollisionRectangle.detectionCollisionBalleLigne(canon.getBalle(),rec);
 				
 			
-			aa.intersect(bb);
 			
-			if( !aa.isEmpty()) {
+			if(bb.contains(monstre.getRec())) {
 				System.out.println("TOUCHEEEEEEEEEEEEEEEEEEEEE");
 				enCoursDAnimation=false;
 			}

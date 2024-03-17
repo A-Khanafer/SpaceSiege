@@ -21,7 +21,7 @@ public class Monstres extends JPanel{
 	 * 
 	 */
 	 private static final long serialVersionUID = 1L;
-	    private Rectangle rec;
+	    private Rectangle2D rec;
 	    private Image imgDecor = null;
 	    private int posX;
 	    private int posY;
@@ -53,6 +53,9 @@ public class Monstres extends JPanel{
 	    }
 	    public Area getArea() {
 	    	return this.air;
+	    }
+	    public Rectangle2D getRec() {
+	    	return this.rec;
 	    }
 	   
 }
