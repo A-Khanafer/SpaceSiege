@@ -233,6 +233,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	/**
      * Initialise les écouteurs de souris pour permettre l'interaction avec l'animation via la souris.
      */
+	//Ahmad Khanafer
 	private void ecouteurSouris() {
 		addMouseListener((MouseListener) new MouseAdapter() {
 			@Override
@@ -269,12 +270,13 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 		});
 	}
 	
-	
+	//Méthode qui gère les click de la souris pour le rectangle
+	//Ahmad Khanafer
 	private void gestionSourisRec(MouseEvent e) {
 		index = rec.getClickedResizeHandleIndex(e.getX(), e.getY());
 		repaint();
 		if (rec.isClickedOnIt() == true && index != -1) {
-			rec.resize(index, e.getX(), e.getY());
+			rec.redimension(index, e.getX(), e.getY());
 			repaint();
 		}else if(rec.contient(e.getX(), e.getY()) && rec.isClickedOnIt() == true && index == -1 ) {
 			rec.rotate( e.getX(), e.getY());
