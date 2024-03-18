@@ -12,10 +12,17 @@ import javax.swing.JPanel;
 import interfaces.Dessinable;
 import interfaces.Selectionnable;
 import physique.Vecteur2D;
-
+/**
+ * Classe représentant un canon dans une application d'animation physique. Le canon est capable de tirer des balles et de pivoter en fonction
+ * de l'interaction de l'utilisateur. Cette classe gère la géométrie du canon, y compris son corps, son avant arrondi et sa base. Elle permet également
+ * de contrôler l'angle et la force de tir en ajustant la position de la souris par rapport au canon.
+ * @author Benakmoum Walid
+ * */
 public class Canon extends JPanel implements Selectionnable, Dessinable {
 
-    /**
+    private static final long serialVersionUID = 1L;
+
+	/**
      * Position horizontale du canon sur le panneau de dessin.
      */
     private int x;
@@ -116,6 +123,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 	  /**
      * Crée la géométrie du canon, incluant le corps principal, la base et le cercle à l'avant.
      */
+	//Benakmoum Walid
 	private void creerLaGeometrie() {
 		rectangleCanon=new Rectangle2D.Double(3+hauteur/2, y, largeur, hauteur);
 		base=new Ellipse2D.Double(0,y-10,3,hauteur+20);
@@ -145,6 +153,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
      * @param g2d L'objet Graphics2D utilisé pour le dessin.
      */
     @Override
+  //Benakmoum Walid
 	public void dessiner(Graphics2D g2d) {
 		Graphics2D g2dPrive = (Graphics2D) g2d.create();
 		g2dPrive.setColor(Color.BLUE);
@@ -173,6 +182,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
      * @return true si le point est contenu dans le canon ou sa base, false sinon.
      */
     @Override
+  //Benakmoum Walid
 	public boolean contient(double xPix, double yPix) {
 		// TODO Auto-generated method stub
 		if(aireRect.contains(xPix, yPix)|| aireBase.contains(xPix, yPix)) {
@@ -186,6 +196,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
      * @param ex Coordonnée X de la souris.
      * @param ey Coordonnée Y de la souris.
      */
+  //Benakmoum Walid
 	public void rotate(int ex, int ey) {
 	   
 		
@@ -216,6 +227,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
      * 
      * @param eY Nouvelle position verticale du canon.
      */
+	//Benakmoum Walid
 	public void move( int eY) {
 		this.y = eY - hauteur/2;
 		creerLaGeometrie();
@@ -226,6 +238,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
      * 
      * @return La coordonnée x de la pointe du canon.
      */
+	//Benakmoum Walid
 	public int getPointeX() {
 	return   (int) rectangleCanon.getMaxX();
 	   
@@ -235,6 +248,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
      * 
      * @return La coordonnée y du centre du canon.
      */
+	//Benakmoum Walid
 	public int getPointeY() {
 	   
     return (int)  rectangleCanon.getCenterY();
@@ -245,6 +259,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
      * 
      * @return L'objet BalleBasique actuellement associé au canon.
      */
+	//Benakmoum Walid
 	public BalleBasique getBalle() {
 		return this.balle;
 	}
@@ -254,6 +269,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
      * 
      * @param deltaT Le temps écoulé depuis la dernière mise à jour, en secondes.
      */
+	//Benakmoum Walid
 	public void avancerUnPas(double deltaT) {
 		this.balle.avancerUnPas(deltaT);
 		creerLaGeometrie();
@@ -264,6 +280,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
      * 
      * @return L'objet FlecheDeTir représentant la direction et la force du tir actuel.
      */
+	//Benakmoum Walid
 	public FlecheDeTir getFleche() {
 		return this.positionDeTir;
 	} 
@@ -273,6 +290,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
      * @param x2 La coordonnée x de la souris.
      * @param y2 La coordonnée y de la souris.
      */
+	//Benakmoum Walid
 	public void changerTaille(double x2,double y2) {
 		dx=x2-positionDeTir.getX1();
 		dy=y2-positionDeTir.getY1();
@@ -282,6 +300,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
      * Marque la balle comme ayant été tirée et réinitialise la géométrie du canon pour refléter tout changement nécessaire suite à cet événement.
      * Cela peut inclure le repositionnement de la balle ou d'autres ajustements visuels du canon.
      */
+	//Benakmoum Walid
 	public void setBalleTiree() {
 		balleTiree=true;
 		creerLaGeometrie();
@@ -292,6 +311,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
      * 
      * @return Vrai si aucune balle n'a encore été tirée, faux autrement.
      */
+	//Benakmoum Walid
 	public boolean isPremiereFois() {
 		return premiereFois;
 	}
@@ -301,6 +321,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
      * 
      * @param premiereFois Vrai pour indiquer que le canon est dans son état initial, faux autrement.
      */
+	//Benakmoum Walid
 	public void setPremiereFois(boolean premiereFois) {
 		this.premiereFois = premiereFois;
 	}

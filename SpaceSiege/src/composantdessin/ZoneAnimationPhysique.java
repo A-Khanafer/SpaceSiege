@@ -100,12 +100,13 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
      */
     private int index = -1;
     
-    private Monstres monstre= new Monstres(400,400,"images.jpg");
+    private Monstres monstre= new Monstres(950,100,"images.jpg");
     
-    private Area aa = monstre.getArea();
-    private Area bb = canon.getBalle().getArea();
-	
-	//
+    
+	/**
+	 * Constructeur de la classe. Permet de crée l'interface
+	 */
+    //Benakmoum Walid
 	public ZoneAnimationPhysique() {
 		setBackground(new Color(255, 255, 255));
 		ecouteurSouris();
@@ -116,7 +117,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
      * Dessine les composants graphiques de la zone d'animation, y compris le canon et les obstacles.
      * @param g L'objet Graphics utilisé pour dessiner.
      */
-	
+	// Benakmoum Walid 
 	public void paintComponent(Graphics g ) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
@@ -149,7 +150,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	/**
      * Exécute l'animation en boucle tant que enCoursDAnimation est vrai. Gère le calcul physique et les collisions.
      */
-	
+	//Benakmoum Walid
 	public void run() {
 		while (enCoursDAnimation) {
 
@@ -168,11 +169,16 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 			CollisionRectangle.detectionCollisionBalleLigne(canon.getBalle(),rec);
 				
 			
-			
-			if(bb.contains(monstre.getRec())) {
-				System.out.println("TOUCHEEEEEEEEEEEEEEEEEEEEE");
-				enCoursDAnimation=false;
-			}
+
+			Area areaBalle = new Area(canon.getBalle().getCercle()); 
+	        Area areaMonstre = monstre.getArea();
+	        areaBalle.intersect(areaMonstre);
+
+	        if (!areaBalle.isEmpty()) {
+	            System.out.println("TOUCHEEEEEEEEEEEEEEEEEEEEE");
+	            enCoursDAnimation = false; 
+	        }
+
 			
 		   
 
@@ -190,6 +196,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	/**
      * Démarre le thread d'animation si ce n'est pas déjà fait.
      */
+	// Benakmoum Walid
 	public void demarrer() {
 		if (!enCoursDAnimation) {
 			Thread proc = new Thread(this);
@@ -201,6 +208,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
      * Calcule une itération physique en fonction du deltaT.
      * @param deltaT Le temps écoulé depuis la dernière itération.
      */
+	//Benakmoum Walid
 	private void calculerUneIterationPhysique(double deltaT) {
 		tempsTotalEcoule += deltaT;
 		calculerLesForces();
@@ -211,6 +219,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	/**
      * Teste les collisions entre les éléments graphiques et ajuste leurs vitesses en conséquence.
      */
+	//ZAKARIA SOUDAKI
 	private void testerCollisionsEtAjusterVitesses() {	
 		 
 		canon.getBalle().gererCollisions(posMurSol, posMurDroit , posMurHaut, posMurGauche);
@@ -219,19 +228,45 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	 /**
      * Calcule les forces agissant sur les objets de la zone d'animation, telles que la gravité.
      */
-
+// Benakmoum Walid
 	private void calculerLesForces() {
 
 //		Vecteur2D forceDeGravite=MoteurPhysique.calculForceGrav(canon.getBalle().getMasse(), Math.toRadians(90));
-//        Vecteur2D forceUtilisateur= new Vecteur2D(canon.getFleche().calculerComposantX(),canon.getFleche().calculerComposantY());
+//       
 //        
-//		canon.getBalle().setSommeDesForces(forceUtilisateur);
+//		canon.getBalle().setSommeDesForces(forceDeGravite);
 
 
 	}
 	/**
+	 * Réinitialise l'application à son état initial, incluant la remise à zéro de tous les composants d'animation et des variables d'état.
+	 * Cette méthode stoppe l'animation en cours si elle est active, réinitialise la rotation, le temps total écoulé, l'état de tir de la balle,
+	 */
+	  //Benakmoum Walid
+	public void reinitialiserApplication() {
+	
+	    enCoursDAnimation = false;
+
+
+	    rotation = 0;
+	    tempsTotalEcoule = 0;
+
+
+	    balleTiree = false;
+
+	    canon = new Canon(0, 80);
+	    canon.setPremiereFois(true);
+
+
+	    rec = new Rectangle(50, 50);
+
+
+	    demarrer();
+	}
+	/**
      * Méthode qui permet de tirer la balle.
      */
+	  //Benakmoum Walid
 	public  void TirerBalle() {
 		balleTiree=true;
 		canon.setBalleTiree();
@@ -240,6 +275,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	/**
      * Initialise l'écouteur de clavier pour interagir avec l'animation via le clavier.
      */
+	  //Benakmoum Walid
 	private void ecouteurClavier() {
 	    addKeyListener(new KeyAdapter() {
 	        @Override
@@ -291,14 +327,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 				
 				gestionSourisRec(e);
 					
-				if(!balleTiree) {
-					canon.rotate(e.getX(),e.getY());
-		        	canon.changerTaille(e.getX(), e.getY());
-				}
-                if(canon.contient(e.getX(), e.getY())) {
-					canon.move(e.getY());
-					repaint();
-				}
+			gestionSourisCanon(e);
 			}
 		});
 	}
@@ -320,7 +349,21 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 			repaint();
 		}
 	}
-	
+	/**
+	 * Méthode qui permet de gérer le canon selon les mouvements de la souris
+	 * @param e Événement de la souris
+	 */
+	  //Benakmoum Walid
+	private void gestionSourisCanon(MouseEvent e) {
+		if(!balleTiree && !rec.contient(e.getX(), e.getY())) {
+			canon.rotate(e.getX(),e.getY());
+        	canon.changerTaille(e.getX(), e.getY());
+		}
+        if(canon.contient(e.getX(), e.getY())) {
+			canon.move(e.getY());
+			repaint();
+		}
+	}
 }
 		
 			

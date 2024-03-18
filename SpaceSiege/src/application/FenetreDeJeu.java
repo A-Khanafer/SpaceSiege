@@ -19,7 +19,12 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-
+/**
+ * Classe principale de l'interface de jeu, gérant la disposition des éléments de jeu et les interactions utilisateur.
+ * Cette classe crée une fenêtre contenant une zone d'animation pour visualiser le jeu, un ensemble de contrôles pour interagir avec le jeu,
+ * et un panel de paramétrage pour ajuster les configurations du jeu telles que les types de balles, la gravité, etc.
+ * @author ZAKARIA SOUDAKI
+ */
 public class FenetreDeJeu extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -33,13 +38,20 @@ public class FenetreDeJeu extends JFrame {
 	private JButton btnReinitialiser;
 	private JButton btnDemarrer;
 	private JButton btn1Image;
-
+	/**
+     * Méthode statique pour afficher la fenêtre de jeu. Crée une instance de {@code FenetreDeJeu} et la rend visible.
+     */
+	//ZAKARIA SOUDAKI
 	public static void afficherFenetre() {
        
 		FenetreDeJeu fenetre = new FenetreDeJeu();
         fenetre.setVisible(true);
     }
-	
+	/**
+     * Constructeur qui initialise la fenêtre de jeu, y compris la zone d'animation et les panneaux de contrôle.
+     *
+     */
+	//ZAKARIA SOUDAKI
 	public FenetreDeJeu() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1500, 1000);
@@ -88,6 +100,11 @@ public class FenetreDeJeu extends JFrame {
 		panelFonctionnalites.add(btnPause);
 		
 		btnReinitialiser = new JButton("REINITIALISER");
+		btnReinitialiser.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				zoneAnimationPhysique.reinitialiserApplication();
+			}
+		});
 		btnReinitialiser.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
 		btnReinitialiser.setBounds(623, 131, 209, 62);
 		panelFonctionnalites.add(btnReinitialiser);

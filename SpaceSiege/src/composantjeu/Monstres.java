@@ -25,8 +25,8 @@ public class Monstres extends JPanel{
 	    private Image imgDecor = null;
 	    private int posX;
 	    private int posY;
-	    private int largeurRectangle = 150; // Exemple : largeur du rectangle
-	    private int hauteurRectangle = 150; // Exemple : hauteur du rectangle
+	    private int largeurRectangle = 125; // Exemple : largeur du rectangle
+	    private int hauteurRectangle = 125; // Exemple : hauteur du rectangle
 	    private Area air;
 
 	    public Monstres(int posX, int posY, String nomImage) {

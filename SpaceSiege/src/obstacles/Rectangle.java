@@ -22,6 +22,7 @@ import outils.OutilsImage;
  * de gestion, de dessin et de sélection pour le rectangle.
  * 
  * @author Ahmad Khanafer
+ * @author zakaria soudaki
  */
 public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 
@@ -379,7 +380,7 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
      * @param num Le numéro du segment à récupérer (1 pour le bas, 2 pour la droite, 3 pour le haut, 4 pour la gauche).
      * @return Le segment spécifié.
      */
-    
+  //ZAKARIA SOUDAKI
     public Line2D.Double getSegment(int num) {
         Line2D.Double seg = new Line2D.Double();
         if (num == 1) {
