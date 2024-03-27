@@ -159,6 +159,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 		    
 		    }
 
+
 		if(!balleTiree) {
 			balleActuelle.setPosition(new Vecteur2D(3, y));
 		}

@@ -143,6 +143,7 @@ public class CollisionRectangle {
      * @param balle la géometrie ( la balle)
      * @param etat tableau de boolean pour connaitre l'état de tout les segments
      */
+
     private static void calculRebondPhysique(Line2D.Double segment, Balle balle, boolean [] etat) {
    
     	if (etat[0]==true){
@@ -156,21 +157,8 @@ public class CollisionRectangle {
    		     
     	}else if(etat[3]== true) {
    		     balle.setVitesse(new Vecteur2D(-balle.getVitesse().getX(), balle.getVitesse().getY()));
-
     	}
-    	
-//		double dx = segment.getX2() - segment.getX1();
-// 	    double dy = segment.getY2() - segment.getY1();
-//
-// 	    double nx = -dy; 
-// 	    double ny = dx;
-// 	    
-// 	    Vecteur2D normale = new Vecteur2D(nx, ny);
-// 	    
-// 	    double produitScalaire = balle.getVitesse().prodScalaire(normale);
-// 	    Vecteur2D vitesseApresCollision = balle.getVitesse().soustrait(normale.multiplie(2 * produitScalaire));
-// 	    balle.setVitesse(vitesseApresCollision);
-}
+    }
 
      //calcul rebond sur un coin rectangle
     /**
@@ -186,13 +174,14 @@ public class CollisionRectangle {
      * @param balle la géometrie ( la balle)
      * @param rec rec la géometrie ( le rectangle )
      */
+
 	 public static void detectionCollisionBalleLigne(Balle balle, Rectangle rec) {
+
 	        
 		    boolean toucherCoinsLigne = detectionToucherCoinLigne(rec,balle);
 		   
 		    if (toucherCoinsLigne) {
 		    	calculRebondCoin(balle);
-//		    	 return true;
 		     }else if (!toucherCoinsLigne) {
 
        		double [] longueur = longueurDesSegments(rec );
@@ -214,7 +203,6 @@ public class CollisionRectangle {
 
 		    }
 		    
-		    //System.out.println("......."+ distanceSeg1Balle+"......."+distanceSeg2Balle+"......."+distanceSeg3Balle+"......."+distanceSeg4Balle);
 		    
 		    boolean[] seg = new boolean[4]; 
 
@@ -237,27 +225,28 @@ public class CollisionRectangle {
 		    if (seg[0] == true) {
 		        System.out.println("Le segment 1 est vrai");
 		        calculRebondPhysique(rec.getSegment(1), balle, seg);
-		        
-		    } else if (seg[1] == true) {
+		        seg[0] = false;
+		    } 
+		    if (seg[1] == true) {
 		        System.out.println("Le segment 2 est vrai");
 		        calculRebondPhysique(rec.getSegment(2), balle, seg);
-		        
-		    } else if (seg[2] == true) {
+		        seg[1] = false;
+		    } 
+		    if (seg[2] == true) {
 		        System.out.println("Le segment 3 est vrai");
 		        calculRebondPhysique(rec.getSegment(3), balle, seg);
-		        
-		    } else if (seg[3] == true) {
+		        seg[2] = false;
+		    } 
+		    if (seg[3] == true) {
 		        System.out.println("Le segment 4 est vrai");
 		        calculRebondPhysique(rec.getSegment(4), balle, seg);
+		        seg[3] = false;
 		        
 		    }
 		    
-//		  if( seg[0] || seg[1] || seg[2] || seg[3] == true) {
-//			  return true;
-//		  }else {
-//			  return false;
-//		  }
-		     }
+		 }
 	}
+	 
+	 
 }
 
