@@ -2,19 +2,12 @@ package composantjeu;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 
 import physique.MoteurPhysique;
 import physique.Vecteur2D;
 
-/**
- * La classe BalleBasique représente une balle simple dans une simulation physique.
- * Elle hérite de la classe Balle et permet de dessiner la balle, de la faire avancer et de gérer ses collisions avec les murs.
- * @author Benakmoum Walid
- * @author ZAKARIA SOUDAKI
- */
-public class BalleBasique extends Balle {
+public class BalleNova extends Balle {
 
     /**
      * Constructeur de BalleBasique initialisant la balle avec des propriétés spécifiques.
@@ -26,7 +19,7 @@ public class BalleBasique extends Balle {
      * @param vitesse La vitesse initiale de la balle.
      */
 	//Benakmoum Walid
-    public BalleBasique(int masseDonne, int chargeDonne, int diametreDonne, Vecteur2D position, Vecteur2D vitesse) {
+    public BalleNova(int masseDonne, int chargeDonne, int diametreDonne, Vecteur2D position, Vecteur2D vitesse) {
         super(masseDonne, chargeDonne, diametreDonne, position, vitesse);
         creerLaGeometrie();
     }
@@ -49,7 +42,7 @@ public class BalleBasique extends Balle {
   //Benakmoum Walid
     public void dessiner(Graphics2D g2d) {
         Graphics2D g2dPrive = (Graphics2D) g2d.create();
-        g2dPrive.setColor(Color.MAGENTA);
+        g2dPrive.setColor(Color.BLACK);
         g2dPrive.fill(cercle);
     }
 
@@ -75,37 +68,5 @@ public class BalleBasique extends Balle {
         creerLaGeometrie();
     }
 
-    /**
-     * Gère les collisions de la balle avec les murs en inversant sa vitesse lorsqu'une collision est détectée et en ajustant sa position pour éviter les chevauchements.
-     *
-     * @param posSol La position du sol dans la simulation.
-     * @param posMurDroit La position du mur droit.
-     * @param posMurHaut La position du mur haut.
-     * @param posMurGauche La position du mur gauche.
-     */
-  //Soudaki Zakaria
-    /*
-    public void gererCollisions(double posSol, double posMurDroit, double posMurHaut, double posMurGauche) {
-    	if ( (position.getY() + diametre) >= ( posSol ) ) {
-    		
-    		vitesse.setY(-vitesse.getY());
-    		position.setY(posSol-diametre);
-    	}
-    	if ( (position.getX() + diametre) >= ( posMurDroit ) ) {
-    		vitesse.setX(-vitesse.getX());
-    		position.setX(posMurDroit-diametre);
-    	}
-    	if ( (position.getY()) <= ( posMurHaut ) ) {
-    		
-    		vitesse.setY(-vitesse.getY());
-    		position.setY(posMurHaut);
-    	}
-    	if ( (position.getX()) <= ( posMurGauche ) ) {
-    		
-    		vitesse.setX(-vitesse.getX());
-    		position.setX(posMurGauche);
-    	}
-    }
-    */
+  
 }
-

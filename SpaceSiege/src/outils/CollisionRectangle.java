@@ -122,7 +122,7 @@ public class CollisionRectangle {
      * @param longueurs Segments tableau des longueurs des segments du rectangle
      * @return tableau contenant le facteur dot de chaque segment   [0]= dotsegment1  [1]= dotsegment2  [2]= dotsegment3  [3]= dotsegment4
      */
-    public static double [] calculDot( Rectangle rec, BalleBasique balle, double [] longueursSegments) {
+    public static double [] calculDot( Rectangle rec, Balle balle, double [] longueursSegments) {
 		
     	double[] dot = new double[4];
     	
@@ -143,7 +143,7 @@ public class CollisionRectangle {
      * @param balle la géometrie ( la balle)
      * @param etat tableau de boolean pour connaitre l'état de tout les segments
      */
-    private static void calculRebondPhysique(Line2D.Double segment, BalleBasique balle, boolean [] etat) {
+    private static void calculRebondPhysique(Line2D.Double segment, Balle balle, boolean [] etat) {
    
     	if (etat[0]==true){
     		 balle.setVitesse(new Vecteur2D(balle.getVitesse().getX(), -balle.getVitesse().getY()));
@@ -177,7 +177,7 @@ public class CollisionRectangle {
      * Méthode qui calcul la vitesse de la balle après la collision contre un des coins
      * @param balle la géometrie ( la balle)
      */
-     public static void calculRebondCoin (BalleBasique balle) {
+     public static void calculRebondCoin (Balle balle) {
 
 	    balle.setVitesse( new Vecteur2D ( -balle.getVitesse().getX(), -balle.getVitesse().getY() ));
 }
@@ -186,7 +186,7 @@ public class CollisionRectangle {
      * @param balle la géometrie ( la balle)
      * @param rec rec la géometrie ( le rectangle )
      */
-	 public static void detectionCollisionBalleLigne(BalleBasique balle, Rectangle rec) {
+	 public static void detectionCollisionBalleLigne(Balle balle, Rectangle rec) {
 	        
 		    boolean toucherCoinsLigne = detectionToucherCoinLigne(rec,balle);
 		   

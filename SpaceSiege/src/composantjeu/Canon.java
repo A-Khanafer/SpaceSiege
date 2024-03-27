@@ -85,7 +85,13 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
     /**
      * L'objet BalleBasique que le canon utilise pour tirer. Ce champ est crucial pour le contrôle du tir et le comportement de la balle.
      */
-    private BalleBasique balle;
+    private BalleBasique balleBasique;
+    
+    private BalleNova balleNova;
+    
+    private BalleElastique balleElastique;
+    
+    private Balle balleActuelle;
 
     /**
      * Angle actuel de rotation du canon, en degrés. Ce champ détermine la direction dans laquelle la balle sera tirée.
@@ -112,7 +118,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
      */
     private double dy = 0;
 
-	
+	private int balleChoisie=1;
 	
 
 	public Canon(int x,int y) {
@@ -133,20 +139,35 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 		aireBase= new Area(base);
 		aireRect.add(aireCercle);
 		positionDeTir = new FlecheDeTir(cercle.getCenterX(), cercle.getCenterY(), dx,dy);
-		if(!balleTiree && premiereFois ) {
-			balle= new BalleBasique(50, 2,hauteur,new Vecteur2D(3,y), new Vecteur2D(0,0));
-			premiereFois = false;
-			
-		}
+		 if (!balleTiree && premiereFois) {
+		        switch(balleChoisie) {
+		            case 1:
+		                balleActuelle = new BalleBasique(50, 2, hauteur, new Vecteur2D(3, y), new Vecteur2D(0, 0));
+		                System.out.println("JE CHOISIE LA BALLE BASIQUE");
+
+		                break;
+		            case 2:
+		                balleActuelle = new BalleElastique(50, 2, hauteur, new Vecteur2D(3, y), new Vecteur2D(0, 0));
+		                System.out.println("JE CHOISIE LA BALLE ELASTIQUE");
+		                break;
+		            case 3:
+		                balleActuelle = new BalleNova(50, 2, hauteur, new Vecteur2D(3, y), new Vecteur2D(0, 0));
+		                break;
+		        }
+		        System.out.println(balleTiree);
+		 premiereFois=false;
+		    
+		    }
 
 		if(!balleTiree) {
-			balle.setPosition(new Vecteur2D(3, y));
+			balleActuelle.setPosition(new Vecteur2D(3, y));
 		}
 
 		
 
 
 	}
+
 	/**
      * Dessine le canon sur un composant graphique.
      * 
@@ -155,15 +176,16 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
     @Override
   //Benakmoum Walid
 	public void dessiner(Graphics2D g2d) {
-		Graphics2D g2dPrive = (Graphics2D) g2d.create();
+    	Graphics2D g2dPrive = (Graphics2D) g2d.create();
 		g2dPrive.setColor(Color.BLUE);
 		
 		positionDeTir.dessiner(g2dPrive);
 		
 		g2dPrive.fill(aireBase);
-		if(balleTiree) {
-			balle.dessiner(g2dPrive);
-		}
+	
+			balleActuelle.dessiner(g2dPrive);
+		
+
 		
 		//ROTATED
 		g2dPrive.rotate(rotation, cercle.getCenterX(), cercle.getCenterY());
@@ -210,13 +232,13 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 	    if(ey < cercle.getCenterY()) {
 	    	vitesse.setX(Math.cos(rotation)*positionDeTir.calculerModulus()/4);
 	    	vitesse.setY(Math.sin(rotation)*positionDeTir.calculerModulus()/4);
-	    	balle.setVitesse(vitesse);
+	    	balleActuelle.setVitesse(vitesse);
 	    }else if(ey > cercle.getCenterY()) {
 	    	double newRotCos = 2*Math.PI - rotation;
 	    	double newRotSin = Math.PI - rotation;
 	    	vitesse.setX(Math.cos(newRotCos)*positionDeTir.calculerModulus()/4);
 	 	    vitesse.setY(Math.sin(newRotSin)*positionDeTir.calculerModulus()/4);
-	 	    balle.setVitesse(vitesse);
+	 	   balleActuelle.setVitesse(vitesse);
 	    }else {
 	    	vitesse.setX(positionDeTir.calculerModulus()/8);
 	    }
@@ -260,8 +282,8 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
      * @return L'objet BalleBasique actuellement associé au canon.
      */
 	//Benakmoum Walid
-	public BalleBasique getBalle() {
-		return this.balle;
+	public Balle getBalle() {
+		return this.balleActuelle;
 	}
 	
 	/**
@@ -271,7 +293,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
      */
 	//Benakmoum Walid
 	public void avancerUnPas(double deltaT) {
-		this.balle.avancerUnPas(deltaT);
+		this.balleActuelle.avancerUnPas(deltaT);
 		creerLaGeometrie();
 
 	}
@@ -303,6 +325,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 	//Benakmoum Walid
 	public void setBalleTiree() {
 		balleTiree=true;
+		System.out.println("EST CE QUE JE TIREEEE"+ balleTiree);
 		creerLaGeometrie();
 	}
 	/**
@@ -325,7 +348,11 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 	public void setPremiereFois(boolean premiereFois) {
 		this.premiereFois = premiereFois;
 	}
-	
+	public void choisirBalleCanon(int nb) {
+		balleChoisie=nb;
+		creerLaGeometrie();
+	}
+
 	
 }
 

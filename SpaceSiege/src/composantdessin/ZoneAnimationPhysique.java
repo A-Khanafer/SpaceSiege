@@ -102,6 +102,8 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
     
     private Monstres monstre= new Monstres(950,100,"images.jpg");
     
+    private int balleChoisie;
+    
     
 	/**
 	 * Constructeur de la classe. Permet de crée l'interface
@@ -270,6 +272,11 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	public  void TirerBalle() {
 		balleTiree=true;
 		canon.setBalleTiree();
+		
+	}
+	public void choisirBalle(int nb) {
+		balleChoisie=nb;
+		canon.choisirBalleCanon(balleChoisie);
 	}
 	
 	/**
