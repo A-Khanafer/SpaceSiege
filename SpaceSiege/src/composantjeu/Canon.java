@@ -142,7 +142,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 		 if (!balleTiree && premiereFois) {
 		        switch(balleChoisie) {
 		            case 1:
-		                balleActuelle = new BalleBasique(50, 2, hauteur, new Vecteur2D(3, y), new Vecteur2D(0, 0));
+		                balleActuelle = new BalleBasique(50, 2, 15, new Vecteur2D(3, y), new Vecteur2D(0, 0));
 		                System.out.println("JE CHOISIE LA BALLE BASIQUE");
 
 		                break;
