@@ -13,14 +13,17 @@ import java.awt.Color;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 /**
  * Classe principale de l'application qui crée et affiche la fenêtre principale.
  * Cette classe étend {@code JFrame} pour créer une interface utilisateur graphique, comprenant un menu, des boutons et des labels.
  * Elle initialise l'interface utilisateur et définit les actions pour les boutons et les éléments de menu.
- * 
+ * @author ZAKARIA SOUDAKI
  */
+
 public class AppPrincipal14 extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -59,6 +62,7 @@ public class AppPrincipal14 extends JFrame {
      * Ce constructeur initialise la fenêtre principale, configure la barre de menu, les éléments de menu, 
      * et prépare le contenu principal de l'interface, y compris le panneau avec les boutons et le label de titre.
      */
+	//ZAKARIA SOUDAKI
 	public AppPrincipal14() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1200, 750);
@@ -69,10 +73,42 @@ public class AppPrincipal14 extends JFrame {
 		JMenu menuAuteur = new JMenu("Auteurs");
 		menuBar.add(menuAuteur);
 		
+		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Infos Auteurs");
+		mntmNewMenuItem_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "PROJET SCIENCE INFORMATIQUE ET MATHÉMATIQUE :"+"\n"+
+			"MEMBRES DE L'ÉQUIPE DE DÉVELOPPEMENT : AHMAD KHANAFER , WALID BENAKMOUM , ZAKARIA SOUDAKI"
+						);
+			}
+		});
+		menuAuteur.add(mntmNewMenuItem_1);
+		
 		JMenu menuApropos = new JMenu("À propos");
+		
 		menuBar.add(menuApropos);
 		
-		JMenuItem mntmNewMenuItem = new JMenuItem("New menu item");
+		JMenuItem mntmNewMenuItem = new JMenuItem("Infos application");
+		mntmNewMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, ""
+						+ "Plongez dans une aventure palpitante avec notre application de jeu interactif où "
+						+ "\n"+ "vous incarnez un tireur d'élite. Utilisez votre canon pour lancer des balles à travers"
+						+ "\n"+ " une série d'obstacles intelligemment disposés. Grâce à des collisions physiques réalistes,"
+						+ "\n"+ " les balles rebondissent sur les surfaces, défiant la gravité dans un ballet de mouvements imprévisibles."
+						+ "\n"+ " Votre mission ? Éliminer les redoutables monstres qui se cachent derrière les obstacles. Mais ce n'est pas tout !"
+						+ "\n"+ " Notre mode bac à sable vous permet de libérer votre créativité en construisant vos propres niveaux, défiant ainsi"
+						+ "\n"+ " vos amis à les conquérir. Êtes-vous prêt à relever le défi et à devenir le maître de la physique et de la stratégie"
+						+ "\n"+ " dans ce monde de tir et d'aventure ?\n"
+						
+						
+						
+						
+						
+						
+						
+						+ "");
+			}
+		});
 		menuApropos.add(mntmNewMenuItem);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

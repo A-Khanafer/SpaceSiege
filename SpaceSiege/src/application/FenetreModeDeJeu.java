@@ -16,6 +16,7 @@ import javax.swing.border.EmptyBorder;
  * La classe  est conçue pour permettre aux utilisateurs de choisir entre différents modes de jeu.
  * Elle étend  pour afficher une interface graphique comprenant plusieurs boutons, chacun correspondant à un mode de jeu différent.
  * Les utilisateurs peuvent choisir de jouer en mode classique, en mode bac à sable, ou de retourner au menu principal.
+ * @author ZAKARIA SOUDAKI
  */
 public class FenetreModeDeJeu extends JFrame {
 
@@ -25,6 +26,7 @@ public class FenetreModeDeJeu extends JFrame {
      * Méthode statique pour afficher la fenêtre de sélection de mode de jeu.
      * Cette méthode crée une instance de {@code FenetreModeDeJeu} et la rend visible.
      */
+	//ZAKARIA SOUDAKI
 	public static void afficherFenetre() {
 	       
 		FenetreModeDeJeu fenetre = new FenetreModeDeJeu();

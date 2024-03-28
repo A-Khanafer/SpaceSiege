@@ -56,6 +56,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
      * Un rectangle servant d'obstacle dans la zone d'animation.
      */
 	private Rectangle rec = new Rectangle(50,50);
+	
 	/**
      * Indique si une balle a été tirée par le canon.
      */
@@ -100,11 +101,11 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
      */
     private int index = -1;
     
-    private Monstres monstre= new Monstres(400,400,"images.jpg");
+    private Monstres monstre= new Monstres(950,100,"images.jpg");
     
-    private Area aa = monstre.getArea();
-    private Area bb = canon.getBalle().getArea();
-	
+    private int balleChoisie;
+    
+    
 	/**
 	 * Constructeur de la classe. Permet de crée l'interface
 	 */
@@ -156,28 +157,31 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	public void run() {
 		while (enCoursDAnimation) {
 
-//			System.out.println("Un tour de run...on avance de " + deltaT + " secondes");
-//			System.out.println("Temps ecoule "+tempsTotalEcoule);
+			System.out.println("Un tour de run...on avance de " + deltaT + " secondes");
+			System.out.println("Temps ecoule "+tempsTotalEcoule);
 
 
 			calculerUneIterationPhysique(deltaT);
 			testerCollisionsEtAjusterVitesses();
 			
 
-//			if ( 	(CollisionRectangle.detectionCollisionBalleLigne(canon.getBalle(),rec )) == true ) {
-//				enCoursDAnimation=false;
-//			}
-//		
+
 			CollisionRectangle.detectionCollisionBalleLigne(canon.getBalle(),rec);
 				
 			
-			aa.intersect(bb);
+
+			Area areaBalle = new Area(canon.getBalle().getCercle()); 
+	        Area areaMonstre = monstre.getArea();
+	        areaBalle.intersect(areaMonstre);
+
+	        if (!areaBalle.isEmpty()) {
+	            System.out.println("TOUCHEEEEEEEEEEEEEEEEEEEEE");
+	            enCoursDAnimation = false; 
+	        }
+
 			
-			if( !aa.isEmpty()) {
-				System.out.println("TOUCHEEEEEEEEEEEEEEEEEEEEE");
-				enCoursDAnimation=false;
-			}
-			
+	        
+	        
 		   
 
 		
@@ -217,6 +221,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	/**
      * Teste les collisions entre les éléments graphiques et ajuste leurs vitesses en conséquence.
      */
+	//ZAKARIA SOUDAKI
 	private void testerCollisionsEtAjusterVitesses() {	
 		 
 		canon.getBalle().gererCollisions(posMurSol, posMurDroit , posMurHaut, posMurGauche);
@@ -267,6 +272,11 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	public  void TirerBalle() {
 		balleTiree=true;
 		canon.setBalleTiree();
+		
+	}
+	public void choisirBalle(int nb) {
+		balleChoisie=nb;
+		canon.choisirBalleCanon(balleChoisie);
 	}
 	
 	/**
