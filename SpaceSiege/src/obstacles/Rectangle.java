@@ -152,7 +152,6 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 
         AffineTransform rotation = AffineTransform.getRotateInstance(angleRotation, centreX, centreY);
 
- 
         Point2D.Double[] coins = new Point2D.Double[4];
         rotation.transform(coinSupGauche, coins[0] = new Point2D.Double());
         rotation.transform(coinSupDroit, coins[1] = new Point2D.Double());
