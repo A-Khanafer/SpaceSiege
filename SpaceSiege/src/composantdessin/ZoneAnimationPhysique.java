@@ -133,7 +133,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 		  monstre.dessiner(g2d);
 		 rec.dessiner(g2d);
 
-		canon.dessiner(g2d);
+//		canon.dessiner(g2d);
       
 
 		
@@ -179,12 +179,6 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	            enCoursDAnimation = false; 
 	        }
 
-			
-	        
-	        
-		   
-
-		
 			repaint();
 			try {
 				Thread.sleep(tempsDuSleep);
