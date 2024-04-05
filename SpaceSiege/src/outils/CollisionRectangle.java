@@ -178,7 +178,7 @@ public class CollisionRectangle {
      * @param rec rec la géometrie ( le rectangle )
      */
 
-	 public static void detectionCollisionBalleLigne(Balle balle, Rectangle rec) {
+	 public static void detectionCollisionRectangle(Balle balle, Rectangle rec) {
 
 	        
 		    boolean toucherCoinsLigne = detectionToucherCoinLigne(rec,balle);

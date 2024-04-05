@@ -48,6 +48,7 @@ public class FenetreDeJeu extends JFrame {
        
 		FenetreDeJeu fenetre = new FenetreDeJeu();
         fenetre.setVisible(true);
+        
     }
 	/**
      * Constructeur qui initialise la fenêtre de jeu, y compris la zone d'animation et les panneaux de contrôle.
@@ -55,6 +56,8 @@ public class FenetreDeJeu extends JFrame {
      */
 	//ZAKARIA SOUDAKI
 	public FenetreDeJeu() {
+		setLocationRelativeTo(null);
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1500, 1000);
 		contentPane = new JPanel();
@@ -79,7 +82,7 @@ public class FenetreDeJeu extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				FenetreModeDeJeu.afficherFenetre();
-				dispose();
+				setVisible(false);
 			}
 		});
 		btnBacAsable.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
