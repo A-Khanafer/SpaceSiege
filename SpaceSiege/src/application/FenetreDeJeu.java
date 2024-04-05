@@ -102,7 +102,7 @@ public class FenetreDeJeu extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				 
 				getContentPane().remove(zoneAnimationPhysique);
-				getContentPane().add(niveau1);
+				
 				
 				
 				
