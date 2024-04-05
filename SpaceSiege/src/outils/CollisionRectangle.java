@@ -143,33 +143,35 @@ public class CollisionRectangle {
      * @param balle la géometrie ( la balle)
      * @param etat tableau de boolean pour connaitre l'état de tout les segments
      */
-    private static void calculRebondPhysique(Line2D.Double segment, BalleBasique balle, boolean [] etat) {
+    private static void calculRebondPhysique(Line2D.Double segment, BalleBasique balle) {
    
-    	if (etat[0]==true){
-    		 balle.setVitesse(new Vecteur2D(balle.getVitesse().getX(), -balle.getVitesse().getY()));
-    		 
-    	}else if(etat[1]== true){
-   	    	 balle.setVitesse(new Vecteur2D(-balle.getVitesse().getX(), balle.getVitesse().getY()));
-   	    	 
-    	}else if(etat[2]== true) {
-   		     balle.setVitesse(new Vecteur2D(balle.getVitesse().getX(), -balle.getVitesse().getY()));
-   		     
-    	}else if(etat[3]== true) {
-   		     balle.setVitesse(new Vecteur2D(-balle.getVitesse().getX(), balle.getVitesse().getY()));
 
-    	}
     	
-//		double dx = segment.getX2() - segment.getX1();
-// 	    double dy = segment.getY2() - segment.getY1();
-//
-// 	    double nx = -dy; 
-// 	    double ny = dx;
-// 	    
-// 	    Vecteur2D normale = new Vecteur2D(nx, ny);
-// 	    
-// 	    double produitScalaire = balle.getVitesse().prodScalaire(normale);
-// 	    Vecteur2D vitesseApresCollision = balle.getVitesse().soustrait(normale.multiplie(2 * produitScalaire));
-// 	    balle.setVitesse(vitesseApresCollision);
+        double dx = segment.x2 - segment.x1;
+        double dy = segment.y2 - segment.y1;
+        Vecteur2D nor = new Vecteur2D(-dy, dx);
+        
+        try {
+			nor.normalise();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}     
+        
+        
+        double vNormal = balle.getVitesse().getX() * nor.getX() +balle.getVitesse().getY() * nor.getY();
+        double vNormalReflected = -vNormal;
+        
+        double vxNew = balle.getVitesse().getX() + vNormalReflected * nor.getX();
+        double vyNew = balle.getVitesse().getY() + vNormalReflected * nor.getY();
+        balle.setVitesse(new Vecteur2D(vxNew, vyNew));
+    	
+    System.out.println("SET VITESSE");
+    	
+   
+    	
+    	
+
 }
 
      //calcul rebond sur un coin rectangle
@@ -222,7 +224,7 @@ public class CollisionRectangle {
 		        Line2D.Double segment = rec.getSegment(i + 1);
 		        double distanceSegBalle = distanceEntreDeuxPoints(balle.getPosXCentre(), xProcheSegments[i], balle.getPosYCentre(), yProcheSegments[i]) - balle.getDiametre()/2;
 		        
-		        if (distanceSegBalle <= balle.getDiametre()/8) {
+		        if (distanceSegBalle <= balle.getDiametre()/5) {
 		            seg[i] = true; 
 		            
 		            
@@ -236,19 +238,19 @@ public class CollisionRectangle {
 		    
 		    if (seg[0] == true) {
 		        System.out.println("Le segment 1 est vrai");
-		        calculRebondPhysique(rec.getSegment(1), balle, seg);
+		        calculRebondPhysique(rec.getSegment(1), balle);
 		        
 		    } else if (seg[1] == true) {
 		        System.out.println("Le segment 2 est vrai");
-		        calculRebondPhysique(rec.getSegment(2), balle, seg);
+		        calculRebondPhysique(rec.getSegment(2), balle);
 		        
 		    } else if (seg[2] == true) {
 		        System.out.println("Le segment 3 est vrai");
-		        calculRebondPhysique(rec.getSegment(3), balle, seg);
+		        calculRebondPhysique(rec.getSegment(3), balle);
 		        
 		    } else if (seg[3] == true) {
 		        System.out.println("Le segment 4 est vrai");
-		        calculRebondPhysique(rec.getSegment(4), balle, seg);
+		        calculRebondPhysique(rec.getSegment(4), balle);
 		        
 		    }
 		    
@@ -260,4 +262,16 @@ public class CollisionRectangle {
 		     }
 	}
 }
-
+//if (etat[0]==true){
+//balle.setVitesse(new Vecteur2D(balle.getVitesse().getX(), -balle.getVitesse().getY()));
+//
+//}else if(etat[1]== true){
+//	 balle.setVitesse(new Vecteur2D(-balle.getVitesse().getX(), balle.getVitesse().getY()));
+//	 
+//}else if(etat[2]== true) {
+//   balle.setVitesse(new Vecteur2D(balle.getVitesse().getX(), -balle.getVitesse().getY()));
+//   
+//}else if(etat[3]== true) {
+//   balle.setVitesse(new Vecteur2D(-balle.getVitesse().getX(), balle.getVitesse().getY()));
+//
+//}

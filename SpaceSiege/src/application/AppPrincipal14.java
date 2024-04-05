@@ -99,13 +99,7 @@ public class AppPrincipal14 extends JFrame {
 						+ "\n"+ " Notre mode bac à sable vous permet de libérer votre créativité en construisant vos propres niveaux, défiant ainsi"
 						+ "\n"+ " vos amis à les conquérir. Êtes-vous prêt à relever le défi et à devenir le maître de la physique et de la stratégie"
 						+ "\n"+ " dans ce monde de tir et d'aventure ?\n"
-						
-						
-						
-						
-						
-						
-						
+					
 						+ "");
 			}
 		});
