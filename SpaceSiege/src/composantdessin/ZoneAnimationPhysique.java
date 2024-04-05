@@ -26,6 +26,7 @@ import physique.Vecteur2D;
 import java.awt.Color;
 
 import obstacles.Rectangle;
+import obstacles.Triangle2D;
 import outils.CollisionRectangle;
 import physique.MoteurPhysique;
 
@@ -103,7 +104,6 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
     
     private Monstres monstre= new Monstres(950,100,"images.jpg");
     
-    private int balleChoisie;
     
     
 	/**
@@ -128,7 +128,9 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 
 
 
-
+		Triangle2D noir = new Triangle2D(50, 50, 100, 100, 20, 20);
+		
+		
 
 		monstre.dessiner(g2d);
 		rec.dessiner(g2d);
@@ -157,10 +159,10 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	public void run() {
 		while (enCoursDAnimation) {
 
-			System.out.println("Un tour de run...on avance de " + deltaT + " secondes");
-			System.out.println("Temps ecoule "+tempsTotalEcoule);
+//			System.out.println("Un tour de run...on avance de " + deltaT + " secondes");
+//			System.out.println("Temps ecoule "+tempsTotalEcoule);
 
-
+			System.out.println(canon.getBalleActuelle().getVitesse());
 			calculerUneIterationPhysique(deltaT);
 			testerCollisionsEtAjusterVitesses();
 			
@@ -255,15 +257,11 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 
 
 	    balleTiree = false;
-
-	    canon = new Canon(0, 80);
 	    canon.setPremiereFois(true);
-
+	    canon = new Canon(0, 80);
+	   
 
 	    rec = new Rectangle(50, 50);
-
-
-	    demarrer();
 	}
 	/**
      * Méthode qui permet de tirer la balle.
@@ -275,8 +273,8 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 		
 	}
 	public void choisirBalle(int nb) {
-		balleChoisie=nb;
-		canon.choisirBalleCanon(balleChoisie);
+		canon.setBalleActuelle(nb);
+		repaint();
 	}
 	
 	/**
