@@ -117,19 +117,19 @@ public class AppPrincipal14 extends JFrame{
 		});
 		menuApropos.add(mntmNewMenuItem);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(1, 10, 116));
+		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		Titre titre_1 = new Titre();
-		titre_1.setBackground(new Color(1, 10, 116));
-		titre_1.setBounds(0, 0, 1184, 346);
+		titre_1.setBackground(new Color(255, 255, 255));
+		titre_1.setBounds(0, 0, 1184, 387);
 		contentPane.add(titre_1);
 		
 		JButton btnJouer = new JButton("JOUER");
-		btnJouer.setBounds(500, 367, 216, 69);
+		btnJouer.setBounds(490, 398, 216, 69);
 		contentPane.add(btnJouer);
 		btnJouer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -141,7 +141,7 @@ public class AppPrincipal14 extends JFrame{
 		btnJouer.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 23));
 		
 				JButton btnQuitter = new JButton("QUITTER");
-				btnQuitter.setBounds(500, 464, 216, 69);
+				btnQuitter.setBounds(490, 495, 216, 69);
 				contentPane.add(btnQuitter);
 				btnQuitter.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {

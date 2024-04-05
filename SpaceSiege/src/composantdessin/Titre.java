@@ -30,6 +30,7 @@ public class Titre extends JPanel implements Runnable{
 	     demarrer();
 	}
 	private void dessiner(Graphics2D g2d, int mouvement) {
+		
         g2d.drawImage( imgEtoile,  getWidth()/2-160, getHeight()/2-150 - MOUVEMENT, 320,  320,  null);
         g2d.drawImage( imgTitre,  getWidth()/2-160, getHeight()/2-100 + MOUVEMENT,  320,  200,  null);
 
@@ -46,16 +47,24 @@ public class Titre extends JPanel implements Runnable{
 	@Override
 	public void run() {
 		
+		double y = 0;
+		double x = 0;
+		
 		while(start) {
 			
-			MOUVEMENT = -MOUVEMENT;
+			  y =  Math.sin(x); 
+			  
+			  y=  y*12;
+			  
+			  MOUVEMENT = (int) y;
+			  
+	            x += 0.1; 
+	            
 			repaint();
-			
-			
 			
 			try {
 				
-				Thread.sleep(400);
+				Thread.sleep(50);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

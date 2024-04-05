@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import composantdessin.ZoneAnimationPhysique;
+import niveaux.Niveau1;
 import composantdessin.PlanCartesien;
 import java.awt.Color;
 import javax.swing.JTable;
@@ -40,6 +41,8 @@ public class FenetreDeJeu extends JFrame {
 	private JButton btnDemarrer;
 	private JButton btn1Image;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
+	private ZoneAnimationPhysique zoneAnimationPhysique;
+	
 	/**
      * Méthode statique pour afficher la fenêtre de jeu. Crée une instance de {@code FenetreDeJeu} et la rend visible.
      */
@@ -59,7 +62,7 @@ public class FenetreDeJeu extends JFrame {
 		setLocationRelativeTo(null);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1500, 1000);
+		setBounds(100, 100, 1600, 1010);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(0, 0, 0));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -67,13 +70,13 @@ public class FenetreDeJeu extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		ZoneAnimationPhysique zoneAnimationPhysique = new ZoneAnimationPhysique();
-		zoneAnimationPhysique.setBounds(0, 0, 1087, 663);
+		zoneAnimationPhysique = new ZoneAnimationPhysique();
+		zoneAnimationPhysique.setBounds(0, 0, 1296, 672);
 		contentPane.add(zoneAnimationPhysique);
 		
 		JPanel panelFonctionnalites = new JPanel();
 		panelFonctionnalites.setBackground(new Color(255, 255, 255));
-		panelFonctionnalites.setBounds(0, 674, 1087, 287);
+		panelFonctionnalites.setBounds(0, 683, 1187, 286);
 		contentPane.add(panelFonctionnalites);
 		panelFonctionnalites.setLayout(null);
 		
@@ -95,6 +98,17 @@ public class FenetreDeJeu extends JFrame {
 		panelFonctionnalites.add(btnNiveauPrecedent);
 		
 		btnNiveauSuivant = new JButton("NIVEAU SUIVANT");
+		btnNiveauSuivant.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				 
+				getContentPane().remove(zoneAnimationPhysique);
+				getContentPane().add(niveau1);
+				
+				
+				
+				repaint();
+			}
+		});
 		btnNiveauSuivant.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
 		btnNiveauSuivant.setBounds(870, 52, 209, 68);
 		panelFonctionnalites.add(btnNiveauSuivant);
@@ -208,12 +222,12 @@ public class FenetreDeJeu extends JFrame {
 		
 		panelTable = new JPanel();
 		panelTable.setBackground(new Color(255, 255, 255));
-		panelTable.setBounds(1097, 674, 387, 287);
+		panelTable.setBounds(1197, 683, 377, 286);
 		contentPane.add(panelTable);
 		panelTable.setLayout(null);
 		
 		JPanel panelGraphique = new JPanel();
-		panelGraphique.setBounds(1097, 0, 387, 663);
+		panelGraphique.setBounds(1306, 198, 268, 474);
 		contentPane.add(panelGraphique);
 		
 	}
