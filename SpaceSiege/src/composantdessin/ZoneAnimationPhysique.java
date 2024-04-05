@@ -56,6 +56,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
      * Un rectangle servant d'obstacle dans la zone d'animation.
      */
 	private Rectangle rec = new Rectangle(50,50);
+	
 	/**
      * Indique si une balle a été tirée par le canon.
      */
@@ -102,6 +103,8 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
     
     private Monstres monstre= new Monstres(950,100,"images.jpg");
     
+    private int balleChoisie;
+    
     
 	/**
 	 * Constructeur de la classe. Permet de crée l'interface
@@ -127,8 +130,8 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 
 
 
-		  monstre.dessiner(g2d);
-		 rec.dessiner(g2d);
+		monstre.dessiner(g2d);
+		rec.dessiner(g2d);
 
 		canon.dessiner(g2d);
       
@@ -154,19 +157,16 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	public void run() {
 		while (enCoursDAnimation) {
 
-//			System.out.println("Un tour de run...on avance de " + deltaT + " secondes");
-//			System.out.println("Temps ecoule "+tempsTotalEcoule);
+			System.out.println("Un tour de run...on avance de " + deltaT + " secondes");
+			System.out.println("Temps ecoule "+tempsTotalEcoule);
 
 
 			calculerUneIterationPhysique(deltaT);
 			testerCollisionsEtAjusterVitesses();
 			
 
-//			if ( 	(CollisionRectangle.detectionCollisionBalleLigne(canon.getBalle(),rec )) == true ) {
-//				enCoursDAnimation=false;
-//			}
-//		
-			CollisionRectangle.detectionCollisionBalleLigne(canon.getBalle(),rec);
+
+			CollisionRectangle.detectionCollisionRectangle(canon.getBalle(),rec);
 				
 			
 
@@ -180,6 +180,8 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	        }
 
 			
+	        
+	        
 		   
 
 		
@@ -270,6 +272,11 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	public  void TirerBalle() {
 		balleTiree=true;
 		canon.setBalleTiree();
+		
+	}
+	public void choisirBalle(int nb) {
+		balleChoisie=nb;
+		canon.choisirBalleCanon(balleChoisie);
 	}
 	
 	/**

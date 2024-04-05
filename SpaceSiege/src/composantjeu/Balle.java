@@ -1,5 +1,6 @@
 package composantjeu;
 
+import java.awt.Graphics2D;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 
@@ -118,6 +119,7 @@ public class Balle {
 		initialiserCercle();
 		
 	}
+	
 	/**
 	 * Retourne la masse de la balle.
 	 * 
@@ -217,7 +219,31 @@ public class Balle {
 	public Ellipse2D.Double getCercle() {
 		return cercle;
 	}
-	//ZAKARIA SOUDAKI
+	 public void gererCollisions(double posSol, double posMurDroit, double posMurHaut, double posMurGauche) {
+	    	if ( (position.getY() + diametre) >= ( posSol ) ) {
+	    		
+	    		vitesse.setY(-vitesse.getY());
+	    		position.setY(posSol-diametre);
+	    	}
+	    	if ( (position.getX() + diametre) >= ( posMurDroit ) ) {
+	    		vitesse.setX(-vitesse.getX());
+	    		position.setX(posMurDroit-diametre);
+	    	}
+	    	if ( (position.getY()) <= ( posMurHaut ) ) {
+	    		
+	    		vitesse.setY(-vitesse.getY());
+	    		position.setY(posMurHaut);
+	    	}
+	    	if ( (position.getX()) <= ( posMurGauche ) ) {
+	    		
+	    		vitesse.setX(-vitesse.getX());
+	    		position.setX(posMurGauche);
+	    	}
+	    }
+	public void dessiner(Graphics2D g2dPrive) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 	

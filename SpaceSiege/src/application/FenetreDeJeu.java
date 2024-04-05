@@ -19,6 +19,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.ButtonGroup;
 /**
  * Classe principale de l'interface de jeu, gérant la disposition des éléments de jeu et les interactions utilisateur.
  * Cette classe crée une fenêtre contenant une zone d'animation pour visualiser le jeu, un ensemble de contrôles pour interagir avec le jeu,
@@ -38,6 +39,7 @@ public class FenetreDeJeu extends JFrame {
 	private JButton btnReinitialiser;
 	private JButton btnDemarrer;
 	private JButton btn1Image;
+	private final ButtonGroup buttonGroup = new ButtonGroup();
 	/**
      * Méthode statique pour afficher la fenêtre de jeu. Crée une instance de {@code FenetreDeJeu} et la rend visible.
      */
@@ -46,6 +48,7 @@ public class FenetreDeJeu extends JFrame {
        
 		FenetreDeJeu fenetre = new FenetreDeJeu();
         fenetre.setVisible(true);
+        
     }
 	/**
      * Constructeur qui initialise la fenêtre de jeu, y compris la zone d'animation et les panneaux de contrôle.
@@ -53,6 +56,8 @@ public class FenetreDeJeu extends JFrame {
      */
 	//ZAKARIA SOUDAKI
 	public FenetreDeJeu() {
+		setLocationRelativeTo(null);
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1500, 1000);
 		contentPane = new JPanel();
@@ -77,7 +82,7 @@ public class FenetreDeJeu extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				FenetreModeDeJeu.afficherFenetre();
-				dispose();
+				setVisible(false);
 			}
 		});
 		btnBacAsable.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
@@ -142,14 +147,32 @@ public class FenetreDeJeu extends JFrame {
 		panelFonctionnalites.add(chckbxNewCheckBox);
 		
 		JRadioButton rdbBalleNormal = new JRadioButton("Balles Normales");
+		rdbBalleNormal.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				zoneAnimationPhysique.choisirBalle(1);
+			}
+		});
+		buttonGroup.add(rdbBalleNormal);
 		rdbBalleNormal.setBounds(16, 53, 109, 23);
 		panelFonctionnalites.add(rdbBalleNormal);
 		
 		JRadioButton rdbBalleElastique = new JRadioButton("Balles Elastiques");
+		rdbBalleElastique.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				zoneAnimationPhysique.choisirBalle(2);
+			}
+		});
+		buttonGroup.add(rdbBalleElastique);
 		rdbBalleElastique.setBounds(16, 97, 109, 23);
 		panelFonctionnalites.add(rdbBalleElastique);
 		
 		JRadioButton rdbBalleNova = new JRadioButton("Balles Novas");
+		rdbBalleNova.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				zoneAnimationPhysique.choisirBalle(3);
+			}
+		});
+		buttonGroup.add(rdbBalleNova);
 		rdbBalleNova.setBounds(16, 139, 109, 23);
 		panelFonctionnalites.add(rdbBalleNova);
 		
