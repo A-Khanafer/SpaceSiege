@@ -130,8 +130,8 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 
 
 
-		  monstre.dessiner(g2d);
-		 rec.dessiner(g2d);
+		monstre.dessiner(g2d);
+		rec.dessiner(g2d);
 
 		canon.dessiner(g2d);
       
@@ -166,7 +166,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 			
 
 
-			CollisionRectangle.detectionCollisionBalleLigne(canon.getBalle(),rec);
+			CollisionRectangle.detectionCollisionRectangle(canon.getBalle(),rec);
 				
 			
 

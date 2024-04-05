@@ -5,9 +5,15 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import composantdessin.Titre;
+import outils.OutilsImage;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Image;
+
 import javax.swing.SwingConstants;
 import java.awt.Color;
 import javax.swing.JMenuBar;
@@ -24,16 +30,18 @@ import java.awt.event.ActionEvent;
  * @author ZAKARIA SOUDAKI
  */
 
-public class AppPrincipal14 extends JFrame {
+public class AppPrincipal14 extends JFrame{
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+    private boolean enCoursDAnimation = false;
+	
 	 /**
      * Lance l'interface utilisateur principale de l'application.
      * Cette méthode statique crée une instance de {@code AppPrincipal14} et rend la fenêtre visible.
      */
 	public static void afficherFenetre() {
-	       
+		
 		AppPrincipal14 fenetre = new AppPrincipal14();
         fenetre.setVisible(true);
     }
@@ -49,7 +57,8 @@ public class AppPrincipal14 extends JFrame {
 			public void run() {
 				try {
 					AppPrincipal14 frame = new AppPrincipal14();
-					frame.setVisible(true);
+					frame.setLocationRelativeTo(null);
+ 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -64,6 +73,9 @@ public class AppPrincipal14 extends JFrame {
      */
 	//ZAKARIA SOUDAKI
 	public AppPrincipal14() {
+		
+
+	    
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1200, 750);
 		
@@ -111,48 +123,40 @@ public class AppPrincipal14 extends JFrame {
 		});
 		menuApropos.add(mntmNewMenuItem);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(1, 10, 116));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JPanel panel = new JPanel();
-		panel.setBackground(new Color(0, 0, 0));
-		panel.setBounds(408, 236, 313, 317);
-		contentPane.add(panel);
-		panel.setLayout(null);
-		
-		JLabel lblTitre = new JLabel("SPACE SIEGE");
-		lblTitre.setBounds(10, 21, 293, 67);
-		panel.add(lblTitre);
-		lblTitre.setBackground(new Color(0, 0, 0));
-		lblTitre.setForeground(new Color(255, 255, 255));
-		lblTitre.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTitre.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 37));
+		Titre titre_1 = new Titre();
+		titre_1.setBackground(new Color(1, 10, 116));
+		titre_1.setBounds(0, 0, 1184, 346);
+		contentPane.add(titre_1);
 		
 		JButton btnJouer = new JButton("JOUER");
+		btnJouer.setBounds(500, 367, 216, 69);
+		contentPane.add(btnJouer);
 		btnJouer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				FenetreModeDeJeu.afficherFenetre();
-				dispose();
+				setVisible(false);
 			}
 		});
 		btnJouer.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 23));
-		btnJouer.setBounds(46, 105, 216, 69);
-		panel.add(btnJouer);
-
-		JButton btnQuitter = new JButton("QUITTER");
-		btnQuitter.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-			}
-		});
-		btnQuitter.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 23));
-		btnQuitter.setBounds(46, 196, 216, 69);
-		panel.add(btnQuitter);
 		
+				JButton btnQuitter = new JButton("QUITTER");
+				btnQuitter.setBounds(500, 464, 216, 69);
+				contentPane.add(btnQuitter);
+				btnQuitter.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
+				btnQuitter.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 23));
 		
+		 
 		
 
 	}

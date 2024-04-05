@@ -94,9 +94,11 @@ public class FenetreBacASable extends JFrame {
 		btnNewButton_1.setBounds(210, 675, 159, 72);
 		panel_1.add(btnNewButton_1);
 		
-		JButton btnNewButton_2 = new JButton("New button");
+		JButton btnNewButton_2 = new JButton("RETOUR");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				FenetreModeDeJeu.afficherFenetre();
+				setVisible(false);
 			}
 		});
 		btnNewButton_2.setBounds(23, 579, 159, 72);
