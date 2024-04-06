@@ -172,9 +172,9 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 		positionDeTir.dessiner(g2dPrive);
 		
 		g2dPrive.fill(aireBase);
-	
-			balleActuelle.dessiner(g2dPrive);
-		
+	if(balleTiree) {
+		balleActuelle.dessiner(g2dPrive);
+	}
 
 		
 		//ROTATED

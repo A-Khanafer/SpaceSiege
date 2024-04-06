@@ -14,6 +14,7 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import composantjeu.Balle;
@@ -101,12 +102,13 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
      * Index utilisé pour identifier les manipulations spécifiques des éléments de l'interface, telles que le redimensionnement ou la rotation d'obstacles.
      */
     private int index = -1;
-    
-    private Monstres monstre= new Monstres(950,100,"images.jpg");
+    private int nombreDeVie=1;
+    private Monstres monstre;
     
     private  int balleChoisie;
     
-    private PlanCartesien planCartesion;
+    private boolean monstreMort=false;
+    private PlanCartesien planCartesion= new PlanCartesien();
 
     
     
@@ -130,20 +132,20 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 
-
-
-
+		planCartesion.setBalle(canon.getBalle());
+		monstre= new Monstres(950,100,"images.jpg");
 		Triangle2D noir = new Triangle2D(50, 50, 100, 100, 20, 20);
 		
 		
-
+		if(monstreMort==false) {
 		monstre.dessiner(g2d);
+		}
 		rec.dessiner(g2d);
 
 
 		canon.dessiner(g2d);
       
-//planCartesion.setBalle(canon.getBalle());
+
 		
 
 	    posMurSol = getHeight();
@@ -187,17 +189,21 @@ System.out.println(canon.getBalle().getPosition().getX());
 	        areaBalle.intersect(areaMonstre);
 
 	        if (!areaBalle.isEmpty()) {
-	            System.out.println("TOUCHEEEEEEEEEEEEEEEEEEEEE");
-	            enCoursDAnimation = false; 
+	        	monstre.perdUneVie();
+	        	reinitialiserApplication();
+	        	System.out.println(monstre.getNombreDeVie());
 	        }
-
-			
-	        
+	    	
 	        
 		   
 
 		
 			repaint();
+			if(monstre.getNombreDeVie()==0) {
+	    	    monstreMort=true;
+	            enCoursDAnimation = false; 
+	            JOptionPane.showMessageDialog(null,"VOUS AVEZ GAGNE");
+	    	}
 			try {
 				Thread.sleep(tempsDuSleep);
 			} catch (InterruptedException e) {
@@ -272,10 +278,10 @@ System.out.println(canon.getBalle().getPosition().getX());
 	    balleTiree = false;
 	    canon.setPremiereFois(true);
 	    canon = new Canon(0, 80);
-	   
+	   monstreMort=false;
 
-	    rec = new Rectangle(50, 50);
-
+	   // rec = new Rectangle(50, 50);
+	   repaint();
 	}
 	/**
      * Méthode qui permet de tirer la balle.
@@ -294,6 +300,14 @@ System.out.println(canon.getBalle().getPosition().getX());
 
 		repaint();
 	}
+	public void setNombreDeVie(int nb) {
+	    this.nombreDeVie = nb;
+	    if (this.monstre != null) {
+	        this.monstre.setNombreDeVie(nb);
+	    }
+	    repaint();
+	}
+
 	
 	/**
      * Initialise l'écouteur de clavier pour interagir avec l'animation via le clavier.

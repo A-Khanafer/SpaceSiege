@@ -13,6 +13,10 @@ import java.text.DecimalFormat;
 
 import javax.swing.JPanel;
 
+import composantjeu.Balle;
+import composantjeu.BalleBasique;
+import physique.Vecteur2D;
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
@@ -38,7 +42,7 @@ public class PlanCartesien extends JPanel {
 	/** Valeur par défaut de l'abscisse minimale. */
 	private final double DEFAUT_X_MIN = 0;
 	/** Valeur par défaut de l'abscisse maximale. */
-	private final double DEFAUT_X_MAX = 60;
+	private final double DEFAUT_X_MAX = 100;
 	/** Valeur par défaut de l'ordonnée minimale. */
 	private final double DEFAUT_Y_MIN = -0.5;
 	/** Valeur par défaut de l'ordonnée maximale. */
@@ -89,6 +93,8 @@ public class PlanCartesien extends JPanel {
 	private double pixelsParUniteX;
 	/** Nombre de pixels par unité en ordonnée. */
 	private double pixelsParUniteY;
+	
+	private Balle balle;
 
 	/**
 	 * Constructeur: cree le composant et fixe la couleur de fond
@@ -131,6 +137,7 @@ public class PlanCartesien extends JPanel {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		balle= new BalleBasique(0, 0, 0, new Vecteur2D(20,25), new Vecteur2D(0,0));
 		double y = (double) quantSel /1;
 		double deltaY = (yMax - yMin) / (nmbreLigY+1);
 		double deltaX = (xMax - xMin) / (nmbreLigX+1);
@@ -221,17 +228,16 @@ public class PlanCartesien extends JPanel {
 	private void creerApproxCourbe() {
 		double x, y;
 		ligneBrisee = new Path2D.Double();
-		x = 0; // on commence à 0
+		x = balle.getPosition().getX(); // on commence à 0
 		y = evalFonction(x);
 		ligneBrisee.moveTo(x, y);
-		for (int k = 1; k < nbSegmentsPourApproximer + 1; k++) {
-			x = xMin + k * (xMax - xMin) / nbSegmentsPourApproximer; // on ajoute un intervalle fixe en x
-			if (x > 0) {
+		
+		
 				y = evalFonction(x);
 				ligneBrisee.lineTo(x, y);
 			}
-		} // fin for
-	}
+	
+	
 
 	/**
 	 * 
@@ -244,13 +250,7 @@ public class PlanCartesien extends JPanel {
 	 */
 	//Auteur Benakmoum Walid
 	private double evalFonction(double x) {
-		double volumeTemps = 0;
-		double yConstant = (double) quantSel / VOLUME_MAX;
-		if ((int) volumeTemps >= VOLUME_MAX) {
-			return yConstant;
-		}
-		double y = (double) quantSel / volumeTemps;
-		return (y);
+		return (balle.getPosition().getY());
 	}
 
 	/**
@@ -380,7 +380,7 @@ public class PlanCartesien extends JPanel {
 	 */
 	//Auteur Benakmoum Walid
 	private void creerCercle() {
-		double xCercle = temps;
+		double xCercle = balle.getPosition().getX();
 		double yCercle = evalFonction(xCercle);
 
 		double rayonCercleX = cercleDia / 2;
@@ -438,4 +438,9 @@ public class PlanCartesien extends JPanel {
 		repaint();
 	}
 
+    public void setBalle(Balle b) {
+    	this.balle=b;
+    	repaint();
+    }
 }
+
