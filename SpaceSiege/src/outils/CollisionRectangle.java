@@ -146,18 +146,21 @@ public class CollisionRectangle {
 
     private static void calculRebondPhysique(Line2D.Double segment, Balle balle, boolean [] etat) {
    
-    	if (etat[0]==true){
-    		 balle.setVitesse(new Vecteur2D(balle.getVitesse().getX(), -balle.getVitesse().getY()));
-    		 
-    	}else if(etat[1]== true){
-   	    	 balle.setVitesse(new Vecteur2D(-balle.getVitesse().getX(), balle.getVitesse().getY()));
-   	    	 
-    	}else if(etat[2]== true) {
-   		     balle.setVitesse(new Vecteur2D(balle.getVitesse().getX(), -balle.getVitesse().getY()));
-   		     
-    	}else if(etat[3]== true) {
-   		     balle.setVitesse(new Vecteur2D(-balle.getVitesse().getX(), balle.getVitesse().getY()));
-    	}
+    	double dx = segment.getX2() - segment.getX1();
+ 	    double dy = segment.getY2() - segment.getY1();
+
+ 	    double nx = -dy; 
+ 	    double ny = dx;
+ 	    
+ 	    Vecteur2D normale = new Vecteur2D(nx, ny);
+ 	    try {
+			normale = normale.normalise();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 	    
+ 	    double produitScalaire = balle.getVitesse().prodScalaire(normale);
+ 	    Vecteur2D vitesseApresCollision = balle.getVitesse().soustrait((normale.multiplie(produitScalaire)).multiplie(2));
+ 	    balle.setVitesse(vitesseApresCollision);
     }
 
      //calcul rebond sur un coin rectangle
@@ -175,7 +178,7 @@ public class CollisionRectangle {
      * @param rec rec la géometrie ( le rectangle )
      */
 
-	 public static void detectionCollisionBalleLigne(Balle balle, Rectangle rec) {
+	 public static void detectionCollisionRectangle(Balle balle, Rectangle rec) {
 
 	        
 		    boolean toucherCoinsLigne = detectionToucherCoinLigne(rec,balle);
@@ -249,4 +252,5 @@ public class CollisionRectangle {
 	 
 	 
 }
+
 

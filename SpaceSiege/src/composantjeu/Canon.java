@@ -141,14 +141,11 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 		aireBase= new Area(base);
 		aireRect.add(aireCercle);
 		positionDeTir = new FlecheDeTir(cercle.getCenterX(), cercle.getCenterY(), dx,dy);
-		
-		 if (!balleTiree && premiereFois ) {
-			 
-		       
-		        System.out.println(balleTiree);
-		      premiereFois=false;
-                
-		    
+
+		 if (!balleTiree && premiereFois) {
+			 balleActuelle = new BalleBasique(50, 2, hauteur, new Vecteur2D(3, y), new Vecteur2D(0, 0)); 
+			 premiereFois = false;
+
 		    }
 
 
@@ -279,27 +276,6 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 		return this.balleActuelle;
 	}
 	
-	public Balle getBalleActuelle() {
-		return balleActuelle;
-	}
-	public void setBalleActuelle(int i) {
-		
-		 switch(balleChoisie) {
-         case 1:
-             balleActuelle = new BalleBasique(50, 2, hauteur+90, new Vecteur2D(3, y), new Vecteur2D(0, 0));
-             System.out.println("JE CHOISIE LA BALLE BASIQUE");
-             break;
-         case 2:
-             balleActuelle = new BalleElastique(50, 2, hauteur+90, new Vecteur2D(3, y), new Vecteur2D(0, 0));
-             System.out.println("JE CHOISIE LA BALLE ELASTIQUE");
-             break;
-         case 3:
-             balleActuelle = new BalleNova(50, 2, hauteur+90, new Vecteur2D(3, y), new Vecteur2D(0, 0));
-             System.out.println("JE CHOISIE LA BALLE NOVA");
-             break;
-            
-     }
-	}
 	/**
      * Fait avancer la balle d'un pas, en fonction du temps deltaT spécifié. Utilisé pour animer le mouvement de la balle après le tir.
      * 
@@ -362,10 +338,35 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 	public void setPremiereFois(boolean premiereFois) {
 		this.premiereFois = premiereFois;
 	}
+
 	public void choisirBalleCanon(int nb) {
 		balleChoisie=nb;
 		creerLaGeometrie();
-		
+	}
+
+	
+	public Balle getBalleActuelle() {
+		return balleActuelle;
+	}
+	
+	
+	
+	public void setBalleActuelle(int i ) {
+		 switch(i) {
+         case 1:
+             balleActuelle = new BalleBasique(50, 2, hauteur, new Vecteur2D(3, y), vitesse);
+             System.out.println("JE CHOISIE LA BALLE BASIQUE");
+             break;
+         case 2:
+             balleActuelle = new BalleElastique(50, 2, hauteur, new Vecteur2D(3, y), vitesse);
+             System.out.println("JE CHOISIE LA BALLE ELASTIQUE");
+             break;
+         case 3:
+             balleActuelle = new BalleNova(50, 2, hauteur, new Vecteur2D(3, y), vitesse);
+             break;
+		 }
+		 
+
 	}
 		
 

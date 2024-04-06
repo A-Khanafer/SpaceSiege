@@ -26,6 +26,7 @@ import physique.Vecteur2D;
 import java.awt.Color;
 
 import obstacles.Rectangle;
+import obstacles.Triangle2D;
 import outils.CollisionRectangle;
 import physique.MoteurPhysique;
 
@@ -106,6 +107,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
     private  int balleChoisie;
     
     private PlanCartesien planCartesion;
+
     
     
 	/**
@@ -127,12 +129,17 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+
+
+
+
+		Triangle2D noir = new Triangle2D(50, 50, 100, 100, 20, 20);
 		
 		
-		
-	
-		  monstre.dessiner(g2d);
-		 rec.dessiner(g2d);
+
+		monstre.dessiner(g2d);
+		rec.dessiner(g2d);
+
 
 		canon.dessiner(g2d);
       
@@ -158,16 +165,20 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	public void run() {
 		while (enCoursDAnimation) {
 
-			System.out.println("Un tour de run...on avance de " + deltaT + " secondes");
-			System.out.println("Temps ecoule "+tempsTotalEcoule);
+//			System.out.println("Un tour de run...on avance de " + deltaT + " secondes");
+//			System.out.println("Temps ecoule "+tempsTotalEcoule);
+
 
 System.out.println(canon.getBalle().getPosition().getX());
+
+			System.out.println(canon.getBalleActuelle().getVitesse());
+
 			calculerUneIterationPhysique(deltaT);
 			testerCollisionsEtAjusterVitesses();
 			
 
 
-			CollisionRectangle.detectionCollisionBalleLigne(canon.getBalle(),rec);
+			CollisionRectangle.detectionCollisionRectangle(canon.getBalle(),rec);
 				
 			
 
@@ -259,14 +270,11 @@ System.out.println(canon.getBalle().getPosition().getX());
 
 
 	    balleTiree = false;
-
-	    canon = new Canon(0, 80);
 	    canon.setPremiereFois(true);
-
+	    canon = new Canon(0, 80);
+	   
 
 	    rec = new Rectangle(50, 50);
-
-
 
 	}
 	/**
@@ -281,8 +289,9 @@ System.out.println(canon.getBalle().getPosition().getX());
 	}
 	
 	public void choisirBalle(int nb) {
-		balleChoisie=nb;
-		canon.setBalleActuelle(balleChoisie);
+
+		canon.setBalleActuelle(nb);
+
 		repaint();
 	}
 	
