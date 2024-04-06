@@ -136,7 +136,8 @@ public class CollisionRectangle {
      * @param segment le segement contre lequel elle fait la collison
      * @param balle la géometrie ( la balle)
      * @param etat tableau de boolean pour connaitre l'état de tout les segments
-     */
+**/
+
     private static void calculRebondPhysique(Line2D.Double segment, Balle balle, boolean [] etat) {
    
     	double dx = segment.getX2() - segment.getX1();
@@ -171,7 +172,7 @@ public class CollisionRectangle {
      * @param rec rec la géometrie ( le rectangle )
      */
 
-	 public static void detectionCollisionBalleLigne(Balle balle, Rectangle rec) {
+	 public static void detectionCollisionRectangle(Balle balle, Rectangle rec) {
 
 		    boolean toucherCoinsLigne = detectionToucherCoinLigne(rec,balle);
 		   
@@ -239,4 +240,5 @@ public class CollisionRectangle {
 		 }
 	}
 }
+
 

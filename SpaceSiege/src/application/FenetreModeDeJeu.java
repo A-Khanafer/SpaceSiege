@@ -31,6 +31,7 @@ public class FenetreModeDeJeu extends JFrame {
 	       
 		FenetreModeDeJeu fenetre = new FenetreModeDeJeu();
         fenetre.setVisible(true);
+        
     }
 	/**
      * Méthode principale utilisée pour lancer l'interface de sélection de mode de jeu.
@@ -42,6 +43,7 @@ public class FenetreModeDeJeu extends JFrame {
 				try {
 					FenetreModeDeJeu frame = new FenetreModeDeJeu();
 					frame.setVisible(true);
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -53,6 +55,8 @@ public class FenetreModeDeJeu extends JFrame {
      * Initialise et affiche la fenêtre de sélection de mode de jeu.
      */
 	public FenetreModeDeJeu() {
+		setLocationRelativeTo(null);
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1200, 750);
 		contentPane = new JPanel();
@@ -72,7 +76,8 @@ public class FenetreModeDeJeu extends JFrame {
 				
 				
 				FenetreDeJeu.afficherFenetre();
-				dispose();
+				setVisible(false);
+
 			}
 		});
 		btnClassic.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 23));
@@ -92,7 +97,8 @@ public class FenetreModeDeJeu extends JFrame {
 								
 								
 								FenetreBacASable.afficherFenetre();
-								dispose();
+								setVisible(false);
+
 							
 							}
 						});
@@ -112,7 +118,8 @@ public class FenetreModeDeJeu extends JFrame {
 							public void actionPerformed(ActionEvent e) {
 								
 								AppPrincipal14.afficherFenetre();
-								dispose();
+								setVisible(false);
+
 								
 								
 							}

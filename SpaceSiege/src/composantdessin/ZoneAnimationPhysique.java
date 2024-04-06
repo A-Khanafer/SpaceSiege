@@ -26,6 +26,7 @@ import physique.Vecteur2D;
 import java.awt.Color;
 
 import obstacles.Rectangle;
+import obstacles.Triangle;
 import outils.CollisionRectangle;
 import physique.MoteurPhysique;
 
@@ -103,7 +104,8 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
     
     private Monstres monstre= new Monstres(950,100,"images.jpg");
     
-    private int balleChoisie;
+    private Triangle tri = new Triangle(70, 70, 100, 100);
+    
     
     
 	/**
@@ -126,14 +128,10 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 
-
-
-
-
-		  monstre.dessiner(g2d);
-		 rec.dessiner(g2d);
-
-//		canon.dessiner(g2d);
+		monstre.dessiner(g2d);
+		rec.dessiner(g2d);
+		tri.dessiner(g2d);
+		canon.dessiner(g2d);
       
 
 		
@@ -157,16 +155,16 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	public void run() {
 		while (enCoursDAnimation) {
 
-			System.out.println("Un tour de run...on avance de " + deltaT + " secondes");
-			System.out.println("Temps ecoule "+tempsTotalEcoule);
+//			System.out.println("Un tour de run...on avance de " + deltaT + " secondes");
+//			System.out.println("Temps ecoule "+tempsTotalEcoule);
 
-
+			System.out.println(canon.getBalleActuelle().getVitesse());
 			calculerUneIterationPhysique(deltaT);
 			testerCollisionsEtAjusterVitesses();
 			
 
 
-			CollisionRectangle.detectionCollisionBalleLigne(canon.getBalle(),rec);
+			CollisionRectangle.detectionCollisionRectangle(canon.getBalle(),rec);
 				
 			
 
@@ -249,15 +247,11 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 
 
 	    balleTiree = false;
-
-	    canon = new Canon(0, 80);
 	    canon.setPremiereFois(true);
-
+	    canon = new Canon(0, 80);
+	   
 
 	    rec = new Rectangle(50, 50);
-
-
-	    demarrer();
 	}
 	/**
      * Méthode qui permet de tirer la balle.
@@ -269,8 +263,8 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 		
 	}
 	public void choisirBalle(int nb) {
-		balleChoisie=nb;
-		canon.choisirBalleCanon(balleChoisie);
+		canon.setBalleActuelle(nb);
+		repaint();
 	}
 	
 	/**
