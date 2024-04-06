@@ -115,7 +115,7 @@ public class FenetreDeJeu extends JFrame {
 		btnDemarrer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				zoneAnimationPhysique.demarrer();
-				zoneAnimationPhysique.TirerBalle();
+			//	zoneAnimationPhysique.TirerBalle();
 			}
 		});
 		btnDemarrer.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
@@ -212,6 +212,9 @@ public class FenetreDeJeu extends JFrame {
 		JPanel panelGraphique = new JPanel();
 		panelGraphique.setBounds(1097, 0, 387, 663);
 		contentPane.add(panelGraphique);
+		
+		PlanCartesien planCartesien = new PlanCartesien();
+		panelGraphique.add(planCartesien);
 		
 	}
 }

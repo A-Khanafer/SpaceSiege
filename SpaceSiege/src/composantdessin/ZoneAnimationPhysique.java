@@ -64,7 +64,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	/**
      * Le canon utilisé pour tirer des balles.
      */
-	private Canon canon= new Canon (0,80);
+	private Canon canon=new Canon (0,80);
 	/**
      * Utilisé pour effectuer des opérations lors du premier appel de certaines méthodes ou conditions.
      */
@@ -103,7 +103,9 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
     
     private Monstres monstre= new Monstres(950,100,"images.jpg");
     
-    private int balleChoisie;
+    private  int balleChoisie;
+    
+    private PlanCartesien planCartesion;
     
     
 	/**
@@ -125,17 +127,16 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-
-
-
-
-
+		
+		
+		
+	
 		  monstre.dessiner(g2d);
 		 rec.dessiner(g2d);
 
 		canon.dessiner(g2d);
       
-
+//planCartesion.setBalle(canon.getBalle());
 		
 
 	    posMurSol = getHeight();
@@ -160,7 +161,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 			System.out.println("Un tour de run...on avance de " + deltaT + " secondes");
 			System.out.println("Temps ecoule "+tempsTotalEcoule);
 
-
+System.out.println(canon.getBalle().getPosition().getX());
 			calculerUneIterationPhysique(deltaT);
 			testerCollisionsEtAjusterVitesses();
 			
@@ -204,6 +205,9 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 			Thread proc = new Thread(this);
 			proc.start();
 			enCoursDAnimation = true;
+			balleTiree=true;
+			canon.setBalleTiree();
+			
 		}
 	}//fin methode
 	/**
@@ -263,7 +267,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	    rec = new Rectangle(50, 50);
 
 
-	    demarrer();
+
 	}
 	/**
      * Méthode qui permet de tirer la balle.
@@ -272,11 +276,14 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	public  void TirerBalle() {
 		balleTiree=true;
 		canon.setBalleTiree();
+		repaint();
 		
 	}
+	
 	public void choisirBalle(int nb) {
 		balleChoisie=nb;
-		canon.choisirBalleCanon(balleChoisie);
+		canon.setBalleActuelle(balleChoisie);
+		repaint();
 	}
 	
 	/**
