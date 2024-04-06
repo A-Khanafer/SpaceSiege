@@ -44,6 +44,7 @@ public class BalleNova extends Balle {
         Graphics2D g2dPrive = (Graphics2D) g2d.create();
         g2dPrive.setColor(Color.BLACK);
         g2dPrive.fill(cercle);
+        System.out.println("JE DESSINE DANS BALLE NOVA");
     }
 
     /**
@@ -65,6 +66,7 @@ public class BalleNova extends Balle {
     public void avancerUnPas(double deltaT) {
         vitesse = MoteurPhysique.calculVitesse(deltaT, vitesse, accel);
         position = MoteurPhysique.calculPosition(deltaT, position, vitesse);
+        System.out.println(position.getX()+ " BALLE NOVA POSITION");
         creerLaGeometrie();
     }
 

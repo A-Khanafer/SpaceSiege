@@ -6,6 +6,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
+import java.util.Iterator;
 
 import javax.swing.JPanel;
 
@@ -50,12 +51,12 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
     /**
      * Indique si une balle a été tirée par le canon. Ce champ est utilisé pour contrôler l'affichage de la balle et son comportement.
      */
-    private boolean balleTiree = false;
+    private  boolean balleTiree = false;
 
     /**
      * Marqueur pour initialiser la balle uniquement lors du premier tir. Cela permet de réinitialiser ou de configurer la balle avant son premier usage.
      */
-    private boolean premiereFois = true;
+    private  boolean premiereFois = true;
 
     /**
      * Largeur du canon, définie initialement à 100 pixels. Influence la taille du rectangle représentant le corps du canon.
@@ -118,12 +119,13 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
      */
     private double dy = 0;
 
-	private int balleChoisie=1;
+	private static int balleChoisie=1;
 	
 
 	public Canon(int x,int y) {
 		this.x=x;
 		this.y=y;
+	
 		creerLaGeometrie();
 	}
 	  /**
@@ -139,24 +141,11 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 		aireBase= new Area(base);
 		aireRect.add(aireCercle);
 		positionDeTir = new FlecheDeTir(cercle.getCenterX(), cercle.getCenterY(), dx,dy);
-		 if (!balleTiree && premiereFois) {
-		        switch(balleChoisie) {
-		            case 1:
-		                balleActuelle = new BalleBasique(50, 2, 15, new Vecteur2D(3, y), new Vecteur2D(0, 0));
-		                System.out.println("JE CHOISIE LA BALLE BASIQUE");
 
-		                break;
-		            case 2:
-		                balleActuelle = new BalleElastique(50, 2, hauteur, new Vecteur2D(3, y), new Vecteur2D(0, 0));
-		                System.out.println("JE CHOISIE LA BALLE ELASTIQUE");
-		                break;
-		            case 3:
-		                balleActuelle = new BalleNova(50, 2, hauteur, new Vecteur2D(3, y), new Vecteur2D(0, 0));
-		                break;
-		        }
-		        System.out.println(balleTiree);
-		 premiereFois=false;
-		    
+		 if (!balleTiree && premiereFois) {
+			 balleActuelle = new BalleBasique(50, 2, hauteur, new Vecteur2D(3, y), new Vecteur2D(0, 0)); 
+			 premiereFois = false;
+
 		    }
 
 
@@ -349,12 +338,38 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 	public void setPremiereFois(boolean premiereFois) {
 		this.premiereFois = premiereFois;
 	}
+
 	public void choisirBalleCanon(int nb) {
 		balleChoisie=nb;
 		creerLaGeometrie();
 	}
 
 	
+	public Balle getBalleActuelle() {
+		return balleActuelle;
+	}
+	
+	
+	
+	public void setBalleActuelle(int i ) {
+		 switch(i) {
+         case 1:
+             balleActuelle = new BalleBasique(50, 2, hauteur, new Vecteur2D(3, y), vitesse);
+             System.out.println("JE CHOISIE LA BALLE BASIQUE");
+             break;
+         case 2:
+             balleActuelle = new BalleElastique(50, 2, hauteur, new Vecteur2D(3, y), vitesse);
+             System.out.println("JE CHOISIE LA BALLE ELASTIQUE");
+             break;
+         case 3:
+             balleActuelle = new BalleNova(50, 2, hauteur, new Vecteur2D(3, y), vitesse);
+             break;
+		 }
+		 
+
+	}
+		
+
 }
 
 
