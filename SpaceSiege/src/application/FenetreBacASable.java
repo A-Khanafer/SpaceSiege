@@ -16,6 +16,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.JSlider;
+import composantdessin.PanelBacASable;
 
 public class FenetreBacASable extends JFrame {
 
@@ -27,6 +28,24 @@ public class FenetreBacASable extends JFrame {
 	 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private JButton btnCarre;
+	private JButton btnCercle;
+	private JButton btnTriangle;
+	private JButton btnSpikes;
+	private JButton btnPlaqueRebondissante;
+	private JButton btnAimant;
+	private JButton btnCanon;
+	private JButton btnMonstre;
+	private JButton btnRetour;
+	private JPanel panelCercle;
+	private JPanel panelCarre;
+	private JPanel panelTriangle;
+	private JPanel panelSpike;
+	private JPanel panelPlaqueRebondissante;
+	private JPanel panelAimant;
+	private JPanel panelMonstre;
+	private PanelBacASable panelBacASable;
+	
 	
 	public static void afficherFenetre() {
       
@@ -64,20 +83,24 @@ public class FenetreBacASable extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JPanel panelBacASable = new JPanel();
-		panelBacASable.setBackground(new Color(255, 255, 255));
+		panelCarre = new JPanel();
+		panelCarre.setBackground(new Color(255, 255, 255));
+		panelCarre.setBounds(10, 793, 166, 157);
+		contentPane.add(panelCarre);
+		panelCarre.setLayout(null);
+		
+		panelBacASable = new PanelBacASable();
 		panelBacASable.setBounds(10, 11, 1060, 771);
 		contentPane.add(panelBacASable);
 		
-		JPanel panel = new JPanel();
-		panel.setBackground(new Color(255, 255, 255));
-		panel.setBounds(10, 793, 166, 157);
-		contentPane.add(panel);
-		panel.setLayout(null);
-		
-		JButton btnCarre = new JButton("Carre");
+		btnCarre = new JButton("Carre");
+		btnCarre.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelBacASable.ajouterRectangle();
+			}
+		});
 		btnCarre.setBounds(10, 11, 146, 135);
-		panel.add(btnCarre);
+		panelCarre.add(btnCarre);
 		OutilsImage.lireImageEtPlacerSurBouton("carre.png", btnCarre);
 		
 		JPanel panel_1 = new JPanel();
@@ -94,15 +117,15 @@ public class FenetreBacASable extends JFrame {
 		btnNewButton_1.setBounds(210, 675, 159, 72);
 		panel_1.add(btnNewButton_1);
 		
-		JButton btnNewButton_2 = new JButton("RETOUR");
-		btnNewButton_2.addActionListener(new ActionListener() {
+		btnRetour = new JButton("RETOUR");
+		btnRetour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FenetreModeDeJeu.afficherFenetre();
 				setVisible(false);
 			}
 		});
-		btnNewButton_2.setBounds(23, 579, 159, 72);
-		panel_1.add(btnNewButton_2);
+		btnRetour.setBounds(23, 579, 159, 72);
+		panel_1.add(btnRetour);
 		
 		JButton btnNewButton_3 = new JButton("New button");
 		btnNewButton_3.setBounds(210, 579, 158, 72);
@@ -140,75 +163,77 @@ public class FenetreBacASable extends JFrame {
 		slider.setBounds(24, 367, 200, 26);
 		panel_1.add(slider);
 		
-		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(186, 793, 173, 157);
-		contentPane.add(panel_2);
-		panel_2.setLayout(null);
+		panelCercle = new JPanel();
+		panelCercle.setBounds(186, 793, 173, 157);
+		contentPane.add(panelCercle);
+		panelCercle.setLayout(null);
 		
-		JButton btnCercle = new JButton("Cercle");
+		btnCercle = new JButton("Cercle");
 		btnCercle.setBounds(10, 11, 153, 135);
-		panel_2.add(btnCercle);
+		panelCercle.add(btnCercle);
 		OutilsImage.lireImageEtPlacerSurBouton("cercle.png", btnCercle);
 		
-		JPanel panel_3 = new JPanel();
-		panel_3.setBounds(368, 793, 166, 157);
-		contentPane.add(panel_3);
-		panel_3.setLayout(null);
+		panelTriangle = new JPanel();
+		panelTriangle.setBounds(368, 793, 166, 157);
+		contentPane.add(panelTriangle);
+		panelTriangle.setLayout(null);
 		
-		JButton btnTriangle = new JButton("Triangle");
+		btnTriangle = new JButton("Triangle");
 		btnTriangle.setBounds(10, 11, 146, 135);
-		panel_3.add(btnTriangle);
+		panelTriangle.add(btnTriangle);
 		OutilsImage.lireImageEtPlacerSurBouton("imageTriangle.jpg", btnTriangle);
 		
-		JPanel panel_4 = new JPanel();
-		panel_4.setBounds(544, 793, 174, 157);
-		contentPane.add(panel_4);
-		panel_4.setLayout(null);
+		panelSpike = new JPanel();
+		panelSpike.setBounds(544, 793, 174, 157);
+		contentPane.add(panelSpike);
+		panelSpike.setLayout(null);
 		
-		JButton btnSpikes = new JButton("Spikes");
+		btnSpikes = new JButton("Spikes");
 		btnSpikes.setBounds(10, 11, 154, 135);
-		panel_4.add(btnSpikes);
+		panelSpike.add(btnSpikes);
 		OutilsImage.lireImageEtPlacerSurBouton("spikes.png", btnSpikes);
 		
-		JPanel panel_5 = new JPanel();
-		panel_5.setBounds(728, 793, 166, 157);
-		contentPane.add(panel_5);
-		panel_5.setLayout(null);
+		panelPlaqueRebondissante = new JPanel();
+		panelPlaqueRebondissante.setBounds(728, 793, 166, 157);
+		contentPane.add(panelPlaqueRebondissante);
+		panelPlaqueRebondissante.setLayout(null);
 		
-		JButton btnBounce = new JButton("Plaque Rebondissante");
-		btnBounce.setBounds(10, 11, 146, 135);
-		panel_5.add(btnBounce);
-		OutilsImage.lireImageEtPlacerSurBouton("bouncePad.png", btnBounce);
+		btnPlaqueRebondissante = new JButton("Plaque Rebondissante");
+		btnPlaqueRebondissante.setBounds(10, 11, 146, 135);
+		panelPlaqueRebondissante.add(btnPlaqueRebondissante);
+		OutilsImage.lireImageEtPlacerSurBouton("bouncePad.png", btnPlaqueRebondissante);
 		
-		JPanel panel_6 = new JPanel();
-		panel_6.setBounds(904, 793, 166, 157);
-		contentPane.add(panel_6);
-		panel_6.setLayout(null);
+		panelAimant = new JPanel();
+		panelAimant.setBounds(904, 793, 166, 157);
+		contentPane.add(panelAimant);
+		panelAimant.setLayout(null);
 		
-		JButton btnAiment = new JButton("BouleAiment");
-		btnAiment.setBounds(10, 11, 146, 135);
-		panel_6.add(btnAiment);
-		OutilsImage.lireImageEtPlacerSurBouton("balle.png", btnAiment);
+		btnAimant = new JButton("BouleAiment");
+		btnAimant.setBounds(10, 11, 146, 135);
+		panelAimant.add(btnAimant);
+		OutilsImage.lireImageEtPlacerSurBouton("balle.png", btnAimant);
 		
-		JPanel panel_7 = new JPanel();
-		panel_7.setBounds(1080, 793, 197, 157);
-		contentPane.add(panel_7);
-		panel_7.setLayout(null);
+		JPanel panelCanon = new JPanel();
+		panelCanon.setBounds(1080, 793, 197, 157);
+		contentPane.add(panelCanon);
+		panelCanon.setLayout(null);
 		
-		JButton btnCanon = new JButton("Position Canon");
+		btnCanon = new JButton("Position Canon");
 		btnCanon.setBounds(10, 11, 177, 135);
-		panel_7.add(btnCanon);
+		panelCanon.add(btnCanon);
 		OutilsImage.lireImageEtPlacerSurBouton("canon.png", btnCanon);
 		
-		JPanel panel_8 = new JPanel();
-		panel_8.setBounds(1287, 793, 187, 157);
-		contentPane.add(panel_8);
-		panel_8.setLayout(null);
+		panelMonstre = new JPanel();
+		panelMonstre.setBounds(1287, 793, 187, 157);
+		contentPane.add(panelMonstre);
+		panelMonstre.setLayout(null);
 		
-		JButton btnMonstre = new JButton("Monstres");
+		btnMonstre = new JButton("Monstres");
 		btnMonstre.setBounds(10, 11, 167, 135);
-		panel_8.add(btnMonstre);
+		panelMonstre.add(btnMonstre);
 		OutilsImage.lireImageEtPlacerSurBouton("images.jpg", btnMonstre);
+		
+		
 
 	}
 }

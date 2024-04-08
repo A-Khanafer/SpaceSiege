@@ -60,7 +60,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
      * Un rectangle servant d'obstacle dans la zone d'animation.
      */
 
-	private Rectangle rec;
+	private Rectangle[] tableauRec;
 	
 	/**
      * Indique si une balle a été tirée par le canon.
@@ -115,7 +115,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 
     private  int balleChoisie;
 
-    private Triangle tri;
+    private Triangle[] tableauTri;
 
     private boolean monstreMort=false;
     private PlanCartesien planCartesion= new PlanCartesien();
@@ -129,6 +129,8 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	public ZoneAnimationPhysique() {
 		setBackground(new Color(192, 192, 192));
 		setLayout(null);
+		tableauRec = new Rectangle[3];
+		tableauTri = new Triangle[3];
 		ecouteurSouris();
 		ecouteurClavier();
 		
@@ -147,29 +149,35 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 		System.out.println(pixelParMetres);
 
 		if(premiereFois) {
-			rec = new Rectangle(50,50, pixelParMetres);
-			monstre= new Monstres(950,100,"images.jpg", pixelParMetres);
-			tri = new Triangle(150, 150, 10, 10, pixelParMetres);
+			int espace=0;
+			monstre = new Monstres(1000, 20, "images.jpg", pixelParMetres);
+				for(int i = 0 ; i < tableauRec.length ; i++) {
+					tableauRec[i] = new Rectangle(50 + espace, 50 + espace, pixelParMetres);
+					espace = espace + 80;
+				}
+				espace = 0;
+				for(int i = 0 ; i < tableauRec.length ; i++) {
+					tableauTri[i] = new Triangle(50, 50, 10, 15, pixelParMetres);
+					espace = espace + 80;
+				}
 			premiereFois = false;
 		}
 
+		tableauRec[0].dessiner(g2d);
+		tableauRec[1].dessiner(g2d);
+		tableauRec[2].dessiner(g2d);
 
-
-
+		tableauTri[0].dessiner(g2d);
+		tableauTri[1].dessiner(g2d);
 
 		planCartesion.setBalle(canon.getBalle());
 
 		
 		
 		if(monstreMort==false) {
-		monstre.dessiner(g2d);
+			monstre.dessiner(g2d);
 		}
 
-
-		rec.dessiner(g2d);
-		
-
-		tri.dessiner(g2d);
 
 		canon.dessiner(g2d);
 
@@ -205,9 +213,9 @@ System.out.println(canon.getBalle().getPosition().getX());
 			testerCollisionsEtAjusterVitesses();
 			
 
-
-			CollisionRectangle.detectionCollisionRectangle(canon.getBalle(),rec);
-				
+			for(int i =0 ; i < tableauRec.length ; i++) {
+				CollisionRectangle.detectionCollisionRectangle(canon.getBalle(),tableauRec[i]);
+			}
 			
 
 			Area areaBalle = new Area(canon.getBalle().getCercle()); 
@@ -303,7 +311,6 @@ System.out.println(canon.getBalle().getPosition().getX());
 	    canon = new Canon(0, 80);
 	   monstreMort=false;
 
-	    rec = new Rectangle(50, 50, pixelParMetres);
 
 	   repaint();
 
@@ -366,27 +373,9 @@ System.out.println(canon.getBalle().getPosition().getX());
 
 			public void mouseClicked(MouseEvent e) {
 			
-			
+				gestionSourisRecClick(e);
+				gestionSourisTriClick(e);
 				repaint();
-
-
-
-				if(rec.contient(e.getX(), e.getY())) {
-					rec.setClickedOnIt(true);
-					repaint();
-				}else {
-					rec.setClickedOnIt(false);
-					repaint();
-				}
-				
-				if(tri.contient(e.getX(), e.getY())) {
-					tri.setClickedOnIt(true);
-					repaint();
-				}else {
-					tri.setClickedOnIt(false);
-					repaint();
-				}
-
 			}
 		});
 	
@@ -394,61 +383,89 @@ System.out.println(canon.getBalle().getPosition().getX());
 			@Override
 				
 			public void mouseDragged(MouseEvent e) {
-				
-				gestionSourisRec(e);
-				gestionSourisTri(e);
-					
+				gestionSourisRecDragged(e);
+				gestionSourisTriDragged(e);
 				gestionSourisCanon(e);
+				repaint();
 			}
 		});
 	}
-	
 	//Méthode qui gère les click de la souris pour le rectangle
-	//Ahmad Khanafer
-	private void gestionSourisRec(MouseEvent e) {
-		index = rec.getClickedResizeHandleIndex(e.getX(), e.getY());
-		repaint();
-		if (rec.isClickedOnIt() == true && index != -1) {
-			rec.redimension(index, e.getX(), e.getY());
-			repaint();
-		}else if(rec.contient(e.getX(), e.getY()) && rec.isClickedOnIt() == true && index == -1 ) {
-			rec.rotate( e.getX(), e.getY());
-			repaint();
+		//Ahmad Khanafer
+		private void gestionSourisRecDragged(MouseEvent e) {
+			for(int i =0 ; i < tableauRec.length; i++) {
+				int index = tableauRec[i].getClickedResizeHandleIndex(e.getX(), e.getY());
+					if (tableauRec[i].isClickedOnIt() == true && index != -1) {
+						tableauRec[i].redimension(index, e.getX(), e.getY());
+						repaint();
+					}else if(tableauRec[i].contient(e.getX(), e.getY()) && tableauRec[i].isClickedOnIt() == true && index == -1 ) {
+						tableauRec[i].rotate( e.getX(), e.getY());
+						repaint();
+					}
+					if(tableauRec[i].contient(e.getX(), e.getY()) && tableauRec[i].isClickedOnIt() == false) {
+						tableauRec[i].move( e.getX(), e.getY());
+						repaint();
+					}
+			}	
 		}
-		if(rec.contient(e.getX(), e.getY()) && rec.isClickedOnIt() == false) {
-			rec.move( e.getX(), e.getY());
-			repaint();
+		
+		private void gestionSourisTriDragged(MouseEvent e) {
+			for(int i =0 ; i < tableauTri.length; i++) {
+				int index = tableauTri[i].getClickedResizeHandleIndex(e.getX(), e.getY());
+					if (tableauTri[i].isClickedOnIt() == true && index != -1) {
+						tableauTri[i].redimension(index, e.getX(), e.getY());
+						repaint();
+					}else if(tableauTri[i].contient(e.getX(), e.getY()) && tableauTri[i].isClickedOnIt() == true && index == -1 ) {
+						tableauTri[i].rotate( e.getX(), e.getY());
+						repaint();
+					}
+					if(tableauTri[i].contient(e.getX(), e.getY()) && tableauTri[i].isClickedOnIt() == false) {
+						tableauTri[i].move( e.getX(), e.getY());
+						repaint();
+					}
+			}
 		}
-	}
-	
-	private void gestionSourisTri(MouseEvent e) {
-		index = tri.getClickedResizeHandleIndex(e.getX(), e.getY());
-		repaint();
-		if (tri.isClickedOnIt() == true && index != -1) {
-			tri.redimension(index, e.getX(), e.getY());
-			repaint();
-		}else if(tri.contient(e.getX(), e.getY()) && tri.isClickedOnIt() == true && index == -1 ) {
-			tri.rotate( e.getX(), e.getY());
-			repaint();
+		
+		private void gestionSourisRecClick(MouseEvent e) {
+			for(int i =0 ; i < tableauRec.length; i++) {
+				if(tableauRec[i].contient(e.getX(), e.getY())) {
+					System.out.println("CLICKEEEZZZZZZZZZ on");
+					tableauRec[i].setClickedOnIt(true);
+					repaint();
+				}else {
+					System.out.println("CLICKEEEZZZZZZZZZ off");
+					tableauRec[i].setClickedOnIt(false);
+					repaint();
+				}
+			}
 		}
-		if(tri.contient(e.getX(), e.getY()) && tri.isClickedOnIt() == false) {
-			tri.move( e.getX(), e.getY());
-			repaint();
+		
+		private void gestionSourisTriClick(MouseEvent e) {
+			for(int i =0 ; i < tableauTri.length; i++) {
+				if(tableauTri[i].contient(e.getX(), e.getY())) {
+					tableauRec[i].setClickedOnIt(true);
+					repaint();
+				}else {
+					tableauTri[i].setClickedOnIt(false);
+					repaint();
+				}
+			}
 		}
-	}
 	/**
 	 * Méthode qui permet de gérer le canon selon les mouvements de la souris
 	 * @param e Événement de la souris
 	 */
 	  //Benakmoum Walid
 	private void gestionSourisCanon(MouseEvent e) {
-		if(!balleTiree && !rec.contient(e.getX(), e.getY())) {
-			canon.rotate(e.getX(),e.getY());
-        	canon.changerTaille(e.getX(), e.getY());
-		}
-        if(canon.contient(e.getX(), e.getY())) {
-			canon.move(e.getY());
-			repaint();
+		for(int i =0 ; i < tableauRec.length; i++) {
+			if(!balleTiree && !tableauRec[i].contient(e.getX(), e.getY())) {
+				canon.rotate(e.getX(),e.getY());
+	        	canon.changerTaille(e.getX(), e.getY());
+			}
+	        if(canon.contient(e.getX(), e.getY())) {
+				canon.move(e.getY());
+				repaint();
+			}
 		}
 	}
 }
