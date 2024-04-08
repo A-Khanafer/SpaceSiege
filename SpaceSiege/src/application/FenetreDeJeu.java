@@ -21,6 +21,9 @@ import javax.swing.JLabel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ButtonGroup;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.SpinnerNumberModel;
 /**
  * Classe principale de l'interface de jeu, gérant la disposition des éléments de jeu et les interactions utilisateur.
  * Cette classe crée une fenêtre contenant une zone d'animation pour visualiser le jeu, un ensemble de contrôles pour interagir avec le jeu,
@@ -132,7 +135,7 @@ public class FenetreDeJeu extends JFrame {
 		btnDemarrer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				zoneAnimationPhysique.demarrer();
-				zoneAnimationPhysique.TirerBalle();
+			//	zoneAnimationPhysique.TirerBalle();
 			}
 		});
 		btnDemarrer.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
@@ -152,9 +155,15 @@ public class FenetreDeJeu extends JFrame {
 		spinner.setBounds(167, 52, 109, 46);
 		panelFonctionnalites.add(spinner);
 		
-		JSpinner spinner_1 = new JSpinner();
-		spinner_1.setBounds(167, 131, 109, 44);
-		panelFonctionnalites.add(spinner_1);
+		JSpinner spinnerVieMonstre = new JSpinner();
+		spinnerVieMonstre.setModel(new SpinnerNumberModel(Integer.valueOf(1), null, null, Integer.valueOf(1)));
+		spinnerVieMonstre.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				zoneAnimationPhysique.setNombreDeVie((int)spinnerVieMonstre.getValue());
+			}
+		});
+		spinnerVieMonstre.setBounds(167, 131, 109, 44);
+		panelFonctionnalites.add(spinnerVieMonstre);
 		
 		JCheckBox chckbxNewCheckBox = new JCheckBox("New check box");
 		chckbxNewCheckBox.setBounds(990, 0, 97, 23);
@@ -229,6 +238,11 @@ public class FenetreDeJeu extends JFrame {
 		JPanel panelGraphique = new JPanel();
 		panelGraphique.setBounds(1306, 198, 268, 474);
 		contentPane.add(panelGraphique);
+		panelGraphique.setLayout(null);
+		
+		PlanCartesien planCartesien = new PlanCartesien();
+		planCartesien.setBounds(0, 5, 268, 318);
+		panelGraphique.add(planCartesien);
 		
 	}
 }

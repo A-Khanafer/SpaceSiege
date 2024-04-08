@@ -14,6 +14,7 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import composantjeu.Balle;
@@ -65,7 +66,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	/**
      * Le canon utilisé pour tirer des balles.
      */
-	private Canon canon= new Canon (0,80);
+	private Canon canon=new Canon (0,80);
 	/**
      * Utilisé pour effectuer des opérations lors du premier appel de certaines méthodes ou conditions.
      */
@@ -101,11 +102,16 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
      * Index utilisé pour identifier les manipulations spécifiques des éléments de l'interface, telles que le redimensionnement ou la rotation d'obstacles.
      */
     private int index = -1;
+    private int nombreDeVie=1;
+    private Monstres monstre;
     
-    private Monstres monstre= new Monstres(950,100,"images.jpg");
-    
+    private  int balleChoisie;
+
     private Triangle tri = new Triangle(150, 150, 100, 100);
-    
+
+    private boolean monstreMort=false;
+    private PlanCartesien planCartesion= new PlanCartesien();
+
     
     
 	/**
@@ -128,10 +134,22 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 
+
+
+		planCartesion.setBalle(canon.getBalle());
+		monstre= new Monstres(950,100,"images.jpg");
+		
+		
+		if(monstreMort==false) {
 		monstre.dessiner(g2d);
+		}
+
 		rec.dessiner(g2d);
+
 		tri.dessiner(g2d);
-//		canon.dessiner(g2d);
+
+		canon.dessiner(g2d);
+
       
 	    posMurSol = getHeight();
 	    posMurDroit = getWidth();
@@ -155,7 +173,11 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 //			System.out.println("Un tour de run...on avance de " + deltaT + " secondes");
 //			System.out.println("Temps ecoule "+tempsTotalEcoule);
 
+
+System.out.println(canon.getBalle().getPosition().getX());
+
 			System.out.println(canon.getBalleActuelle().getVitesse());
+
 			calculerUneIterationPhysique(deltaT);
 			testerCollisionsEtAjusterVitesses();
 			
@@ -170,11 +192,18 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	        areaBalle.intersect(areaMonstre);
 
 	        if (!areaBalle.isEmpty()) {
-	            System.out.println("TOUCHEEEEEEEEEEEEEEEEEEEEE");
-	            enCoursDAnimation = false; 
+	        	monstre.perdUneVie();
+	        	reinitialiserApplication();
+	        	System.out.println(monstre.getNombreDeVie());
 	        }
 
+
 			repaint();
+			if(monstre.getNombreDeVie()==0) {
+	    	    monstreMort=true;
+	            enCoursDAnimation = false; 
+	            JOptionPane.showMessageDialog(null,"VOUS AVEZ GAGNE");
+	    	}
 			try {
 				Thread.sleep(tempsDuSleep);
 			} catch (InterruptedException e) {
@@ -193,6 +222,9 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 			Thread proc = new Thread(this);
 			proc.start();
 			enCoursDAnimation = true;
+			balleTiree=true;
+			canon.setBalleTiree();
+			
 		}
 	}//fin methode
 	/**
@@ -246,9 +278,10 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	    balleTiree = false;
 	    canon.setPremiereFois(true);
 	    canon = new Canon(0, 80);
-	   
+	   monstreMort=false;
 
-	    rec = new Rectangle(50, 50);
+	   // rec = new Rectangle(50, 50);
+	   repaint();
 	}
 	/**
      * Méthode qui permet de tirer la balle.
@@ -257,12 +290,24 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	public  void TirerBalle() {
 		balleTiree=true;
 		canon.setBalleTiree();
+		repaint();
 		
 	}
+	
 	public void choisirBalle(int nb) {
+
 		canon.setBalleActuelle(nb);
+
 		repaint();
 	}
+	public void setNombreDeVie(int nb) {
+	    this.nombreDeVie = nb;
+	    if (this.monstre != null) {
+	        this.monstre.setNombreDeVie(nb);
+	    }
+	    repaint();
+	}
+
 	
 	/**
      * Initialise l'écouteur de clavier pour interagir avec l'animation via le clavier.
