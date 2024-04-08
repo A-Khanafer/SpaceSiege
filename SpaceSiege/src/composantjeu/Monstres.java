@@ -26,7 +26,7 @@ public class Monstres extends JPanel{
 	 private static final long serialVersionUID = 1L;
 	 
 	    /** Le rectangle représentant le monstre **/
-	    private Rectangle2D rec;
+	    private Rectangle2D rec ;
 	    
 	    /** L'image du monstre **/
 	    private Image imgDecor = null;
@@ -38,10 +38,10 @@ public class Monstres extends JPanel{
 	    private int posY;
 	    
 	    /** La largeur du rectangle représentant le monstre **/
-	    private int largeurRectangle = 125; // Exemple : largeur du rectangle
+	    private int largeurRectangle = 75; // Exemple : largeur du rectangle
 	    
 	    /** La hauteur du rectangle représentant le monstre **/
-	    private int hauteurRectangle = 125; // Exemple : hauteur du rectangle
+	    private int hauteurRectangle = 75; // Exemple : hauteur du rectangle
 	    
 	    /** La zone d'air du monstre, utilisée pour les collisions **/
 	    private Area air;
@@ -68,6 +68,9 @@ public class Monstres extends JPanel{
 	    private void creerLaGeometrie() {
 	        rec = new Rectangle(posX,posY,largeurRectangle,hauteurRectangle);
 	        air = new Area(rec);
+	        
+	        
+	        
 	       
 	    }
 

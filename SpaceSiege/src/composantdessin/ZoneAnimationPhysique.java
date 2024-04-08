@@ -57,6 +57,10 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
      * Un rectangle servant d'obstacle dans la zone d'animation.
      */
 	private Rectangle rec = new Rectangle(50,50);
+	private Rectangle rec1 = new Rectangle(20,100);
+	private Rectangle rec2 = new Rectangle(10,90);
+	private Rectangle rec3 = new Rectangle(80,20);
+	private Rectangle rec4 = new Rectangle(50,50);
 	
 	/**
      * Indique si une balle a été tirée par le canon.
@@ -115,7 +119,8 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	 */
     //Benakmoum Walid
 	public ZoneAnimationPhysique() {
-		setBackground(new Color(255, 255, 255));
+		setBackground(new Color(192, 192, 192));
+		setLayout(null);
 		ecouteurSouris();
 		ecouteurClavier();
 		
@@ -139,6 +144,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 
 		monstre.dessiner(g2d);
 		rec.dessiner(g2d);
+		
 
 
 		canon.dessiner(g2d);
