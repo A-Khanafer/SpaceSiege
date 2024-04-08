@@ -115,7 +115,7 @@ public class Niveau1 extends JPanel implements Runnable {
 
     private  int balleChoisie;
 
-    private Triangle tri = new Triangle(150, 150, 100, 100);
+    private Triangle tri;
 
     private boolean monstreMort=false;
     private PlanCartesien planCartesion= new PlanCartesien();
@@ -148,6 +148,7 @@ public class Niveau1 extends JPanel implements Runnable {
 		if(premiereFois) {
 			rec = new Rectangle(50,50, pixelParMetres);
 			monstre= new Monstres(950,100,"images.jpg", pixelParMetres);
+			tri = new Triangle(150, 150, 10, 10, pixelParMetres);
 			premiereFois = false;
 		}
 

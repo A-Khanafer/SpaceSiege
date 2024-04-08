@@ -22,6 +22,7 @@ import interfaces.Selectionnable;
  *
  */
 public class Triangle implements Dessinable, Obstacles, Selectionnable {
+	private double pixelsParMetres;
 	private double coinXGauche, coinYGauche;
 	private double largeur, hauteur;
 	private Path2D.Double triangle;
@@ -46,12 +47,13 @@ public class Triangle implements Dessinable, Obstacles, Selectionnable {
 	 * @param largeur La largeur du sapin
 	 * @param hauteur La hauteur totale du sapin
 	 */
-	public Triangle(double x, double y, double largeur, double hauteur) {
+	public Triangle(double x, double y, double largeur, double hauteur, double pixelsParMetres) {
 		//on mémorise les caractéristique du sapin dans son ensemble
+		this.pixelsParMetres = pixelsParMetres;
 		this.coinXGauche = x;
 		this.coinYGauche = y;
-		this.largeur= largeur;
-		this.hauteur = hauteur; 
+		this.largeur= largeur * this.pixelsParMetres;
+		this.hauteur = hauteur* this.pixelsParMetres; 
 		poigneRedimensionnement = new Ellipse2D.Double[8];
 		creerLaGeometrie();
 	} //fin constructeur
