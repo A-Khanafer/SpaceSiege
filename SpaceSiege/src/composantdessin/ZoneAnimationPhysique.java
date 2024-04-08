@@ -55,7 +55,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	/**
      * Un rectangle servant d'obstacle dans la zone d'animation.
      */
-	private Rectangle rec = new Rectangle(50,50);
+	private Rectangle rec;
 	
 	/**
      * Indique si une balle a été tirée par le canon.
@@ -101,7 +101,10 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
      */
     private int index = -1;
     
-    private Monstres monstre= new Monstres(950,100,"images.jpg");
+    private Monstres monstre;
+    
+    private double pixelParMetres;
+	private boolean premiereFois = true;
     
     
     
@@ -124,20 +127,20 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+		pixelParMetres = getWidth()/150;
+		System.out.println(pixelParMetres);
 
+		if(premiereFois) {
+			rec = new Rectangle(50,50, pixelParMetres);
+			monstre= new Monstres(950,100,"images.jpg", pixelParMetres);
+			premiereFois = false;
+		}
 
-
-		
-		
-		
 
 		monstre.dessiner(g2d);
 		rec.dessiner(g2d);
 
 		canon.dessiner(g2d);
-      
-
-		
 
 	    posMurSol = getHeight();
 	    posMurDroit = getWidth();
@@ -260,7 +263,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	    canon = new Canon(0, 80);
 	   
 
-	    rec = new Rectangle(50, 50);
+	    rec = new Rectangle(50, 50, pixelParMetres);
 	}
 	/**
      * Méthode qui permet de tirer la balle.

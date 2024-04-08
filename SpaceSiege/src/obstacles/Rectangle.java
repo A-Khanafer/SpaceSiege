@@ -30,17 +30,17 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
     /**
      * Le nombre de pixels par mètre.
      */
-    private double pixelsParMetre = 10;
+    private double pixelsParMetre;
 
     /**
      * La largeur du rectangle en pixels.
      */
-    private double largeurRec = 10 * pixelsParMetre;
+    private double largeurRec;
 
     /**
      * La hauteur du rectangle en pixels.
      */
-    private double longueurRec = 10 * pixelsParMetre;
+    private double longueurRec;
 
     /**
      * La forme du rectangle.
@@ -88,9 +88,12 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
      * @param posY La position en Y du coin supérieur gauche du rectangle.
      */
     //Ahmad Khanafer
-    public Rectangle(double posX, double posY) {
+    public Rectangle(double posX, double posY, double pixelsParMetre) {
+    	this.pixelsParMetre = pixelsParMetre;
         this.coinXGauche = posX;
         this.coinYGauche = posY;
+        largeurRec = 10 * this.pixelsParMetre;
+        longueurRec = 10 * this.pixelsParMetre;
         poigneRedimensionnement = new Ellipse2D.Double[8];
         
         creerLaGeometrie();
