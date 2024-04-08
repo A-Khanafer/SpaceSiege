@@ -70,6 +70,7 @@ public class BoutonsIntro extends JPanel {
 				
 				FenetreModeDeJeu.afficherFenetre();
 				
+				
 			}
 		});
 		btnJouer.addMouseListener(new MouseAdapter() {
