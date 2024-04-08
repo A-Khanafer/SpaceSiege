@@ -26,7 +26,6 @@ import physique.Vecteur2D;
 import java.awt.Color;
 
 import obstacles.Rectangle;
-import obstacles.Triangle2D;
 import outils.CollisionRectangle;
 import physique.MoteurPhysique;
 
@@ -128,7 +127,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 
 
 
-		Triangle2D noir = new Triangle2D(50, 50, 100, 100, 20, 20);
+		
 		
 		
 
