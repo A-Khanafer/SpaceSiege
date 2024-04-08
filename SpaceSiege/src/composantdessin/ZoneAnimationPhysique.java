@@ -104,7 +104,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
     
     private Monstres monstre= new Monstres(950,100,"images.jpg");
     
-    private Triangle tri = new Triangle(70, 70, 100, 100);
+    private Triangle tri = new Triangle(150, 150, 100, 100);
     
     
     
@@ -131,11 +131,8 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 		monstre.dessiner(g2d);
 		rec.dessiner(g2d);
 		tri.dessiner(g2d);
-		canon.dessiner(g2d);
+//		canon.dessiner(g2d);
       
-
-		
-
 	    posMurSol = getHeight();
 	    posMurDroit = getWidth();
 	    posMurGauche = 0;
@@ -311,6 +308,14 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 					rec.setClickedOnIt(false);
 					repaint();
 				}
+				
+				if(tri.contient(e.getX(), e.getY())) {
+					tri.setClickedOnIt(true);
+					repaint();
+				}else {
+					tri.setClickedOnIt(false);
+					repaint();
+				}
 
 			}
 		});
@@ -321,8 +326,9 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 			public void mouseDragged(MouseEvent e) {
 				
 				gestionSourisRec(e);
+				gestionSourisTri(e);
 					
-			gestionSourisCanon(e);
+				gestionSourisCanon(e);
 			}
 		});
 	}
@@ -341,6 +347,22 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 		}
 		if(rec.contient(e.getX(), e.getY()) && rec.isClickedOnIt() == false) {
 			rec.move( e.getX(), e.getY());
+			repaint();
+		}
+	}
+	
+	private void gestionSourisTri(MouseEvent e) {
+		index = tri.getClickedResizeHandleIndex(e.getX(), e.getY());
+		repaint();
+		if (tri.isClickedOnIt() == true && index != -1) {
+			tri.redimension(index, e.getX(), e.getY());
+			repaint();
+		}else if(tri.contient(e.getX(), e.getY()) && tri.isClickedOnIt() == true && index == -1 ) {
+			tri.rotate( e.getX(), e.getY());
+			repaint();
+		}
+		if(tri.contient(e.getX(), e.getY()) && tri.isClickedOnIt() == false) {
+			tri.move( e.getX(), e.getY());
 			repaint();
 		}
 	}
