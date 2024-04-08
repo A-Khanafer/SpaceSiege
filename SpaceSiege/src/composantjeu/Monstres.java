@@ -25,8 +25,12 @@ public class Monstres extends JPanel{
 	
 	 private static final long serialVersionUID = 1L;
 	 
+	 	
+	 	private double pixelsParMetres;
 	    /** Le rectangle représentant le monstre **/
+
 	    private Rectangle2D rec ;
+
 	    
 	    /** L'image du monstre **/
 	    private Image imgDecor = null;
@@ -38,14 +42,17 @@ public class Monstres extends JPanel{
 	    private int posY;
 	    
 	    /** La largeur du rectangle représentant le monstre **/
-	    private int largeurRectangle = 75; // Exemple : largeur du rectangle
+
+	   
+	    private double largeurRectangle; // Exemple : largeur du rectangle
+
 	    
-	    /** La hauteur du rectangle représentant le monstre **/
-	    private int hauteurRectangle = 75; // Exemple : hauteur du rectangle
+	    private double hauteurRectangle; // Exemple : hauteur du rectangle
 	    
 	    /** La zone d'air du monstre, utilisée pour les collisions **/
 	    private Area air;
 
+	    private static int nombreDeVie=1;
 	    /**
 		 * Constructeur de la classe Monstres.
 		 * @param posX La position en X du monstre.
@@ -53,9 +60,12 @@ public class Monstres extends JPanel{
 		 * @param nomImage Le nom de l'image à utiliser pour représenter le monstre.
 		 **/
 	    //Zakaria Soudaki
-	    public Monstres(int posX, int posY, String nomImage) {
+	    public Monstres(int posX, int posY, String nomImage, double pixelsParMetres) {
+	    	this.pixelsParMetres = pixelsParMetres;
 	        this.posX = posX;
 	        this.posY = posY;
+	        largeurRectangle = 15*this.pixelsParMetres;
+	        hauteurRectangle = 15*this.pixelsParMetres;
 	       imgDecor = OutilsImage.lireImage(nomImage); 
 	       
 	       creerLaGeometrie();
@@ -66,7 +76,7 @@ public class Monstres extends JPanel{
 		 **/
 	    //Zakaria Soudaki
 	    private void creerLaGeometrie() {
-	        rec = new Rectangle(posX,posY,largeurRectangle,hauteurRectangle);
+	        rec = new Rectangle2D.Double(posX,posY,largeurRectangle,hauteurRectangle);
 	        air = new Area(rec);
 	        
 	        
@@ -82,7 +92,7 @@ public class Monstres extends JPanel{
 	    public void dessiner(Graphics2D g2d) {
 	        g2d.setColor(Color.GREEN);
 	        g2d.fill(rec); // Dessiner le rectangle avec l'image
-	        g2d.drawImage( imgDecor,  posX,  posY,  largeurRectangle,  hauteurRectangle,  null);
+	        g2d.drawImage( imgDecor,  posX,  posY,  (int)largeurRectangle, (int) hauteurRectangle,  null);
 
 
 	    }
@@ -103,6 +113,15 @@ public class Monstres extends JPanel{
 	    //zakaria soudaki
 	    public Rectangle2D getRec() {
 	    	return this.rec;
+	    }
+	    public void perdUneVie() {
+	    	nombreDeVie--;
+	    }
+	    public int getNombreDeVie(){
+	    	return nombreDeVie;
+	    }
+	    public void setNombreDeVie(int nb) {
+	    	nombreDeVie=nb;
 	    }
 	   
 }

@@ -1,4 +1,7 @@
 package interfaces;
+
+import java.awt.Point;
+
 /**
  * L'interface Obstacles définit les méthodes permettant de manipuler un obstacle dans un système.
  * @author Ahmad Khanafer

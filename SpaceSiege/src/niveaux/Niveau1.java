@@ -1,8 +1,8 @@
 package niveaux;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+
 import java.awt.RenderingHints;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -10,26 +10,42 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
+
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import composantdessin.PlanCartesien;
+import composantjeu.Balle;
+import composantjeu.BalleBasique;
 import composantjeu.Canon;
+import composantjeu.FlecheDeTir;
 import composantjeu.Monstres;
+import physique.Vecteur2D;
+
+import java.awt.Color;
+
 import obstacles.Rectangle;
+
+import obstacles.Triangle;
+
 import outils.CollisionRectangle;
+import physique.MoteurPhysique;
 
 public class Niveau1 extends JPanel implements Runnable {
 
-
-	 
 	/**
-	 * 
+	 * La classe ZoneAnimationPhysique étend JPanel et implémente Runnable pour fournir une zone d'animation interactive. Cette zone permet de simuler des animations basées sur la physique, telles que le mouvement d'un canon tirant des balles, et de gérer des interactions avec des obstacles.
+	 * @author Benakmoum Walid
+	 * @author Khanafer Ahmad
+	 * @author Soudaki Zakaria
 	 */
 	private static final long serialVersionUID = 1L;
-	
-
-	
+	/**
+     * Indique si une animation est actuellement en cours.
+     */
 	private boolean enCoursDAnimation=false;
 
 	private double rotation=20;
@@ -44,7 +60,7 @@ public class Niveau1 extends JPanel implements Runnable {
 	/**
      * Un rectangle servant d'obstacle dans la zone d'animation.
      */
-	private Rectangle rec = new Rectangle(50,50);
+	private Rectangle rec;
 	
 	/**
      * Indique si une balle a été tirée par le canon.
@@ -53,7 +69,7 @@ public class Niveau1 extends JPanel implements Runnable {
 	/**
      * Le canon utilisé pour tirer des balles.
      */
-	private Canon canon= new Canon (0,80);
+	private Canon canon=new Canon (0,80);
 	/**
      * Utilisé pour effectuer des opérations lors du premier appel de certaines méthodes ou conditions.
      */
@@ -89,20 +105,32 @@ public class Niveau1 extends JPanel implements Runnable {
      * Index utilisé pour identifier les manipulations spécifiques des éléments de l'interface, telles que le redimensionnement ou la rotation d'obstacles.
      */
     private int index = -1;
+    private int nombreDeVie=1;
+    private Monstres monstre;
+
     
-    private Monstres monstre= new Monstres(950,100,"images.jpg");
+    private double pixelParMetres;
+	private boolean premiereFois = true;
     
-    private int balleChoisie;
+
+    private  int balleChoisie;
+
+    private Triangle tri;
+
+    private boolean monstreMort=false;
+    private PlanCartesien planCartesion= new PlanCartesien();
+
     
     
 	/**
 	 * Constructeur de la classe. Permet de crée l'interface
 	 */
     //Benakmoum Walid
-    public Niveau1() {
+	public Niveau1() {
 		setBackground(new Color(255, 255, 255));
 		ecouteurSouris();
 		ecouteurClavier();
+		
 	}
 	/**
      * Dessine les composants graphiques de la zone d'animation, y compris le canon et les obstacles.
@@ -112,19 +140,37 @@ public class Niveau1 extends JPanel implements Runnable {
 	public void paintComponent(Graphics g ) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
+
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+		pixelParMetres = getWidth()/150;
+		System.out.println(pixelParMetres);
+
+		if(premiereFois) {
+			rec = new Rectangle(50,50, pixelParMetres);
+			monstre= new Monstres(950,100,"images.jpg", pixelParMetres);
+			tri = new Triangle(150, 150, 10, 10, pixelParMetres);
+			premiereFois = false;
+		}
 
 
 
 
 
-		monstre.dessiner(g2d);
-		rec.dessiner(g2d);
-
-		canon.dessiner(g2d);
-      
+		planCartesion.setBalle(canon.getBalle());
 
 		
+		
+		if(monstreMort==false) {
+		monstre.dessiner(g2d);
+		}
+
+
+		rec.dessiner(g2d);
+
+		tri.dessiner(g2d);
+
+		canon.dessiner(g2d);
+
 
 	    posMurSol = getHeight();
 	    posMurDroit = getWidth();
@@ -145,9 +191,13 @@ public class Niveau1 extends JPanel implements Runnable {
 	public void run() {
 		while (enCoursDAnimation) {
 
-			System.out.println("Un tour de run...on avance de " + deltaT + " secondes");
-			System.out.println("Temps ecoule "+tempsTotalEcoule);
+//			System.out.println("Un tour de run...on avance de " + deltaT + " secondes");
+//			System.out.println("Temps ecoule "+tempsTotalEcoule);
 
+
+System.out.println(canon.getBalle().getPosition().getX());
+
+			System.out.println(canon.getBalleActuelle().getVitesse());
 
 			calculerUneIterationPhysique(deltaT);
 			testerCollisionsEtAjusterVitesses();
@@ -163,17 +213,18 @@ public class Niveau1 extends JPanel implements Runnable {
 	        areaBalle.intersect(areaMonstre);
 
 	        if (!areaBalle.isEmpty()) {
-	            System.out.println("TOUCHEEEEEEEEEEEEEEEEEEEEE");
-	            enCoursDAnimation = false; 
+	        	monstre.perdUneVie();
+	        	reinitialiserApplication();
+	        	System.out.println(monstre.getNombreDeVie());
 	        }
 
-			
-	        
-	        
-		   
 
-		
 			repaint();
+			if(monstre.getNombreDeVie()==0) {
+	    	    monstreMort=true;
+	            enCoursDAnimation = false; 
+	            JOptionPane.showMessageDialog(null,"VOUS AVEZ GAGNE");
+	    	}
 			try {
 				Thread.sleep(tempsDuSleep);
 			} catch (InterruptedException e) {
@@ -192,6 +243,9 @@ public class Niveau1 extends JPanel implements Runnable {
 			Thread proc = new Thread(this);
 			proc.start();
 			enCoursDAnimation = true;
+			balleTiree=true;
+			canon.setBalleTiree();
+			
 		}
 	}//fin methode
 	/**
@@ -243,15 +297,14 @@ public class Niveau1 extends JPanel implements Runnable {
 
 
 	    balleTiree = false;
-
-	    canon = new Canon(0, 80);
 	    canon.setPremiereFois(true);
+	    canon = new Canon(0, 80);
+	   monstreMort=false;
 
+	    rec = new Rectangle(50, 50, pixelParMetres);
 
-	    rec = new Rectangle(50, 50);
+	   repaint();
 
-
-	    demarrer();
 	}
 	/**
      * Méthode qui permet de tirer la balle.
@@ -260,12 +313,24 @@ public class Niveau1 extends JPanel implements Runnable {
 	public  void TirerBalle() {
 		balleTiree=true;
 		canon.setBalleTiree();
+		repaint();
 		
 	}
+	
 	public void choisirBalle(int nb) {
-		balleChoisie=nb;
-		canon.choisirBalleCanon(balleChoisie);
+
+		canon.setBalleActuelle(nb);
+
+		repaint();
 	}
+	public void setNombreDeVie(int nb) {
+	    this.nombreDeVie = nb;
+	    if (this.monstre != null) {
+	        this.monstre.setNombreDeVie(nb);
+	    }
+	    repaint();
+	}
+
 	
 	/**
      * Initialise l'écouteur de clavier pour interagir avec l'animation via le clavier.
@@ -311,6 +376,14 @@ public class Niveau1 extends JPanel implements Runnable {
 					rec.setClickedOnIt(false);
 					repaint();
 				}
+				
+				if(tri.contient(e.getX(), e.getY())) {
+					tri.setClickedOnIt(true);
+					repaint();
+				}else {
+					tri.setClickedOnIt(false);
+					repaint();
+				}
 
 			}
 		});
@@ -321,8 +394,9 @@ public class Niveau1 extends JPanel implements Runnable {
 			public void mouseDragged(MouseEvent e) {
 				
 				gestionSourisRec(e);
+				gestionSourisTri(e);
 					
-			gestionSourisCanon(e);
+				gestionSourisCanon(e);
 			}
 		});
 	}
@@ -341,6 +415,22 @@ public class Niveau1 extends JPanel implements Runnable {
 		}
 		if(rec.contient(e.getX(), e.getY()) && rec.isClickedOnIt() == false) {
 			rec.move( e.getX(), e.getY());
+			repaint();
+		}
+	}
+	
+	private void gestionSourisTri(MouseEvent e) {
+		index = tri.getClickedResizeHandleIndex(e.getX(), e.getY());
+		repaint();
+		if (tri.isClickedOnIt() == true && index != -1) {
+			tri.redimension(index, e.getX(), e.getY());
+			repaint();
+		}else if(tri.contient(e.getX(), e.getY()) && tri.isClickedOnIt() == true && index == -1 ) {
+			tri.rotate( e.getX(), e.getY());
+			repaint();
+		}
+		if(tri.contient(e.getX(), e.getY()) && tri.isClickedOnIt() == false) {
+			tri.move( e.getX(), e.getY());
 			repaint();
 		}
 	}
@@ -363,6 +453,4 @@ public class Niveau1 extends JPanel implements Runnable {
 		
 			
 
-
-
-
+		
