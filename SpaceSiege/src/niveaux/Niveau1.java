@@ -263,8 +263,8 @@ public class Niveau1 extends JPanel implements Runnable {
 		
 	}
 	public void choisirBalle(int nb) {
-		balleChoisie=nb;
-		canon.choisirBalleCanon(balleChoisie);
+		canon.setBalleActuelle(nb);
+		repaint();
 	}
 	
 	/**
