@@ -156,7 +156,6 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 
         AffineTransform rotation = AffineTransform.getRotateInstance(angleRotation, centreX, centreY);
 
- 
         Point2D.Double[] coins = new Point2D.Double[4];
         rotation.transform(coinSupGauche, coins[0] = new Point2D.Double());
         rotation.transform(coinSupDroit, coins[1] = new Point2D.Double());
@@ -169,6 +168,26 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
         segmentDroite = new Line2D.Double(coins[1].getX(), coins[1].getY(), coins[2].getX(), coins[2].getY());
         
     }
+    
+    private Point2D.Double transformMousePoint(double mouseX, double mouseY) {
+        // Inverser l'angle de rotation pour transformer les coordonnées
+        double inverseAngle = -this.angleRotation;
+
+        // Calculer le vecteur de la souris par rapport au centre du rectangle
+        double mouseXfromCenter = mouseX - this.centreX;
+        double mouseYfromCenter = mouseY - this.centreY;
+
+        // Appliquer la rotation inverse
+        double rotatedX = mouseXfromCenter * Math.cos(inverseAngle) - mouseYfromCenter * Math.sin(inverseAngle);
+        double rotatedY = mouseXfromCenter * Math.sin(inverseAngle) + mouseYfromCenter * Math.cos(inverseAngle);
+
+        // Re-calculer les coordonnées par rapport à l'origine
+        double finalX = rotatedX + this.centreX;
+        double finalY = rotatedY + this.centreY;
+
+        return new Point2D.Double(finalX, finalY);
+    }
+
 
     /**
      * Méthode pour redimensionner le rectangle en fonction de la poignée de redimensionnement sélectionnée.
@@ -179,12 +198,20 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
      */
     //Ahmad Khanafer
     public void redimension(int index, int eX, int eY) {
+    	
+    	
+    	
         // Vérifier si le redimensionnement est activé
         if (estClique) {
+        	
+        	Point2D point = transformMousePoint(eX, eY);
+        	eX = (int) point.getX();
+        	eY = (int) point.getY();
+        	
             // Calculer le décalage entre la position actuelle et la position de la souris
             double offsetX = eX - poigneRedimensionnement[index].getCenterX();
             double offsetY = eY - poigneRedimensionnement[index].getCenterY();
-
+            
             // Effectuer le redimensionnement en fonction de l'index du point de redimensionnement sélectionné
             switch (index) {
                 case 0: // En haut à gauche
@@ -418,6 +445,7 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
         return points;
     }
 
+    
    
 
 

@@ -13,7 +13,6 @@ import physique.Vecteur2D;
  *
  */
 public class CollisionRectangle {
-	
 	/**
 	 * Méthode qui calcul la distance entre deux point
 	 * @param x1 position x premier point
@@ -51,7 +50,6 @@ public class CollisionRectangle {
 			return false;
 		}
 	}
-	
 	//pour savoir si les point les plus proches sont sur la ligne
 	/**
 	 * Méthode qui permet de savoir si le point le plus proche de la balle sur l'axe d'un segment du carré fait 
@@ -73,11 +71,8 @@ public class CollisionRectangle {
 		if( d1 + d2 >= longueur-0.01 && d1 + d2 <= longueur +0.01) {
 			return true;
 		}
-		return false;
-		
+		return false;	
 	}
-	
-	
 	//point/ligne au debut sur tout les coins
 	/**
 	 * Méthode qui detecte la collision entre la balle et les quatre coins du rectangle
@@ -113,7 +108,6 @@ public class CollisionRectangle {
     	}
 		return longueursSegments;
     }
-    
     //calcul du Dot
     /**
      * Méthode qui calcul le facteur dot pour le calcul du point le plus proche de la balle
@@ -142,7 +136,7 @@ public class CollisionRectangle {
      * @param segment le segement contre lequel elle fait la collison
      * @param balle la géometrie ( la balle)
      * @param etat tableau de boolean pour connaitre l'état de tout les segments
-     */
+**/
 
     private static void calculRebondPhysique(Line2D.Double segment, Balle balle, boolean [] etat) {
    
@@ -180,7 +174,6 @@ public class CollisionRectangle {
 
 	 public static void detectionCollisionRectangle(Balle balle, Rectangle rec) {
 
-	        
 		    boolean toucherCoinsLigne = detectionToucherCoinLigne(rec,balle);
 		   
 		    if (toucherCoinsLigne) {
@@ -206,7 +199,6 @@ public class CollisionRectangle {
 
 		    }
 		    
-		    
 		    boolean[] seg = new boolean[4]; 
 
 		    for (int i = 0; i < 4; i++) {
@@ -224,7 +216,6 @@ public class CollisionRectangle {
 		            }
 		        }
 		    }
-		    
 		    if (seg[0] == true) {
 		        System.out.println("Le segment 1 est vrai");
 		        calculRebondPhysique(rec.getSegment(1), balle, seg);
@@ -245,12 +236,9 @@ public class CollisionRectangle {
 		        calculRebondPhysique(rec.getSegment(4), balle, seg);
 		        seg[3] = false;
 		        
-		    }
-		    
+		    } 
 		 }
 	}
-	 
-	 
 }
 
 

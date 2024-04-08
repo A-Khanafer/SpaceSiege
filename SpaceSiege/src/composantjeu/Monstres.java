@@ -48,6 +48,7 @@ public class Monstres extends JPanel{
 	    /** La zone d'air du monstre, utilisée pour les collisions **/
 	    private Area air;
 
+	    private static int nombreDeVie=1;
 	    /**
 		 * Constructeur de la classe Monstres.
 		 * @param posX La position en X du monstre.
@@ -105,6 +106,15 @@ public class Monstres extends JPanel{
 	    //zakaria soudaki
 	    public Rectangle2D getRec() {
 	    	return this.rec;
+	    }
+	    public void perdUneVie() {
+	    	nombreDeVie--;
+	    }
+	    public int getNombreDeVie(){
+	    	return nombreDeVie;
+	    }
+	    public void setNombreDeVie(int nb) {
+	    	nombreDeVie=nb;
 	    }
 	   
 }
