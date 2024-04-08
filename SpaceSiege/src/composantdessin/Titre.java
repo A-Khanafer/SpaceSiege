@@ -10,6 +10,7 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.JPanel;
 
 import outils.OutilsImage;
+import java.awt.Color;
 
 public class Titre extends JPanel implements Runnable{
 
@@ -25,8 +26,9 @@ public class Titre extends JPanel implements Runnable{
 	 * Create the panel.
 	 */
 	public Titre() {
-		 imgTitre = OutilsImage.lireImage("TITRE.png"); 
-	     imgEtoile= OutilsImage.lireImage("etoiles.png");
+		setBackground(new Color(0, 0, 0,0));
+		 imgTitre = OutilsImage.lireImage("titre2.png"); 
+	     imgEtoile= OutilsImage.lireImage("etoiles2.png");
 	     demarrer();
 	}
 	private void dessiner(Graphics2D g2d, int mouvement) {

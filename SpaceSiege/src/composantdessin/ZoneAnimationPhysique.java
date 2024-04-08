@@ -59,6 +59,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	/**
      * Un rectangle servant d'obstacle dans la zone d'animation.
      */
+
 	private Rectangle rec;
 	
 	/**
@@ -126,7 +127,8 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	 */
     //Benakmoum Walid
 	public ZoneAnimationPhysique() {
-		setBackground(new Color(255, 255, 255));
+		setBackground(new Color(192, 192, 192));
+		setLayout(null);
 		ecouteurSouris();
 		ecouteurClavier();
 		
@@ -165,6 +167,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 
 
 		rec.dessiner(g2d);
+		
 
 		tri.dessiner(g2d);
 
