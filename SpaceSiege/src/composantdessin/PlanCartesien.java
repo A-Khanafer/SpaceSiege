@@ -230,9 +230,9 @@ public class PlanCartesien extends JPanel {
 		double x, y;
 		ligneBrisee = new Path2D.Double();
 		x =position.getX();
-		System.out.println(position.getX()+"POSITIOn EN X PLAN");
+		//System.out.println(position.getX()+"POSITIOn EN X PLAN");
 		y = position.getY();
-		System.out.println( position.getY()+"POSITIOn EN Y PLAN");
+	//	System.out.println( position.getY()+"POSITIOn EN Y PLAN");
 		ligneBrisee.moveTo(x, y);
 		
 		

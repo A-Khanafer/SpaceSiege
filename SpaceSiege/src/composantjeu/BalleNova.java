@@ -19,7 +19,7 @@ public class BalleNova extends Balle {
      * @param vitesse La vitesse initiale de la balle.
      */
 	//Benakmoum Walid
-    public BalleNova(int masseDonne, int chargeDonne, int diametreDonne, Vecteur2D position, Vecteur2D vitesse,double pixelsParMetre) {
+    public BalleNova(int masseDonne, int chargeDonne, double diametreDonne, Vecteur2D position, Vecteur2D vitesse,double pixelsParMetre) {
         super(masseDonne, chargeDonne, diametreDonne, position, vitesse,pixelsParMetre);
         creerLaGeometrie();
     }

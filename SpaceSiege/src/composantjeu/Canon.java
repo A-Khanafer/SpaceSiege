@@ -26,14 +26,14 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 	/**
      * Position horizontale du canon sur le panneau de dessin.
      */
-    private int x;
+    private double x;
 
     
-    private int pixelsParMetre;
+    private double pixelsParMetre;
     /**
      * Position verticale du canon sur le panneau de dessin.
      */
-    private int y;
+    private double y;
 
     /**
      * Représente le corps du canon sous forme de rectangle. Initialement positionné avec une hauteur de 50 pixels et une largeur de 100 pixels.
@@ -63,12 +63,12 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
     /**
      * Largeur du canon, définie initialement à 100 pixels. Influence la taille du rectangle représentant le corps du canon.
      */
-    private int largeur = 100;
+    private double largeur = 100;
 
     /**
      * Hauteur du canon, définie initialement à 50 pixels. Affecte la taille du rectangle du corps du canon ainsi que du cercle avant.
      */
-    private int hauteur = 50;
+    private double hauteur = 50;
 
     /**
      * Aire couvrant la forme du cercle à l'avant du canon. Utilisée pour le dessin et peut-être pour les interactions ou les collisions.
@@ -124,7 +124,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 	private static int balleChoisie=1;
 	
 
-	public Canon(int x,int y,int pixelsParMetre) {
+	public Canon(double x,double y,double pixelsParMetre) {
 		this.x=x*pixelsParMetre;
 		this.y=y*pixelsParMetre;
 	   this.pixelsParMetre=pixelsParMetre;

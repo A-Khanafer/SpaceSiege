@@ -19,7 +19,7 @@ public class BalleElastique extends Balle {
      * @param vitesse La vitesse initiale de la balle.
      */
 	//Benakmoum Walid
-    public BalleElastique(int masseDonne, int chargeDonne, int diametreDonne, Vecteur2D position, Vecteur2D vitesse,double pixelsParMetre) {
+    public BalleElastique(int masseDonne, int chargeDonne, double diametreDonne, Vecteur2D position, Vecteur2D vitesse,double pixelsParMetre) {
         super(masseDonne, chargeDonne, diametreDonne, position, vitesse,pixelsParMetre);
         creerLaGeometrie();
     }
@@ -65,6 +65,7 @@ public class BalleElastique extends Balle {
     public void avancerUnPas(double deltaT) {
         vitesse = MoteurPhysique.calculVitesse(deltaT, vitesse, accel);
         position = MoteurPhysique.calculPosition(deltaT, position, vitesse);
+
         creerLaGeometrie();
     }
 
