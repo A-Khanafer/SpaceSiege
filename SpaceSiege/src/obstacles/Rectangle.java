@@ -105,7 +105,7 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
         
         longueurRec = longueur;
         largeurRec = largeur;
-    	
+    	poigneRedimensionnement = new Ellipse2D.Double[8];
     	creerLaGeometrie();
     	
     }

@@ -35,7 +35,7 @@ import obstacles.Triangle;
 import outils.CollisionRectangle;
 import physique.MoteurPhysique;
 
-public class Niveau3 extends JPanel implements Runnable {
+public class Niveau3 extends Niveaux {
 
 	/**
 	 * La classe ZoneAnimationPhysique étend JPanel et implémente Runnable pour fournir une zone d'animation interactive. Cette zone permet de simuler des animations basées sur la physique, telles que le mouvement d'un canon tirant des balles, et de gérer des interactions avec des obstacles.
@@ -155,7 +155,7 @@ public class Niveau3 extends JPanel implements Runnable {
 			pixelParMetres = getWidth()/150;
 			int espace=0;
 			monstre = new Monstres(1000, 20, "images.jpg", pixelParMetres);
-			 canon=new Canon (0,10,pixelParMetres);
+			
 				for(int i = 0 ; i < tableauRec.length ; i++) {
 					tableauRec[i] = new Rectangle(50 + espace, 50 + espace, pixelParMetres);
 					espace = espace + 80;
@@ -274,7 +274,7 @@ public class Niveau3 extends JPanel implements Runnable {
      * @param deltaT Le temps écoulé depuis la dernière itération.
      */
 	//Benakmoum Walid
-	private void calculerUneIterationPhysique(double deltaT) {
+	public void calculerUneIterationPhysique(double deltaT) {
 		tempsTotalEcoule += deltaT;
 		calculerLesForces();
 		canon.avancerUnPas(deltaT);
@@ -285,7 +285,7 @@ public class Niveau3 extends JPanel implements Runnable {
      * Teste les collisions entre les éléments graphiques et ajuste leurs vitesses en conséquence.
      */
 	//ZAKARIA SOUDAKI
-	private void testerCollisionsEtAjusterVitesses() {	
+	public void testerCollisionsEtAjusterVitesses() {	
 		 
 		canon.getBalle().gererCollisions(posMurSol, posMurDroit , posMurHaut, posMurGauche);
 	}

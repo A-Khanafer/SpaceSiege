@@ -35,7 +35,7 @@ import obstacles.Triangle;
 import outils.CollisionRectangle;
 import physique.MoteurPhysique;
 
-public class Niveau1 extends JPanel implements Runnable {
+public class Niveau1 extends Niveaux {
 
 	/**
 	 * La classe ZoneAnimationPhysique étend JPanel et implémente Runnable pour fournir une zone d'animation interactive. Cette zone permet de simuler des animations basées sur la physique, telles que le mouvement d'un canon tirant des balles, et de gérer des interactions avec des obstacles.
@@ -131,7 +131,7 @@ public class Niveau1 extends JPanel implements Runnable {
 	public Niveau1() {
 		setBackground(new Color(192, 192, 192));
 		setLayout(null);
-		tableauRec = new Rectangle[3];
+		tableauRec = new Rectangle[11];
 		tableauTri = new Triangle[3];
 		ecouteurSouris();
 		ecouteurClavier();
@@ -156,26 +156,46 @@ public class Niveau1 extends JPanel implements Runnable {
 			int espace=0;
 			monstre = new Monstres(1000, 20, "images.jpg", pixelParMetres);
 			 canon=new Canon (0,10,pixelParMetres);
-				for(int i = 0 ; i < tableauRec.length ; i++) {
-					tableauRec[i] = new Rectangle(50 + espace, 50 + espace, pixelParMetres);
-					espace = espace + 80;
-				}
-				espace = 0;
-				for(int i = 0 ; i < tableauRec.length ; i++) {
+			 
+			 
+
+			 
+			 tableauRec[0] = new Rectangle(  143.5,  334, 336, 53);
+			 tableauRec[1] = new Rectangle(  644,  253, 206, 48);
+			 tableauRec[2] = new Rectangle(  224.5,  0, 249, 57);
+			 tableauRec[3] = new Rectangle(  246.75,  373.75, 300, 56.25);
+			 tableauRec[4] = new Rectangle( 344.3, 0, 278.5, 57.25);
+			 tableauRec[5] = new Rectangle(  398.75, 357.25, 312.75, 52.25);
+			 tableauRec[6] = new Rectangle( 489.2, 0, 258.56, 47.56);
+			 tableauRec[7] = new Rectangle(  661.375, 391.75, 230.25, 60.62);
+			 tableauRec[8] = new Rectangle( 759.9375, 0, 182.375, 36.125);
+			 tableauRec[9] = new Rectangle(  1029.0, 444.85, 140.28, 124.0);
+			 tableauRec[10] = new Rectangle(  1172.96, 218.4, 113.18, 92.06);
+
+			 
+//				for(int i = 0 ; i < tableauRec.length ; i++) {
+//				tableauRec[i] = new Rectangle(50 + espace, 50 + espace, pixelParMetres);
+//				espace = espace + 80;
+//			}
+			espace = 0;
+			 
+				for(int i = 0 ; i < tableauTri.length ; i++) {
 					tableauTri[i] = new Triangle(50, 50, 10, 15, pixelParMetres);
 					espace = espace + 80;
 				}
 			premiereFois = false;
 		}
 
-		tableauRec[0].dessiner(g2d);
-		tableauRec[1].dessiner(g2d);
-		tableauRec[2].dessiner(g2d);
+		
+		for (int i = 0; i < tableauRec.length; i++) {
+			tableauRec[i].dessiner(g2d);
+		}
+		
 
 		tableauTri[0].dessiner(g2d);
 		tableauTri[1].dessiner(g2d);
 
-	//	planCartesion.setBalle(canon.getBalle());
+		
 
 		
 		
@@ -244,8 +264,8 @@ public class Niveau1 extends JPanel implements Runnable {
 				e.printStackTrace();
 			}
 		}//fin while
-		System.out.println("Le thread est mort...!");
-	}
+		System.out.println("Le thread est mort...!");	
+     }
 
 	/**
      * Démarre le thread d'animation si ce n'est pas déjà fait.
@@ -253,28 +273,32 @@ public class Niveau1 extends JPanel implements Runnable {
 	// Benakmoum Walid
 	public void demarrer() {
 		if (!enCoursDAnimation) {
+			System.out.println("bangbangbang");
 			Thread proc = new Thread(this);
 			proc.start();
 			enCoursDAnimation = true;
 			balleTiree=true;
 			canon.setBalleTiree();
-			
 		}
 	}//fin methode
 	//WALID
+	
+	
+
+	
 	  public void prochaineImage() {
 		  if(canon.getBalle().getVitesse()!=null) {
-		  System.out.println("Prochaine image...on avance de " + deltaT + " secondes");
-			calculerUneIterationPhysique(deltaT);
-			repaint();
-		  }
+			  System.out.println("Prochaine image...on avance de " + deltaT + " secondes");
+				calculerUneIterationPhysique(deltaT);
+				repaint();
+			  }
 	  }
 	/**
      * Calcule une itération physique en fonction du deltaT.
      * @param deltaT Le temps écoulé depuis la dernière itération.
      */
 	//Benakmoum Walid
-	private void calculerUneIterationPhysique(double deltaT) {
+	public void calculerUneIterationPhysique(double deltaT) {
 		tempsTotalEcoule += deltaT;
 		calculerLesForces();
 		canon.avancerUnPas(deltaT);
@@ -285,8 +309,7 @@ public class Niveau1 extends JPanel implements Runnable {
      * Teste les collisions entre les éléments graphiques et ajuste leurs vitesses en conséquence.
      */
 	//ZAKARIA SOUDAKI
-	private void testerCollisionsEtAjusterVitesses() {	
-		 
+	public void testerCollisionsEtAjusterVitesses() {	
 		canon.getBalle().gererCollisions(posMurSol, posMurDroit , posMurHaut, posMurGauche);
 	}
 
@@ -310,23 +333,22 @@ public class Niveau1 extends JPanel implements Runnable {
 	  //Benakmoum Walid
 	public void reinitialiserApplication() {
 	
-	    enCoursDAnimation = false;
+		  enCoursDAnimation = false;
 
 
-	    rotation = 0;
-	    tempsTotalEcoule = 0;
+		    rotation = 0;
+		    tempsTotalEcoule = 0;
 
 
-	    balleTiree = false;
-	    canon.setPremiereFois(true);
-	    monstre = new Monstres(1000, 20, "images.jpg", pixelParMetres);
-	    canon = new Canon(0, 10,pixelParMetres);
-	    
-	   monstreMort=false;
+		    balleTiree = false;
+		    canon.setPremiereFois(true);
+		    monstre = new Monstres(1000, 20, "images.jpg", pixelParMetres);
+		    canon = new Canon(0, 10,pixelParMetres);
+		    
+		   monstreMort=false;
 
 
-	   repaint();
-
+		   repaint();
 	}
 	/**
      * Méthode qui permet de tirer la balle.
@@ -337,6 +359,7 @@ public class Niveau1 extends JPanel implements Runnable {
 		canon.setBalleTiree();
 		repaint();
 		
+		
 	}
 	
 	public void choisirBalle(int nb) {
@@ -346,11 +369,7 @@ public class Niveau1 extends JPanel implements Runnable {
 		repaint();
 	}
 	public void setNombreDeVie(int nb) {
-	    this.nombreDeVie = nb;
-	    if (this.monstre != null) {
-	        this.monstre.setNombreDeVie(nb);
-	    }
-	    repaint();
+	   super.setNombreDeVie(nb);
 	}
 
 	

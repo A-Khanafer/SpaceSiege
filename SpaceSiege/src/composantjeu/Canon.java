@@ -148,7 +148,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 		positionDeTir = new FlecheDeTir(cercle.getCenterX(), cercle.getCenterY(), dx,dy);
 
 		 if (!balleTiree && premiereFois) {
-			 balleActuelle = new BalleBasique(50, 2, hauteur, new Vecteur2D(3, y), new Vecteur2D(0, 0),pixelsParMetre); 
+			 balleActuelle = new BalleBasique(50, 2, 25, new Vecteur2D(3, y), new Vecteur2D(0, 0),pixelsParMetre); 
 			 premiereFois = false;
 
 		    }
@@ -321,6 +321,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 	public void setBalleTiree() {
 		balleTiree=true;
 		System.out.println("EST CE QUE JE TIREEEE"+ balleTiree);
+		
 		creerLaGeometrie();
 	}
 	/**
