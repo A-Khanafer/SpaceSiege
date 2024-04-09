@@ -7,6 +7,9 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import composantdessin.ZoneAnimationPhysique;
 import niveaux.Niveau1;
+import niveaux.Niveau2;
+import niveaux.Niveau3;
+import niveaux.Niveaux;
 import composantdessin.PlanCartesien;
 import java.awt.Color;
 import java.awt.Component;
@@ -34,6 +37,7 @@ import javax.swing.SpinnerNumberModel;
  */
 public class FenetreDeJeu extends JFrame {
 
+	
 	private static final long serialVersionUID = 1L;
 	
 	private JPanel contentPane;
@@ -47,8 +51,13 @@ public class FenetreDeJeu extends JFrame {
 	private JButton btn1Image;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private ZoneAnimationPhysique zoneAnimationPhysique;
-	private Component niveaux [] = new Component[3]; 
+	private Niveaux niveaux [] = new Niveaux[3]; 
 	private int index = 0;
+	private Niveau1 niv1 = new Niveau1();
+	private Niveau2 niv2 = new Niveau2();
+	private Niveau3 niv3 = new Niveau3();
+	private Niveaux nivActuel;
+	private Niveaux nivSuivant ;
 	/**
      * Méthode statique pour afficher la fenêtre de jeu. Crée une instance de {@code FenetreDeJeu} et la rend visible.
      */
@@ -65,6 +74,15 @@ public class FenetreDeJeu extends JFrame {
      */
 	//ZAKARIA SOUDAKI
 	public FenetreDeJeu() {
+		
+		// niveaux[0] = zoneAnimationPhysique;
+		 niveaux[0] = niv1;
+		 niveaux[1] = niv2;
+		 niveaux[2] = niv3;
+		 nivActuel = niveaux[index];
+		 nivSuivant = niveaux[index +1];
+		 
+
 		setLocationRelativeTo(null);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -75,11 +93,10 @@ public class FenetreDeJeu extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		zoneAnimationPhysique = new ZoneAnimationPhysique();
-		zoneAnimationPhysique.setBounds(0, 0, 1296, 672);
-		contentPane.add(zoneAnimationPhysique);
-		
+		//
+		nivActuel.setBounds(0, 0, 1296, 672);
+		contentPane.add(nivActuel);
+		//
 		JPanel panelFonctionnalites = new JPanel();
 		panelFonctionnalites.setBackground(new Color(255, 255, 255));
 		panelFonctionnalites.setBounds(0, 683, 1187, 286);
@@ -110,9 +127,13 @@ public class FenetreDeJeu extends JFrame {
 				
 				
 				
-				getContentPane().remove(zoneAnimationPhysique);
-				getContentPane().add(niveaux[index +1]);				
+				getContentPane().remove(nivActuel);
 				
+	
+				nivSuivant.setBounds(0, 0, 1296, 672);
+				contentPane.add(nivSuivant);
+				
+				index++;
 				
 				repaint();
 			}
@@ -129,7 +150,13 @@ public class FenetreDeJeu extends JFrame {
 		btnReinitialiser = new JButton("REINITIALISER");
 		btnReinitialiser.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				zoneAnimationPhysique.reinitialiserApplication();
+				
+				
+				
+              nivActuel.reinitialiserApplication();
+              
+              
+              
 			}
 		});
 		btnReinitialiser.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
@@ -139,8 +166,8 @@ public class FenetreDeJeu extends JFrame {
 		btnDemarrer = new JButton("DEMARRER");
 		btnDemarrer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				zoneAnimationPhysique.demarrer();
-			//	zoneAnimationPhysique.TirerBalle();
+				nivActuel.demarrer();
+				nivActuel.TirerBalle();
 			}
 		});
 		btnDemarrer.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
@@ -148,6 +175,11 @@ public class FenetreDeJeu extends JFrame {
 		panelFonctionnalites.add(btnDemarrer);
 		
 		btn1Image = new JButton("+1 IMAGE");
+		btn1Image.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				nivActuel.prochaineImage();
+			}
+		});
 		btn1Image.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
 		btn1Image.setBounds(377, 131, 209, 62);
 		panelFonctionnalites.add(btn1Image);
@@ -164,7 +196,7 @@ public class FenetreDeJeu extends JFrame {
 		spinnerVieMonstre.setModel(new SpinnerNumberModel(Integer.valueOf(1), null, null, Integer.valueOf(1)));
 		spinnerVieMonstre.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-				zoneAnimationPhysique.setNombreDeVie((int)spinnerVieMonstre.getValue());
+				nivActuel.setNombreDeVie((int)spinnerVieMonstre.getValue());
 			}
 		});
 		spinnerVieMonstre.setBounds(167, 131, 109, 44);
@@ -177,7 +209,7 @@ public class FenetreDeJeu extends JFrame {
 		JRadioButton rdbBalleNormal = new JRadioButton("Balles Normales");
 		rdbBalleNormal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				zoneAnimationPhysique.choisirBalle(1);
+				nivActuel.choisirBalle(1);
 			}
 		});
 		buttonGroup.add(rdbBalleNormal);
@@ -187,7 +219,7 @@ public class FenetreDeJeu extends JFrame {
 		JRadioButton rdbBalleElastique = new JRadioButton("Balles Elastiques");
 		rdbBalleElastique.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				zoneAnimationPhysique.choisirBalle(2);
+				nivActuel.choisirBalle(2);
 			}
 		});
 		buttonGroup.add(rdbBalleElastique);
@@ -197,7 +229,7 @@ public class FenetreDeJeu extends JFrame {
 		JRadioButton rdbBalleNova = new JRadioButton("Balles Novas");
 		rdbBalleNova.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				zoneAnimationPhysique.choisirBalle(3);
+				nivActuel.choisirBalle(3);
 			}
 		});
 		buttonGroup.add(rdbBalleNova);

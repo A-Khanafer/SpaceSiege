@@ -26,12 +26,14 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 	/**
      * Position horizontale du canon sur le panneau de dessin.
      */
-    private int x;
+    private double x;
 
+    
+    private double pixelsParMetre;
     /**
      * Position verticale du canon sur le panneau de dessin.
      */
-    private int y;
+    private double y;
 
     /**
      * Représente le corps du canon sous forme de rectangle. Initialement positionné avec une hauteur de 50 pixels et une largeur de 100 pixels.
@@ -61,12 +63,12 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
     /**
      * Largeur du canon, définie initialement à 100 pixels. Influence la taille du rectangle représentant le corps du canon.
      */
-    private int largeur = 100;
+    private double largeur = 100;
 
     /**
      * Hauteur du canon, définie initialement à 50 pixels. Affecte la taille du rectangle du corps du canon ainsi que du cercle avant.
      */
-    private int hauteur = 50;
+    private double hauteur = 50;
 
     /**
      * Aire couvrant la forme du cercle à l'avant du canon. Utilisée pour le dessin et peut-être pour les interactions ou les collisions.
@@ -122,10 +124,13 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 	private static int balleChoisie=1;
 	
 
-	public Canon(int x,int y) {
-		this.x=x;
-		this.y=y;
-	
+	public Canon(double x,double y,double pixelsParMetre) {
+		this.x=x*pixelsParMetre;
+		this.y=y*pixelsParMetre;
+	   this.pixelsParMetre=pixelsParMetre;
+	   hauteur = 6*pixelsParMetre;
+	   largeur = 12*pixelsParMetre;
+
 		creerLaGeometrie();
 	}
 	  /**
@@ -143,7 +148,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 		positionDeTir = new FlecheDeTir(cercle.getCenterX(), cercle.getCenterY(), dx,dy);
 
 		 if (!balleTiree && premiereFois) {
-			 balleActuelle = new BalleBasique(50, 2, hauteur, new Vecteur2D(3, y), new Vecteur2D(0, 0)); 
+			 balleActuelle = new BalleBasique(50, 2, 25, new Vecteur2D(3, y), new Vecteur2D(0, 0),pixelsParMetre); 
 			 premiereFois = false;
 
 		    }
@@ -316,6 +321,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 	public void setBalleTiree() {
 		balleTiree=true;
 		System.out.println("EST CE QUE JE TIREEEE"+ balleTiree);
+		
 		creerLaGeometrie();
 	}
 	/**
@@ -354,21 +360,24 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 	public void setBalleActuelle(int i ) {
 		 switch(i) {
          case 1:
-             balleActuelle = new BalleBasique(50, 2, hauteur, new Vecteur2D(3, y), vitesse);
+             balleActuelle = new BalleBasique(50, 2, hauteur, new Vecteur2D(3, y), vitesse,pixelsParMetre);
              System.out.println("JE CHOISIE LA BALLE BASIQUE");
              break;
          case 2:
-             balleActuelle = new BalleElastique(50, 2, hauteur, new Vecteur2D(3, y), vitesse);
+             balleActuelle = new BalleElastique(50, 2, hauteur, new Vecteur2D(3, y), vitesse,pixelsParMetre);
              System.out.println("JE CHOISIE LA BALLE ELASTIQUE");
              break;
          case 3:
-             balleActuelle = new BalleNova(50, 2, hauteur, new Vecteur2D(3, y), vitesse);
+             balleActuelle = new BalleNova(50, 2, hauteur, new Vecteur2D(3, y), vitesse,pixelsParMetre);
              break;
 		 }
 		 
 
 	}
-		
+		public void setPixelsParMetre(int pixel) {
+			this.pixelsParMetre=pixel;
+			creerLaGeometrie();
+		}
 
 }
 

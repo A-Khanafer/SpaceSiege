@@ -13,6 +13,7 @@ import java.awt.event.MouseMotionAdapter;
 
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
+import java.util.Arrays;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -66,10 +67,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
      * Indique si une balle a été tirée par le canon.
      */
 	private boolean balleTiree = false;
-	/**
-     * Le canon utilisé pour tirer des balles.
-     */
-	private Canon canon=new Canon (0,80);
+	
 	/**
      * Utilisé pour effectuer des opérations lors du premier appel de certaines méthodes ou conditions.
      */
@@ -111,12 +109,15 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
     
     private double pixelParMetres;
 	private boolean premiereFois = true;
-    
+
 
     private  int balleChoisie;
 
     private Triangle[] tableauTri;
-
+    /**
+     * Le canon utilisé pour tirer des balles.
+     */
+	private Canon canon;
     private boolean monstreMort=false;
     private PlanCartesien planCartesion= new PlanCartesien();
 
@@ -134,6 +135,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 		ecouteurSouris();
 		ecouteurClavier();
 		
+		
 	}
 	/**
      * Dessine les composants graphiques de la zone d'animation, y compris le canon et les obstacles.
@@ -145,12 +147,14 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 		Graphics2D g2d = (Graphics2D) g;
 
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-		pixelParMetres = getWidth()/150;
+		
 		System.out.println(pixelParMetres);
 
 		if(premiereFois) {
+			pixelParMetres = getWidth()/150;
 			int espace=0;
 			monstre = new Monstres(1000, 20, "images.jpg", pixelParMetres);
+			 canon=new Canon (0,10,pixelParMetres);
 				for(int i = 0 ; i < tableauRec.length ; i++) {
 					tableauRec[i] = new Rectangle(50 + espace, 50 + espace, pixelParMetres);
 					espace = espace + 80;
@@ -170,7 +174,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 		tableauTri[0].dessiner(g2d);
 		tableauTri[1].dessiner(g2d);
 
-		planCartesion.setBalle(canon.getBalle());
+	//	planCartesion.setBalle(canon.getBalle());
 
 		
 		
@@ -205,9 +209,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 //			System.out.println("Temps ecoule "+tempsTotalEcoule);
 
 
-System.out.println(canon.getBalle().getPosition().getX());
-
-			System.out.println(canon.getBalleActuelle().getVitesse());
+		//System.out.println(canon.getBalle().getPosition().toString()+" POSTIONS DANS LE RUN");
 
 			calculerUneIterationPhysique(deltaT);
 			testerCollisionsEtAjusterVitesses();
@@ -258,6 +260,14 @@ System.out.println(canon.getBalle().getPosition().getX());
 			
 		}
 	}//fin methode
+	//WALID
+	  public void prochaineImage() {
+		  if(canon.getBalle().getVitesse()!=null) {
+		  System.out.println("Prochaine image...on avance de " + deltaT + " secondes");
+			calculerUneIterationPhysique(deltaT);
+			repaint();
+		  }
+	  }
 	/**
      * Calcule une itération physique en fonction du deltaT.
      * @param deltaT Le temps écoulé depuis la dernière itération.
@@ -308,7 +318,9 @@ System.out.println(canon.getBalle().getPosition().getX());
 
 	    balleTiree = false;
 	    canon.setPremiereFois(true);
-	    canon = new Canon(0, 80);
+	    monstre = new Monstres(1000, 20, "images.jpg", pixelParMetres);
+	    canon = new Canon(0, 10,pixelParMetres);
+	    
 	   monstreMort=false;
 
 
@@ -377,6 +389,7 @@ System.out.println(canon.getBalle().getPosition().getX());
 				gestionSourisTriClick(e);
 				repaint();
 			}
+			 
 		});
 	
 		addMouseMotionListener(new MouseMotionAdapter() {
@@ -388,6 +401,7 @@ System.out.println(canon.getBalle().getPosition().getX());
 				gestionSourisCanon(e);
 				repaint();
 			}
+			
 		});
 	}
 	//Méthode qui gère les click de la souris pour le rectangle
@@ -438,6 +452,7 @@ System.out.println(canon.getBalle().getPosition().getX());
 					repaint();
 				}
 			}
+			
 		}
 		
 		private void gestionSourisTriClick(MouseEvent e) {
@@ -456,18 +471,38 @@ System.out.println(canon.getBalle().getPosition().getX());
 	 * @param e Événement de la souris
 	 */
 	  //Benakmoum Walid
-	private void gestionSourisCanon(MouseEvent e) {
-		for(int i =0 ; i < tableauRec.length; i++) {
-			if(!balleTiree && !tableauRec[i].contient(e.getX(), e.getY())) {
-				canon.rotate(e.getX(),e.getY());
-	        	canon.changerTaille(e.getX(), e.getY());
-			}
-	        if(canon.contient(e.getX(), e.getY())) {
-				canon.move(e.getY());
-				repaint();
-			}
+		private void gestionSourisCanon(MouseEvent e) {
+		    boolean toucheObjet = false;
+
+		    for (Rectangle rec : tableauRec) {
+		        if (rec.contient(e.getX(), e.getY())) {
+		            toucheObjet = true;
+		            break; 
+		        }
+		    }
+
+		    
+		    if (!toucheObjet) {
+		        for (Triangle tri : tableauTri) {
+		            if (tri.contient(e.getX(), e.getY())) {
+		                toucheObjet = true;
+		                break;
+		            }
+		        }
+		    }
+
+		    if (!balleTiree && !toucheObjet) {
+		        canon.rotate(e.getX(), e.getY());
+		        canon.changerTaille(e.getX(), e.getY());
+		    }
+
+		   
+		    if (canon.contient(e.getX(), e.getY())) {
+		        canon.move(e.getY());
+		    }
+		    repaint();
 		}
-	}
+	
 }
 		
 			

@@ -35,7 +35,7 @@ import obstacles.Triangle;
 import outils.CollisionRectangle;
 import physique.MoteurPhysique;
 
-public class Niveau2 extends Niveaux {
+public class Niveau3 extends Niveaux {
 
 	/**
 	 * La classe ZoneAnimationPhysique étend JPanel et implémente Runnable pour fournir une zone d'animation interactive. Cette zone permet de simuler des animations basées sur la physique, telles que le mouvement d'un canon tirant des balles, et de gérer des interactions avec des obstacles.
@@ -128,7 +128,7 @@ public class Niveau2 extends Niveaux {
 	 * Constructeur de la classe. Permet de crée l'interface
 	 */
     //Benakmoum Walid
-	public Niveau2() {
+	public Niveau3() {
 		setBackground(new Color(192, 192, 192));
 		setLayout(null);
 		tableauRec = new Rectangle[3];
@@ -155,7 +155,7 @@ public class Niveau2 extends Niveaux {
 			pixelParMetres = getWidth()/150;
 			int espace=0;
 			monstre = new Monstres(1000, 20, "images.jpg", pixelParMetres);
-			 canon=new Canon (0,10,pixelParMetres);
+			
 				for(int i = 0 ; i < tableauRec.length ; i++) {
 					tableauRec[i] = new Rectangle(50 + espace, 50 + espace, pixelParMetres);
 					espace = espace + 80;
