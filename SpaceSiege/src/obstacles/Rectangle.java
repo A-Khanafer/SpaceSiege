@@ -371,7 +371,9 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
      */
     //Ahmad Khanafer
     public boolean isClickedOnIt() {
+    	
         return estClique;
+        
     }
 
     /**

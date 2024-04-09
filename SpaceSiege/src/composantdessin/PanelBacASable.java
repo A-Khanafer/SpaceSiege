@@ -189,7 +189,7 @@ public class PanelBacASable extends JPanel {
 	private void gestionSourisTriClick(MouseEvent e) {
 		for(int i =0 ; i < tableauTri.length; i++) {
 			if(tableauTri[i].contient(e.getX(), e.getY())) {
-				tableauRec[i].setClickedOnIt(true);
+				tableauTri[i].setClickedOnIt(true);
 				repaint();
 			}else {
 				tableauTri[i].setClickedOnIt(false);
