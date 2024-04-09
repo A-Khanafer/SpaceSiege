@@ -66,7 +66,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	/**
      * Le canon utilisé pour tirer des balles.
      */
-	private Canon canon=new Canon (0,80);
+	private Canon canon;
 	/**
      * Utilisé pour effectuer des opérations lors du premier appel de certaines méthodes ou conditions.
      */
@@ -108,7 +108,9 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
     private  int balleChoisie;
     
     private boolean monstreMort=false;
-    private PlanCartesien planCartesion= new PlanCartesien();
+   private PlanCartesien planCartesion= new PlanCartesien();
+    private boolean premierFois=true;
+    private double pixelsParMetre;
 
     
     
@@ -132,14 +134,19 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 
-		planCartesion.setBalle(canon.getBalle());
 		monstre= new Monstres(950,100,"images.jpg");
 		Triangle2D noir = new Triangle2D(50, 50, 100, 100, 20, 20);
-		
+		pixelsParMetre= getWidth()/150;
+		if(premierFois) {
+			canon=new Canon (0,10,(int)pixelsParMetre);
+			System.out.println(canon.getBalle().getPosition().toString()+"PAINT");
+		premierFois=false;
+		}
 		
 		if(monstreMort==false) {
 		monstre.dessiner(g2d);
 		}
+	
 		rec.dessiner(g2d);
 
 
@@ -194,8 +201,8 @@ System.out.println(canon.getBalle().getPosition().getX());
 	        	System.out.println(monstre.getNombreDeVie());
 	        }
 	    	
-	        
-		   
+	    	planCartesion.setPosition(canon.getBalle().getPosition());
+		   System.out.println(canon.getBalle().getPosition().toString()+" DANS LE RUN");
 
 		
 			repaint();
@@ -274,11 +281,13 @@ System.out.println(canon.getBalle().getPosition().getX());
 	    rotation = 0;
 	    tempsTotalEcoule = 0;
 
-
+	    monstre= new Monstres(950,100,"images.jpg");
 	    balleTiree = false;
+	   
 	    canon.setPremiereFois(true);
-	    canon = new Canon(0, 80);
+	    canon = new Canon(0, 10,(int)pixelsParMetre);
 	   monstreMort=false;
+	   
 
 	   // rec = new Rectangle(50, 50);
 	   repaint();

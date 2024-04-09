@@ -42,7 +42,7 @@ public class PlanCartesien extends JPanel {
 	/** Valeur par défaut de l'abscisse minimale. */
 	private final double DEFAUT_X_MIN = 0;
 	/** Valeur par défaut de l'abscisse maximale. */
-	private final double DEFAUT_X_MAX = 100;
+	private final double DEFAUT_X_MAX = 150;
 	/** Valeur par défaut de l'ordonnée minimale. */
 	private final double DEFAUT_Y_MIN = -0.5;
 	/** Valeur par défaut de l'ordonnée maximale. */
@@ -93,7 +93,7 @@ public class PlanCartesien extends JPanel {
 	private double pixelsParUniteX;
 	/** Nombre de pixels par unité en ordonnée. */
 	private double pixelsParUniteY;
-	
+	private Vecteur2D position;
 	private Balle balle;
 
 	/**
@@ -124,6 +124,8 @@ public class PlanCartesien extends JPanel {
 		});
 		setBackground(Color.white);
 		cercleDia = DEFAUT_CERCLE_DIA;
+		position=new Vecteur2D(10,3);
+		//balle= new BalleBasique(0, 0, 0, new Vecteur2D(20,25), new Vecteur2D(0,0),0);
 	}// fin du constructeur
 
 	/**
@@ -137,14 +139,13 @@ public class PlanCartesien extends JPanel {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		balle= new BalleBasique(0, 0, 0, new Vecteur2D(20,25), new Vecteur2D(0,0));
-		double y = (double) quantSel /1;
+		
 		double deltaY = (yMax - yMin) / (nmbreLigY+1);
 		double deltaX = (xMax - xMin) / (nmbreLigX+1);
-		yMax = y + deltaY;
+		yMax = 5;
 		yMin=-deltaY;
 		xMin=-deltaX;
-		recadrer(xMin, xMax, yMin, yMax);
+		recadrer(xMin-deltaX, xMax, yMin, yMax);
 		pixelsParUniteX = getWidth() / (xMax - xMin);
 		pixelsParUniteY = getHeight() / (yMax - yMin);
 
@@ -228,12 +229,14 @@ public class PlanCartesien extends JPanel {
 	private void creerApproxCourbe() {
 		double x, y;
 		ligneBrisee = new Path2D.Double();
-		x = balle.getPosition().getX(); // on commence à 0
-		y = evalFonction(x);
+		x =position.getX();
+		System.out.println(position.getX()+"POSITIOn EN X PLAN");
+		y = position.getY();
+		System.out.println( position.getY()+"POSITIOn EN Y PLAN");
 		ligneBrisee.moveTo(x, y);
 		
 		
-				y = evalFonction(x);
+				
 				ligneBrisee.lineTo(x, y);
 			}
 	
@@ -250,7 +253,7 @@ public class PlanCartesien extends JPanel {
 	 */
 	//Auteur Benakmoum Walid
 	private double evalFonction(double x) {
-		return (balle.getPosition().getY());
+		return ( position.getY());
 	}
 
 	/**
@@ -380,7 +383,7 @@ public class PlanCartesien extends JPanel {
 	 */
 	//Auteur Benakmoum Walid
 	private void creerCercle() {
-		double xCercle = balle.getPosition().getX();
+		double xCercle = position.getX();
 		double yCercle = evalFonction(xCercle);
 
 		double rayonCercleX = cercleDia / 2;
@@ -438,8 +441,8 @@ public class PlanCartesien extends JPanel {
 		repaint();
 	}
 
-    public void setBalle(Balle b) {
-    	this.balle=b;
+    public void setPosition(Vecteur2D pos) {
+    	this.position=pos;;
     	repaint();
     }
 }

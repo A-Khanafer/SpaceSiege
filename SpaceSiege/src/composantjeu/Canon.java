@@ -28,6 +28,8 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
      */
     private int x;
 
+    
+    private int pixelsParMetre;
     /**
      * Position verticale du canon sur le panneau de dessin.
      */
@@ -122,10 +124,13 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 	private static int balleChoisie=1;
 	
 
-	public Canon(int x,int y) {
-		this.x=x;
-		this.y=y;
-	
+	public Canon(int x,int y,int pixelsParMetre) {
+		this.x=x*pixelsParMetre;
+		this.y=y*pixelsParMetre;
+	   this.pixelsParMetre=pixelsParMetre;
+	   hauteur = 6*pixelsParMetre;
+	   largeur = 12*pixelsParMetre;
+
 		creerLaGeometrie();
 	}
 	  /**
@@ -143,7 +148,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 		positionDeTir = new FlecheDeTir(cercle.getCenterX(), cercle.getCenterY(), dx,dy);
 
 		 if (!balleTiree && premiereFois) {
-			 balleActuelle = new BalleBasique(50, 2, hauteur, new Vecteur2D(3, y), new Vecteur2D(0, 0)); 
+			 balleActuelle = new BalleBasique(50, 2, hauteur, new Vecteur2D(3, y), new Vecteur2D(0, 0),pixelsParMetre); 
 			 premiereFois = false;
 
 		    }
@@ -354,21 +359,24 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 	public void setBalleActuelle(int i ) {
 		 switch(i) {
          case 1:
-             balleActuelle = new BalleBasique(50, 2, hauteur, new Vecteur2D(3, y), vitesse);
+             balleActuelle = new BalleBasique(50, 2, hauteur, new Vecteur2D(3, y), vitesse,pixelsParMetre);
              System.out.println("JE CHOISIE LA BALLE BASIQUE");
              break;
          case 2:
-             balleActuelle = new BalleElastique(50, 2, hauteur, new Vecteur2D(3, y), vitesse);
+             balleActuelle = new BalleElastique(50, 2, hauteur, new Vecteur2D(3, y), vitesse,pixelsParMetre);
              System.out.println("JE CHOISIE LA BALLE ELASTIQUE");
              break;
          case 3:
-             balleActuelle = new BalleNova(50, 2, hauteur, new Vecteur2D(3, y), vitesse);
+             balleActuelle = new BalleNova(50, 2, hauteur, new Vecteur2D(3, y), vitesse,pixelsParMetre);
              break;
 		 }
 		 
 
 	}
-		
+		public void setPixelsParMetre(int pixel) {
+			this.pixelsParMetre=pixel;
+			creerLaGeometrie();
+		}
 
 }
 
