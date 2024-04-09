@@ -151,7 +151,7 @@ public class Triangle implements Dessinable, Obstacles, Selectionnable {
                 angleRotation = -Math.PI + Math.atan2(longueurCoteOppose, longueurCoteAdjacent);
             }
         } else {
-            double longueurCoteOppose = eX - centreX;
+            double longueurCoteOppose = centreX - eX;
             if (eY < centreY) {
                 double longueurCoteAdjacent = centreY - eY;
                 angleRotation = Math.atan2(longueurCoteOppose, longueurCoteAdjacent);
