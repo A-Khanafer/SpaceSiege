@@ -9,10 +9,14 @@ import javax.swing.border.EmptyBorder;
 import composantdessin.Titre;
 import outils.OutilsImage;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.RenderingHints;
 
 import javax.swing.SwingConstants;
 import java.awt.Color;
@@ -23,6 +27,7 @@ import javax.swing.JOptionPane;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import composantdessin.BoutonsIntro;
 /**
  * Classe principale de l'application qui crée et affiche la fenêtre principale.
  * Cette classe étend {@code JFrame} pour créer une interface utilisateur graphique, comprenant un menu, des boutons et des labels.
@@ -35,7 +40,10 @@ public class AppPrincipal14 extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
     private boolean enCoursDAnimation = false;
-	
+	private ImageIcon ImgFond = new ImageIcon("fondjeu.jpg"); 
+	private int longueur = 1300;
+	private int hauteur = 900;
+	//private static boolean visible = true;
 	 /**
      * Lance l'interface utilisateur principale de l'application.
      * Cette méthode statique crée une instance de {@code AppPrincipal14} et rend la fenêtre visible.
@@ -74,10 +82,15 @@ public class AppPrincipal14 extends JFrame{
 	//ZAKARIA SOUDAKI
 	public AppPrincipal14() {
 		
-
-	    
+		
+		
+		
+		
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1200, 750);
+		setBounds(100, 100, longueur, hauteur);
+		
+		
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -99,6 +112,8 @@ public class AppPrincipal14 extends JFrame{
 		
 		menuBar.add(menuApropos);
 		
+		
+		
 		JMenuItem mntmNewMenuItem = new JMenuItem("Infos application");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -119,39 +134,58 @@ public class AppPrincipal14 extends JFrame{
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
+		
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		
+		
 		Titre titre_1 = new Titre();
-		titre_1.setBackground(new Color(255, 255, 255));
-		titre_1.setBounds(0, 0, 1184, 387);
+		titre_1.setBackground(new Color(0, 0, 0));
+		titre_1.setBounds(444, 0, 402, 387);
 		contentPane.add(titre_1);
 		
-		JButton btnJouer = new JButton("JOUER");
-		btnJouer.setBounds(490, 398, 216, 69);
-		contentPane.add(btnJouer);
-		btnJouer.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				FenetreModeDeJeu.afficherFenetre();
-				setVisible(false);
-			}
-		});
-		btnJouer.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 23));
+		BoutonsIntro boutonsIntro = new BoutonsIntro(longueur, hauteur);
+		contentPane.add(boutonsIntro);
 		
-				JButton btnQuitter = new JButton("QUITTER");
-				btnQuitter.setBounds(490, 495, 216, 69);
-				contentPane.add(btnQuitter);
-				btnQuitter.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						dispose();
-					}
-				});
-				btnQuitter.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 23));
+		JLabel lbl = new JLabel("");
+		Image img  = new ImageIcon(this.getClass().getResource("/fondjeu3.png")).getImage();
+		lbl.setIcon(new ImageIcon(img));
+		lbl.setBounds(0, 0, 1284, 839);
+		contentPane.add(lbl);
+		
+		
+		
+//		JButton btnJouer = new JButton("JOUER");
+//		btnJouer.setBounds(550, 448, 216, 69);
+//		contentPane.add(btnJouer);
+//		btnJouer.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				
+//				FenetreModeDeJeu.afficherFenetre();
+//				setVisible(false);
+//			}
+//		});
+//		btnJouer.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 23));
+		
+//				JButton btnQuitter = new JButton("QUITTER");
+//				btnQuitter.setBounds(550, 545, 216, 69);
+//				contentPane.add(btnQuitter);
+//				btnQuitter.addActionListener(new ActionListener() {
+//					public void actionPerformed(ActionEvent e) {
+//						setVisible(false);
+//					}
+//				});
+//				btnQuitter.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 23));
 		
 		 
 		
 
 	}
+	
+	
+    
+	
+	
+	
 }

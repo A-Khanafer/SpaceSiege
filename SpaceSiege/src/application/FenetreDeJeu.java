@@ -9,6 +9,8 @@ import composantdessin.ZoneAnimationPhysique;
 import niveaux.Niveau1;
 import composantdessin.PlanCartesien;
 import java.awt.Color;
+import java.awt.Component;
+
 import javax.swing.JTable;
 import javax.swing.JButton;
 import javax.swing.JSlider;
@@ -45,7 +47,8 @@ public class FenetreDeJeu extends JFrame {
 	private JButton btn1Image;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private ZoneAnimationPhysique zoneAnimationPhysique;
-	
+	private Component niveaux [] = new Component[3]; 
+	private int index = 0;
 	/**
      * Méthode statique pour afficher la fenêtre de jeu. Crée une instance de {@code FenetreDeJeu} et la rend visible.
      */
@@ -104,9 +107,11 @@ public class FenetreDeJeu extends JFrame {
 		btnNiveauSuivant.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				 
+				
+				
+				
 				getContentPane().remove(zoneAnimationPhysique);
-				
-				
+				getContentPane().add(niveaux[index +1]);				
 				
 				
 				repaint();

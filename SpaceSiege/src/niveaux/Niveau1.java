@@ -17,6 +17,7 @@ import java.awt.geom.Area;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import composantdessin.PlanCartesien;
 import composantjeu.Balle;
 import composantjeu.BalleBasique;
 import composantjeu.Canon;
@@ -27,7 +28,9 @@ import physique.Vecteur2D;
 import java.awt.Color;
 
 import obstacles.Rectangle;
-import obstacles.Triangle2D;
+
+import obstacles.Triangle;
+
 import outils.CollisionRectangle;
 import physique.MoteurPhysique;
 
@@ -57,16 +60,13 @@ public class Niveau1 extends JPanel implements Runnable {
 	/**
      * Un rectangle servant d'obstacle dans la zone d'animation.
      */
-	private Rectangle rec = new Rectangle(50,50);
+	private Rectangle rec;
 	
 	/**
      * Indique si une balle a été tirée par le canon.
      */
 	private boolean balleTiree = false;
-	/**
-     * Le canon utilisé pour tirer des balles.
-     */
-	private Canon canon;
+	
 	/**
      * Utilisé pour effectuer des opérations lors du premier appel de certaines méthodes ou conditions.
      */
@@ -104,13 +104,21 @@ public class Niveau1 extends JPanel implements Runnable {
     private int index = -1;
     private int nombreDeVie=1;
     private Monstres monstre;
+
     
+    private double pixelParMetres;
+	private boolean premiereFois = true;
+    
+	/**
+     * Le canon utilisé pour tirer des balles.
+     */
+	private Canon canon=new Canon (0,80,(int)pixelParMetres);
     private  int balleChoisie;
-    
+
+    private Triangle tri;
+
     private boolean monstreMort=false;
-  
-    private boolean premierFois=true;
-    private double pixelsParMetre;
+    private PlanCartesien planCartesion= new PlanCartesien();
 
     
     
@@ -132,27 +140,37 @@ public class Niveau1 extends JPanel implements Runnable {
 	public void paintComponent(Graphics g ) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
+
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+		pixelParMetres = getWidth()/150;
+		System.out.println(pixelParMetres);
+
+		if(premiereFois) {
+			rec = new Rectangle(50,50, pixelParMetres);
+			monstre= new Monstres(950,100,"images.jpg", pixelParMetres);
+			tri = new Triangle(150, 150, 10, 10, pixelParMetres);
+			premiereFois = false;
+		}
+
+
+
+
 
 		
-		monstre= new Monstres(950,100,"images.jpg");
-		Triangle2D noir = new Triangle2D(50, 50, 100, 100, 20, 20);
-		pixelsParMetre= getWidth()/150;
-		if(premierFois) {
-			canon=new Canon (0,80,(int)pixelsParMetre);
-		premierFois=false;
-		}
+
+		
 		
 		if(monstreMort==false) {
 		monstre.dessiner(g2d);
 		}
+
+
 		rec.dessiner(g2d);
 
+		tri.dessiner(g2d);
 
 		canon.dessiner(g2d);
-      
 
-		
 
 	    posMurSol = getHeight();
 	    posMurDroit = getWidth();
@@ -199,11 +217,8 @@ System.out.println(canon.getBalle().getPosition().getX());
 	        	reinitialiserApplication();
 	        	System.out.println(monstre.getNombreDeVie());
 	        }
-	    	
-	        
-		   
 
-		
+
 			repaint();
 			if(monstre.getNombreDeVie()==0) {
 	    	    monstreMort=true;
@@ -283,11 +298,13 @@ System.out.println(canon.getBalle().getPosition().getX());
 
 	    balleTiree = false;
 	    canon.setPremiereFois(true);
-	    canon = new Canon(0, 80,(int)pixelsParMetre);
+	    canon = new Canon(0, 80,(int)pixelParMetres);
 	   monstreMort=false;
 
-	   // rec = new Rectangle(50, 50);
+	    rec = new Rectangle(50, 50, pixelParMetres);
+
 	   repaint();
+
 	}
 	/**
      * Méthode qui permet de tirer la balle.
@@ -359,6 +376,14 @@ System.out.println(canon.getBalle().getPosition().getX());
 					rec.setClickedOnIt(false);
 					repaint();
 				}
+				
+				if(tri.contient(e.getX(), e.getY())) {
+					tri.setClickedOnIt(true);
+					repaint();
+				}else {
+					tri.setClickedOnIt(false);
+					repaint();
+				}
 
 			}
 		});
@@ -369,8 +394,9 @@ System.out.println(canon.getBalle().getPosition().getX());
 			public void mouseDragged(MouseEvent e) {
 				
 				gestionSourisRec(e);
+				gestionSourisTri(e);
 					
-			gestionSourisCanon(e);
+				gestionSourisCanon(e);
 			}
 		});
 	}
@@ -389,6 +415,22 @@ System.out.println(canon.getBalle().getPosition().getX());
 		}
 		if(rec.contient(e.getX(), e.getY()) && rec.isClickedOnIt() == false) {
 			rec.move( e.getX(), e.getY());
+			repaint();
+		}
+	}
+	
+	private void gestionSourisTri(MouseEvent e) {
+		index = tri.getClickedResizeHandleIndex(e.getX(), e.getY());
+		repaint();
+		if (tri.isClickedOnIt() == true && index != -1) {
+			tri.redimension(index, e.getX(), e.getY());
+			repaint();
+		}else if(tri.contient(e.getX(), e.getY()) && tri.isClickedOnIt() == true && index == -1 ) {
+			tri.rotate( e.getX(), e.getY());
+			repaint();
+		}
+		if(tri.contient(e.getX(), e.getY()) && tri.isClickedOnIt() == false) {
+			tri.move( e.getX(), e.getY());
 			repaint();
 		}
 	}
