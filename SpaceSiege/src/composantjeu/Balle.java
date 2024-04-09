@@ -71,12 +71,15 @@ public class Balle {
      * @param vitesse La vitesse initiale de la balle.
      */
     //Benakmoum Walid
-	public Balle(int masseDonne, int chargeDonne, int diametreDonne, Vecteur2D position, Vecteur2D vitesse) {
+	public Balle(int masseDonne, int chargeDonne, double diametreDonne, Vecteur2D position, Vecteur2D vitesse,double pixelParMetre) {
 		masse = masseDonne;
+		this.pixelsParMetre=pixelParMetre;
 		charge = chargeDonne;
 		diametre = diametreDonne;
 		this.vitesse = vitesse;
-		this.position = position;
+		this.position = position.multiplie(1.0/pixelParMetre);
+	
+	
 		initialiserCercle();
 	}
 	/**
@@ -115,7 +118,7 @@ public class Balle {
 	
 		vitesse = MoteurPhysique.calculVitesse(deltaT, vitesse, accel);
 		position = MoteurPhysique.calculPosition(deltaT, position, vitesse);
-
+System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 		initialiserCercle();
 		
 	}

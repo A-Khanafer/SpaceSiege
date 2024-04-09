@@ -67,10 +67,7 @@ public class Niveau1 extends JPanel implements Runnable {
      * Indique si une balle a été tirée par le canon.
      */
 	private boolean balleTiree = false;
-	/**
-     * Le canon utilisé pour tirer des balles.
-     */
-	private Canon canon=new Canon (0,80);
+	
 	/**
      * Utilisé pour effectuer des opérations lors du premier appel de certaines méthodes ou conditions.
      */
@@ -113,7 +110,10 @@ public class Niveau1 extends JPanel implements Runnable {
     private double pixelParMetres;
 	private boolean premiereFois = true;
     
-
+	/**
+     * Le canon utilisé pour tirer des balles.
+     */
+	private Canon canon=new Canon (0,80,(int)pixelParMetres);
     private  int balleChoisie;
 
     private Triangle[] tableauTri;
@@ -164,7 +164,7 @@ public class Niveau1 extends JPanel implements Runnable {
 		tableauTri[0].dessiner(g2d);
 		tableauTri[1].dessiner(g2d);
 
-		planCartesion.setBalle(canon.getBalle());
+		
 
 		
 		
@@ -297,7 +297,7 @@ public class Niveau1 extends JPanel implements Runnable {
 
 	    balleTiree = false;
 	    canon.setPremiereFois(true);
-	    canon = new Canon(0, 80);
+	    canon = new Canon(0, 80,(int)pixelParMetres);
 	   monstreMort=false;
 
 

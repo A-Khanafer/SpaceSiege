@@ -159,6 +159,11 @@ public class FenetreDeJeu extends JFrame {
 		panelFonctionnalites.add(btnDemarrer);
 		
 		btn1Image = new JButton("+1 IMAGE");
+		btn1Image.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				zoneAnimationPhysique.prochaineImage();
+			}
+		});
 		btn1Image.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
 		btn1Image.setBounds(377, 131, 209, 62);
 		panelFonctionnalites.add(btn1Image);

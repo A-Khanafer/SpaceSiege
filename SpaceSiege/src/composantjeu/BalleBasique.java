@@ -26,8 +26,8 @@ public class BalleBasique extends Balle {
      * @param vitesse La vitesse initiale de la balle.
      */
 	//Benakmoum Walid
-    public BalleBasique(int masseDonne, int chargeDonne, int diametreDonne, Vecteur2D position, Vecteur2D vitesse) {
-        super(masseDonne, chargeDonne, diametreDonne, position, vitesse);
+    public BalleBasique(int masseDonne, int chargeDonne, double diametreDonne, Vecteur2D position, Vecteur2D vitesse,double pixelsParMetre) {
+        super(masseDonne, chargeDonne, diametreDonne, position, vitesse,pixelsParMetre);
         creerLaGeometrie();
     }
 
@@ -72,7 +72,7 @@ public class BalleBasique extends Balle {
     public void avancerUnPas(double deltaT) {
         vitesse = MoteurPhysique.calculVitesse(deltaT, vitesse, accel);
         position = MoteurPhysique.calculPosition(deltaT, position, vitesse);
-        System.out.println(vitesse.getX()+"VITESSE EN X");
+        System.out.println(position.toString()+"  AVANCER");
         creerLaGeometrie();
     }
 
