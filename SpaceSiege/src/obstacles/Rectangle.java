@@ -98,6 +98,17 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
         
         creerLaGeometrie();
     }
+    public Rectangle(double posX, double posY, double longueur, double largeur) {
+    	
+    	this.coinXGauche = posX;
+        this.coinYGauche = posY;
+        
+        longueurRec = longueur;
+        largeurRec = largeur;
+    	
+    	creerLaGeometrie();
+    	
+    }
    
     
 
@@ -269,6 +280,9 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
                     break;
             }
             creerLaGeometrie();
+            System.out.println("_______________________longueurRec_________________________"+longueurRec);
+            System.out.println("_______________________largeurRec_________________________"+largeurRec);
+
         }
     }
 
@@ -301,6 +315,7 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
             }
         }
         creerLaGeometrie();
+        System.out.println("_______________________angle_________________________"+angleRotation);
     }
     
     /**
@@ -315,6 +330,9 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
         this.coinXGauche = eX - largeurRec / 2;
         this.coinYGauche = eY - longueurRec / 2;
         creerLaGeometrie();
+        System.out.println("_______________________coinXGauche_________________________"+coinXGauche);
+        System.out.println("_______________________coinYGauche_________________________"+coinYGauche);
+
     }
     
     /**

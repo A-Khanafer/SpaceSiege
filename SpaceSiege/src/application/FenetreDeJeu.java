@@ -7,6 +7,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import composantdessin.ZoneAnimationPhysique;
 import niveaux.Niveau1;
+import niveaux.Niveau2;
+import niveaux.Niveau3;
 import composantdessin.PlanCartesien;
 import java.awt.Color;
 import java.awt.Component;
@@ -49,6 +51,9 @@ public class FenetreDeJeu extends JFrame {
 	private ZoneAnimationPhysique zoneAnimationPhysique;
 	private Component niveaux [] = new Component[3]; 
 	private int index = 0;
+	private Niveau1 niv1 = new Niveau1();
+	private Niveau2 niv2 = new Niveau2();
+	private Niveau3 niv3 = new Niveau3();
 	/**
      * Méthode statique pour afficher la fenêtre de jeu. Crée une instance de {@code FenetreDeJeu} et la rend visible.
      */
@@ -65,6 +70,11 @@ public class FenetreDeJeu extends JFrame {
      */
 	//ZAKARIA SOUDAKI
 	public FenetreDeJeu() {
+		
+		 niveaux[0] = niv1;
+		 niveaux[1] = niv2;
+		 niveaux[2] = niv3;
+
 		setLocationRelativeTo(null);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -111,8 +121,9 @@ public class FenetreDeJeu extends JFrame {
 				
 				
 				getContentPane().remove(zoneAnimationPhysique);
-				getContentPane().add(niveaux[index +1]);				
 				
+				getContentPane().add(niveaux[index +1]);				
+				index++;
 				
 				repaint();
 			}

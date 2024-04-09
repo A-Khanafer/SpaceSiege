@@ -34,7 +34,7 @@ import obstacles.Triangle;
 import outils.CollisionRectangle;
 import physique.MoteurPhysique;
 
-public class Niveau2 extends JPanel implements Runnable {
+public class Niveau3 extends JPanel implements Runnable {
 
 	/**
 	 * La classe ZoneAnimationPhysique étend JPanel et implémente Runnable pour fournir une zone d'animation interactive. Cette zone permet de simuler des animations basées sur la physique, telles que le mouvement d'un canon tirant des balles, et de gérer des interactions avec des obstacles.
@@ -124,7 +124,7 @@ public class Niveau2 extends JPanel implements Runnable {
     
     
 	
-	public Niveau2() {
+	public Niveau3() {
 		setBackground(new Color(192, 192, 192));
 		setLayout(null);
 		tableauRec = new Rectangle[3];
