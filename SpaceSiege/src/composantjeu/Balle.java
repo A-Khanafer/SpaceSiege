@@ -172,7 +172,7 @@ public class Balle {
 	 */
 	  //Benakmoum Walid
 	public void setVitesse(Vecteur2D vit) {
-	    this.vitesse = vit.multiplie(1/pixelsParMetre);
+	    this.vitesse = vit;
 	    System.out.println(vitesse.getX()+" VITESSE EN X");
 	}
 

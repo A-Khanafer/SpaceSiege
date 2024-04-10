@@ -43,7 +43,8 @@ public class AppPrincipal14 extends JFrame{
 	private ImageIcon ImgFond = new ImageIcon("fondjeu.jpg"); 
 	private int longueur = 1300;
 	private int hauteur = 900;
-	//private static boolean visible = true;
+	
+	
 	 /**
      * Lance l'interface utilisateur principale de l'application.
      * Cette méthode statique crée une instance de {@code AppPrincipal14} et rend la fenêtre visible.

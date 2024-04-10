@@ -1,4 +1,4 @@
-package composantdessin;
+package niveaux;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -18,6 +18,7 @@ import java.util.Arrays;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import composantdessin.PlanCartesien;
 import composantjeu.Balle;
 import composantjeu.BalleBasique;
 import composantjeu.Canon;
@@ -34,7 +35,7 @@ import obstacles.Triangle;
 import outils.CollisionRectangle;
 import physique.MoteurPhysique;
 
-public class ZoneAnimationPhysique extends JPanel implements Runnable {
+public class Niveau3 extends Niveaux {
 
 	/**
 	 * La classe ZoneAnimationPhysique étend JPanel et implémente Runnable pour fournir une zone d'animation interactive. Cette zone permet de simuler des animations basées sur la physique, telles que le mouvement d'un canon tirant des balles, et de gérer des interactions avec des obstacles.
@@ -56,7 +57,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	/**
      * Le temps de pause (en millisecondes) entre chaque itération de l'animation.
      */
-	private int tempsDuSleep = 5;
+	private int tempsDuSleep = 10;
 	/**
      * Un rectangle servant d'obstacle dans la zone d'animation.
      */
@@ -127,7 +128,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	 * Constructeur de la classe. Permet de crée l'interface
 	 */
     //Benakmoum Walid
-	public ZoneAnimationPhysique() {
+	public Niveau3() {
 		setBackground(new Color(192, 192, 192));
 		setLayout(null);
 		tableauRec = new Rectangle[3];
@@ -148,13 +149,12 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		
+		System.out.println(pixelParMetres);
+
 		if(premiereFois) {
 			pixelParMetres = getWidth()/150;
 			int espace=0;
 			monstre = new Monstres(1000, 20, "images.jpg", pixelParMetres);
-			canon=new Canon (0,10,pixelParMetres);
-			
-			
 			
 				for(int i = 0 ; i < tableauRec.length ; i++) {
 					tableauRec[i] = new Rectangle(50 + espace, 50 + espace, pixelParMetres);
@@ -167,9 +167,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 				}
 			premiereFois = false;
 		}
-		
-		System.out.println((canon.getBalle().getPosition().multiplie(1/pixelParMetres).toString() )+"  DANS LA PREMIERE FOIS");
-planCartesion.setPosition(canon.getBalle().getPosition().multiplie(1/pixelParMetres));
+
 		tableauRec[0].dessiner(g2d);
 		tableauRec[1].dessiner(g2d);
 		tableauRec[2].dessiner(g2d);
@@ -265,7 +263,7 @@ planCartesion.setPosition(canon.getBalle().getPosition().multiplie(1/pixelParMet
 	}//fin methode
 	//WALID
 	  public void prochaineImage() {
-		  if(canon.getBalle().getVitesse()!= new Vecteur2D(0,0)) {
+		  if(canon.getBalle().getVitesse()!=null) {
 		  System.out.println("Prochaine image...on avance de " + deltaT + " secondes");
 			calculerUneIterationPhysique(deltaT);
 			repaint();
@@ -276,19 +274,18 @@ planCartesion.setPosition(canon.getBalle().getPosition().multiplie(1/pixelParMet
      * @param deltaT Le temps écoulé depuis la dernière itération.
      */
 	//Benakmoum Walid
-	private void calculerUneIterationPhysique(double deltaT) {
+	public void calculerUneIterationPhysique(double deltaT) {
 		tempsTotalEcoule += deltaT;
 		calculerLesForces();
 		canon.avancerUnPas(deltaT);
 	}
-
-
 	
+
 	/**
      * Teste les collisions entre les éléments graphiques et ajuste leurs vitesses en conséquence.
      */
 	//ZAKARIA SOUDAKI
-	private void testerCollisionsEtAjusterVitesses() {	
+	public void testerCollisionsEtAjusterVitesses() {	
 		 
 		canon.getBalle().gererCollisions(posMurSol, posMurDroit , posMurHaut, posMurGauche);
 	}
@@ -299,10 +296,10 @@ planCartesion.setPosition(canon.getBalle().getPosition().multiplie(1/pixelParMet
 // Benakmoum Walid
 	private void calculerLesForces() {
 
-	//	Vecteur2D forceDeGravite=MoteurPhysique.calculForceGrav(canon.getBalle().getMasse(), Math.toRadians(90));
-       
-        
-	//canon.getBalle().setSommeDesForces(forceDeGravite);
+//		Vecteur2D forceDeGravite=MoteurPhysique.calculForceGrav(canon.getBalle().getMasse(), Math.toRadians(90));
+//       
+//        
+//		canon.getBalle().setSommeDesForces(forceDeGravite);
 
 
 	}

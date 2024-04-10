@@ -143,22 +143,12 @@ public class Triangle implements Dessinable, Obstacles, Selectionnable {
 	public void rotate(int eX, int eY) {
 		if (eX <= centreX) {
             double longueurCoteOppose = eX - centreX;
-            if (eY < centreY) {
-                double longueurCoteAdjacent = centreY - eY;
-                angleRotation = Math.atan2(longueurCoteOppose, longueurCoteAdjacent);
-            } else {
-                double longueurCoteAdjacent = centreY - eY;
-                angleRotation = -Math.PI + Math.atan2(longueurCoteOppose, longueurCoteAdjacent);
-            }
+            double longueurCoteAdjacent = centreY - eY;
+            angleRotation = Math.atan2(longueurCoteOppose, longueurCoteAdjacent);
         } else {
             double longueurCoteOppose = eX - centreX;
-            if (eY < centreY) {
-                double longueurCoteAdjacent = centreY - eY;
-                angleRotation = Math.atan2(longueurCoteOppose, longueurCoteAdjacent);
-            } else {
-                double longueurCoteAdjacent = eY - centreY;
-                angleRotation = Math.PI - Math.atan2(longueurCoteOppose, longueurCoteAdjacent);
-            }
+            double longueurCoteAdjacent = centreY - eY;
+            angleRotation = Math.atan2(longueurCoteOppose, longueurCoteAdjacent);
         }
 		System.out.println(angleRotation);
         creerLaGeometrie();
