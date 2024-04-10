@@ -83,6 +83,8 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
     private double coinXGauche, coinYGauche, coinXDroite, coinYDroite, coinXBasGauche, coinYBasGauche, coinXBasDroit, coinYBasDroit;
     
     private Ellipse2D.Double poigneRotation;
+
+	private Area airePoigne;
     /**
      * Constructeur de la classe Rectangle.
      *
@@ -99,6 +101,7 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
         poigneRedimensionnement = new Ellipse2D.Double[8];
         creerLaGeometrie();
     }
+
     public Rectangle(double posX, double posY, double longueur, double largeur , double rotation) {
     	
     	coinXGauche = posX;
@@ -106,13 +109,9 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
         angleRotation = rotation;
         longueurRec = longueur;
         largeurRec = largeur;
-    	poigneRedimensionnement = new Ellipse2D.Double[8];
+    	poigneRedimensionnement = new Ellipse2D.Double[8];  	
     	creerLaGeometrie();
-    	
     }
-   
-    
-
     // Méthode privée pour initialiser la géométrie du rectangle
     //Ahmad Khanafer
     private void creerLaGeometrie() {
@@ -130,35 +129,18 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
         centreX = rectangle.getCenterX();
         centreY = rectangle.getCenterY();
         aireRec = new Area(rectangle);
+        poigneRotation = new Ellipse2D.Double((coinXGauche+largeurRec/2) - 15, coinYGauche - 50, 30, 30);
+        airePoigne = new Area(poigneRotation);
+        AffineTransform transformation = new AffineTransform();
+        transformation.rotate(angleRotation, centreX, centreY);
+        airePoigne.transform(transformation);
         creationResizeHandles();
-        creationPoigneRotation();
         calculerCoins();
         
     }
     // Méthode privée pour créer la poignée de rotation du rectangle
     private void creationPoigneRotation() {
-    	double taillePoigneRotation = 50; // Taille de la poignée de rotation
-    	
-        // Coordonnées de la poignée de redimensionnement au centre du haut du rectangle avant la rotation
-        double handleX = centreX;
-        double handleY = coinYGauche;
-        
-        // Appliquer la rotation à la poignée de redimensionnement
-        AffineTransform rotation = AffineTransform.getRotateInstance(angleRotation, centreX, centreY);
-        Point2D rotatedHandle = rotation.transform(new Point2D.Double(handleX, handleY), null);
-        double rotatedHandleX = rotatedHandle.getX();
-        double rotatedHandleY = rotatedHandle.getY();
-        
-        // Décalage vertical pour ajuster la position de la poignée de rotation (si nécessaire)
-        double decalageY = -taillePoigneRotation * 3; // Ajustez ce décalage selon vos besoins
-        
-        // Coordonnées de la poignée de rotation
-        double poigneRotationX = rotatedHandleX;
-        double poigneRotationY = rotatedHandleY + decalageY;
-        
-        // Création de la poignée de rotation
-        poigneRotation = new Ellipse2D.Double(poigneRotationX - taillePoigneRotation / 2, poigneRotationY - taillePoigneRotation / 2,
-                taillePoigneRotation, taillePoigneRotation);
+
     }
     // Méthode privée pour créer les poignées de redimensionnement du rectangle
     //Ahmad Khanafer
@@ -201,7 +183,7 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
     //Méthode privée qui calcule les 4 coins en rotation et dessine les segments pour permettre la collisions.
     //Ahmad Khanafer
     private void calculerCoins() {
- 
+
         Point2D.Double coinSupGauche = new Point2D.Double(coinXGauche, coinYGauche);
         Point2D.Double coinSupDroit = new Point2D.Double(coinXDroite, coinYDroite);
         Point2D.Double coinInfDroit = new Point2D.Double(coinXBasDroit, coinYBasDroit);
@@ -219,7 +201,6 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
         segmentBas = new Line2D.Double(coins[3].getX(), coins[3].getY(), coins[2].getX(), coins[2].getY());
         segmentGauche = new Line2D.Double(coins[0].getX(), coins[0].getY(), coins[3].getX(), coins[3].getY());
         segmentDroite = new Line2D.Double(coins[1].getX(), coins[1].getY(), coins[2].getX(), coins[2].getY());
-        
     }
     
     private Point2D.Double transformMousePoint(double mouseX, double mouseY) {
@@ -334,7 +315,7 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
     //Ahmad Khanafer
     @Override
     public void rotate(int eX, int eY) {
-    	if(poigneRotation.contains(eX, eY)) {
+    	if(airePoigne.contains(eX, eY)) {
 	        if (eX <= centreX) {
 	            double longueurCoteOppose = eX - centreX;
 	                double longueurCoteAdjacent = centreY - eY;
@@ -387,7 +368,7 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
     //Ahmad Khanafer
     @Override
     public void dessiner(Graphics2D g2d) { 
-    
+    	
         Graphics2D g2dCopy = (Graphics2D) g2d.create();
         Graphics2D g2dCopy2 = (Graphics2D) g2d.create();
         g2dCopy.setColor(Color.red);
@@ -406,8 +387,8 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
             g2dCopy.setStroke(pointille);
             g2dCopy.setColor(Color.black);
             g2dCopy.draw(rectanglePointille);
-            g2dCopy2.setColor(Color.green);
-            g2dCopy2.fill(poigneRotation);
+            g2dCopy.setColor(Color.green);
+            g2dCopy.fill(poigneRotation);
             g2dCopy2.setColor(Color.red);
             for (Ellipse2D.Double handle : poigneRedimensionnement) {
             	g2dCopy2.fill(handle);

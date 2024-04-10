@@ -2,10 +2,12 @@ package obstacles;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import interfaces.Dessinable;
@@ -32,11 +34,12 @@ public class Triangle implements Dessinable, Obstacles, Selectionnable {
 	private Rectangle2D.Double rectanglePointille;
 	private Area aireTri;
 	private Ellipse2D.Double[] poigneRedimensionnement;
-	
+    private Ellipse2D.Double poigneRotation;
+	private Area airePoigne;
 	
 	
 	private Line2D.Double segmentHaut, segmentBas, segmentGauche, segmentDroite;
-	private double coinXDroite, coinYDroite, coinXBasGauche, coinYBasGauche, coinXBasDroit, coinYBasDroit;
+	private double coinXDroite, coinYDroite, coinXBasGauche, coinYBasGauche, coinXBasDroit, coinYBasDroit, sommetX, sommetY;
 	private boolean estClique = false;
 	/**
 	 * Contruire un sapin en spécifiant les dimensions de son rectangle englobant imaginaire.
@@ -76,8 +79,14 @@ public class Triangle implements Dessinable, Obstacles, Selectionnable {
 		triangle.lineTo(coinXGauche+largeur/2, coinYGauche );
 		triangle.closePath();
 		aireTri = new Area(triangle);
+		poigneRotation = new Ellipse2D.Double((coinXGauche+largeur/2) - 15, coinYGauche - 50, 30, 30);
+        airePoigne = new Area(poigneRotation);
+        AffineTransform transformation = new AffineTransform();
+        transformation.rotate(angleRotation, centreX, centreY);
+        airePoigne.transform(transformation);
 		creationResizeHandles();
-			
+		calculerCoins();
+		
 	}
 	
     private void creationResizeHandles() {
@@ -102,6 +111,28 @@ public class Triangle implements Dessinable, Obstacles, Selectionnable {
                 coinYGauche + hauteur / 2 - tailleHandle / 2, tailleHandle, tailleHandle); // Millieu gauche
     }
 
+    private void calculerCoins() {
+
+        Point2D.Double coinSupGauche = new Point2D.Double(coinXGauche, coinYGauche);
+        Point2D.Double coinSupDroit = new Point2D.Double(coinXDroite, coinYDroite);
+        Point2D.Double coinInfDroit = new Point2D.Double(coinXBasDroit, coinYBasDroit);
+        Point2D.Double coinInfGauche = new Point2D.Double(coinXBasGauche, coinYBasGauche);
+        Point2D.Double sommet = new Point2D.Double(sommetX, sommetY);
+        AffineTransform rotation = AffineTransform.getRotateInstance(angleRotation, centreX, centreY);
+
+        Point2D.Double[] coins = new Point2D.Double[5];
+        rotation.transform(coinSupGauche, coins[0] = new Point2D.Double());
+        rotation.transform(coinSupDroit, coins[1] = new Point2D.Double());
+        rotation.transform(coinInfDroit, coins[2] = new Point2D.Double());
+        rotation.transform(coinInfGauche, coins[3] = new Point2D.Double());
+        rotation.transform(sommet, coins[4] = new Point2D.Double());
+
+        
+        segmentBas = new Line2D.Double(coins[3].getX(), coins[3].getY(), coins[2].getX(), coins[2].getY());
+        segmentGauche = new Line2D.Double(coins[0].getX(), coins[0].getY(), coins[3].getX(), coins[3].getY());
+        segmentDroite = new Line2D.Double(coins[1].getX(), coins[1].getY(), coins[2].getX(), coins[2].getY());
+    }
+    
 	/**
 	 * Dessiner le sapin.
 	 * Cette méthode doit garder le contexte graphique g2d intacte, car possiblement d'autres 
@@ -112,6 +143,7 @@ public class Triangle implements Dessinable, Obstacles, Selectionnable {
 	public void dessiner(Graphics2D g2d) {
 		
 		Graphics2D g2dCopy = (Graphics2D) g2d.create();
+		g2dCopy.setColor(Color.yellow);
 		g2dCopy.rotate(angleRotation, centreX, centreY);
 		g2dCopy.fill(triangle);
 
