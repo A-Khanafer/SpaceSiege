@@ -77,9 +77,10 @@ public class Balle {
 		charge = chargeDonne;
 		diametre = diametreDonne;
 		this.vitesse = vitesse;
-		this.position = position.multiplie(1.0/pixelParMetre);
-	
-	
+		this.position = position;
+		System.out.println(pixelsParMetre);
+		this.position = this.position.multiplie(1/pixelsParMetre);
+		System.out.println(this.position.getX() +"     " + this.position.getY() + "dakmowdnc");
 		initialiserCercle();
 	}
 	/**
@@ -101,8 +102,8 @@ public class Balle {
 		try {
 
 
-//			 accel = MoteurPhysique.calculAcceleration(sommeForcesSurLaBalle, masse);
-//			System.out.println(sommeForcesSurLaBalle.getY()+"N");
+			// accel = MoteurPhysique.calculAcceleration(sommeForcesSurLaBalle, masse);
+		//System.out.println(sommeForcesSurLaBalle.getY()+"N");
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -118,7 +119,6 @@ public class Balle {
 	
 		vitesse = MoteurPhysique.calculVitesse(deltaT, vitesse, accel);
 		position = MoteurPhysique.calculPosition(deltaT, position, vitesse);
-System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 		initialiserCercle();
 		
 	}
@@ -172,7 +172,7 @@ System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 	 */
 	  //Benakmoum Walid
 	public void setVitesse(Vecteur2D vit) {
-	    this.vitesse = vit;
+	    this.vitesse = vit.multiplie(1/pixelsParMetre);
 	    System.out.println(vitesse.getX()+" VITESSE EN X");
 	}
 
@@ -213,7 +213,7 @@ System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 	 */
 	  //Benakmoum Walid
 	public void setPosition(Vecteur2D position) {
-	    this.position = position;
+	    this.position = position.multiplie(1/pixelsParMetre);
 	}
 	/**
 	 * Permet d'avoir le cercle de la balle
