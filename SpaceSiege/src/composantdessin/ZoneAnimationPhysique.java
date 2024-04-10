@@ -120,6 +120,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	private Canon canon;
     private boolean monstreMort=false;
     private PlanCartesien planCartesion= new PlanCartesien();
+    Thread proc = new Thread(this);
 
     
     
@@ -255,8 +256,9 @@ planCartesion.setPosition(canon.getBalle().getPosition().multiplie(1/pixelParMet
 	// Benakmoum Walid
 	public void demarrer() {
 		if (!enCoursDAnimation) {
-			Thread proc = new Thread(this);
+			proc = new Thread(this);
 			proc.start();
+			
 			enCoursDAnimation = true;
 			balleTiree=true;
 			canon.setBalleTiree();
@@ -312,22 +314,15 @@ planCartesion.setPosition(canon.getBalle().getPosition().multiplie(1/pixelParMet
 	 */
 	  //Benakmoum Walid
 	public void reinitialiserApplication() {
-	
+		
 	    enCoursDAnimation = false;
-
-
 	    rotation = 0;
 	    tempsTotalEcoule = 0;
-
-
 	    balleTiree = false;
 	    canon.setPremiereFois(true);
 	    monstre = new Monstres(1000, 20, "images.jpg", pixelParMetres);
-	    canon = new Canon(0, 10,pixelParMetres);
-	    
+	    canon = new Canon(0, 10,pixelParMetres);	    
 	   monstreMort=false;
-
-
 	   repaint();
 
 	}
