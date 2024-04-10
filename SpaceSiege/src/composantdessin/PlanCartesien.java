@@ -227,18 +227,18 @@ public class PlanCartesien extends JPanel {
 	 */
 	//Auteur Benakmoum Walid
 	private void creerApproxCourbe() {
-		double x, y;
-		ligneBrisee = new Path2D.Double();
-		x =position.getX();
-		//System.out.println(position.getX()+"POSITIOn EN X PLAN");
-		y = position.getY();
-	//	System.out.println( position.getY()+"POSITIOn EN Y PLAN");
-		ligneBrisee.moveTo(x, y);
-		
-		
-				
-				ligneBrisee.lineTo(x, y);
-			}
+	    ligneBrisee = new Path2D.Double();
+
+	    for (double x = xMin; x <= xMax; x += (xMax - xMin) / nbSegmentsPourApproximer) {
+	        double y = fonctionDeLaBalle(x); // Remplacez ceci par le calcul de votre fonction
+	        if (x == xMin) {
+	            ligneBrisee.moveTo(x, y);
+	        } else {
+	            ligneBrisee.lineTo(x, y);
+	        }
+	    }
+	}
+
 	
 	
 
@@ -252,7 +252,7 @@ public class PlanCartesien extends JPanel {
 	 *         envigueur
 	 */
 	//Auteur Benakmoum Walid
-	private double evalFonction(double x) {
+	private double fonctionDeLaBalle(double x) {
 		return ( position.getY());
 	}
 
@@ -383,18 +383,18 @@ public class PlanCartesien extends JPanel {
 	 */
 	//Auteur Benakmoum Walid
 	private void creerCercle() {
-		double xCercle = position.getX();
-		double yCercle = evalFonction(xCercle);
+	    // Assurez-vous que 'position' est mis à jour avec la position actuelle de la balle
+	    // Vous pourriez avoir besoin de convertir les unités si nécessaire
+	    double xCercle = position.getX(); // Position X de la balle
+	    double yCercle = position.getY(); // Position Y de la balle
 
-		double rayonCercleX = cercleDia / 2;
-		double rayonCercleY = (cercleDia / 2) * (pixelsParUniteX / pixelsParUniteY);
+	    // Calcule le rayon du cercle en fonction du diamètre
+	    double rayonCercle = cercleDia / 2;
 
-		double xCoinSuperieurGauche = xCercle - rayonCercleX;
-		double yCoinSuperieurGauche = yCercle - rayonCercleY;
-
-		cercle = new Ellipse2D.Double(xCoinSuperieurGauche, yCoinSuperieurGauche, 2 * rayonCercleX, 2 * rayonCercleY);
-
+	    // Crée un cercle à la position de la balle
+	    cercle = new Ellipse2D.Double(xCercle - rayonCercle, yCercle - rayonCercle, cercleDia, cercleDia);
 	}
+
 
 	/**
 	 * Définit la quantité de sel sélectionnée par l'utilisateur grâce au spinner.

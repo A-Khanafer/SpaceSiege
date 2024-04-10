@@ -56,7 +56,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	/**
      * Le temps de pause (en millisecondes) entre chaque itération de l'animation.
      */
-	private int tempsDuSleep = 10;
+	private int tempsDuSleep = 5;
 	/**
      * Un rectangle servant d'obstacle dans la zone d'animation.
      */
@@ -120,6 +120,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	private Canon canon;
     private boolean monstreMort=false;
     private PlanCartesien planCartesion= new PlanCartesien();
+    Thread proc = new Thread(this);
 
     
     
@@ -148,13 +149,14 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		
-		System.out.println(pixelParMetres);
-
 		if(premiereFois) {
 			pixelParMetres = getWidth()/150;
 			int espace=0;
 			monstre = new Monstres(1000, 20, "images.jpg", pixelParMetres);
-			 canon=new Canon (0,10,pixelParMetres);
+			canon=new Canon (0,10,pixelParMetres);
+			
+			
+			
 				for(int i = 0 ; i < tableauRec.length ; i++) {
 					tableauRec[i] = new Rectangle(50 + espace, 50 + espace, pixelParMetres);
 					espace = espace + 80;
@@ -166,7 +168,9 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 				}
 			premiereFois = false;
 		}
-
+		
+		System.out.println((canon.getBalle().getPosition().multiplie(1/pixelParMetres).toString() )+"  DANS LA PREMIERE FOIS");
+planCartesion.setPosition(canon.getBalle().getPosition().multiplie(1/pixelParMetres));
 		tableauRec[0].dessiner(g2d);
 		tableauRec[1].dessiner(g2d);
 		tableauRec[2].dessiner(g2d);
@@ -252,8 +256,9 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	// Benakmoum Walid
 	public void demarrer() {
 		if (!enCoursDAnimation) {
-			Thread proc = new Thread(this);
+			proc = new Thread(this);
 			proc.start();
+			
 			enCoursDAnimation = true;
 			balleTiree=true;
 			canon.setBalleTiree();
@@ -262,7 +267,7 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	}//fin methode
 	//WALID
 	  public void prochaineImage() {
-		  if(canon.getBalle().getVitesse()!=null) {
+		  if(canon.getBalle().getVitesse()!= new Vecteur2D(0,0)) {
 		  System.out.println("Prochaine image...on avance de " + deltaT + " secondes");
 			calculerUneIterationPhysique(deltaT);
 			repaint();
@@ -278,8 +283,9 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 		calculerLesForces();
 		canon.avancerUnPas(deltaT);
 	}
-	
 
+
+	
 	/**
      * Teste les collisions entre les éléments graphiques et ajuste leurs vitesses en conséquence.
      */
@@ -295,10 +301,10 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 // Benakmoum Walid
 	private void calculerLesForces() {
 
-//		Vecteur2D forceDeGravite=MoteurPhysique.calculForceGrav(canon.getBalle().getMasse(), Math.toRadians(90));
-//       
-//        
-//		canon.getBalle().setSommeDesForces(forceDeGravite);
+	//	Vecteur2D forceDeGravite=MoteurPhysique.calculForceGrav(canon.getBalle().getMasse(), Math.toRadians(90));
+       
+        
+	//canon.getBalle().setSommeDesForces(forceDeGravite);
 
 
 	}
@@ -308,22 +314,15 @@ public class ZoneAnimationPhysique extends JPanel implements Runnable {
 	 */
 	  //Benakmoum Walid
 	public void reinitialiserApplication() {
-	
+		
 	    enCoursDAnimation = false;
-
-
 	    rotation = 0;
 	    tempsTotalEcoule = 0;
-
-
 	    balleTiree = false;
 	    canon.setPremiereFois(true);
 	    monstre = new Monstres(1000, 20, "images.jpg", pixelParMetres);
-	    canon = new Canon(0, 10,pixelParMetres);
-	    
+	    canon = new Canon(0, 10,pixelParMetres);	    
 	   monstreMort=false;
-
-
 	   repaint();
 
 	}

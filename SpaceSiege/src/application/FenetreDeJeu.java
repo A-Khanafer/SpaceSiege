@@ -29,6 +29,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.DefaultComboBoxModel;
 /**
  * Classe principale de l'interface de jeu, gérant la disposition des éléments de jeu et les interactions utilisateur.
  * Cette classe crée une fenêtre contenant une zone d'animation pour visualiser le jeu, un ensemble de contrôles pour interagir avec le jeu,
@@ -53,6 +54,9 @@ public class FenetreDeJeu extends JFrame {
 	private ZoneAnimationPhysique zoneAnimationPhysique;
 	private Niveaux niveaux [] = new Niveaux[3]; 
 	private int index = 0;
+
+	private JComboBox comboBoxTypeGrav;
+
 	private Niveau1 niv1 = new Niveau1();
 	private Niveau2 niv2 = new Niveau2();
 	private Niveau3 niv3 = new Niveau3();
@@ -236,9 +240,16 @@ public class FenetreDeJeu extends JFrame {
 		rdbBalleNova.setBounds(16, 139, 109, 23);
 		panelFonctionnalites.add(rdbBalleNova);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(167, 235, 109, 37);
-		panelFonctionnalites.add(comboBox);
+		comboBoxTypeGrav = new JComboBox();
+		comboBoxTypeGrav.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//String typeGravite = (String) comboBoxTypeGrav.getSelectedItem();
+		       // zoneAnimationPhysique.changerTypeGravite(typeGravite);
+			}
+		});
+		comboBoxTypeGrav.setModel(new DefaultComboBoxModel(new String[] {"ESPACE", "TERRE", "MARS"}));
+		comboBoxTypeGrav.setBounds(167, 235, 109, 37);
+		panelFonctionnalites.add(comboBoxTypeGrav);
 		
 		JButton btnNewButton = new JButton("MODES EXTRA");
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 8));

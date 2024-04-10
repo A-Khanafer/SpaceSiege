@@ -132,7 +132,7 @@ public class Niveau1 extends Niveaux {
 		setBackground(new Color(192, 192, 192));
 		setLayout(null);
 		tableauRec = new Rectangle[11];
-		tableauTri = new Triangle[3];
+//		tableauTri = new Triangle[3];
 		ecouteurSouris();
 		ecouteurClavier();
 		
@@ -160,29 +160,32 @@ public class Niveau1 extends Niveaux {
 			 
 
 			 
-			 tableauRec[0] = new Rectangle(  143.5,  334, 336, 53);
-			 tableauRec[1] = new Rectangle(  644,  253, 206, 48);
-			 tableauRec[2] = new Rectangle(  224.5,  0, 249, 57);
-			 tableauRec[3] = new Rectangle(  246.75,  373.75, 300, 56.25);
-			 tableauRec[4] = new Rectangle( 344.3, 0, 278.5, 57.25);
-			 tableauRec[5] = new Rectangle(  398.75, 357.25, 312.75, 52.25);
-			 tableauRec[6] = new Rectangle( 489.2, 0, 258.56, 47.56);
-			 tableauRec[7] = new Rectangle(  661.375, 391.75, 230.25, 60.62);
-			 tableauRec[8] = new Rectangle( 759.9375, 0, 182.375, 36.125);
-			 tableauRec[9] = new Rectangle(  1029.0, 444.85, 140.28, 124.0);
-			 tableauRec[10] = new Rectangle(  1172.96, 218.4, 113.18, 92.06);
-
+			 tableauRec[0] = new Rectangle(  143,  354, 330, 53,0);
+			 tableauRec[1] = new Rectangle(  644,  120, 186, 48,0);
 			 
-//				for(int i = 0 ; i < tableauRec.length ; i++) {
-//				tableauRec[i] = new Rectangle(50 + espace, 50 + espace, pixelParMetres);
-//				espace = espace + 80;
-//			}
+			 tableauRec[2] = new Rectangle(  224,  0, 229, 57,0);
+			 
+			 tableauRec[3] = new Rectangle(  246,  393, 280, 56,0);
+			 
+			 tableauRec[4] = new Rectangle( 344, 0, 258, 57,0);
+			 
+			 tableauRec[5] = new Rectangle(  398, 377, 290, 52,0);
+			 
+			 tableauRec[6] = new Rectangle( 489, 0, 238, 47,0);
+			 
+			 tableauRec[7] = new Rectangle(  560,458, 210, 60,0);
+			 tableauRec[8] = new Rectangle( 800, 20, 162, 36,45);
+			 tableauRec[9] = new Rectangle(  780, 464, 140, 124,45);
+			 
+			 tableauRec[10] = new Rectangle(  1172, 238, 113, 92,0);
+
+			
 			espace = 0;
 			 
-				for(int i = 0 ; i < tableauTri.length ; i++) {
-					tableauTri[i] = new Triangle(50, 50, 10, 15, pixelParMetres);
-					espace = espace + 80;
-				}
+//				for(int i = 0 ; i < tableauTri.length ; i++) {
+//					tableauTri[i] = new Triangle(50, 50, 10, 15, pixelParMetres);
+//					espace = espace + 80;
+//				}
 			premiereFois = false;
 		}
 
@@ -192,8 +195,8 @@ public class Niveau1 extends Niveaux {
 		}
 		
 
-		tableauTri[0].dessiner(g2d);
-		tableauTri[1].dessiner(g2d);
+//		tableauTri[0].dessiner(g2d);
+//		tableauTri[1].dessiner(g2d);
 
 		
 
@@ -226,11 +229,6 @@ public class Niveau1 extends Niveaux {
 	public void run() {
 		while (enCoursDAnimation) {
 
-//			System.out.println("Un tour de run...on avance de " + deltaT + " secondes");
-//			System.out.println("Temps ecoule "+tempsTotalEcoule);
-
-
-		//System.out.println(canon.getBalle().getPosition().toString()+" POSTIONS DANS LE RUN");
 
 			calculerUneIterationPhysique(deltaT);
 			testerCollisionsEtAjusterVitesses();
@@ -400,24 +398,24 @@ public class Niveau1 extends Niveaux {
      */
 	//Ahmad Khanafer
 	private void ecouteurSouris() {
-		addMouseListener((MouseListener) new MouseAdapter() {
-			@Override
-
-			public void mouseClicked(MouseEvent e) {
-			
-				gestionSourisRecClick(e);
-				gestionSourisTriClick(e);
-				repaint();
-			}
-			 
-		});
+//		addMouseListener((MouseListener) new MouseAdapter() {
+//			@Override
+//
+//			public void mouseClicked(MouseEvent e) {
+//			
+//				gestionSourisRecClick(e);
+//				gestionSourisTriClick(e);
+//				repaint();
+//			}
+//			 
+//		});
 	
 		addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 				
 			public void mouseDragged(MouseEvent e) {
-				gestionSourisRecDragged(e);
-				gestionSourisTriDragged(e);
+//				gestionSourisRecDragged(e);
+//				gestionSourisTriDragged(e);
 				gestionSourisCanon(e);
 				repaint();
 			}
@@ -426,66 +424,66 @@ public class Niveau1 extends Niveaux {
 	}
 	//Méthode qui gère les click de la souris pour le rectangle
 		//Ahmad Khanafer
-		private void gestionSourisRecDragged(MouseEvent e) {
-			for(int i =0 ; i < tableauRec.length; i++) {
-				int index = tableauRec[i].getClickedResizeHandleIndex(e.getX(), e.getY());
-					if (tableauRec[i].isClickedOnIt() == true && index != -1) {
-						tableauRec[i].redimension(index, e.getX(), e.getY());
-						repaint();
-					}else if(tableauRec[i].contient(e.getX(), e.getY()) && tableauRec[i].isClickedOnIt() == true && index == -1 ) {
-						tableauRec[i].rotate( e.getX(), e.getY());
-						repaint();
-					}
-					if(tableauRec[i].contient(e.getX(), e.getY()) && tableauRec[i].isClickedOnIt() == false) {
-						tableauRec[i].move( e.getX(), e.getY());
-						repaint();
-					}
-			}	
-		}
-		
-		private void gestionSourisTriDragged(MouseEvent e) {
-			for(int i =0 ; i < tableauTri.length; i++) {
-				int index = tableauTri[i].getClickedResizeHandleIndex(e.getX(), e.getY());
-					if (tableauTri[i].isClickedOnIt() == true && index != -1) {
-						tableauTri[i].redimension(index, e.getX(), e.getY());
-						repaint();
-					}else if(tableauTri[i].contient(e.getX(), e.getY()) && tableauTri[i].isClickedOnIt() == true && index == -1 ) {
-						tableauTri[i].rotate( e.getX(), e.getY());
-						repaint();
-					}
-					if(tableauTri[i].contient(e.getX(), e.getY()) && tableauTri[i].isClickedOnIt() == false) {
-						tableauTri[i].move( e.getX(), e.getY());
-						repaint();
-					}
-			}
-		}
-		
-		private void gestionSourisRecClick(MouseEvent e) {
-			for(int i =0 ; i < tableauRec.length; i++) {
-				if(tableauRec[i].contient(e.getX(), e.getY())) {
-					System.out.println("CLICKEEEZZZZZZZZZ on");
-					tableauRec[i].setClickedOnIt(true);
-					repaint();
-				}else {
-					System.out.println("CLICKEEEZZZZZZZZZ off");
-					tableauRec[i].setClickedOnIt(false);
-					repaint();
-				}
-			}
-			
-		}
-		
-		private void gestionSourisTriClick(MouseEvent e) {
-			for(int i =0 ; i < tableauTri.length; i++) {
-				if(tableauTri[i].contient(e.getX(), e.getY())) {
-					tableauTri[i].setClickedOnIt(true);
-					repaint();
-				}else {
-					tableauTri[i].setClickedOnIt(false);
-					repaint();
-				}
-			}
-		}
+//		private void gestionSourisRecDragged(MouseEvent e) {
+//			for(int i =0 ; i < tableauRec.length; i++) {
+//				int index = tableauRec[i].getClickedResizeHandleIndex(e.getX(), e.getY());
+//					if (tableauRec[i].isClickedOnIt() == true && index != -1) {
+//						tableauRec[i].redimension(index, e.getX(), e.getY());
+//						repaint();
+//					}else if(tableauRec[i].contient(e.getX(), e.getY()) && tableauRec[i].isClickedOnIt() == true && index == -1 ) {
+//						tableauRec[i].rotate( e.getX(), e.getY());
+//						repaint();
+//					}
+//					if(tableauRec[i].contient(e.getX(), e.getY()) && tableauRec[i].isClickedOnIt() == false) {
+//						tableauRec[i].move( e.getX(), e.getY());
+//						repaint();
+//					}
+//			}	
+//		}
+//		
+//		private void gestionSourisTriDragged(MouseEvent e) {
+//			for(int i =0 ; i < tableauTri.length; i++) {
+//				int index = tableauTri[i].getClickedResizeHandleIndex(e.getX(), e.getY());
+//					if (tableauTri[i].isClickedOnIt() == true && index != -1) {
+//						tableauTri[i].redimension(index, e.getX(), e.getY());
+//						repaint();
+//					}else if(tableauTri[i].contient(e.getX(), e.getY()) && tableauTri[i].isClickedOnIt() == true && index == -1 ) {
+//						tableauTri[i].rotate( e.getX(), e.getY());
+//						repaint();
+//					}
+//					if(tableauTri[i].contient(e.getX(), e.getY()) && tableauTri[i].isClickedOnIt() == false) {
+//						tableauTri[i].move( e.getX(), e.getY());
+//						repaint();
+//					}
+//			}
+//		}
+//		
+//		private void gestionSourisRecClick(MouseEvent e) {
+//			for(int i =0 ; i < tableauRec.length; i++) {
+//				if(tableauRec[i].contient(e.getX(), e.getY())) {
+//					System.out.println("CLICKEEEZZZZZZZZZ on");
+//					tableauRec[i].setClickedOnIt(true);
+//					repaint();
+//				}else {
+//					System.out.println("CLICKEEEZZZZZZZZZ off");
+//					tableauRec[i].setClickedOnIt(false);
+//					repaint();
+//				}
+//			}
+//			
+//		}
+//		
+//		private void gestionSourisTriClick(MouseEvent e) {
+//			for(int i =0 ; i < tableauTri.length; i++) {
+//				if(tableauTri[i].contient(e.getX(), e.getY())) {
+//					tableauTri[i].setClickedOnIt(true);
+//					repaint();
+//				}else {
+//					tableauTri[i].setClickedOnIt(false);
+//					repaint();
+//				}
+//			}
+//		}
 	/**
 	 * Méthode qui permet de gérer le canon selon les mouvements de la souris
 	 * @param e Événement de la souris
@@ -494,22 +492,22 @@ public class Niveau1 extends Niveaux {
 		private void gestionSourisCanon(MouseEvent e) {
 		    boolean toucheObjet = false;
 
-		    for (Rectangle rec : tableauRec) {
-		        if (rec.contient(e.getX(), e.getY())) {
-		            toucheObjet = true;
-		            break; 
-		        }
-		    }
-
-		    
-		    if (!toucheObjet) {
-		        for (Triangle tri : tableauTri) {
-		            if (tri.contient(e.getX(), e.getY())) {
-		                toucheObjet = true;
-		                break;
-		            }
-		        }
-		    }
+//		    for (Rectangle rec : tableauRec) {
+//		        if (rec.contient(e.getX(), e.getY())) {
+//		            toucheObjet = true;
+//		            break; 
+//		        }
+//		    }
+//
+//		    
+//		    if (!toucheObjet) {
+//		        for (Triangle tri : tableauTri) {
+//		            if (tri.contient(e.getX(), e.getY())) {
+//		                toucheObjet = true;
+//		                break;
+//		            }
+//		        }
+//		    }
 
 		    if (!balleTiree && !toucheObjet) {
 		        canon.rotate(e.getX(), e.getY());
