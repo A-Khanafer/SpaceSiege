@@ -97,7 +97,6 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
         largeurRec = 10 * this.pixelsParMetre;
         longueurRec = 10 * this.pixelsParMetre;
         poigneRedimensionnement = new Ellipse2D.Double[8];
-        
         creerLaGeometrie();
     }
     public Rectangle(double posX, double posY, double longueur, double largeur) {
@@ -139,24 +138,24 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
     // Méthode privée pour créer la poignée de rotation du rectangle
     private void creationPoigneRotation() {
     	double taillePoigneRotation = 50; // Taille de la poignée de rotation
-
+    	
         // Coordonnées de la poignée de redimensionnement au centre du haut du rectangle avant la rotation
         double handleX = centreX;
         double handleY = coinYGauche;
-
+        
         // Appliquer la rotation à la poignée de redimensionnement
         AffineTransform rotation = AffineTransform.getRotateInstance(angleRotation, centreX, centreY);
         Point2D rotatedHandle = rotation.transform(new Point2D.Double(handleX, handleY), null);
         double rotatedHandleX = rotatedHandle.getX();
         double rotatedHandleY = rotatedHandle.getY();
-
+        
         // Décalage vertical pour ajuster la position de la poignée de rotation (si nécessaire)
         double decalageY = -taillePoigneRotation * 3; // Ajustez ce décalage selon vos besoins
-
+        
         // Coordonnées de la poignée de rotation
         double poigneRotationX = rotatedHandleX;
         double poigneRotationY = rotatedHandleY + decalageY;
-
+        
         // Création de la poignée de rotation
         poigneRotation = new Ellipse2D.Double(poigneRotationX - taillePoigneRotation / 2, poigneRotationY - taillePoigneRotation / 2,
                 taillePoigneRotation, taillePoigneRotation);
@@ -164,28 +163,40 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
     // Méthode privée pour créer les poignées de redimensionnement du rectangle
     //Ahmad Khanafer
     private void creationResizeHandles() {
-    	double tailleHandle = 15; // Taille des poignées de redimensionnement
+    	double tailleHandle = 15; 
 
-        // Coordonnées des poignées de redimensionnement par rapport au centre du rectangle
         double[][] handlesCoordinates = {
             {-largeurRec / 2, -longueurRec / 2},    // En haut à gauche
             {0, -longueurRec / 2},                  // En haut au milieu
             {largeurRec / 2, -longueurRec / 2},     // En haut à droite
             {largeurRec / 2, 0},                    // Au milieu à droite
             {largeurRec / 2, longueurRec / 2},      // En bas à droite
-            {0, longueurRec / 2},                    // En bas au milieu
+            {0, longueurRec / 2},                   // En bas au milieu
             {-largeurRec / 2, longueurRec / 2},     // En bas à gauche
             {-largeurRec / 2, 0}                    // Au milieu à gauche
         };
 
-        // Création des poignées de redimensionnement en appliquant la rotation
         poigneRedimensionnement = new Ellipse2D.Double[8];
         for (int i = 0; i < 8; i++) {
-            double handleX = centreX + handlesCoordinates[i][0];
-            double handleY = centreY + handlesCoordinates[i][1];
+
+            double[] rotatedCoord = rotatePoint(handlesCoordinates[i][0], handlesCoordinates[i][1], angleRotation);
+            double handleX = centreX + rotatedCoord[0];
+            double handleY = centreY + rotatedCoord[1];
             poigneRedimensionnement[i] = new Ellipse2D.Double(handleX - tailleHandle / 2, handleY - tailleHandle / 2,
                     tailleHandle, tailleHandle);
         }
+    }
+    
+    /**
+     * Applique une rotation aux coordonnées d'un point autour de l'origine (0,0)
+     * et retourne les nouvelles coordonnées.
+     */
+    private double[] rotatePoint(double x, double y, double angle) {
+        double cosAngle = Math.cos(angle);
+        double sinAngle = Math.sin(angle);
+        double rotatedX = x * cosAngle - y * sinAngle;
+        double rotatedY = x * sinAngle + y * cosAngle;
+        return new double[]{rotatedX, rotatedY};
     }
     //Méthode privée qui calcule les 4 coins en rotation et dessine les segments pour permettre la collisions.
     //Ahmad Khanafer
@@ -240,9 +251,7 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
      */
     //Ahmad Khanafer
     public void redimension(int index, int eX, int eY) {
-    	
-    	
-    	
+
         // Vérifier si le redimensionnement est activé
         if (estClique) {
         	
@@ -313,7 +322,6 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
             creerLaGeometrie();
             System.out.println("_______________________longueurRec_________________________"+longueurRec);
             System.out.println("_______________________largeurRec_________________________"+largeurRec);
-
         }
     }
 
@@ -326,27 +334,17 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
     //Ahmad Khanafer
     @Override
     public void rotate(int eX, int eY) {
-//    	if(poigneRotation.contains(eX, eY)) {
+    	if(poigneRotation.contains(eX, eY)) {
 	        if (eX <= centreX) {
 	            double longueurCoteOppose = eX - centreX;
-	            if (eY < centreY) {
 	                double longueurCoteAdjacent = centreY - eY;
 	                angleRotation = Math.atan2(longueurCoteOppose, longueurCoteAdjacent);
-	            } else {
-	                double longueurCoteAdjacent = centreY - eY;
-	                angleRotation = -Math.PI + Math.atan2(longueurCoteOppose, longueurCoteAdjacent);
-	            }
 	        } else {
 	            double longueurCoteOppose = eX - centreX;
-	            if (eY < centreY) {
 	                double longueurCoteAdjacent = centreY - eY;
 	                angleRotation = Math.atan2(longueurCoteOppose, longueurCoteAdjacent);
-	            } else {
-	                double longueurCoteAdjacent = eY - centreY;
-	                angleRotation = Math.PI - Math.atan2(longueurCoteOppose, longueurCoteAdjacent);
-	            }
 	        }
-//    	}
+    	}
         creerLaGeometrie();
         System.out.println("_______________________angle_________________________"+angleRotation);
     }
@@ -363,8 +361,8 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
         this.coinXGauche = eX - largeurRec / 2;
         this.coinYGauche = eY - longueurRec / 2;
         creerLaGeometrie();
-        System.out.println("_______________________coinXGauche_________________________"+coinXGauche);
-        System.out.println("_______________________coinYGauche_________________________"+coinYGauche);
+//        System.out.println("_______________________coinXGauche_________________________"+coinXGauche);
+//        System.out.println("_______________________coinYGauche_________________________"+coinYGauche);
 
     }
     
@@ -391,6 +389,7 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
     public void dessiner(Graphics2D g2d) { 
     
         Graphics2D g2dCopy = (Graphics2D) g2d.create();
+        Graphics2D g2dCopy2 = (Graphics2D) g2d.create();
         g2dCopy.setColor(Color.red);
         g2dCopy.draw(segmentBas);
         g2dCopy.draw(segmentGauche);
@@ -400,18 +399,18 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
         g2dCopy.rotate(angleRotation, centreX, centreY);
         g2dCopy.setColor(Color.blue);
         g2dCopy.fill(rectangle);
-
+        
         if (estClique) {
             BasicStroke pointille = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
                     new float[]{4}, 0); // Création de la ligne pointillée
             g2dCopy.setStroke(pointille);
             g2dCopy.setColor(Color.black);
             g2dCopy.draw(rectanglePointille);
-            g2dCopy.setColor(Color.green);
-            g2dCopy.fill(poigneRotation);
-            g2dCopy.setColor(Color.red);
+            g2dCopy2.setColor(Color.green);
+            g2dCopy2.fill(poigneRotation);
+            g2dCopy2.setColor(Color.red);
             for (Ellipse2D.Double handle : poigneRedimensionnement) {
-                g2dCopy.fill(handle);
+            	g2dCopy2.fill(handle);
             }
         } 
     }
@@ -455,9 +454,6 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
         return -1; // Aucune poignée de redimensionnement trouvée à cette position
     }
 
-
-
-	
     /**
      * Méthode pour obtenir un segment spécifique du rectangle.
      *
@@ -466,6 +462,7 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
      */
   //ZAKARIA SOUDAKI
     public Line2D.Double getSegment(int num) {
+
         Line2D.Double seg = new Line2D.Double();
         if (num == 1) {
             seg = segmentBas;
@@ -499,9 +496,4 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
         return points;
     }
 
-    
-   
-
-
- 
 }
