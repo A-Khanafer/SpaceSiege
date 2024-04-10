@@ -14,7 +14,7 @@ public class MoteurPhysique {
 	/**
 	 * Constante de l'accélération gravitationnelle
 	 */
-	private static final double ACCEL_G = 9.80665;
+	private static double accelG = 9.80665;
 	/**
 	 * Constante de tolerance utilisee dans les comparaisons reelles avec zero
 	 */
@@ -81,7 +81,7 @@ public class MoteurPhysique {
 	//Benakmoum Walid
 
 	public static Vecteur2D calculForceGrav(double masse, double angle) {
-		return new Vecteur2D(Math.cos(angle)*ACCEL_G*masse, Math.sin(angle)*ACCEL_G*masse);
+		return new Vecteur2D(Math.cos(angle)*accelG*masse, Math.sin(angle)*accelG*masse);
 	}
 
 	
@@ -97,7 +97,9 @@ public class MoteurPhysique {
 		double Ft = Fa + Fb + Fc;
 		return Ft;
 	}
-
+	public static void changerGravite(double nouvelleGravite) {
+	    accelG = nouvelleGravite;
+	}
 
 
 }

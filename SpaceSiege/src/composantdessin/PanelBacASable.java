@@ -18,7 +18,7 @@ import obstacles.Triangle;
 public class PanelBacASable extends JPanel {
 
 	
-	private double pixelsParMetres;
+	private double pixelParMetres;
 	private Rectangle[] tableauRec;
 	private Triangle[] tableauTri;
 	private boolean premiereFois = true;
@@ -37,17 +37,17 @@ public class PanelBacASable extends JPanel {
 	public void paintComponent(Graphics g ) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
-		pixelsParMetres = getWidth()/150;
+		pixelParMetres = getWidth()/150;
 		
 		if(premiereFois) {
 			int espace=0;
 				for(int i = 0 ; i < tableauRec.length ; i++) {
-					tableauRec[i] = new Rectangle(50 + espace, 50 + espace, pixelsParMetres);
+					tableauRec[i] = new Rectangle(100 + espace, 100 + espace, pixelParMetres);
 					espace = espace + 20;
 				}
 				espace = 0;
 				for(int i = 0 ; i < tableauRec.length ; i++) {
-					tableauTri[i] = new Triangle(50, 50, 10, 15, pixelsParMetres);
+					tableauTri[i] = new Triangle(50 + espace, 50 + espace, 10, 15, pixelParMetres);
 					espace = espace + 20;
 				}
 			premiereFois = false;
@@ -144,7 +144,7 @@ public class PanelBacASable extends JPanel {
 				if (tableauRec[i].isClickedOnIt() == true && index != -1) {
 					tableauRec[i].redimension(index, e.getX(), e.getY());
 					repaint();
-				}else if(tableauRec[i].contient(e.getX(), e.getY()) && tableauRec[i].isClickedOnIt() == true && index == -1 ) {
+				}else if(tableauRec[i].isClickedOnIt() == true && index == -1 ) {
 					tableauRec[i].rotate( e.getX(), e.getY());
 					repaint();
 				}
@@ -189,7 +189,7 @@ public class PanelBacASable extends JPanel {
 	private void gestionSourisTriClick(MouseEvent e) {
 		for(int i =0 ; i < tableauTri.length; i++) {
 			if(tableauTri[i].contient(e.getX(), e.getY())) {
-				tableauRec[i].setClickedOnIt(true);
+				tableauTri[i].setClickedOnIt(true);
 				repaint();
 			}else {
 				tableauTri[i].setClickedOnIt(false);

@@ -179,6 +179,11 @@ public class FenetreBacASable extends JFrame {
 		panelTriangle.setLayout(null);
 		
 		btnTriangle = new JButton("Triangle");
+		btnTriangle.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelBacASable.ajouterTriangle();
+			}
+		});
 		btnTriangle.setBounds(10, 11, 146, 135);
 		panelTriangle.add(btnTriangle);
 		OutilsImage.lireImageEtPlacerSurBouton("imageTriangle.jpg", btnTriangle);

@@ -125,11 +125,12 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 	
 
 	public Canon(double x,double y,double pixelsParMetre) {
-		this.x=x*pixelsParMetre;
-		this.y=y*pixelsParMetre;
-	   this.pixelsParMetre=pixelsParMetre;
-	   hauteur = 6*pixelsParMetre;
-	   largeur = 12*pixelsParMetre;
+		this.pixelsParMetre=pixelsParMetre;
+		this.x=x*this.pixelsParMetre;
+		this.y=y*this.pixelsParMetre;
+		
+		hauteur = 6*this.pixelsParMetre;
+		largeur = 12*this.pixelsParMetre;
 
 		creerLaGeometrie();
 	}
@@ -148,18 +149,14 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 		positionDeTir = new FlecheDeTir(cercle.getCenterX(), cercle.getCenterY(), dx,dy);
 
 		 if (!balleTiree && premiereFois) {
-			 balleActuelle = new BalleBasique(50, 2, 25, new Vecteur2D(3, y), new Vecteur2D(0, 0),pixelsParMetre); 
+
+			 balleActuelle = new BalleBasique(50, 2, hauteur, new Vecteur2D(3, y), new Vecteur2D(0, 0),pixelsParMetre);
+
 			 premiereFois = false;
-
 		    }
-
-
-		if(!balleTiree) {
-			balleActuelle.setPosition(new Vecteur2D(3, y));
-		}
-
-		
-
+if(!balleTiree) {
+	balleActuelle.setPosition(new Vecteur2D(3*pixelsParMetre,y*pixelsParMetre));
+}
 
 	}
 
@@ -289,7 +286,6 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 	//Benakmoum Walid
 	public void avancerUnPas(double deltaT) {
 		this.balleActuelle.avancerUnPas(deltaT);
-		creerLaGeometrie();
 
 	}
 	 /**

@@ -70,9 +70,9 @@ public class BalleBasique extends Balle {
      */
   //Benakmoum Walid
     public void avancerUnPas(double deltaT) {
+    
         vitesse = MoteurPhysique.calculVitesse(deltaT, vitesse, accel);
         position = MoteurPhysique.calculPosition(deltaT, position, vitesse);
-        System.out.println(position.toString()+"  AVANCER");
         creerLaGeometrie();
     }
 
