@@ -21,29 +21,64 @@ import interfaces.Selectionnable;
  * 
  * 
  * @author Caroline Houle
- *
+ * @author Ahmad Khanafer
  */
 public class Triangle implements Dessinable, Obstacles, Selectionnable {
+	/**
+     * Le nombre de pixels par mètre.
+     */
 	private double pixelsParMetres;
 	private double coinXGauche, coinYGauche;
+	/**
+     * La largeur et hauteur du triangle en mètre.
+     */
 	private double largeur, hauteur;
+	/**
+     * La forme du triangle.
+     */
 	private Path2D.Double triangle;
-	private double angleRotation= 0 ;
-	private double centreY;
-	private double centreX;
-	private Rectangle2D.Double rectanglePointille;
+	/**
+     * La zone délimitée par le rectangle.
+     */
 	private Area aireTri;
+	 /**
+     * L'angle de rotation du rectangle.
+     */
+	private double angleRotation= 0 ;
+	/**
+     * Approximation des coordonnées du centre du triangle.
+     */
+	private double centreY, centreX;
+	/**
+     * La zone délimitée par le triangle pour les transformations.
+     */
+	private Rectangle2D.Double rectanglePointille;
+	/**
+     * Les poignées de redimensionnement du rectangle.
+     */
 	private Ellipse2D.Double[] poigneRedimensionnement;
+	/**
+     * La poignée de rotation du triangle.
+     */
     private Ellipse2D.Double poigneRotation;
+    /**
+     * Aire de la poignée de rotation du triangle.
+     */
 	private Area airePoigne;
-	
-	
+	/**
+     * Les segments du triangles.
+     */
 	private Line2D.Double segmentHaut, segmentBas, segmentGauche, segmentDroite;
+	/**
+     * Les coordonnées des coins du rectangle pointillé.
+     */
 	private double coinXDroite, coinYDroite, coinXBasGauche, coinYBasGauche, coinXBasDroit, coinYBasDroit, sommetX, sommetY;
+	/**
+     * Indique si le rectangle est sélectionné.
+     */
 	private boolean estClique = false;
 	/**
-	 * Contruire un sapin en spécifiant les dimensions de son rectangle englobant imaginaire.
-	 * On décide que le feuillage occupera les 5/6 de la hauteur du sapin, le reste pour le tronc
+	 * Contruire un triangle en spécifiant les dimensions de son rectangle englobant imaginaire.
 	 *  
 	 * @param x Le x du coin supérieur-gauche du rectangle qui englobe le sapin
 	 * @param y Le y du coin supérieur-gauche du rectangle qui englobe le sapin
@@ -62,10 +97,8 @@ public class Triangle implements Dessinable, Obstacles, Selectionnable {
 	} //fin constructeur
 
 	
-	/**
-	 * Méthode privée pour créer les formes qui composent le sapin
-	 * Cette méthode doit être appelée de nouveau chaque fois que sa position ou dimension est modifiée
-	 */
+	// Méthode privée pour initialiser la géométrie du triangle
+    //Ahmad Khanafer
 	private void creerLaGeometrie() {
 		
 		//calculer les dimensions qui dépendent des caractéristiques données au sapin dans son ensemble
@@ -88,7 +121,8 @@ public class Triangle implements Dessinable, Obstacles, Selectionnable {
 		calculerCoins();
 		
 	}
-	
+	// Méthode privée pour créer les poignées de redimensionnement du rectangle
+    //Ahmad Khanafer
     private void creationResizeHandles() {
         double tailleHandle = 15; // Taille des poignées de redimensionnement
 
@@ -110,7 +144,8 @@ public class Triangle implements Dessinable, Obstacles, Selectionnable {
         poigneRedimensionnement[7] = new Ellipse2D.Double(coinXGauche - tailleHandle / 2,
                 coinYGauche + hauteur / 2 - tailleHandle / 2, tailleHandle, tailleHandle); // Millieu gauche
     }
-
+    //Méthode privée qui calcule les 4 coins en rotation et dessine les segments pour permettre la collisions.
+    //Ahmad Khanafer
     private void calculerCoins() {
 
         Point2D.Double coinSupGauche = new Point2D.Double(coinXGauche, coinYGauche);
@@ -140,6 +175,7 @@ public class Triangle implements Dessinable, Obstacles, Selectionnable {
 	 * 
 	 * @param g2d Le contexte graphique du composant sur lequel on dessine
 	 */
+  //Ahmad Khanafer
 	public void dessiner(Graphics2D g2d) {
 		
 		Graphics2D g2dCopy = (Graphics2D) g2d.create();
@@ -160,17 +196,26 @@ public class Triangle implements Dessinable, Obstacles, Selectionnable {
             }
         } 
 	}
-	
-	
-
-
+	/**
+     * Méthode pour redimensionner le rectangle en fonction de la poignée de redimensionnement sélectionnée.
+     *
+     * @param index L'index de la poignée de redimensionnement sélectionnée.
+     * @param eX    La position en X de la souris.
+     * @param eY    La position en Y de la souris.
+     */
+	//Ahmad Khanafer
 	@Override
 	public void redimension(int index, int eX, int eY) {
 		// TODO Auto-generated method stub
 		
 	}
-
-
+	/**
+     * Méthode pour effectuer la rotation du rectangle en fonction de la position de la souris.
+     *
+     * @param eX La position en X de la souris.
+     * @param eY La position en Y de la souris.
+     */
+    //Ahmad Khanafer
 	@Override
 	public void rotate(int eX, int eY) {
 		if (eX <= centreX) {
@@ -187,7 +232,13 @@ public class Triangle implements Dessinable, Obstacles, Selectionnable {
 		
 	}
 
-
+	/**
+     * Méthode pour déplacer le rectangle en fonction de la position de la souris.
+     *
+     * @param eX La position en X de la souris.
+     * @param eY La position en Y de la souris.
+     */
+    //Ahmad Khanafer
 	@Override
 	public void move(int eX, int eY) {
 		this.coinXGauche = eX - largeur / 2;
@@ -197,9 +248,9 @@ public class Triangle implements Dessinable, Obstacles, Selectionnable {
 
 
 	/**
-     * Méthode pour déterminer si le rectangle est sélectionné.
+     * Méthode pour déterminer si le triangle est sélectionné.
      *
-     * @return true si le rectangle est sélectionné, sinon false.
+     * @return true si le triangle est sélectionné, sinon false.
      */
     //Ahmad Khanafer
     public boolean isClickedOnIt() {
@@ -207,7 +258,7 @@ public class Triangle implements Dessinable, Obstacles, Selectionnable {
     }
 
     /**
-     * Méthode pour définir l'état de sélection du rectangle.
+     * Méthode pour définir l'état de sélection du triangle.
      *
      * @param clickedOnIt true pour sélectionner le rectangle, sinon false.
      */
@@ -215,7 +266,13 @@ public class Triangle implements Dessinable, Obstacles, Selectionnable {
     public void setClickedOnIt(boolean clickedOnIt) {
         this.estClique = clickedOnIt;
     }
-    
+    /**
+     * Méthode pour déterminer si le triangle contient un point donné.
+     *
+     * @param xPix La coordonnée en X du point.
+     * @param yPix La coordonnée en Y du point.
+     * @return true si le triangle contient le point, sinon false.
+     */
 	@Override
 	public boolean contient(double xPix, double yPix) {
 		return aireTri.contains(xPix, yPix);

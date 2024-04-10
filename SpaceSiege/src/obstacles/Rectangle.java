@@ -33,7 +33,7 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
     private double pixelsParMetre;
 
     /**
-     * La largeur du rectangle en pixels.
+     * La largeur du rectangle en mètre.
      */
     private double largeurRec;
 
@@ -81,9 +81,13 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
      * Les coordonnées des coins du rectangle.
      */
     private double coinXGauche, coinYGauche, coinXDroite, coinYDroite, coinXBasGauche, coinYBasGauche, coinXBasDroit, coinYBasDroit;
-    
+    /**
+     * La poignée de rotation du rectangle.
+     */
     private Ellipse2D.Double poigneRotation;
-
+    /**
+     * Aire de la poignée de rotation du rectangle.
+     */
 	private Area airePoigne;
     /**
      * Constructeur de la classe Rectangle.
@@ -137,10 +141,6 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
         creationResizeHandles();
         calculerCoins();
         
-    }
-    // Méthode privée pour créer la poignée de rotation du rectangle
-    private void creationPoigneRotation() {
-
     }
     // Méthode privée pour créer les poignées de redimensionnement du rectangle
     //Ahmad Khanafer
