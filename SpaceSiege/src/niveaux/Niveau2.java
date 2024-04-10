@@ -148,8 +148,7 @@ public class Niveau2 extends Niveaux {
 		Graphics2D g2d = (Graphics2D) g;
 
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-		
-		System.out.println(pixelParMetres);
+		System.out.println(monstreMort+" NIVEAU 22222222");
 
 		if(premiereFois) {
 			pixelParMetres = getWidth()/150;
@@ -210,8 +209,8 @@ public class Niveau2 extends Niveaux {
 //			System.out.println("Temps ecoule "+tempsTotalEcoule);
 
 
-		//System.out.println(canon.getBalle().getPosition().toString()+" POSTIONS DANS LE RUN");
-
+		System.out.println(canon.getBalle().getPosition().toString()+" POSTIONS DANS LE RUN");
+System.out.println("JE RENTRE ICIIIIIIIIIIIIIIIIIIIIIII");
 			calculerUneIterationPhysique(deltaT);
 			testerCollisionsEtAjusterVitesses();
 			
@@ -256,7 +255,6 @@ public class Niveau2 extends Niveaux {
 			Thread proc = new Thread(this);
 			proc.start();
 			enCoursDAnimation = true;
-			balleTiree=true;
 			canon.setBalleTiree();
 			
 		}
@@ -279,7 +277,9 @@ public class Niveau2 extends Niveaux {
 		calculerLesForces();
 		canon.avancerUnPas(deltaT);
 	}
-	
+	public void arreter() {
+		enCoursDAnimation=false;
+	}
 
 	/**
      * Teste les collisions entre les éléments graphiques et ajuste leurs vitesses en conséquence.
@@ -319,6 +319,8 @@ public class Niveau2 extends Niveaux {
 
 	    balleTiree = false;
 	    canon.setPremiereFois(true);
+	
+
 	    monstre = new Monstres(1000, 20, "images.jpg", pixelParMetres);
 	    canon = new Canon(0, 10,pixelParMetres);
 	    
@@ -338,7 +340,25 @@ public class Niveau2 extends Niveaux {
 		repaint();
 		
 	}
-	
+	public void changerTypeGravite(String typeGravite) {
+	    double gravite;
+	    switch (typeGravite) {
+	        case "TERRE":
+	            gravite = 9.81; 
+	            break;
+	        case "MARS":
+	            gravite = 3.711; 
+	            break;
+	        case "ESPACE":
+	            gravite = 0; 
+	            break;
+	        default:
+	            gravite = 0; 
+	            break;
+	    }
+	   
+	    MoteurPhysique.changerGravite(gravite);
+	}
 	public void choisirBalle(int nb) {
 
 		canon.setBalleActuelle(nb);

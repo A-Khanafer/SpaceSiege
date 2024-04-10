@@ -321,6 +321,8 @@ planCartesion.setPosition(canon.getBalle().getPosition().multiplie(1/pixelParMet
 	    balleTiree = false;
 	    canon.setPremiereFois(true);
 	    monstre = new Monstres(1000, 20, "images.jpg", pixelParMetres);
+	    monstre.setNombreDeVie(1);
+
 	    canon = new Canon(0, 10,pixelParMetres);	    
 	   monstreMort=false;
 	   repaint();

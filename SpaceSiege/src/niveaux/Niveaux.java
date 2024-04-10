@@ -231,7 +231,9 @@ public class Niveaux extends JPanel implements Runnable {
 	public  void TirerBalle() {
 		
 	}
-	
+	public void arreter() {
+		
+	}
 	public void choisirBalle(int nb) {
 
 	}
@@ -242,7 +244,9 @@ public class Niveaux extends JPanel implements Runnable {
 	    }
 	    repaint();
 	}
-
+	public void changerTypeGravite(String typeGravite) {
+	
+	}
 	
 	/**
      * Initialise l'écouteur de clavier pour interagir avec l'animation via le clavier.

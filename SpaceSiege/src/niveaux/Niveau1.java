@@ -154,6 +154,7 @@ public class Niveau1 extends Niveaux {
 		if(premiereFois) {
 			pixelParMetres = getWidth()/150;
 			int espace=0;
+			
 			monstre = new Monstres(1000, 20, "images.jpg", pixelParMetres);
 			 canon=new Canon (0,10,pixelParMetres);
 			 
@@ -282,7 +283,28 @@ public class Niveau1 extends Niveaux {
 	//WALID
 	
 	
-
+	public void arreter() {
+		enCoursDAnimation=false;
+	}
+	public void changerTypeGravite(String typeGravite) {
+	    double gravite;
+	    switch (typeGravite) {
+	        case "TERRE":
+	            gravite = 9.81; 
+	            break;
+	        case "MARS":
+	            gravite = 3.711; 
+	            break;
+	        case "ESPACE":
+	            gravite = 0; 
+	            break;
+	        default:
+	            gravite = 0; 
+	            break;
+	    }
+	   
+	    MoteurPhysique.changerGravite(gravite);
+	}
 	
 	  public void prochaineImage() {
 		  if(canon.getBalle().getVitesse()!=null) {
@@ -341,6 +363,7 @@ public class Niveau1 extends Niveaux {
 		    balleTiree = false;
 		    canon.setPremiereFois(true);
 		    monstre = new Monstres(1000, 20, "images.jpg", pixelParMetres);
+		    monstre.setNombreDeVie(1);
 		    canon = new Canon(0, 10,pixelParMetres);
 		    
 		   monstreMort=false;
