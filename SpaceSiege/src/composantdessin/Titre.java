@@ -22,13 +22,15 @@ public class Titre extends JPanel implements Runnable{
     private Image imgEtoile= null;
     private  int MOUVEMENT = 5;
     private boolean start = false;
+    
 	/**
 	 * Create the panel.
 	 */
-	public Titre() {
+	public Titre(String etoiles, String titre) {
 		setBackground(new Color(0, 0, 0,0));
-		 imgTitre = OutilsImage.lireImage("titre2.png"); 
-	     imgEtoile= OutilsImage.lireImage("etoiles2.png");
+		 imgTitre = OutilsImage.lireImage(titre); 
+	     imgEtoile= OutilsImage.lireImage(etoiles);
+	   
 	     demarrer();
 	}
 	private void dessiner(Graphics2D g2d, int mouvement) {
