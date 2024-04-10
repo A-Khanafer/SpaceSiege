@@ -130,13 +130,14 @@ public class FenetreDeJeu extends JFrame {
 				 
 				
 				
-				
+				nivActuel.arreter();
 				getContentPane().remove(nivActuel);
 				
 	
 				nivSuivant.setBounds(0, 0, 1296, 672);
-				contentPane.add(nivSuivant);
 				
+				contentPane.add(nivSuivant);
+
 				index++;
 				
 				repaint();
@@ -243,8 +244,8 @@ public class FenetreDeJeu extends JFrame {
 		comboBoxTypeGrav = new JComboBox();
 		comboBoxTypeGrav.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//String typeGravite = (String) comboBoxTypeGrav.getSelectedItem();
-		       // zoneAnimationPhysique.changerTypeGravite(typeGravite);
+				String typeGravite = (String) comboBoxTypeGrav.getSelectedItem();
+		     nivActuel.changerTypeGravite(typeGravite);
 			}
 		});
 		comboBoxTypeGrav.setModel(new DefaultComboBoxModel(new String[] {"ESPACE", "TERRE", "MARS"}));

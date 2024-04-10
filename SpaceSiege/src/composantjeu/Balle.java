@@ -102,8 +102,8 @@ public class Balle {
 		try {
 
 
-			// accel = MoteurPhysique.calculAcceleration(sommeForcesSurLaBalle, masse);
-		//System.out.println(sommeForcesSurLaBalle.getY()+"N");
+			 accel = MoteurPhysique.calculAcceleration(sommeForcesSurLaBalle, masse);
+		System.out.println(sommeForcesSurLaBalle.getY()+"N");
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -244,6 +244,11 @@ public class Balle {
 	    		position.setX(posMurGauche);
 	    	}
 	    }
+	 /**
+	  * Méthode pour dessiner
+	  * @param g2dPrive Contexte graphique
+	  */
+	 //Benakmoum Walid
 	public void dessiner(Graphics2D g2dPrive) {
 		// TODO Auto-generated method stub
 		

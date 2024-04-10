@@ -38,7 +38,7 @@ import physique.MoteurPhysique;
 public class Niveau3 extends Niveaux {
 
 	/**
-	 * La classe ZoneAnimationPhysique étend JPanel et implémente Runnable pour fournir une zone d'animation interactive. Cette zone permet de simuler des animations basées sur la physique, telles que le mouvement d'un canon tirant des balles, et de gérer des interactions avec des obstacles.
+	 * La classe Niveaux étend JPanel et implémente Runnable pour fournir une zone d'animation interactive. Cette zone permet de simuler des animations basées sur la physique, telles que le mouvement d'un canon tirant des balles, et de gérer des interactions avec des obstacles.
 	 * @author Benakmoum Walid
 	 * @author Khanafer Ahmad
 	 * @author Soudaki Zakaria
@@ -149,44 +149,7 @@ public class Niveau3 extends Niveaux {
 
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		
-		System.out.println(pixelParMetres);
-
-		if(premiereFois) {
-			pixelParMetres = getWidth()/150;
-			int espace=0;
-			monstre = new Monstres(1000, 20, "images.jpg", pixelParMetres);
-			
-				for(int i = 0 ; i < tableauRec.length ; i++) {
-					tableauRec[i] = new Rectangle(50 + espace, 50 + espace, pixelParMetres);
-					espace = espace + 80;
-				}
-				espace = 0;
-				for(int i = 0 ; i < tableauRec.length ; i++) {
-					tableauTri[i] = new Triangle(50, 50, 10, 15, pixelParMetres);
-					espace = espace + 80;
-				}
-			premiereFois = false;
-		}
-
-		tableauRec[0].dessiner(g2d);
-		tableauRec[1].dessiner(g2d);
-		tableauRec[2].dessiner(g2d);
-
-		tableauTri[0].dessiner(g2d);
-		tableauTri[1].dessiner(g2d);
-
-	//	planCartesion.setBalle(canon.getBalle());
-
 		
-		
-		if(monstreMort==false) {
-			monstre.dessiner(g2d);
-		}
-
-
-		canon.dessiner(g2d);
-
-
 	    posMurSol = getHeight();
 	    posMurDroit = getWidth();
 	    posMurGauche = 0;
@@ -194,9 +157,8 @@ public class Niveau3 extends Niveaux {
 
 	    hauteurComposant = getHeight();
 	    largeurComposant = getWidth();
-	    
-	    g2d.setColor(Color.red);
-	    g2d.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
+	   
+	   
 
 	}
 	/**
@@ -204,70 +166,22 @@ public class Niveau3 extends Niveaux {
      */
 	//Benakmoum Walid
 	public void run() {
-		while (enCoursDAnimation) {
-
-//			System.out.println("Un tour de run...on avance de " + deltaT + " secondes");
-//			System.out.println("Temps ecoule "+tempsTotalEcoule);
-
-
-		//System.out.println(canon.getBalle().getPosition().toString()+" POSTIONS DANS LE RUN");
-
-			calculerUneIterationPhysique(deltaT);
-			testerCollisionsEtAjusterVitesses();
-			
-
-			for(int i =0 ; i < tableauRec.length ; i++) {
-				CollisionRectangle.detectionCollisionRectangle(canon.getBalle(),tableauRec[i]);
-			}
-			
-
-			Area areaBalle = new Area(canon.getBalle().getCercle()); 
-	        Area areaMonstre = monstre.getArea();
-	        areaBalle.intersect(areaMonstre);
-
-	        if (!areaBalle.isEmpty()) {
-	        	monstre.perdUneVie();
-	        	reinitialiserApplication();
-	        	System.out.println(monstre.getNombreDeVie());
-	        }
-
-
-			repaint();
-			if(monstre.getNombreDeVie()==0) {
-	    	    monstreMort=true;
-	            enCoursDAnimation = false; 
-	            JOptionPane.showMessageDialog(null,"VOUS AVEZ GAGNE");
-	    	}
-			try {
-				Thread.sleep(tempsDuSleep);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}//fin while
-		System.out.println("Le thread est mort...!");
-	}
+		
+}
 
 	/**
      * Démarre le thread d'animation si ce n'est pas déjà fait.
      */
 	// Benakmoum Walid
 	public void demarrer() {
-		if (!enCoursDAnimation) {
-			Thread proc = new Thread(this);
-			proc.start();
-			enCoursDAnimation = true;
-			balleTiree=true;
-			canon.setBalleTiree();
+		
+		
 			
 		}
-	}//fin methode
+	//fin methode
 	//WALID
 	  public void prochaineImage() {
-		  if(canon.getBalle().getVitesse()!=null) {
-		  System.out.println("Prochaine image...on avance de " + deltaT + " secondes");
-			calculerUneIterationPhysique(deltaT);
-			repaint();
-		  }
+		  
 	  }
 	/**
      * Calcule une itération physique en fonction du deltaT.
@@ -275,9 +189,7 @@ public class Niveau3 extends Niveaux {
      */
 	//Benakmoum Walid
 	public void calculerUneIterationPhysique(double deltaT) {
-		tempsTotalEcoule += deltaT;
-		calculerLesForces();
-		canon.avancerUnPas(deltaT);
+		
 	}
 	
 
@@ -287,7 +199,6 @@ public class Niveau3 extends Niveaux {
 	//ZAKARIA SOUDAKI
 	public void testerCollisionsEtAjusterVitesses() {	
 		 
-		canon.getBalle().gererCollisions(posMurSol, posMurDroit , posMurHaut, posMurGauche);
 	}
 
 	 /**
@@ -310,40 +221,21 @@ public class Niveau3 extends Niveaux {
 	  //Benakmoum Walid
 	public void reinitialiserApplication() {
 	
-	    enCoursDAnimation = false;
-
-
-	    rotation = 0;
-	    tempsTotalEcoule = 0;
-
-
-	    balleTiree = false;
-	    canon.setPremiereFois(true);
-	    monstre = new Monstres(1000, 20, "images.jpg", pixelParMetres);
-	    canon = new Canon(0, 10,pixelParMetres);
-	    
-	   monstreMort=false;
-
-
-	   repaint();
+	  
 
 	}
 	/**
      * Méthode qui permet de tirer la balle.
      */
-	  //Benakmoum Walid
+	  //Benakmoum Wid
 	public  void TirerBalle() {
-		balleTiree=true;
-		canon.setBalleTiree();
-		repaint();
 		
 	}
-	
+	public void arreter() {
+		
+	}
 	public void choisirBalle(int nb) {
 
-		canon.setBalleActuelle(nb);
-
-		repaint();
 	}
 	public void setNombreDeVie(int nb) {
 	    this.nombreDeVie = nb;
@@ -352,160 +244,36 @@ public class Niveau3 extends Niveaux {
 	    }
 	    repaint();
 	}
-
+	public void changerTypeGravite(String typeGravite) {
+	
+	}
 	
 	/**
      * Initialise l'écouteur de clavier pour interagir avec l'animation via le clavier.
      */
 	  //Benakmoum Walid
 	private void ecouteurClavier() {
-	    addKeyListener(new KeyAdapter() {
-	        @Override
-	        public void keyPressed(KeyEvent e) {
-	            switch (e.getKeyCode()) {
-	                case KeyEvent.VK_W: 
-//	                	 System.out.println("SALUT JE ne VAIS pas ICI");
-	                    break;
-	                case KeyEvent.VK_S: 
-//	                   System.out.println("SALUT JE VAIS ICI");
-	                    break;
-	            }
-	            repaint();
-	        }
-	    });
+		
 	}
-
-
-	/**
-     * Initialise les écouteurs de souris pour permettre l'interaction avec l'animation via la souris.
-     */
-	//Ahmad Khanafer
 	private void ecouteurSouris() {
-		addMouseListener((MouseListener) new MouseAdapter() {
-			@Override
-
-			public void mouseClicked(MouseEvent e) {
-			
-				gestionSourisRecClick(e);
-				gestionSourisTriClick(e);
-				repaint();
-			}
-			 
-		});
-	
-		addMouseMotionListener(new MouseMotionAdapter() {
-			@Override
-				
-			public void mouseDragged(MouseEvent e) {
-				gestionSourisRecDragged(e);
-				gestionSourisTriDragged(e);
-				gestionSourisCanon(e);
-				repaint();
-			}
-			
-		});
+		
 	}
-	//Méthode qui gère les click de la souris pour le rectangle
-		//Ahmad Khanafer
-		private void gestionSourisRecDragged(MouseEvent e) {
-			for(int i =0 ; i < tableauRec.length; i++) {
-				int index = tableauRec[i].getClickedResizeHandleIndex(e.getX(), e.getY());
-					if (tableauRec[i].isClickedOnIt() == true && index != -1) {
-						tableauRec[i].redimension(index, e.getX(), e.getY());
-						repaint();
-					}else if(tableauRec[i].contient(e.getX(), e.getY()) && tableauRec[i].isClickedOnIt() == true && index == -1 ) {
-						tableauRec[i].rotate( e.getX(), e.getY());
-						repaint();
-					}
-					if(tableauRec[i].contient(e.getX(), e.getY()) && tableauRec[i].isClickedOnIt() == false) {
-						tableauRec[i].move( e.getX(), e.getY());
-						repaint();
-					}
-			}	
-		}
+	private void gestionSourisRecDragged(MouseEvent e) {
 		
-		private void gestionSourisTriDragged(MouseEvent e) {
-			for(int i =0 ; i < tableauTri.length; i++) {
-				int index = tableauTri[i].getClickedResizeHandleIndex(e.getX(), e.getY());
-					if (tableauTri[i].isClickedOnIt() == true && index != -1) {
-						tableauTri[i].redimension(index, e.getX(), e.getY());
-						repaint();
-					}else if(tableauTri[i].contient(e.getX(), e.getY()) && tableauTri[i].isClickedOnIt() == true && index == -1 ) {
-						tableauTri[i].rotate( e.getX(), e.getY());
-						repaint();
-					}
-					if(tableauTri[i].contient(e.getX(), e.getY()) && tableauTri[i].isClickedOnIt() == false) {
-						tableauTri[i].move( e.getX(), e.getY());
-						repaint();
-					}
-			}
-		}
+	}
+	private void gestionSourisTriDragged(MouseEvent e) {
 		
-		private void gestionSourisRecClick(MouseEvent e) {
-			for(int i =0 ; i < tableauRec.length; i++) {
-				if(tableauRec[i].contient(e.getX(), e.getY())) {
-					System.out.println("CLICKEEEZZZZZZZZZ on");
-					tableauRec[i].setClickedOnIt(true);
-					repaint();
-				}else {
-					System.out.println("CLICKEEEZZZZZZZZZ off");
-					tableauRec[i].setClickedOnIt(false);
-					repaint();
-				}
-			}
-			
-		}
+	}
+	private void gestionSourisRecClick(MouseEvent e) {
 		
-		private void gestionSourisTriClick(MouseEvent e) {
-			for(int i =0 ; i < tableauTri.length; i++) {
-				if(tableauTri[i].contient(e.getX(), e.getY())) {
-					tableauTri[i].setClickedOnIt(true);
-					repaint();
-				}else {
-					tableauTri[i].setClickedOnIt(false);
-					repaint();
-				}
-			}
-		}
-	/**
-	 * Méthode qui permet de gérer le canon selon les mouvements de la souris
-	 * @param e Événement de la souris
-	 */
-	  //Benakmoum Walid
-		private void gestionSourisCanon(MouseEvent e) {
-		    boolean toucheObjet = false;
-
-		    for (Rectangle rec : tableauRec) {
-		        if (rec.contient(e.getX(), e.getY())) {
-		            toucheObjet = true;
-		            break; 
-		        }
-		    }
-
-		    
-		    if (!toucheObjet) {
-		        for (Triangle tri : tableauTri) {
-		            if (tri.contient(e.getX(), e.getY())) {
-		                toucheObjet = true;
-		                break;
-		            }
-		        }
-		    }
-
-		    if (!balleTiree && !toucheObjet) {
-		        canon.rotate(e.getX(), e.getY());
-		        canon.changerTaille(e.getX(), e.getY());
-		    }
-
-		   
-		    if (canon.contient(e.getX(), e.getY())) {
-		        canon.move(e.getY());
-		    }
-		    repaint();
-		}
-	
+	}
+	private void gestionSourisTriClick(MouseEvent e) {
+		
+	}
+	private void gestionSourisCanon(MouseEvent e) {
+		
+	}
 }
-		
-			
+				
 
 		
