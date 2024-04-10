@@ -86,13 +86,9 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
     private Area aireBase;
 
     /**
-     * L'objet BalleBasique que le canon utilise pour tirer. Ce champ est crucial pour le contrôle du tir et le comportement de la balle.
+     * L'objet Balleque le canon utilise pour tirer. Ce champ est crucial pour le contrôle du tir et le comportement de la balle.
      */
-    private BalleBasique balleBasique;
-    
-    private BalleNova balleNova;
-    
-    private BalleElastique balleElastique;
+ 
     
     private Balle balleActuelle;
 
@@ -120,10 +116,24 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
      * Distance verticale depuis l'origine de la flèche de tir jusqu'à sa position actuelle, influençant l'angle de tir.
      */
     private double dy = 0;
+    
+    /**
+     * Indique si la prochaine image doit être affichée. Cela peut être utilisé pour gérer les animations ou les états de jeu.
+     */
+    private boolean prochaineImage = false;
 
-	private static int balleChoisie=1;
-	
-
+    /**
+     * Indique la balle choisie par le joueur. Utile pour sélectionner le type de balle à tirer.
+     */
+    private static int balleChoisie = 1;
+    /**
+     * Constructeur de la classe Canon.
+     * 
+     * @param x             Position horizontale initiale du canon.
+     * @param y             Position verticale initiale du canon.
+     * @param pixelsParMetre Facteur de conversion de pixels en mètres.
+     */
+    //Benakmoum Walid
 	public Canon(double x,double y,double pixelsParMetre) {
 		this.pixelsParMetre=pixelsParMetre;
 		this.x=x*this.pixelsParMetre;
@@ -174,7 +184,7 @@ if(!balleTiree) {
 		positionDeTir.dessiner(g2dPrive);
 		
 		g2dPrive.fill(aireBase);
-	if(balleTiree) {
+	if(balleTiree || prochaineImage) {
 		balleActuelle.dessiner(g2dPrive);
 	}
 
@@ -340,41 +350,69 @@ if(!balleTiree) {
 	public void setPremiereFois(boolean premiereFois) {
 		this.premiereFois = premiereFois;
 	}
+	/**
+     * Choisi la balle associée au canon.
+     * 
+     * @param nb Le numéro de la balle choisie.
+     */
+    //Benakmoum Walid
 
-	public void choisirBalleCanon(int nb) {
-		balleChoisie=nb;
-		creerLaGeometrie();
-	}
+    public void choisirBalleCanon(int nb) {
+        balleChoisie = nb;
+        creerLaGeometrie();
+    }
 
-	
-	public Balle getBalleActuelle() {
-		return balleActuelle;
-	}
-	
-	
-	
-	public void setBalleActuelle(int i ) {
-		 switch(i) {
-         case 1:
-             balleActuelle = new BalleBasique(50, 2, hauteur, new Vecteur2D(3, y), vitesse,pixelsParMetre);
-             System.out.println("JE CHOISIE LA BALLE BASIQUE");
-             break;
-         case 2:
-             balleActuelle = new BalleElastique(50, 2, hauteur, new Vecteur2D(3, y), vitesse,pixelsParMetre);
-             System.out.println("JE CHOISIE LA BALLE ELASTIQUE");
-             break;
-         case 3:
-             balleActuelle = new BalleNova(50, 2, hauteur, new Vecteur2D(3, y), vitesse,pixelsParMetre);
-             break;
-		 }
-		 
+    /**
+     * Retourne la balle actuellement associée au canon.
+     * 
+     * @return L'objet Balle actuellement associé au canon.
+     */
+    //Benakmoum Walid
 
-	}
-		public void setPixelsParMetre(int pixel) {
-			this.pixelsParMetre=pixel;
-			creerLaGeometrie();
-		}
+    public Balle getBalleActuelle() {
+        return balleActuelle;
+    }
+
+    /**
+     * Définit si la prochaine image doit être affichée.
+     * 
+     * @param bol true pour afficher la prochaine image, false sinon.
+     */
+    public void setProchaineImage(boolean bol) {
+        prochaineImage = bol;
+    }
+
+    /**
+     * Définit la balle actuelle associée au canon.
+     * 
+     * @param i Le numéro de la balle à associer.
+     */
+    //Benakmoum Walid
+
+    public void setBalleActuelle(int i) {
+        switch (i) {
+            case 1:
+                balleActuelle = new BalleBasique(50, 2, hauteur, new Vecteur2D(3*pixelsParMetre, y*pixelsParMetre), vitesse, pixelsParMetre);
+                break;
+            case 2:
+                balleActuelle = new BalleElastique(50, 2, hauteur, new Vecteur2D(3*pixelsParMetre, y*pixelsParMetre), vitesse, pixelsParMetre);
+                break;
+            case 3:
+                balleActuelle = new BalleNova(50, 2, hauteur, new Vecteur2D(3*pixelsParMetre, y*pixelsParMetre), vitesse, pixelsParMetre);
+                break;
+        }
+    }
+
+    /**
+     * Définit le facteur de conversion de pixels en mètres.
+     * 
+     * @param pixel Le facteur de conversion à définir.
+     */
+    //Benakmoum Walid
+    public void setPixelsParMetre(int pixel) {
+        this.pixelsParMetre = pixel;
+        creerLaGeometrie();
+    }
 
 }
-
 

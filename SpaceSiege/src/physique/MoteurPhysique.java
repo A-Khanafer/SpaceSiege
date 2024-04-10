@@ -97,6 +97,10 @@ public class MoteurPhysique {
 		double Ft = Fa + Fb + Fc;
 		return Ft;
 	}
+	/**
+	 * Methode pour changer la gravité
+	 * @param nouvelleGravite la nouvelle gravité
+	 */
 	public static void changerGravite(double nouvelleGravite) {
 	    accelG = nouvelleGravite;
 	}

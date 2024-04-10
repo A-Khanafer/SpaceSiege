@@ -99,6 +99,7 @@ public class PlanCartesien extends JPanel {
 	/**
 	 * Constructeur: cree le composant et fixe la couleur de fond
 	 */
+	//Benakmoum Walid
 	public PlanCartesien() {
 		addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
@@ -133,7 +134,7 @@ public class PlanCartesien extends JPanel {
 	 * 
 	 * @param g Le contexte graphique
 	 */
-	//Auteur Benakmoum Walid
+	// Benakmoum Walid
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -211,7 +212,8 @@ public class PlanCartesien extends JPanel {
 	 * 
 	 * @param g2d Le contexte graphique 2D.
 	 */
-	//Auteur Benakmoum Walid
+	//Benakmoum Walid
+
 	private void creerAxes(Graphics2D g2d) {
 		axes = new Path2D.Double();
 		BasicStroke stroke = new BasicStroke(2.0f);
@@ -225,7 +227,8 @@ public class PlanCartesien extends JPanel {
 	/**
 	 * Creation de l'approximation de la courbe sous la forme d'un Path2D
 	 */
-	//Auteur Benakmoum Walid
+	//Benakmoum Walid
+
 	private void creerApproxCourbe() {
 	    ligneBrisee = new Path2D.Double();
 
@@ -251,7 +254,8 @@ public class PlanCartesien extends JPanel {
 	 * @return la valeur de la fonction pour ce x, en fonction de la fonction
 	 *         envigueur
 	 */
-	//Auteur Benakmoum Walid
+	//Benakmoum Walid
+
 	private double fonctionDeLaBalle(double x) {
 		return ( position.getY());
 	}
@@ -262,6 +266,8 @@ public class PlanCartesien extends JPanel {
 	 * 
 	 * @param nbSegmentsPourApproximer Le nombdrfe de segments voulus
 	 */
+	//Benakmoum Walid
+
 	public void setNbSegmentsPourApproximer(int nbSegmentsPourApproximer) {
 		this.nbSegmentsPourApproximer = nbSegmentsPourApproximer;
 		repaint();
@@ -278,6 +284,8 @@ public class PlanCartesien extends JPanel {
 	 * @param yMin Ordonnee minimale visible
 	 * @param yMax Ordonnee maximale visible
 	 */
+	//Benakmoum Walid
+
 	public void recadrer(double xMin, double xMax, double yMin, double yMax) {
 
 		this.xMin = xMin;
@@ -292,7 +300,8 @@ public class PlanCartesien extends JPanel {
 	 * en utilisant les paramètres de la grille définis par `nmbreLigX` et `nmbreLigY`. La grille est centrée autour de l'origine.
 	 * Chaque ligne de la grille est créée avec des segments de droite.
 	 */
-	//Auteur Benakmoum Walid
+	//Benakmoum Walid
+
 	private void creerGrille() {
 		grille = new Path2D.Double();
 
@@ -327,7 +336,8 @@ public class PlanCartesien extends JPanel {
 	 *
 	 * @param g2d Le contexte graphique 2D dans lequel dessiner les taquets et les chiffres.
 	 */
-	//Auteur Benakmoum Walid
+	//Benakmoum Walid
+
 	private void creerTaquets(Graphics2D g2d) {
 		taquets = new Path2D.Double();
 
@@ -381,7 +391,8 @@ public class PlanCartesien extends JPanel {
 	/**
 	 * Cette méthode génère une ellipse (cercle) qui représente visuellement une certaine quantité ou valeur associée au temps.
 	 */
-	//Auteur Benakmoum Walid
+	//Benakmoum Walid
+
 	private void creerCercle() {
 	    // Assurez-vous que 'position' est mis à jour avec la position actuelle de la balle
 	    // Vous pourriez avoir besoin de convertir les unités si nécessaire
@@ -401,7 +412,8 @@ public class PlanCartesien extends JPanel {
 	 *
 	 * @param qSelSpinner La quantité sélectionnée.
 	 */
-	//Auteur Benakmoum Walid
+	//Benakmoum Walid
+
 	public void setQuantSel(int qSelSpinner) {
 		quantSel = qSelSpinner;
 		repaint();
@@ -412,7 +424,7 @@ public class PlanCartesien extends JPanel {
 	 *
 	 * @param vIniSpinner Le volume initial.
 	 */
-	//Auteur Benakmoum Walid
+//Benakmoum Walid
 	public void setVolumeIni(int vIniSpinner) {
 		volumeIni = vIniSpinner;
 		repaint();
@@ -423,7 +435,7 @@ public class PlanCartesien extends JPanel {
 	 *
 	 * @param debitSpinner Le débit.
 	 */
-	//Auteur Benakmoum Walid
+	//Benakmoum Walid
 	public void setDebit(double debitSpinner) {
 		debit = debitSpinner;
 		repaint();
@@ -434,12 +446,13 @@ public class PlanCartesien extends JPanel {
 	 *
 	 * @param tempsSpinner Le temps.
 	 */
-	//Auteur Benakmoum Walid
+//Benakmoum Walid
 	public void setTemps(int tempsSpinner) {
 		temps = tempsSpinner;
 		creerCercle();
 		repaint();
 	}
+	//Benakmoum Walid
 
     public void setPosition(Vecteur2D pos) {
     	this.position=pos;;

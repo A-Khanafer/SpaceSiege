@@ -38,12 +38,11 @@ import physique.MoteurPhysique;
 public class Niveau2 extends Niveaux {
 
 	/**
-	 * La classe ZoneAnimationPhysique étend JPanel et implémente Runnable pour fournir une zone d'animation interactive. Cette zone permet de simuler des animations basées sur la physique, telles que le mouvement d'un canon tirant des balles, et de gérer des interactions avec des obstacles.
+	 * La classe Niveau2 étend JPanel et implémente Runnable pour fournir une zone d'animation interactive. Cette zone permet de simuler des animations basées sur la physique, telles que le mouvement d'un canon tirant des balles, et de gérer des interactions avec des obstacles.
 	 * @author Benakmoum Walid
 	 * @author Khanafer Ahmad
 	 * @author Soudaki Zakaria
 	 */
-	private static final long serialVersionUID = 1L;
 	/**
      * Indique si une animation est actuellement en cours.
      */
@@ -104,25 +103,45 @@ public class Niveau2 extends Niveaux {
      * Index utilisé pour identifier les manipulations spécifiques des éléments de l'interface, telles que le redimensionnement ou la rotation d'obstacles.
      */
     private int index = -1;
+    /**
+     * Le nombre de vie du joueur.
+     */
     private int nombreDeVie=1;
+    /**
+     * L'instance du monstre présent dans le niveau.
+     */
     private Monstres monstre;
 
-    
+    /**
+     * Le facteur de conversion de pixels en mètres, utilisé pour ajuster les dimensions des objets par rapport à la taille de l'écran.
+     */
     private double pixelParMetres;
+    /**
+     * Indique si c'est la première fois que le niveau est affiché, utilisé pour initialiser les objets une seule fois.
+     */
 	private boolean premiereFois = true;
 
-
+	/**
+     * L'index de la balle choisie par le joueur.
+     */
     private  int balleChoisie;
-
+    /**
+     * Un tableau de triangles servant d'obstacles dans la zone d'animation (commenté pour le moment).
+     */
     private Triangle[] tableauTri;
+  
     /**
      * Le canon utilisé pour tirer des balles.
      */
 	private Canon canon;
+	/**
+    * Indique si le monstre est mort.
+    */
     private boolean monstreMort=false;
+    /**
+     * Le plan cartésien utilisé pour le rendu graphique.
+     */
     private PlanCartesien planCartesion= new PlanCartesien();
-
-    
     
 	/**
 	 * Constructeur de la classe. Permet de crée l'interface
@@ -149,6 +168,7 @@ public class Niveau2 extends Niveaux {
 
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		System.out.println(monstreMort+" NIVEAU 22222222");
+		planCartesion.setPosition(null);
 
 		if(premiereFois) {
 			pixelParMetres = getWidth()/150;
@@ -183,7 +203,7 @@ public class Niveau2 extends Niveaux {
 		}
 
 
-		canon.dessiner(g2d);
+		//canon.dessiner(g2d);
 
 
 	    posMurSol = getHeight();
@@ -259,7 +279,11 @@ System.out.println("JE RENTRE ICIIIIIIIIIIIIIIIIIIIIIII");
 			
 		}
 	}//fin methode
-	//WALID
+	/**
+	 * Méthode qui avance l'animation d'une itération.
+	 */
+	 //Benakmoum Walid
+
 	  public void prochaineImage() {
 		  if(canon.getBalle().getVitesse()!=null) {
 		  System.out.println("Prochaine image...on avance de " + deltaT + " secondes");
@@ -277,6 +301,11 @@ System.out.println("JE RENTRE ICIIIIIIIIIIIIIIIIIIIIIII");
 		calculerLesForces();
 		canon.avancerUnPas(deltaT);
 	}
+	/**
+	 * Permet de stoper l'animation
+	 */
+	//Benakmoum Walid
+
 	public void arreter() {
 		enCoursDAnimation=false;
 	}
@@ -340,6 +369,12 @@ System.out.println("JE RENTRE ICIIIIIIIIIIIIIIIIIIIIIII");
 		repaint();
 		
 	}
+	/**
+	 * Méthode qui change le type de gravité utilisé dans la simulation.
+	 * @param typeGravite Le type de gravité à utiliser : "TERRE", "MARS" ou "ESPACE".
+	 */
+	 //Benakmoum Walid
+
 	public void changerTypeGravite(String typeGravite) {
 	    double gravite;
 	    switch (typeGravite) {
@@ -359,12 +394,24 @@ System.out.println("JE RENTRE ICIIIIIIIIIIIIIIIIIIIIIII");
 	   
 	    MoteurPhysique.changerGravite(gravite);
 	}
+	/**
+	 * Méthode qui permet de choisir le type de balle à tirer.
+	 * @param nb Le numéro de la balle à choisir.
+	 */
+	 //Benakmoum Walid
+
 	public void choisirBalle(int nb) {
 
 		canon.setBalleActuelle(nb);
 
 		repaint();
 	}
+	/**
+	 * Méthode qui définit le nombre de vie du joueur.
+	 * @param nb Le nombre de vie à définir.
+	 */
+	 //Benakmoum Walid
+
 	public void setNombreDeVie(int nb) {
 	    this.nombreDeVie = nb;
 	    if (this.monstre != null) {

@@ -38,7 +38,7 @@ import physique.MoteurPhysique;
 public class Niveaux extends JPanel implements Runnable {
 
 	/**
-	 * La classe ZoneAnimationPhysique étend JPanel et implémente Runnable pour fournir une zone d'animation interactive. Cette zone permet de simuler des animations basées sur la physique, telles que le mouvement d'un canon tirant des balles, et de gérer des interactions avec des obstacles.
+	 * La classe Niveaux étend JPanel et implémente Runnable pour fournir une zone d'animation interactive. Cette zone permet de simuler des animations basées sur la physique, telles que le mouvement d'un canon tirant des balles, et de gérer des interactions avec des obstacles.
 	 * @author Benakmoum Walid
 	 * @author Khanafer Ahmad
 	 * @author Soudaki Zakaria

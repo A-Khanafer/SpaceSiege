@@ -209,11 +209,6 @@ planCartesion.setPosition(canon.getBalle().getPosition().multiplie(1/pixelParMet
 	public void run() {
 		while (enCoursDAnimation) {
 
-//			System.out.println("Un tour de run...on avance de " + deltaT + " secondes");
-//			System.out.println("Temps ecoule "+tempsTotalEcoule);
-
-
-		//System.out.println(canon.getBalle().getPosition().toString()+" POSTIONS DANS LE RUN");
 
 			calculerUneIterationPhysique(deltaT);
 			testerCollisionsEtAjusterVitesses();
@@ -247,8 +242,8 @@ planCartesion.setPosition(canon.getBalle().getPosition().multiplie(1/pixelParMet
 				e.printStackTrace();
 			}
 		}//fin while
-		System.out.println("Le thread est mort...!");
-	}
+		System.out.println("Le thread est mort...!");	
+     }
 
 	/**
      * Démarre le thread d'animation si ce n'est pas déjà fait.
@@ -256,42 +251,78 @@ planCartesion.setPosition(canon.getBalle().getPosition().multiplie(1/pixelParMet
 	// Benakmoum Walid
 	public void demarrer() {
 		if (!enCoursDAnimation) {
-			proc = new Thread(this);
+			System.out.println("bangbangbang");
+			Thread proc = new Thread(this);
 			proc.start();
-			
 			enCoursDAnimation = true;
 			balleTiree=true;
 			canon.setBalleTiree();
-			
 		}
 	}//fin methode
-	//WALID
+	
+	
+	/**
+	 * Méthode qui arrête l'animation en cours.
+	 */
+	// Benakmoum Walid
+	public void arreter() {
+		enCoursDAnimation=false;
+	}
+	/**
+	 * Méthode qui change le type de gravité utilisé dans la simulation.
+	 * @param typeGravite Le type de gravité à utiliser : "TERRE", "MARS" ou "ESPACE".
+	 */
+	 //Benakmoum Walid
+
+	public void changerTypeGravite(String typeGravite) {
+	    double gravite;
+	    switch (typeGravite) {
+	        case "TERRE":
+	            gravite = 9.81/2;  // Diviser par deux car sinon la force est trop forte 
+	            break;
+	        case "MARS":
+	            gravite = 3.711/2; 
+	            break;
+	        case "ESPACE":
+	            gravite = 0; 
+	            break;
+	        default:
+	            gravite = 0; 
+	            break;
+	    }
+	   
+	    MoteurPhysique.changerGravite(gravite);
+	}
+	/**
+	 * Méthode qui avance l'animation d'une itération.
+	 */
+	 //Benakmoum Walid
+
 	  public void prochaineImage() {
-		  if(canon.getBalle().getVitesse()!= new Vecteur2D(0,0)) {
-		  System.out.println("Prochaine image...on avance de " + deltaT + " secondes");
-			calculerUneIterationPhysique(deltaT);
-			repaint();
-		  }
+		  if(canon.getBalle().getVitesse()!=new Vecteur2D(0,0)) {
+			  System.out.println("Prochaine image...on avance de " + deltaT + " secondes");
+			  canon.setProchaineImage(true);
+				calculerUneIterationPhysique(deltaT);
+				repaint();
+			  }
 	  }
 	/**
      * Calcule une itération physique en fonction du deltaT.
      * @param deltaT Le temps écoulé depuis la dernière itération.
      */
 	//Benakmoum Walid
-	private void calculerUneIterationPhysique(double deltaT) {
+	public void calculerUneIterationPhysique(double deltaT) {
 		tempsTotalEcoule += deltaT;
 		calculerLesForces();
 		canon.avancerUnPas(deltaT);
 	}
-
-
 	
+
 	/**
      * Teste les collisions entre les éléments graphiques et ajuste leurs vitesses en conséquence.
      */
 	//ZAKARIA SOUDAKI
-	private void testerCollisionsEtAjusterVitesses() {	
-		 
+	public void testerCollisionsEtAjusterVitesses() {	
 		canon.getBalle().gererCollisions(posMurSol, posMurDroit , posMurHaut, posMurGauche);
 	}
 
@@ -301,10 +332,10 @@ planCartesion.setPosition(canon.getBalle().getPosition().multiplie(1/pixelParMet
 // Benakmoum Walid
 	private void calculerLesForces() {
 
-	//	Vecteur2D forceDeGravite=MoteurPhysique.calculForceGrav(canon.getBalle().getMasse(), Math.toRadians(90));
+		Vecteur2D forceDeGravite=MoteurPhysique.calculForceGrav(canon.getBalle().getMasse(), Math.toRadians(90));
        
         
-	//canon.getBalle().setSommeDesForces(forceDeGravite);
+	canon.getBalle().setSommeDesForces(forceDeGravite);
 
 
 	}
@@ -314,19 +345,24 @@ planCartesion.setPosition(canon.getBalle().getPosition().multiplie(1/pixelParMet
 	 */
 	  //Benakmoum Walid
 	public void reinitialiserApplication() {
-		
-	    enCoursDAnimation = false;
-	    rotation = 0;
-	    tempsTotalEcoule = 0;
-	    balleTiree = false;
-	    canon.setPremiereFois(true);
-	    monstre = new Monstres(1000, 20, "images.jpg", pixelParMetres);
-	    monstre.setNombreDeVie(1);
+	
+		  enCoursDAnimation = false;
 
-	    canon = new Canon(0, 10,pixelParMetres);	    
-	   monstreMort=false;
-	   repaint();
 
+		    rotation = 0;
+		    tempsTotalEcoule = 0;
+
+
+		    balleTiree = false;
+		    canon.setPremiereFois(true);
+		    monstre = new Monstres(1000, 20, "images.jpg", pixelParMetres);
+		    monstre.setNombreDeVie(1);
+		    canon = new Canon(0, 10,pixelParMetres);
+		    
+		   monstreMort=false;
+
+
+		   repaint();
 	}
 	/**
      * Méthode qui permet de tirer la balle.
@@ -337,20 +373,27 @@ planCartesion.setPosition(canon.getBalle().getPosition().multiplie(1/pixelParMet
 		canon.setBalleTiree();
 		repaint();
 		
+		
 	}
-	
+	/**
+	 * Méthode qui permet de choisir le type de balle à tirer.
+	 * @param nb Le numéro de la balle à choisir.
+	 */
+	 //Benakmoum Walid
+
 	public void choisirBalle(int nb) {
 
 		canon.setBalleActuelle(nb);
 
 		repaint();
 	}
+	/**
+	 * Méthode qui définit le nombre de vie du joueur.
+	 * @param nb Le nombre de vie à définir.
+	 */
+	//Benakmoum Walid
 	public void setNombreDeVie(int nb) {
-	    this.nombreDeVie = nb;
-	    if (this.monstre != null) {
-	        this.monstre.setNombreDeVie(nb);
-	    }
-	    repaint();
+	 
 	}
 
 	
@@ -381,24 +424,24 @@ planCartesion.setPosition(canon.getBalle().getPosition().multiplie(1/pixelParMet
      */
 	//Ahmad Khanafer
 	private void ecouteurSouris() {
-		addMouseListener((MouseListener) new MouseAdapter() {
-			@Override
-
-			public void mouseClicked(MouseEvent e) {
-			
-				gestionSourisRecClick(e);
-				gestionSourisTriClick(e);
-				repaint();
-			}
-			 
-		});
+//		addMouseListener((MouseListener) new MouseAdapter() {
+//			@Override
+//
+//			public void mouseClicked(MouseEvent e) {
+//			
+//				gestionSourisRecClick(e);
+//				gestionSourisTriClick(e);
+//				repaint();
+//			}
+//			 
+//		});
 	
 		addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 				
 			public void mouseDragged(MouseEvent e) {
-				gestionSourisRecDragged(e);
-				gestionSourisTriDragged(e);
+//				gestionSourisRecDragged(e);
+//				gestionSourisTriDragged(e);
 				gestionSourisCanon(e);
 				repaint();
 			}
@@ -407,66 +450,66 @@ planCartesion.setPosition(canon.getBalle().getPosition().multiplie(1/pixelParMet
 	}
 	//Méthode qui gère les click de la souris pour le rectangle
 		//Ahmad Khanafer
-		private void gestionSourisRecDragged(MouseEvent e) {
-			for(int i =0 ; i < tableauRec.length; i++) {
-				int index = tableauRec[i].getClickedResizeHandleIndex(e.getX(), e.getY());
-					if (tableauRec[i].isClickedOnIt() == true && index != -1) {
-						tableauRec[i].redimension(index, e.getX(), e.getY());
-						repaint();
-					}else if(tableauRec[i].contient(e.getX(), e.getY()) && tableauRec[i].isClickedOnIt() == true && index == -1 ) {
-						tableauRec[i].rotate( e.getX(), e.getY());
-						repaint();
-					}
-					if(tableauRec[i].contient(e.getX(), e.getY()) && tableauRec[i].isClickedOnIt() == false) {
-						tableauRec[i].move( e.getX(), e.getY());
-						repaint();
-					}
-			}	
-		}
-		
-		private void gestionSourisTriDragged(MouseEvent e) {
-			for(int i =0 ; i < tableauTri.length; i++) {
-				int index = tableauTri[i].getClickedResizeHandleIndex(e.getX(), e.getY());
-					if (tableauTri[i].isClickedOnIt() == true && index != -1) {
-						tableauTri[i].redimension(index, e.getX(), e.getY());
-						repaint();
-					}else if(tableauTri[i].contient(e.getX(), e.getY()) && tableauTri[i].isClickedOnIt() == true && index == -1 ) {
-						tableauTri[i].rotate( e.getX(), e.getY());
-						repaint();
-					}
-					if(tableauTri[i].contient(e.getX(), e.getY()) && tableauTri[i].isClickedOnIt() == false) {
-						tableauTri[i].move( e.getX(), e.getY());
-						repaint();
-					}
-			}
-		}
-		
-		private void gestionSourisRecClick(MouseEvent e) {
-			for(int i =0 ; i < tableauRec.length; i++) {
-				if(tableauRec[i].contient(e.getX(), e.getY())) {
-					System.out.println("CLICKEEEZZZZZZZZZ on");
-					tableauRec[i].setClickedOnIt(true);
-					repaint();
-				}else {
-					System.out.println("CLICKEEEZZZZZZZZZ off");
-					tableauRec[i].setClickedOnIt(false);
-					repaint();
-				}
-			}
-			
-		}
-		
-		private void gestionSourisTriClick(MouseEvent e) {
-			for(int i =0 ; i < tableauTri.length; i++) {
-				if(tableauTri[i].contient(e.getX(), e.getY())) {
-					tableauTri[i].setClickedOnIt(true);
-					repaint();
-				}else {
-					tableauTri[i].setClickedOnIt(false);
-					repaint();
-				}
-			}
-		}
+//		private void gestionSourisRecDragged(MouseEvent e) {
+//			for(int i =0 ; i < tableauRec.length; i++) {
+//				int index = tableauRec[i].getClickedResizeHandleIndex(e.getX(), e.getY());
+//					if (tableauRec[i].isClickedOnIt() == true && index != -1) {
+//						tableauRec[i].redimension(index, e.getX(), e.getY());
+//						repaint();
+//					}else if(tableauRec[i].contient(e.getX(), e.getY()) && tableauRec[i].isClickedOnIt() == true && index == -1 ) {
+//						tableauRec[i].rotate( e.getX(), e.getY());
+//						repaint();
+//					}
+//					if(tableauRec[i].contient(e.getX(), e.getY()) && tableauRec[i].isClickedOnIt() == false) {
+//						tableauRec[i].move( e.getX(), e.getY());
+//						repaint();
+//					}
+//			}	
+//		}
+//		
+//		private void gestionSourisTriDragged(MouseEvent e) {
+//			for(int i =0 ; i < tableauTri.length; i++) {
+//				int index = tableauTri[i].getClickedResizeHandleIndex(e.getX(), e.getY());
+//					if (tableauTri[i].isClickedOnIt() == true && index != -1) {
+//						tableauTri[i].redimension(index, e.getX(), e.getY());
+//						repaint();
+//					}else if(tableauTri[i].contient(e.getX(), e.getY()) && tableauTri[i].isClickedOnIt() == true && index == -1 ) {
+//						tableauTri[i].rotate( e.getX(), e.getY());
+//						repaint();
+//					}
+//					if(tableauTri[i].contient(e.getX(), e.getY()) && tableauTri[i].isClickedOnIt() == false) {
+//						tableauTri[i].move( e.getX(), e.getY());
+//						repaint();
+//					}
+//			}
+//		}
+//		
+//		private void gestionSourisRecClick(MouseEvent e) {
+//			for(int i =0 ; i < tableauRec.length; i++) {
+//				if(tableauRec[i].contient(e.getX(), e.getY())) {
+//					System.out.println("CLICKEEEZZZZZZZZZ on");
+//					tableauRec[i].setClickedOnIt(true);
+//					repaint();
+//				}else {
+//					System.out.println("CLICKEEEZZZZZZZZZ off");
+//					tableauRec[i].setClickedOnIt(false);
+//					repaint();
+//				}
+//			}
+//			
+//		}
+//		
+//		private void gestionSourisTriClick(MouseEvent e) {
+//			for(int i =0 ; i < tableauTri.length; i++) {
+//				if(tableauTri[i].contient(e.getX(), e.getY())) {
+//					tableauTri[i].setClickedOnIt(true);
+//					repaint();
+//				}else {
+//					tableauTri[i].setClickedOnIt(false);
+//					repaint();
+//				}
+//			}
+//		}
 	/**
 	 * Méthode qui permet de gérer le canon selon les mouvements de la souris
 	 * @param e Événement de la souris
@@ -475,22 +518,22 @@ planCartesion.setPosition(canon.getBalle().getPosition().multiplie(1/pixelParMet
 		private void gestionSourisCanon(MouseEvent e) {
 		    boolean toucheObjet = false;
 
-		    for (Rectangle rec : tableauRec) {
-		        if (rec.contient(e.getX(), e.getY())) {
-		            toucheObjet = true;
-		            break; 
-		        }
-		    }
-
-		    
-		    if (!toucheObjet) {
-		        for (Triangle tri : tableauTri) {
-		            if (tri.contient(e.getX(), e.getY())) {
-		                toucheObjet = true;
-		                break;
-		            }
-		        }
-		    }
+//		    for (Rectangle rec : tableauRec) {
+//		        if (rec.contient(e.getX(), e.getY())) {
+//		            toucheObjet = true;
+//		            break; 
+//		        }
+//		    }
+//
+//		    
+//		    if (!toucheObjet) {
+//		        for (Triangle tri : tableauTri) {
+//		            if (tri.contient(e.getX(), e.getY())) {
+//		                toucheObjet = true;
+//		                break;
+//		            }
+//		        }
+//		    }
 
 		    if (!balleTiree && !toucheObjet) {
 		        canon.rotate(e.getX(), e.getY());
@@ -506,6 +549,6 @@ planCartesion.setPosition(canon.getBalle().getPosition().multiplie(1/pixelParMet
 	
 }
 		
-			
+						
 
 		
