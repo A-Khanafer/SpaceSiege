@@ -98,11 +98,11 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
         
         creerLaGeometrie();
     }
-    public Rectangle(double posX, double posY, double longueur, double largeur) {
+    public Rectangle(double posX, double posY, double longueur, double largeur , double rotation) {
     	
-    	this.coinXGauche = posX;
-        this.coinYGauche = posY;
-        
+    	coinXGauche = posX;
+        coinYGauche = posY;
+        angleRotation = rotation;
         longueurRec = longueur;
         largeurRec = largeur;
     	poigneRedimensionnement = new Ellipse2D.Double[8];

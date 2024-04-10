@@ -28,6 +28,8 @@ import javax.swing.JOptionPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import composantdessin.BoutonsIntro;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 /**
  * Classe principale de l'application qui crée et affiche la fenêtre principale.
  * Cette classe étend {@code JFrame} pour créer une interface utilisateur graphique, comprenant un menu, des boutons et des labels.
@@ -41,8 +43,8 @@ public class AppPrincipal14 extends JFrame{
 	private JPanel contentPane;
     private boolean enCoursDAnimation = false;
 	private ImageIcon ImgFond = new ImageIcon("fondjeu.jpg"); 
-	private int longueur = 1300;
-	private int hauteur = 900;
+	private int longueur = 1500;
+	private int hauteur = 1000;
 	
 	
 	 /**
@@ -52,6 +54,8 @@ public class AppPrincipal14 extends JFrame{
 	public static void afficherFenetre() {
 		
 		AppPrincipal14 fenetre = new AppPrincipal14();
+		fenetre.setLocationRelativeTo(null);
+		fenetre.setUndecorated(true); 
         fenetre.setVisible(true);
     }
 
@@ -67,6 +71,7 @@ public class AppPrincipal14 extends JFrame{
 				try {
 					AppPrincipal14 frame = new AppPrincipal14();
 					frame.setLocationRelativeTo(null);
+					frame.setUndecorated(true); 
  					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -93,31 +98,49 @@ public class AppPrincipal14 extends JFrame{
 		
 		
 		
-		JMenuBar menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
 		
-		JMenu menuAuteur = new JMenu("Auteurs");
-		menuBar.add(menuAuteur);
 		
-		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Infos Auteurs");
-		mntmNewMenuItem_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "PROJET SCIENCE INFORMATIQUE ET MATHÉMATIQUE :"+"\n"+
-			"MEMBRES DE L'ÉQUIPE DE DÉVELOPPEMENT : AHMAD KHANAFER , WALID BENAKMOUM , ZAKARIA SOUDAKI"
-						);
+		
+		
+		contentPane = new JPanel();
+		contentPane.setBackground(new Color(255, 255, 255));
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		
+		
+		Titre titre_1 = new Titre("etoiles2.png", "titre2.png");
+		titre_1.setBackground(new Color(0, 0, 0));
+		titre_1.setBounds(750-387/2, 50, 387, 387);
+		contentPane.add(titre_1);
+		
+		BoutonsIntro boutonsIntro = new BoutonsIntro(longueur, hauteur);
+		contentPane.add(boutonsIntro);
+		
+		JButton btnSansSon = new JButton("New button");
+		btnSansSon.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				OutilsImage.lireImageEtPlacerSurBouton("sansson2.png", btnSansSon);
+
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				OutilsImage.lireImageEtPlacerSurBouton("sansson1.png", btnSansSon);
+
 			}
 		});
-		menuAuteur.add(mntmNewMenuItem_1);
+		btnSansSon.setBounds(10, 906, 80, 80);
+		contentPane.add(btnSansSon);
+		OutilsImage.lireImageEtPlacerSurBouton("sansson1.png", btnSansSon);
+
 		
-		JMenu menuApropos = new JMenu("À propos");
-		
-		menuBar.add(menuApropos);
-		
-		
-		
-		JMenuItem mntmNewMenuItem = new JMenuItem("Infos application");
-		mntmNewMenuItem.addActionListener(new ActionListener() {
+		JButton btnApropos = new JButton("New button");
+		btnApropos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				JOptionPane.showMessageDialog(null, ""
 						+ "Plongez dans une aventure palpitante avec notre application de jeu interactif où "
 						+ "\n"+ "vous incarnez un tireur d'élite. Utilisez votre canon pour lancer des balles à travers"
@@ -129,31 +152,80 @@ public class AppPrincipal14 extends JFrame{
 						+ "\n"+ " dans ce monde de tir et d'aventure ?\n"
 					
 						+ "");
+				
 			}
 		});
-		menuApropos.add(mntmNewMenuItem);
-		contentPane = new JPanel();
-		contentPane.setBackground(new Color(255, 255, 255));
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		btnApropos.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				OutilsImage.lireImageEtPlacerSurBouton("apropo2.png", btnApropos);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				OutilsImage.lireImageEtPlacerSurBouton("apropo1.png", btnApropos);
+			}
+		});
+		btnApropos.setBounds(10, 11, 80, 80);
+		contentPane.add(btnApropos);
+		OutilsImage.lireImageEtPlacerSurBouton("apropo1.png", btnApropos);
 		
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		JButton btnInfo = new JButton("New button");
+		btnInfo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				JOptionPane.showMessageDialog(null, "PROJET SCIENCE INFORMATIQUE ET MATHÉMATIQUE :"+"\n"+
+						"MEMBRES DE L'ÉQUIPE DE DÉVELOPPEMENT : AHMAD KHANAFER , WALID BENAKMOUM , ZAKARIA SOUDAKI"
+									);
+			}
+		});
+		btnInfo.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				OutilsImage.lireImageEtPlacerSurBouton("auteurs2.png", btnInfo);
+
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				OutilsImage.lireImageEtPlacerSurBouton("auteurs1.png", btnInfo);
+
+			}
+		});
+		btnInfo.setBounds(100, 11, 89, 80);
+		contentPane.add(btnInfo);
+		OutilsImage.lireImageEtPlacerSurBouton("auteurs1.png", btnInfo);
+
 		
-		
-		
-		Titre titre_1 = new Titre();
-		titre_1.setBackground(new Color(0, 0, 0));
-		titre_1.setBounds(444, 0, 402, 387);
-		contentPane.add(titre_1);
-		
-		BoutonsIntro boutonsIntro = new BoutonsIntro(longueur, hauteur);
-		contentPane.add(boutonsIntro);
+		JButton btnX = new JButton("New button");
+		btnX.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		btnX.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				OutilsImage.lireImageEtPlacerSurBouton("xRouge.png", btnX);
+
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				OutilsImage.lireImageEtPlacerSurBouton("xBlanc.png", btnX);
+
+			}
+		});
+		btnX.setBounds(1385, 14, 89, 74);
+		contentPane.add(btnX);
+		OutilsImage.lireImageEtPlacerSurBouton("xBlanc.png", btnX);
 		
 		JLabel lbl = new JLabel("");
 		Image img  = new ImageIcon(this.getClass().getResource("/fondjeu3.png")).getImage();
 		lbl.setIcon(new ImageIcon(img));
-		lbl.setBounds(0, 0, 1284, 839);
+		lbl.setBounds(0, -28, 1513, 1043);
 		contentPane.add(lbl);
+		
+		
+		
+		
 		
 		
 		
@@ -183,10 +255,4 @@ public class AppPrincipal14 extends JFrame{
 		
 
 	}
-	
-	
-    
-	
-	
-	
 }

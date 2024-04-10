@@ -3,15 +3,23 @@ package application;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+
+import composantdessin.Titre;
+import outils.OutilsImage;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 /**
  * La classe  est conçue pour permettre aux utilisateurs de choisir entre différents modes de jeu.
  * Elle étend  pour afficher une interface graphique comprenant plusieurs boutons, chacun correspondant à un mode de jeu différent.
@@ -30,6 +38,8 @@ public class FenetreModeDeJeu extends JFrame {
 	public static void afficherFenetre() {
 	       
 		FenetreModeDeJeu fenetre = new FenetreModeDeJeu();
+		fenetre.setLocationRelativeTo(null);
+		fenetre.setUndecorated(true); 
         fenetre.setVisible(true);
         
     }
@@ -42,6 +52,8 @@ public class FenetreModeDeJeu extends JFrame {
 			public void run() {
 				try {
 					FenetreModeDeJeu frame = new FenetreModeDeJeu();
+					frame.setLocationRelativeTo(null);
+					frame.setUndecorated(true); 
 					frame.setVisible(true);
 
 				} catch (Exception e) {
@@ -55,92 +67,136 @@ public class FenetreModeDeJeu extends JFrame {
      * Initialise et affiche la fenêtre de sélection de mode de jeu.
      */
 	public FenetreModeDeJeu() {
+		
 		setLocationRelativeTo(null);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1200, 750);
+		setBounds(100, 100, 1200, 800);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		JPanel panelClassic = new JPanel();
-		panelClassic.setBackground(new Color(0, 0, 0));
-		panelClassic.setBounds(73, 306, 293, 116);
-		contentPane.add(panelClassic);
-		panelClassic.setLayout(null);
-		
-		JButton btnClassic = new JButton("CLASSIQUE");
-		btnClassic.setBounds(33, 23, 216, 69);
-		panelClassic.add(btnClassic);
-		btnClassic.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				
-				FenetreDeJeu.afficherFenetre();
-				setVisible(false);
-
-			}
-		});
-		btnClassic.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 23));
 		
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-				
-				JPanel panelSandBox = new JPanel();
-				panelSandBox.setBackground(new Color(0, 0, 0));
-				panelSandBox.setBounds(432, 306, 293, 116);
-				contentPane.add(panelSandBox);
-				panelSandBox.setLayout(null);
-				
-						JButton btnSandBox = new JButton("BAC A SABLE");
-						btnSandBox.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								
-								
-								FenetreBacASable.afficherFenetre();
-								setVisible(false);
+		
+		Titre titre_1 = new Titre("etoiles1.png", "modedejeu.png");
+		titre_1.setBackground(new Color(0, 0, 0));
+		titre_1.setBounds(428, 66, 362, 309);
+		contentPane.add(titre_1);
+						
+						JButton btnClassic = new JButton("CLASSIQUE");
+						btnClassic.addMouseListener(new MouseAdapter() {
+							@Override
+							public void mouseEntered(MouseEvent e) {
+								OutilsImage.lireImageEtPlacerSurBouton("classique2.png", btnClassic);
+								btnClassic.setBounds(237, 416, 302, 69);
 
-							
+								
 							}
-						});
-						btnSandBox.setBounds(41, 23, 216, 69);
-						panelSandBox.add(btnSandBox);
-						btnSandBox.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 23));
-						
-						JPanel panel = new JPanel();
-						panel.setBackground(new Color(0, 0, 0));
-						panel.setBounds(796, 306, 293, 116);
-						contentPane.add(panel);
-						panel.setLayout(null);
-						
-						
-						JButton btnQuitter = new JButton("MENU");
-						btnQuitter.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								
-								AppPrincipal14.afficherFenetre();
-								setVisible(false);
+							@Override
+							public void mouseExited(MouseEvent e) {
+								OutilsImage.lireImageEtPlacerSurBouton("classique.png", btnClassic);
+								btnClassic.setBounds(237, 426, 302, 69);
 
-								
 								
 							}
 						});
-						btnQuitter.setBounds(44, 21, 216, 69);
-						panel.add(btnQuitter);
-						btnQuitter.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 23));
+						btnClassic.setBounds(237, 426, 302, 69);
+						contentPane.add(btnClassic);
+						btnClassic.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								
+								
+								FenetreDeJeu.afficherFenetre();
+								setVisible(false);
+
+							}
+						});
+						OutilsImage.lireImageEtPlacerSurBouton("classique.png", btnClassic);
 						
-						JPanel panel_1 = new JPanel();
-						panel_1.setBackground(new Color(0, 0, 0));
-						panel_1.setBounds(403, 184, 345, 79);
-						contentPane.add(panel_1);
-						panel_1.setLayout(null);
-						
-						JLabel lblTitre = new JLabel("MODE DE JEUX");
-						lblTitre.setBounds(10, 11, 325, 67);
-						panel_1.add(lblTitre);
-						lblTitre.setBackground(new Color(0, 0, 0));
-						lblTitre.setForeground(new Color(255, 255, 255));
-						lblTitre.setHorizontalAlignment(SwingConstants.CENTER);
-						lblTitre.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 37));
+								JButton btnSandBox = new JButton("BAC A SABLE");
+								btnSandBox.addMouseListener(new MouseAdapter() {
+									@Override
+									public void mouseEntered(MouseEvent e) {
+										OutilsImage.lireImageEtPlacerSurBouton("bacasable2.png", btnSandBox);
+										btnSandBox.setBounds(663, 416, 325, 69);
+
+									}
+									@Override
+									public void mouseExited(MouseEvent e) {
+										OutilsImage.lireImageEtPlacerSurBouton("bacasable.png", btnSandBox);
+										btnSandBox.setBounds(663, 426, 325, 69);
+
+									}
+								});
+								btnSandBox.setBounds(663, 426, 325, 69);
+								contentPane.add(btnSandBox);
+								btnSandBox.addActionListener(new ActionListener() {
+									public void actionPerformed(ActionEvent e) {
+										
+										
+										FenetreBacASable.afficherFenetre();
+										setVisible(false);
+
+									
+									}
+								});
+								OutilsImage.lireImageEtPlacerSurBouton("bacasable.png", btnSandBox);
+								
+								
+								JButton btnMenu = new JButton("MENU");
+								btnMenu.addMouseListener(new MouseAdapter() {
+									@Override
+									public void mouseEntered(MouseEvent e) {
+										OutilsImage.lireImageEtPlacerSurBouton("menu2.png", btnMenu);
+										btnMenu.setBounds(505, 564, 190, 65);
+										
+									}
+									@Override
+									public void mouseExited(MouseEvent e) {
+										OutilsImage.lireImageEtPlacerSurBouton("menu.png", btnMenu);
+										btnMenu.setBounds(505, 574, 190, 65);
+									}
+								});
+								btnMenu.setBounds(505, 574, 190, 69);
+								contentPane.add(btnMenu);
+								btnMenu.addActionListener(new ActionListener() {
+									public void actionPerformed(ActionEvent e) {
+										
+										AppPrincipal14.afficherFenetre();
+										setVisible(false);
+
+										
+										
+									}
+								});
+								OutilsImage.lireImageEtPlacerSurBouton("menu.png", btnMenu);
+								
+								JButton btnX = new JButton("New button");
+								btnX.addActionListener(new ActionListener() {
+									public void actionPerformed(ActionEvent e) {
+										System.exit(0);
+									}
+								});
+								btnX.addMouseListener(new MouseAdapter() {
+									@Override
+									public void mouseEntered(MouseEvent e) {
+										OutilsImage.lireImageEtPlacerSurBouton("xRouge.png", btnX);
+
+									}
+									@Override
+									public void mouseExited(MouseEvent e) {
+										OutilsImage.lireImageEtPlacerSurBouton("xBlanc.png", btnX);
+
+									}
+								});
+								btnX.setBounds(1120, 14, 70, 60);
+								contentPane.add(btnX);
+								OutilsImage.lireImageEtPlacerSurBouton("xBlanc.png", btnX);
+								
+								JLabel lbl = new JLabel("New label");
+								Image img  = new ImageIcon(this.getClass().getResource("/fondjeu4.png")).getImage();
+								lbl.setIcon(new ImageIcon(img));
+								lbl.setBounds(-12, -34, 1221, 878);
+								contentPane.add(lbl);
 	}
-
 }
