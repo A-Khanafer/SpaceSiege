@@ -215,7 +215,7 @@ public class PanelBacASable extends JPanel {
 				if (tableauTri[i].isClickedOnIt() == true && index != -1) {
 					tableauTri[i].redimension(index, e.getX(), e.getY());
 					repaint();
-				}else if(tableauTri[i].contient(e.getX(), e.getY()) && tableauTri[i].isClickedOnIt() == true && index == -1 ) {
+				}else if(tableauTri[i].isClickedOnIt() == true && index == -1 ) {
 					tableauTri[i].rotate( e.getX(), e.getY());
 					repaint();
 				}
