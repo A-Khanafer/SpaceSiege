@@ -44,8 +44,9 @@ public class AppPrincipal14 extends JFrame{
 	private JPanel contentPane;
     private boolean enCoursDAnimation = false;
 	private ImageIcon ImgFond = new ImageIcon("fondjeu.jpg"); 
-	private int longueur = 1500;
-	private int hauteur = 1000;
+	private int longueur = 1280;
+	private int hauteur = 720;
+	private BoutonsIntro boutonsIntro;
 	
 	
 	 /**
@@ -59,6 +60,10 @@ public class AppPrincipal14 extends JFrame{
 		fenetre.setUndecorated(true); 
         fenetre.setVisible(true);
     }
+	public void fermer() {
+		setVisible(false);
+		dispose();
+	}
 
 	/**
      * Point d'entrée principal de l'application.
@@ -113,11 +118,12 @@ public class AppPrincipal14 extends JFrame{
 		
 		
 		Titre titre_1 = new Titre("etoiles2.png", "titre2.png");
-		titre_1.setBackground(new Color(0, 0, 0));
-		titre_1.setBounds(750-387/2, 50, 387, 387);
+		titre_1.setBackground(new Color(0, 0, 0,0));
+		titre_1.setBounds(465, 30, 342, 269);
 		contentPane.add(titre_1);
 		
-		BoutonsIntro boutonsIntro = new BoutonsIntro(longueur, hauteur);
+		boutonsIntro = new BoutonsIntro(longueur, hauteur);
+		boutonsIntro.setLocation(540, 355);
 		contentPane.add(boutonsIntro);
 		
 		JButton btnSansSon = new JButton("New button");
@@ -133,7 +139,7 @@ public class AppPrincipal14 extends JFrame{
 
 			}
 		});
-		btnSansSon.setBounds(10, 906, 80, 80);
+		btnSansSon.setBounds(10, 626, 55, 54);
 		contentPane.add(btnSansSon);
 		OutilsImage.lireImageEtPlacerSurBouton("sansson1.png", btnSansSon);
 
@@ -166,7 +172,7 @@ public class AppPrincipal14 extends JFrame{
 				OutilsImage.lireImageEtPlacerSurBouton("apropo1.png", btnApropos);
 			}
 		});
-		btnApropos.setBounds(10, 11, 80, 80);
+		btnApropos.setBounds(10, 11, 55, 54);
 		contentPane.add(btnApropos);
 		OutilsImage.lireImageEtPlacerSurBouton("apropo1.png", btnApropos);
 		
@@ -191,7 +197,7 @@ public class AppPrincipal14 extends JFrame{
 
 			}
 		});
-		btnInfo.setBounds(100, 11, 89, 80);
+		btnInfo.setBounds(75, 11, 62, 54);
 		contentPane.add(btnInfo);
 		OutilsImage.lireImageEtPlacerSurBouton("auteurs1.png", btnInfo);
 
@@ -214,14 +220,14 @@ public class AppPrincipal14 extends JFrame{
 
 			}
 		});
-		btnX.setBounds(1385, 14, 89, 74);
+		btnX.setBounds(1209, 11, 55, 54);
 		contentPane.add(btnX);
 		OutilsImage.lireImageEtPlacerSurBouton("xBlanc.png", btnX);
 		
 		JLabel lbl = new JLabel("");
-		Image img  = new ImageIcon(this.getClass().getResource("/fondjeu3.png")).getImage();
+		Image img  = new ImageIcon(this.getClass().getResource("/fondanimer.gif")).getImage();
 		lbl.setIcon(new ImageIcon(img));
-		lbl.setBounds(0, -28, 1513, 1043);
+		lbl.setBounds(0, -25, 1280, 770);
 		contentPane.add(lbl);
 		
 		

@@ -22,12 +22,17 @@ public class Titre extends JPanel implements Runnable{
     private Image imgEtoile= null;
     private  int MOUVEMENT = 5;
     private boolean start = false;
+    private int longueurEtoiles = 270;
+    private int hauteurEtoile = 220;
+    private int longueurTitre = 280;
+    private int hauteurTitre = 150;
     
 	/**
 	 * Create the panel.
 	 */
 	public Titre(String etoiles, String titre) {
-		setBackground(new Color(0, 0, 0,0));
+		setOpaque(false);
+//		setBackground(new Color(0, 0, 0,0));
 		 imgTitre = OutilsImage.lireImage(titre); 
 	     imgEtoile= OutilsImage.lireImage(etoiles);
 	   
@@ -35,8 +40,8 @@ public class Titre extends JPanel implements Runnable{
 	}
 	private void dessiner(Graphics2D g2d, int mouvement) {
 		
-        g2d.drawImage( imgEtoile,  getWidth()/2-160, getHeight()/2-150 - MOUVEMENT, 320,  320,  null);
-        g2d.drawImage( imgTitre,  getWidth()/2-160, getHeight()/2-100 + MOUVEMENT,  320,  200,  null);
+        g2d.drawImage( imgEtoile,  getWidth()/2- longueurEtoiles/2, getHeight()/2 -hauteurTitre+35  - MOUVEMENT, longueurEtoiles,  hauteurEtoile,  null);
+        g2d.drawImage( imgTitre,  getWidth()/2-longueurTitre/2, getHeight()/2-hauteurTitre/2 + MOUVEMENT,  longueurTitre,  hauteurTitre,  null);
 
 	}
 	public void paintComponent(Graphics g ) {
@@ -58,7 +63,7 @@ public class Titre extends JPanel implements Runnable{
 			
 			  y =  Math.sin(x); 
 			  
-			  y=  y*12;
+			  y=  y*10;
 			  
 			  MOUVEMENT = (int) y;
 			  
@@ -68,7 +73,7 @@ public class Titre extends JPanel implements Runnable{
 			
 			try {
 				
-				Thread.sleep(50);
+				Thread.sleep(30);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

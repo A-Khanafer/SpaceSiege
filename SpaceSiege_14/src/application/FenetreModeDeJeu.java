@@ -71,7 +71,7 @@ public class FenetreModeDeJeu extends JFrame {
 		setLocationRelativeTo(null);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1200, 800);
+		setBounds(100, 100, 1280, 720);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		
@@ -189,14 +189,14 @@ public class FenetreModeDeJeu extends JFrame {
 
 									}
 								});
-								btnX.setBounds(1120, 14, 70, 60);
+								btnX.setBounds(1209, 11, 55, 54);
 								contentPane.add(btnX);
 								OutilsImage.lireImageEtPlacerSurBouton("xBlanc.png", btnX);
 								
 								JLabel lbl = new JLabel("New label");
 								Image img  = new ImageIcon(this.getClass().getResource("/fondjeu4.png")).getImage();
 								lbl.setIcon(new ImageIcon(img));
-								lbl.setBounds(-12, -34, 1221, 878);
+								lbl.setBounds(-12, -34, 1300, 790);
 								contentPane.add(lbl);
 	}
 }
