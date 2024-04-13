@@ -7,12 +7,14 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 import composantdessin.Titre;
@@ -68,6 +70,7 @@ public class FenetreModeDeJeu extends JFrame {
      */
 	public FenetreModeDeJeu() {
 		
+		Border emptyBorder = BorderFactory.createEmptyBorder();
 		setLocationRelativeTo(null);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -78,12 +81,13 @@ public class FenetreModeDeJeu extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		Titre titre_1 = new Titre("etoiles1.png", "modedejeu.png");
+		Titre titre_1 = new Titre("etoiles1.png", "modedejeu.png", 250,200);
 		titre_1.setBackground(new Color(0, 0, 0));
-		titre_1.setBounds(428, 66, 362, 309);
+		titre_1.setBounds(1280/2- 362/2, 66, 362, 309);
 		contentPane.add(titre_1);
 						
 						JButton btnClassic = new JButton("CLASSIQUE");
+						btnClassic.setBorder(emptyBorder);
 						btnClassic.addMouseListener(new MouseAdapter() {
 							@Override
 							public void mouseEntered(MouseEvent e) {
@@ -114,21 +118,22 @@ public class FenetreModeDeJeu extends JFrame {
 						OutilsImage.lireImageEtPlacerSurBouton("classique.png", btnClassic);
 						
 								JButton btnSandBox = new JButton("BAC A SABLE");
+								btnSandBox.setBorder(emptyBorder);
 								btnSandBox.addMouseListener(new MouseAdapter() {
 									@Override
 									public void mouseEntered(MouseEvent e) {
 										OutilsImage.lireImageEtPlacerSurBouton("bacasable2.png", btnSandBox);
-										btnSandBox.setBounds(663, 416, 325, 69);
+										btnSandBox.setBounds(733, 416, 325, 69);
 
 									}
 									@Override
 									public void mouseExited(MouseEvent e) {
 										OutilsImage.lireImageEtPlacerSurBouton("bacasable.png", btnSandBox);
-										btnSandBox.setBounds(663, 426, 325, 69);
+										btnSandBox.setBounds(733, 426, 325, 69);
 
 									}
 								});
-								btnSandBox.setBounds(663, 426, 325, 69);
+								btnSandBox.setBounds(733, 426, 325, 69);
 								contentPane.add(btnSandBox);
 								btnSandBox.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent e) {
@@ -144,20 +149,21 @@ public class FenetreModeDeJeu extends JFrame {
 								
 								
 								JButton btnMenu = new JButton("MENU");
+								btnMenu.setBorder(emptyBorder);
 								btnMenu.addMouseListener(new MouseAdapter() {
 									@Override
 									public void mouseEntered(MouseEvent e) {
 										OutilsImage.lireImageEtPlacerSurBouton("menu2.png", btnMenu);
-										btnMenu.setBounds(505, 564, 190, 65);
+										btnMenu.setBounds(545, 564, 190, 65);
 										
 									}
 									@Override
 									public void mouseExited(MouseEvent e) {
 										OutilsImage.lireImageEtPlacerSurBouton("menu.png", btnMenu);
-										btnMenu.setBounds(505, 574, 190, 65);
+										btnMenu.setBounds(545, 574, 190, 65);
 									}
 								});
-								btnMenu.setBounds(505, 574, 190, 69);
+								btnMenu.setBounds(545, 574, 190, 69);
 								contentPane.add(btnMenu);
 								btnMenu.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent e) {
@@ -172,6 +178,7 @@ public class FenetreModeDeJeu extends JFrame {
 								OutilsImage.lireImageEtPlacerSurBouton("menu.png", btnMenu);
 								
 								JButton btnX = new JButton("New button");
+								btnX.setBorder(emptyBorder);
 								btnX.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent e) {
 										System.exit(0);
@@ -200,3 +207,4 @@ public class FenetreModeDeJeu extends JFrame {
 								contentPane.add(lbl);
 	}
 }
+

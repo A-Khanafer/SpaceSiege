@@ -32,7 +32,7 @@ import obstacles.Rectangle;
 
 import obstacles.Triangle;
 
-import outils.CollisionRectangle;
+import outils.Collisions;
 import physique.MoteurPhysique;
 
 public class Niveaux extends JPanel implements Runnable {
@@ -228,9 +228,9 @@ public class Niveaux extends JPanel implements Runnable {
      * Méthode qui permet de tirer la balle.
      */
 	  //Benakmoum Wid
-//	public  void TirerBalle() {
-//		
-//	}
+	public  void TirerBalle() {
+		
+	}
 	public void arreter() {
 		
 	}

@@ -32,7 +32,7 @@ import obstacles.Rectangle;
 
 import obstacles.Triangle;
 
-import outils.CollisionRectangle;
+import outils.Collisions;
 import physique.MoteurPhysique;
 
 public class Niveau3 extends Niveaux {
@@ -250,9 +250,9 @@ public class Niveau3 extends Niveaux {
 			
 
 			for(int i =0 ; i < tableauRec.length ; i++) {
-				CollisionRectangle.detectionCollisionRectangle(canon.getBalle(),tableauRec[i]);
+				Collisions.collisionRectangle(canon.getBalle(),tableauRec[i]);
+				
 			}
-			
 
 			Area areaBalle = new Area(canon.getBalle().getCercle()); 
 	        Area areaMonstre = monstre.getArea();

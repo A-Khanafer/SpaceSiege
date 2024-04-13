@@ -31,10 +31,11 @@ public class BoutonsIntro extends JPanel {
     private int hauteurPanel  = 155 ;
     private int longueurBtn = 120;
     private int hauteurBtn = 46;
+    
 	/**
 	 * Create the panel.
 	 */
-	public BoutonsIntro( int longueur,  int hauteur) {
+	public BoutonsIntro( int longueur,  int hauteur , AppPrincipal14 app) {
 		
 		this.setBounds(longueur/2 - longueurPanel/2 , hauteur/2 - 50 ,longueurPanel, hauteurPanel);
 		setBackground(new Color(0, 0, 0,0));
@@ -66,10 +67,9 @@ public class BoutonsIntro extends JPanel {
 				
 				OutilsImage.lireImageEtPlacerSurBouton("q2.png", btnJouer);
 			
-				
-				
 				FenetreModeDeJeu.afficherFenetre();
-				
+				app.setVisible(false);
+				app.dispose();
 				
 			}
 		});

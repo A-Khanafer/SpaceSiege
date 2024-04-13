@@ -5,22 +5,31 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 import composantdessin.Titre;
 import outils.OutilsImage;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.RenderingHints;
+import java.awt.Toolkit;
 
 import javax.swing.SwingConstants;
+
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -31,6 +40,8 @@ import java.awt.event.ActionEvent;
 import composantdessin.BoutonsIntro;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import java.util.Timer;
 /**
  * Classe principale de l'application qui crée et affiche la fenêtre principale.
  * Cette classe étend {@code JFrame} pour créer une interface utilisateur graphique, comprenant un menu, des boutons et des labels.
@@ -39,15 +50,20 @@ import java.awt.event.MouseEvent;
  */
 
 public class AppPrincipal14 extends JFrame{
-
+	
+	
+	
+			
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-    private boolean enCoursDAnimation = false;
-	private ImageIcon ImgFond = new ImageIcon("fondjeu.jpg"); 
+ 
 	private int longueur = 1280;
 	private int hauteur = 720;
 	private BoutonsIntro boutonsIntro;
+	private static Point mouseDownCompCoords;
+	private long startTime;
 	
+	private boolean son = true;
 	
 	 /**
      * Lance l'interface utilisateur principale de l'application.
@@ -77,7 +93,9 @@ public class AppPrincipal14 extends JFrame{
 				try {
 					AppPrincipal14 frame = new AppPrincipal14();
 					frame.setLocationRelativeTo(null);
+					
 					frame.setUndecorated(true); 
+					
  					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -96,6 +114,7 @@ public class AppPrincipal14 extends JFrame{
 		
 		
 		
+		Border emptyBorder = BorderFactory.createEmptyBorder();
 		
 		
 		
@@ -117,34 +136,56 @@ public class AppPrincipal14 extends JFrame{
 		
 		
 		
-		Titre titre_1 = new Titre("etoiles2.png", "titre2.png");
+		Titre titre_1 = new Titre("etoiles2.png", "titre2.png", 280,150);
 		titre_1.setBackground(new Color(0, 0, 0,0));
 		titre_1.setBounds(465, 30, 342, 269);
 		contentPane.add(titre_1);
 		
-		boutonsIntro = new BoutonsIntro(longueur, hauteur);
+		boutonsIntro = new BoutonsIntro(longueur, hauteur, this);
 		boutonsIntro.setLocation(540, 355);
 		contentPane.add(boutonsIntro);
 		
-		JButton btnSansSon = new JButton("New button");
-		btnSansSon.addMouseListener(new MouseAdapter() {
+		JButton btnSon = new JButton("New button");
+		btnSon.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (son == true) {
+					son = false;
+				}else {
+					son=true;
+				}
+				
+			}
+		});
+		btnSon.setBorder(emptyBorder);
+		btnSon.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				OutilsImage.lireImageEtPlacerSurBouton("sansson2.png", btnSansSon);
+				if(son == true) {
+					OutilsImage.lireImageEtPlacerSurBouton("sansson2.png", btnSon);
+				}
+				if(son == false) {
+					OutilsImage.lireImageEtPlacerSurBouton("son2.png", btnSon);
+
+				}
 
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
-				OutilsImage.lireImageEtPlacerSurBouton("sansson1.png", btnSansSon);
-
+				if(son == true) {
+					OutilsImage.lireImageEtPlacerSurBouton("sansson1.png", btnSon);
+				}
+                if(son == false) {
+					OutilsImage.lireImageEtPlacerSurBouton("son1.png", btnSon);
+				}
 			}
 		});
-		btnSansSon.setBounds(10, 626, 55, 54);
-		contentPane.add(btnSansSon);
-		OutilsImage.lireImageEtPlacerSurBouton("sansson1.png", btnSansSon);
+		btnSon.setBounds(10, 651, 55, 55);
+		contentPane.add(btnSon);
+		OutilsImage.lireImageEtPlacerSurBouton("sansson1.png", btnSon);
 
 		
 		JButton btnApropos = new JButton("New button");
+		btnApropos.setBorder(emptyBorder);
 		btnApropos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -172,11 +213,12 @@ public class AppPrincipal14 extends JFrame{
 				OutilsImage.lireImageEtPlacerSurBouton("apropo1.png", btnApropos);
 			}
 		});
-		btnApropos.setBounds(10, 11, 55, 54);
+		btnApropos.setBounds(10, 11, 55, 55);
 		contentPane.add(btnApropos);
 		OutilsImage.lireImageEtPlacerSurBouton("apropo1.png", btnApropos);
 		
 		JButton btnInfo = new JButton("New button");
+		btnInfo.setBorder(emptyBorder);
 		btnInfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -197,12 +239,13 @@ public class AppPrincipal14 extends JFrame{
 
 			}
 		});
-		btnInfo.setBounds(75, 11, 62, 54);
+		btnInfo.setBounds(75, 11, 55, 55);
 		contentPane.add(btnInfo);
 		OutilsImage.lireImageEtPlacerSurBouton("auteurs1.png", btnInfo);
 
 		
 		JButton btnX = new JButton("New button");
+		btnX.setBorder(emptyBorder);
 		btnX.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
@@ -220,7 +263,7 @@ public class AppPrincipal14 extends JFrame{
 
 			}
 		});
-		btnX.setBounds(1209, 11, 55, 54);
+		btnX.setBounds(1209, 11, 55, 55);
 		contentPane.add(btnX);
 		OutilsImage.lireImageEtPlacerSurBouton("xBlanc.png", btnX);
 		
@@ -263,3 +306,4 @@ public class AppPrincipal14 extends JFrame{
 
 	}
 }
+

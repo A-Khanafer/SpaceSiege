@@ -31,8 +31,7 @@ import java.awt.Color;
 import obstacles.Rectangle;
 
 import obstacles.Triangle;
-
-import outils.CollisionRectangle;
+import outils.Collisions;
 import physique.MoteurPhysique;
 
 public class Niveau1 extends Niveaux {
@@ -258,7 +257,7 @@ planCartesion.setPosition(null);
 			
 
 			for(int i =0 ; i < tableauRec.length ; i++) {
-				CollisionRectangle.detectionCollisionRectangle(canon.getBalle(),tableauRec[i]);
+				Collisions.collisionRectangle(canon.getBalle(),tableauRec[i]);
 			}
 			
 
@@ -293,10 +292,8 @@ planCartesion.setPosition(null);
      */
 	// Benakmoum Walid
 	public void demarrer() {
-		System.out.println("NIV1111111111111111111111111111111111111");
 		if (!enCoursDAnimation) {
-			System.out.println("NIGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-
+			System.out.println("bangbangbang");
 			Thread proc = new Thread(this);
 			proc.start();
 			enCoursDAnimation = true;
@@ -413,13 +410,13 @@ planCartesion.setPosition(null);
      * Méthode qui permet de tirer la balle.
      */
 	  //Benakmoum Walid
-//	public  void TirerBalle() {
-//		balleTiree=true;
-//		canon.setBalleTiree();
-//		repaint();
-//		
-//		
-//	}
+	public  void TirerBalle() {
+		balleTiree=true;
+		canon.setBalleTiree();
+		repaint();
+		
+		
+	}
 	/**
 	 * Méthode qui permet de choisir le type de balle à tirer.
 	 * @param nb Le numéro de la balle à choisir.

@@ -24,18 +24,20 @@ public class Titre extends JPanel implements Runnable{
     private boolean start = false;
     private int longueurEtoiles = 270;
     private int hauteurEtoile = 220;
-    private int longueurTitre = 280;
-    private int hauteurTitre = 150;
+    private int longueurTitre ;
+    private int hauteurTitre ;
     
 	/**
 	 * Create the panel.
 	 */
-	public Titre(String etoiles, String titre) {
+	public Titre(String etoiles, String titre, int longueurImg, int hauteurImg) {
 		setOpaque(false);
 //		setBackground(new Color(0, 0, 0,0));
 		 imgTitre = OutilsImage.lireImage(titre); 
 	     imgEtoile= OutilsImage.lireImage(etoiles);
-	   
+	     longueurTitre = longueurImg;
+	     hauteurTitre = hauteurImg;
+	     
 	     demarrer();
 	}
 	private void dessiner(Graphics2D g2d, int mouvement) {
@@ -91,3 +93,4 @@ public class Titre extends JPanel implements Runnable{
 	
 
 }
+

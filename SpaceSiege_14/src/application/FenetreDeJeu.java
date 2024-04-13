@@ -5,7 +5,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import composantdessin.ZoneAnimationPhysique;
+
 import niveaux.Niveau1;
 import niveaux.Niveau2;
 import niveaux.Niveau3;
@@ -53,7 +53,6 @@ public class FenetreDeJeu extends JFrame {
 	private JButton btnDemarrer;
 	private JButton btn1Image;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
-	private ZoneAnimationPhysique zoneAnimationPhysique;
 	private Niveaux niveaux [] = new Niveaux[10]; 
 	private int index = 0;
 
@@ -103,7 +102,8 @@ public class FenetreDeJeu extends JFrame {
 		setLocationRelativeTo(null);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1600, 1010);
+		setBounds(100, 100, 1920, 1200);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(0, 0, 0));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -111,12 +111,12 @@ public class FenetreDeJeu extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		//
-		nivActuel.setBounds(0, 0, 1296, 672);
+		nivActuel.setBounds(10, 10, 1884, 699);
 		contentPane.add(nivActuel);
 		//
 		JPanel panelFonctionnalites = new JPanel();
 		panelFonctionnalites.setBackground(new Color(255, 255, 255));
-		panelFonctionnalites.setBounds(0, 683, 1187, 286);
+		panelFonctionnalites.setBounds(10, 721, 1187, 286);
 		contentPane.add(panelFonctionnalites);
 		panelFonctionnalites.setLayout(null);
 		
@@ -142,16 +142,16 @@ public class FenetreDeJeu extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				 
 				
-if (index >1 ) {
-	JOptionPane.showMessageDialog(null, "FIN DES NIVEAUX __________");
-}
-else {
+        if (index >1 ) {
+	    JOptionPane.showMessageDialog(null, "FIN DES NIVEAUX __________");
+        }
+         else {
 	
 
 				nivActuel.arreter();
 				getContentPane().remove(nivActuel);
 				
-				nivSuivant.setBounds(0, 0, 1296, 672);
+				nivSuivant.setBounds(10, 10, 1884, 699);
 				
 				contentPane.add(nivSuivant);
 
@@ -302,18 +302,15 @@ else {
 		
 		panelTable = new JPanel();
 		panelTable.setBackground(new Color(255, 255, 255));
-		panelTable.setBounds(1197, 683, 377, 286);
+		panelTable.setBounds(1626, 721, 268, 286);
 		contentPane.add(panelTable);
 		panelTable.setLayout(null);
 		
-		JPanel panelGraphique = new JPanel();
-		panelGraphique.setBounds(1306, 198, 268, 474);
-		contentPane.add(panelGraphique);
-		panelGraphique.setLayout(null);
-		
 		PlanCartesien planCartesien = new PlanCartesien();
-		planCartesien.setBounds(0, 5, 268, 318);
-		panelGraphique.add(planCartesien);
+		planCartesien.setBounds(1207, 721, 409, 286);
+		contentPane.add(planCartesien);
+		
+		
 		
 	}
 }
