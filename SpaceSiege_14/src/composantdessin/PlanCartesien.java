@@ -231,15 +231,13 @@ public class PlanCartesien extends JPanel {
 
 	private void creerApproxCourbe() {
 	    ligneBrisee = new Path2D.Double();
-
-	    for (double x = xMin; x <= xMax; x += (xMax - xMin) / nbSegmentsPourApproximer) {
-	        double y = fonctionDeLaBalle(x); // Remplacez ceci par le calcul de votre fonction
-	        if (x == xMin) {
-	            ligneBrisee.moveTo(x, y);
-	        } else {
-	            ligneBrisee.lineTo(x, y);
-	        }
-	    }
+	    ligneBrisee.moveTo(3, 3);
+	    ligneBrisee.lineTo(10,10);
+	    
+	  /*  System.out.println("siuuuuuuu");
+	    System.out.println("_________________________________________" + position.getX());
+	    System.out.println("_________________________________________" + position.getY());
+	    */
 	}
 
 	
@@ -256,8 +254,8 @@ public class PlanCartesien extends JPanel {
 	 */
 	//Benakmoum Walid
 
-	private double fonctionDeLaBalle(double x) {
-		return ( position.getY());
+	private Vecteur2D fonctionDeLaBalle() {
+		return ( position);
 	}
 
 	/**
