@@ -360,7 +360,7 @@ public class Niveau3 extends Niveaux {
      */
 	//ZAKARIA SOUDAKI
 	public void testerCollisionsEtAjusterVitesses() {	
-		canon.getBalle().gererCollisions(posMurSol, posMurDroit , posMurHaut, posMurGauche);
+		canon.getBalle().gererCollisionsBordures(posMurSol, posMurDroit , posMurHaut, posMurGauche);
 	}
 
 	 /**

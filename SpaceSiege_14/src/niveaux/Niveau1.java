@@ -365,7 +365,7 @@ planCartesion.setPosition(null);
      */
 	//ZAKARIA SOUDAKI
 	public void testerCollisionsEtAjusterVitesses() {	
-		canon.getBalle().gererCollisions(posMurSol, posMurDroit , posMurHaut, posMurGauche);
+		canon.getBalle().gererCollisionsBordures(posMurSol, posMurDroit , posMurHaut, posMurGauche);
 	}
 
 	 /**

@@ -60,7 +60,7 @@ public class Niveau2 extends Niveaux {
 	/**
      * Le temps de pause (en millisecondes) entre chaque itération de l'animation.
      */
-	private int tempsDuSleep = 8;
+	private int tempsDuSleep = 5;
 	/**
      * Un rectangle servant d'obstacle dans la zone d'animation.
      */
@@ -325,7 +325,7 @@ public class Niveau2 extends Niveaux {
 	//ZAKARIA SOUDAKI
 	public void testerCollisionsEtAjusterVitesses() {	
 		 
-		canon.getBalle().gererCollisions(posMurSol, posMurDroit , posMurHaut, posMurGauche);
+		canon.getBalle().gererCollisionsBordures(posMurSol, posMurDroit , posMurHaut, posMurGauche);
 	}
 
 	 /**
@@ -506,7 +506,7 @@ public class Niveau2 extends Niveaux {
 					if (tableauTri[i].isClickedOnIt() == true && index != -1) {
 						tableauTri[i].redimension(index, e.getX(), e.getY());
 						repaint();
-					}else if(tableauTri[i].contient(e.getX(), e.getY()) && tableauTri[i].isClickedOnIt() == true && index == -1 ) {
+					}else if( tableauTri[i].isClickedOnIt() == true && index == -1 ) {
 						tableauTri[i].rotate( e.getX(), e.getY());
 						repaint();
 					}

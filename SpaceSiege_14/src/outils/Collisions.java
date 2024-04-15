@@ -1,10 +1,13 @@
 package outils;
 
+import java.awt.Point;
+import java.awt.geom.Area;
 import java.awt.geom.Line2D;
 import java.nio.Buffer;
 
 import composantjeu.Balle;
 import composantjeu.BalleBasique;
+import obstacles.Cercle;
 import obstacles.Rectangle;
 import obstacles.Triangle;
 import physique.Vecteur2D;
@@ -323,6 +326,32 @@ public class Collisions {
 		 
 		 
 		 
+		 
+	 }
+	 
+	 public static void collisionCercle(Balle balle, Cercle cercle) {
+		 
+		double RayBalle = balle.getRayon();
+		double RayCercle = cercle.getRayon();
+		
+		Point centreBalle = new Point ((int) balle.getPosXCentre(),(int) balle.getPosYCentre());
+		Point centreCercle = new Point ((int) cercle.getPosXCentre(), (int)cercle.getPosYCentre());
+ 
+		double distance = distanceEntreDeuxPoints(centreBalle.x, centreCercle.x, centreBalle.y, centreCercle.y);
+		double dx =  centreBalle.x - centreCercle.x;
+	    double dy =  centreBalle.y - centreCercle.y;
+		
+		//collision
+		if (distance <= RayBalle+ RayCercle) {
+			
+	      Vecteur2D vecUnitaire = (new Vecteur2D(dx/distance, dy/distance));
+	      //calcul impultion
+	      double J =  ((-(1+Math.E))*(balle.getVitesse().prodScalaire(vecUnitaire)))/(1/balle.getMasse());
+	      Vecteur2D vitesseBalle = balle.getVitesse().additionne(vecUnitaire.multiplie(-J/balle.getMasse()));
+		  balle.setVitesse(vitesseBalle);
+			
+			
+		}
 		 
 	 }
 }
