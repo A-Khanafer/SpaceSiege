@@ -153,6 +153,11 @@ public class FenetreBacASable extends JFrame {
 		OutilsImage.lireImageEtPlacerSurBouton("carre.png", btnCarre);
 		
 		btnCercle = new JButton("Cercle");
+		btnCercle.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelBacASable.ajouterCercle();
+			}
+		});
 		btnCercle.setBounds(141, 901, 115, 105);
 		contentPane.add(btnCercle);
 		OutilsImage.lireImageEtPlacerSurBouton("cercle.png", btnCercle);
