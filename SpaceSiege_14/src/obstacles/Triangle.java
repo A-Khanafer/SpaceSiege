@@ -2,6 +2,7 @@ package obstacles;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
@@ -32,7 +33,7 @@ public class Triangle implements Dessinable, Obstacles, Selectionnable {
 	/**
      * La largeur et hauteur du triangle en mètre.
      */
-	private double largeur, hauteur;
+	private double largeur, longueur;
 	/**
      * La forme du triangle.
      */
@@ -91,7 +92,7 @@ public class Triangle implements Dessinable, Obstacles, Selectionnable {
 		this.coinXGauche = x;
 		this.coinYGauche = y;
 		this.largeur= largeur * this.pixelsParMetres;
-		this.hauteur = hauteur* this.pixelsParMetres; 
+		this.longueur = hauteur* this.pixelsParMetres; 
 		poigneRedimensionnement = new Ellipse2D.Double[8];
 		creerLaGeometrie();
 	} //fin constructeur
@@ -100,15 +101,24 @@ public class Triangle implements Dessinable, Obstacles, Selectionnable {
 	// Méthode privée pour initialiser la géométrie du triangle
     //Ahmad Khanafer
 	private void creerLaGeometrie() {
-		
+		coinXDroite = coinXGauche + largeur;
+        coinYDroite = coinYGauche;
+
+        coinXBasGauche = coinXGauche;
+        coinYBasGauche = coinYGauche + longueur;
+
+        coinXBasDroit = coinXDroite;
+        coinYBasDroit = coinYDroite + longueur;
 		//calculer les dimensions qui dépendent des caractéristiques données au sapin dans son ensemble
 		//on choisit des proportions plausibles pour un sapin!
-		rectanglePointille = new Rectangle2D.Double(coinXGauche, coinYGauche, largeur, hauteur);
+		rectanglePointille = new Rectangle2D.Double(coinXGauche, coinYGauche, largeur, longueur);
 		centreX = rectanglePointille.getCenterX();
 		centreY = rectanglePointille.getCenterY();
+		sommetX = coinXGauche + largeur/2;
+		sommetY = coinYGauche;
 		triangle = new Path2D.Double();
-		triangle.moveTo(coinXGauche, coinYGauche + hauteur);
-		triangle.lineTo(coinXGauche+largeur, coinYGauche + hauteur);
+		triangle.moveTo(coinXGauche, coinYGauche + longueur);
+		triangle.lineTo(coinXGauche+largeur, coinYGauche + longueur);
 		triangle.lineTo(coinXGauche+largeur/2, coinYGauche );
 		triangle.closePath();
 		aireTri = new Area(triangle);
@@ -124,35 +134,51 @@ public class Triangle implements Dessinable, Obstacles, Selectionnable {
 	// Méthode privée pour créer les poignées de redimensionnement du rectangle
     //Ahmad Khanafer
     private void creationResizeHandles() {
-        double tailleHandle = 15; // Taille des poignées de redimensionnement
+    	double tailleHandle = 15; 
 
-        // Création des poignées de redimensionnement
-        poigneRedimensionnement[0] = new Ellipse2D.Double(coinXGauche - tailleHandle / 2, coinYGauche - tailleHandle / 2,
-                tailleHandle, tailleHandle); // En haut à gauche
-        poigneRedimensionnement[1] = new Ellipse2D.Double(coinXGauche + largeur / 2 - tailleHandle / 2,
-                coinYGauche - tailleHandle / 2, tailleHandle, tailleHandle); // En haut au milieu
-        poigneRedimensionnement[2] = new Ellipse2D.Double(coinXGauche + largeur - tailleHandle / 2,
-                coinYGauche - tailleHandle / 2, tailleHandle, tailleHandle); // En haut à droite
-        poigneRedimensionnement[3] = new Ellipse2D.Double(coinXGauche + largeur - tailleHandle / 2,
-                coinYGauche + hauteur / 2 - tailleHandle / 2, tailleHandle, tailleHandle); // Millieu droit
-        poigneRedimensionnement[4] = new Ellipse2D.Double(coinXGauche + largeur - tailleHandle / 2,
-                coinYGauche + hauteur - tailleHandle / 2, tailleHandle, tailleHandle); // En bas à droite
-        poigneRedimensionnement[5] = new Ellipse2D.Double(coinXGauche + largeur / 2 - tailleHandle / 2,
-                coinYGauche + hauteur - tailleHandle / 2, tailleHandle, tailleHandle); // En bas au milieu
-        poigneRedimensionnement[6] = new Ellipse2D.Double(coinXGauche - tailleHandle / 2,
-                coinYGauche + hauteur - tailleHandle / 2, tailleHandle, tailleHandle); // En bas à gauche
-        poigneRedimensionnement[7] = new Ellipse2D.Double(coinXGauche - tailleHandle / 2,
-                coinYGauche + hauteur / 2 - tailleHandle / 2, tailleHandle, tailleHandle); // Millieu gauche
+        double[][] handlesCoordinates = {
+            {-largeur / 2, -longueur / 2},    // En haut à gauche
+            {0, -longueur / 2},                  // En haut au milieu
+            {largeur / 2, -longueur / 2},     // En haut à droite
+            {largeur / 2, 0},                    // Au milieu à droite
+            {largeur / 2, longueur / 2},      // En bas à droite
+            {0, longueur / 2},                   // En bas au milieu
+            {-largeur / 2, longueur / 2},     // En bas à gauche
+            {-largeur / 2, 0}                    // Au milieu à gauche
+        };
+
+        poigneRedimensionnement = new Ellipse2D.Double[8];
+        for (int i = 0; i < 8; i++) {
+
+            double[] rotatedCoord = rotatePoint(handlesCoordinates[i][0], handlesCoordinates[i][1], angleRotation);
+            double handleX = centreX + rotatedCoord[0];
+            double handleY = centreY + rotatedCoord[1];
+            poigneRedimensionnement[i] = new Ellipse2D.Double(handleX - tailleHandle / 2, handleY - tailleHandle / 2,
+                    tailleHandle, tailleHandle);
+        }
+    }
+    /**
+     * Applique une rotation aux coordonnées d'un point autour de l'origine (0,0)
+     * et retourne les nouvelles coordonnées.
+     */
+    private double[] rotatePoint(double x, double y, double angle) {
+        double cosAngle = Math.cos(angle);
+        double sinAngle = Math.sin(angle);
+        double rotatedX = x * cosAngle - y * sinAngle;
+        double rotatedY = x * sinAngle + y * cosAngle;
+        return new double[]{rotatedX, rotatedY};
     }
     //Méthode privée qui calcule les 4 coins en rotation et dessine les segments pour permettre la collisions.
     //Ahmad Khanafer
     private void calculerCoins() {
 
-        Point2D.Double coinSupGauche = new Point2D.Double(coinXGauche, coinYGauche);
+        
+    	Point2D.Double coinSupGauche = new Point2D.Double(coinXGauche, coinYGauche);
         Point2D.Double coinSupDroit = new Point2D.Double(coinXDroite, coinYDroite);
         Point2D.Double coinInfDroit = new Point2D.Double(coinXBasDroit, coinYBasDroit);
         Point2D.Double coinInfGauche = new Point2D.Double(coinXBasGauche, coinYBasGauche);
         Point2D.Double sommet = new Point2D.Double(sommetX, sommetY);
+        
         AffineTransform rotation = AffineTransform.getRotateInstance(angleRotation, centreX, centreY);
 
         Point2D.Double[] coins = new Point2D.Double[5];
@@ -162,10 +188,10 @@ public class Triangle implements Dessinable, Obstacles, Selectionnable {
         rotation.transform(coinInfGauche, coins[3] = new Point2D.Double());
         rotation.transform(sommet, coins[4] = new Point2D.Double());
 
-        
+       
         segmentBas = new Line2D.Double(coins[3].getX(), coins[3].getY(), coins[2].getX(), coins[2].getY());
-        segmentGauche = new Line2D.Double(coins[0].getX(), coins[0].getY(), coins[3].getX(), coins[3].getY());
-        segmentDroite = new Line2D.Double(coins[1].getX(), coins[1].getY(), coins[2].getX(), coins[2].getY());
+        segmentGauche = new Line2D.Double(coins[4].getX(), coins[4].getY(), coins[3].getX(), coins[3].getY());
+        segmentDroite = new Line2D.Double(coins[4].getX(), coins[4].getY(), coins[2].getX(), coins[2].getY());
     }
     
 	/**
@@ -177,25 +203,50 @@ public class Triangle implements Dessinable, Obstacles, Selectionnable {
 	 */
   //Ahmad Khanafer
 	public void dessiner(Graphics2D g2d) {
-		
-		Graphics2D g2dCopy = (Graphics2D) g2d.create();
-		g2dCopy.setColor(Color.yellow);
-		g2dCopy.rotate(angleRotation, centreX, centreY);
-		g2dCopy.fill(triangle);
-
+	   	
+        Graphics2D g2dCopy = (Graphics2D) g2d.create();
+        Graphics2D g2dCopy2 = (Graphics2D) g2d.create();
+        g2dCopy.setColor(Color.red);
+        g2dCopy.draw(segmentBas);
+        g2dCopy.draw(segmentGauche);
+        g2dCopy.draw(segmentDroite);
+        g2dCopy.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2dCopy.rotate(angleRotation, centreX, centreY);
+        g2dCopy.setColor(Color.yellow);
+        g2dCopy.fill(triangle);
+        
         if (estClique) {
             BasicStroke pointille = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
                     new float[]{4}, 0); // Création de la ligne pointillée
             g2dCopy.setStroke(pointille);
             g2dCopy.setColor(Color.black);
             g2dCopy.draw(rectanglePointille);
-            g2dCopy.setColor(Color.red);
-            
+            g2dCopy.setColor(Color.green);
+            g2dCopy.fill(poigneRotation);
+            g2dCopy2.setColor(Color.red);
             for (Ellipse2D.Double handle : poigneRedimensionnement) {
-                g2dCopy.fill(handle);
+            	g2dCopy2.fill(handle);
             }
         } 
 	}
+	private Point2D.Double transformMousePoint(double mouseX, double mouseY) {
+        // Inverser l'angle de rotation pour transformer les coordonnées
+        double inverseAngle = -this.angleRotation;
+
+        // Calculer le vecteur de la souris par rapport au centre du rectangle
+        double mouseXfromCenter = mouseX - this.centreX;
+        double mouseYfromCenter = mouseY - this.centreY;
+
+        // Appliquer la rotation inverse
+        double rotatedX = mouseXfromCenter * Math.cos(inverseAngle) - mouseYfromCenter * Math.sin(inverseAngle);
+        double rotatedY = mouseXfromCenter * Math.sin(inverseAngle) + mouseYfromCenter * Math.cos(inverseAngle);
+
+        // Re-calculer les coordonnées par rapport à l'origine
+        double finalX = rotatedX + this.centreX;
+        double finalY = rotatedY + this.centreY;
+
+        return new Point2D.Double(finalX, finalY);
+    }
 	/**
      * Méthode pour redimensionner le rectangle en fonction de la poignée de redimensionnement sélectionnée.
      *
@@ -206,7 +257,75 @@ public class Triangle implements Dessinable, Obstacles, Selectionnable {
 	//Ahmad Khanafer
 	@Override
 	public void redimension(int index, int eX, int eY) {
-		// TODO Auto-generated method stub
+		// Vérifier si le redimensionnement est activé
+        if (estClique) {
+        	
+        	Point2D point = transformMousePoint(eX, eY);
+        	eX = (int) point.getX();
+        	eY = (int) point.getY();
+        	
+            // Calculer le décalage entre la position actuelle et la position de la souris
+            double offsetX = eX - poigneRedimensionnement[index].getCenterX();
+            double offsetY = eY - poigneRedimensionnement[index].getCenterY();
+            
+            // Effectuer le redimensionnement en fonction de l'index du point de redimensionnement sélectionné
+            switch (index) {
+                case 0: // En haut à gauche
+                    if (rectanglePointille.width - offsetX >= 20 && rectanglePointille.height - offsetY >= 20) {
+                        // Redimensionner le rectangle
+                        largeur -= offsetX;
+                        longueur -= offsetY;
+                        coinXGauche += offsetX;
+                        coinYGauche += offsetY;
+                    }
+                    break;
+                case 1: // En haut au milieu
+                    if (rectanglePointille.height - offsetY >= 20) {
+                        // Redimensionner le rectangle
+                        longueur -= offsetY;
+                        coinYGauche += offsetY;
+                    }
+                    break;
+                case 2: // En haut à droite
+                    if (rectanglePointille.width + offsetX >= 20 && rectanglePointille.height - offsetY >= 20) {
+                        largeur += offsetX;
+                        longueur -= offsetY;
+                        coinYGauche += offsetY;
+                    }
+                    break;
+                case 3: // Au milieu à droite
+                    if (rectanglePointille.width + offsetX >= 20) {
+                        // Redimensionner le rectangle
+                        largeur += offsetX;
+                    }
+                    break;
+                case 4: // En bas à droite
+                    if (rectanglePointille.width + offsetX >= 20 && rectanglePointille.height + offsetY >= 20) {
+                        largeur += offsetX;
+                        longueur += offsetY;
+                    }
+                    break;
+                case 5: // En bas au milieu
+                    if (rectanglePointille.height + offsetY >= 20) {
+                        longueur += offsetY;
+                    }
+                    break;
+                case 6: // En bas à gauche
+                    if (rectanglePointille.width - offsetX >= 20 && rectanglePointille.height + offsetY >= 20) {
+                        largeur -= offsetX;
+                        longueur += offsetY;
+                        coinXGauche += offsetX;
+                    }
+                    break;
+                case 7: // Au milieu à gauche
+                    if (rectanglePointille.width - offsetX >= 20) {
+                        largeur -= offsetX;
+                        coinXGauche += offsetX;
+                    }
+                    break;
+            }
+            creerLaGeometrie();
+        }
 		
 	}
 	/**
@@ -218,15 +337,17 @@ public class Triangle implements Dessinable, Obstacles, Selectionnable {
     //Ahmad Khanafer
 	@Override
 	public void rotate(int eX, int eY) {
-		if (eX <= centreX) {
-            double longueurCoteOppose = eX - centreX;
-            double longueurCoteAdjacent = centreY - eY;
-            angleRotation = Math.atan2(longueurCoteOppose, longueurCoteAdjacent);
-        } else {
-            double longueurCoteOppose = eX - centreX;
-            double longueurCoteAdjacent = centreY - eY;
-            angleRotation = Math.atan2(longueurCoteOppose, longueurCoteAdjacent);
-        }
+		if(airePoigne.contains(eX, eY)) {
+			if (eX <= centreX) {
+	            double longueurCoteOppose = eX - centreX;
+	            double longueurCoteAdjacent = centreY - eY;
+	            angleRotation = Math.atan2(longueurCoteOppose, longueurCoteAdjacent);
+	        } else {
+	            double longueurCoteOppose = eX - centreX;
+	            double longueurCoteAdjacent = centreY - eY;
+	            angleRotation = Math.atan2(longueurCoteOppose, longueurCoteAdjacent);
+	        }
+		}
 		System.out.println(angleRotation);
         creerLaGeometrie();
 		
@@ -242,7 +363,7 @@ public class Triangle implements Dessinable, Obstacles, Selectionnable {
 	@Override
 	public void move(int eX, int eY) {
 		this.coinXGauche = eX - largeur / 2;
-        this.coinYGauche = eY - hauteur / 2;
+        this.coinYGauche = eY - longueur / 2;
         creerLaGeometrie();
 	}
 
