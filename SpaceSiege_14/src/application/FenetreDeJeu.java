@@ -5,7 +5,6 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import niveaux.Niveau1;
 import niveaux.Niveau2;
 import niveaux.Niveau3;
@@ -55,6 +54,7 @@ public class FenetreDeJeu extends JFrame {
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private Niveaux niveaux [] = new Niveaux[10]; 
 	private int index = 0;
+	private boolean enCoursDAnimation=false;
 
 	private JComboBox comboBoxTypeGrav;
 
@@ -63,6 +63,9 @@ public class FenetreDeJeu extends JFrame {
 	private Niveau3 niv3;
 	private Niveaux nivActuel;
 	private Niveaux nivSuivant ;
+	private JRadioButton rdbBalleNormal;
+	private JRadioButton rdbBalleElastique;
+	private JRadioButton rdbBalleNova;
 	/**
      * Méthode statique pour afficher la fenêtre de jeu. Crée une instance de {@code FenetreDeJeu} et la rend visible.
      */
@@ -91,19 +94,17 @@ public class FenetreDeJeu extends JFrame {
 	   	 niv2 = new Niveau2();
 		 niv3 = new Niveau3();
 		System.out.println("salut___________________________________________________________________________");
-		// niveaux[0] = zoneAnimationPhysique;
 		 niveaux[0] = niv1;
 		 niveaux[1] = niv2;
 		 niveaux[2] = niv3;
 		 nivActuel = niveaux[index];
 		 nivSuivant = niveaux[index +1];
 		 
-
+		 
 		setLocationRelativeTo(null);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1920, 1200);
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		setBounds(100, 100, 1600, 1010);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(0, 0, 0));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -111,12 +112,12 @@ public class FenetreDeJeu extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		//
-		nivActuel.setBounds(10, 10, 1884, 699);
+		nivActuel.setBounds(0, 0, 1296, 672);
 		contentPane.add(nivActuel);
 		//
 		JPanel panelFonctionnalites = new JPanel();
 		panelFonctionnalites.setBackground(new Color(255, 255, 255));
-		panelFonctionnalites.setBounds(10, 721, 1187, 286);
+		panelFonctionnalites.setBounds(0, 683, 1187, 286);
 		contentPane.add(panelFonctionnalites);
 		panelFonctionnalites.setLayout(null);
 		
@@ -142,16 +143,16 @@ public class FenetreDeJeu extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				 
 				
-        if (index >1 ) {
-	    JOptionPane.showMessageDialog(null, "FIN DES NIVEAUX __________");
-        }
-         else {
+if (index >1 ) {
+	JOptionPane.showMessageDialog(null, "FIN DES NIVEAUX __________");
+}
+else {
 	
 
 				nivActuel.arreter();
 				getContentPane().remove(nivActuel);
 				
-				nivSuivant.setBounds(10, 10, 1884, 699);
+				nivSuivant.setBounds(0, 0, 1296, 672);
 				
 				contentPane.add(nivSuivant);
 
@@ -166,6 +167,11 @@ public class FenetreDeJeu extends JFrame {
 		panelFonctionnalites.add(btnNiveauSuivant);
 		
 		btnPause = new JButton("PAUSE");
+		btnPause.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				nivActuel.stopperAnim();
+			}
+		});
 		btnPause.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
 		btnPause.setBounds(623, 52, 209, 68);
 		panelFonctionnalites.add(btnPause);
@@ -177,7 +183,7 @@ public class FenetreDeJeu extends JFrame {
 				
 				
               nivActuel.reinitialiserApplication();
-              
+              desactiverLesRadios();
               
               
 			}
@@ -189,9 +195,11 @@ public class FenetreDeJeu extends JFrame {
 		btnDemarrer = new JButton("DEMARRER");
 		btnDemarrer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+			
 
 				nivActuel.demarrer();
+				desactiverLesRadios();
+				
 //				nivActuel.TirerBalle();
 				System.out.println(""+nivActuel.getClass()+"________________________________________________________________");
 				
@@ -233,7 +241,8 @@ public class FenetreDeJeu extends JFrame {
 		chckbxNewCheckBox.setBounds(990, 0, 97, 23);
 		panelFonctionnalites.add(chckbxNewCheckBox);
 		
-		JRadioButton rdbBalleNormal = new JRadioButton("Balles Normales");
+		rdbBalleNormal = new JRadioButton("Balles Normales");
+		rdbBalleNormal.setSelected(true);
 		rdbBalleNormal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				nivActuel.choisirBalle(1);
@@ -243,7 +252,7 @@ public class FenetreDeJeu extends JFrame {
 		rdbBalleNormal.setBounds(16, 53, 109, 23);
 		panelFonctionnalites.add(rdbBalleNormal);
 		
-		JRadioButton rdbBalleElastique = new JRadioButton("Balles Elastiques");
+		rdbBalleElastique = new JRadioButton("Balles Elastiques");
 		rdbBalleElastique.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				nivActuel.choisirBalle(2);
@@ -253,7 +262,7 @@ public class FenetreDeJeu extends JFrame {
 		rdbBalleElastique.setBounds(16, 97, 109, 23);
 		panelFonctionnalites.add(rdbBalleElastique);
 		
-		JRadioButton rdbBalleNova = new JRadioButton("Balles Novas");
+		rdbBalleNova = new JRadioButton("Balles Novas");
 		rdbBalleNova.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				nivActuel.choisirBalle(3);
@@ -280,6 +289,11 @@ public class FenetreDeJeu extends JFrame {
 		panelFonctionnalites.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("QUITTER");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
 		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 8));
 		btnNewButton_1.setBounds(16, 235, 109, 37);
 		panelFonctionnalites.add(btnNewButton_1);
@@ -302,15 +316,35 @@ public class FenetreDeJeu extends JFrame {
 		
 		panelTable = new JPanel();
 		panelTable.setBackground(new Color(255, 255, 255));
-		panelTable.setBounds(1626, 721, 268, 286);
+		panelTable.setBounds(1197, 683, 377, 286);
 		contentPane.add(panelTable);
 		panelTable.setLayout(null);
 		
+		JPanel panelGraphique = new JPanel();
+		panelGraphique.setBounds(1306, 198, 268, 474);
+		contentPane.add(panelGraphique);
+		panelGraphique.setLayout(null);
+		
 		PlanCartesien planCartesien = new PlanCartesien();
-		planCartesien.setBounds(1207, 721, 409, 286);
-		contentPane.add(planCartesien);
+		planCartesien.setBounds(0, 5, 268, 318);
+		panelGraphique.add(planCartesien);
 		
+		comboBoxTypeGrav.setSelectedItem("ESPACE"); 
+	    niv1.changerTypeGravite("ESPACE"); 
 		
-		
+	}
+	private void desactiverLesRadios() {
+		if(nivActuel.getEnCoursAnimation()==true) {
+		rdbBalleNormal.setEnabled(false);
+		rdbBalleElastique.setEnabled(false);
+		rdbBalleNova.setEnabled(false);
+		comboBoxTypeGrav.setEnabled(false);
+	}
+	if(nivActuel.getEnCoursAnimation()==false) {
+		rdbBalleNormal.setEnabled(true);
+		rdbBalleElastique.setEnabled(true);
+		rdbBalleNova.setEnabled(true);
+		comboBoxTypeGrav.setEnabled(true);
+	}
 	}
 }
