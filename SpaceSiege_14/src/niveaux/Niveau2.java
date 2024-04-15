@@ -56,11 +56,11 @@ public class Niveau2 extends Niveaux {
 	/**
      * L'intervalle de temps (en secondes) utilisé pour chaque itération du calcul physique.
      */
-	private double deltaT=0.10;
+	private double deltaT=0.01;
 	/**
      * Le temps de pause (en millisecondes) entre chaque itération de l'animation.
      */
-	private int tempsDuSleep = 10;
+	private int tempsDuSleep = 8;
 	/**
      * Un rectangle servant d'obstacle dans la zone d'animation.
      */
@@ -133,6 +133,7 @@ public class Niveau2 extends Niveaux {
      * Un tableau de triangles servant d'obstacles dans la zone d'animation (commenté pour le moment).
      */
     private Triangle[] tableauTri;
+    private Triangle tri;
   
     /**
      * Le canon utilisé pour tirer des balles.
@@ -155,7 +156,7 @@ public class Niveau2 extends Niveaux {
 		setBackground(new Color(192, 192, 192));
 		setLayout(null);
 		tableauRec = new Rectangle[3];
-		tableauTri = new Triangle[3];
+		tableauTri = new Triangle[1];
 		ecouteurSouris();
 		ecouteurClavier();
 		
@@ -184,10 +185,11 @@ public class Niveau2 extends Niveaux {
 					espace = espace + 80;
 				}
 				espace = 0;
-				for(int i = 0 ; i < tableauRec.length ; i++) {
-					tableauTri[i] = new Triangle(50, 50, 10, 15, pixelParMetres);
+//				for(int i = 0 ; i < tableauTri.length ; i++) {
+					tableauTri[0] = new Triangle(50, 50, 10, 15, pixelParMetres);
+					
 					espace = espace + 80;
-				}
+//				}
 			premiereFois = false;
 		}
 
@@ -196,7 +198,7 @@ public class Niveau2 extends Niveaux {
 		tableauRec[2].dessiner(g2d);
 
 		tableauTri[0].dessiner(g2d);
-		tableauTri[1].dessiner(g2d);
+//		tableauTri[1].dessiner(g2d);
 
 	//	planCartesion.setBalle(canon.getBalle());
 
@@ -241,7 +243,10 @@ public class Niveau2 extends Niveaux {
 			for(int i =0 ; i < tableauRec.length ; i++) {
 				Collisions.collisionRectangle(canon.getBalle(),tableauRec[i]);
 			}
-			
+			for (int i = 0; i < tableauTri.length; i++) {
+				Collisions.collisionTriangle(canon.getBalle(), tableauTri[i]);
+
+			}
 
 			Area areaBalle = new Area(canon.getBalle().getCercle()); 
 	        Area areaMonstre = monstre.getArea();
@@ -274,9 +279,7 @@ public class Niveau2 extends Niveaux {
      */
 	// Benakmoum Walid
 	public void demarrer() {
-		System.out.println("DEMAREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
 		if (!enCoursDAnimation) {
-			System.out.println("SUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII");
 
 			Thread proc = new Thread(this);
 			proc.start();
