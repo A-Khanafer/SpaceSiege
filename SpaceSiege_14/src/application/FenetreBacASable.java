@@ -69,7 +69,7 @@ public class FenetreBacASable extends JFrame {
 	//ZAKARIA SOUDAKI
 	public FenetreBacASable() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1920, 1200);
+		setBounds(0, 0, 1920, 1200);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(0, 0, 0));
@@ -153,6 +153,11 @@ public class FenetreBacASable extends JFrame {
 		OutilsImage.lireImageEtPlacerSurBouton("carre.png", btnCarre);
 		
 		btnCercle = new JButton("Cercle");
+		btnCercle.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelBacASable.ajouterCercle();
+			}
+		});
 		btnCercle.setBounds(141, 901, 115, 105);
 		contentPane.add(btnCercle);
 		OutilsImage.lireImageEtPlacerSurBouton("cercle.png", btnCercle);

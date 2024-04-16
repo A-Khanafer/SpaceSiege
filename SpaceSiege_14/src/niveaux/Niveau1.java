@@ -171,7 +171,6 @@ public class Niveau1 extends Niveaux {
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		
 		System.out.println(pixelParMetres);
-planCartesion.setPosition(null);
 		if(premiereFois) {
 			pixelParMetres = getWidth()/150;
 			int espace=0;
@@ -211,7 +210,8 @@ planCartesion.setPosition(null);
 			premiereFois = false;
 		}
 
-		
+		planCartesion.setPosition(canon.getBalle().getPosition().multiplie(1/pixelParMetres));
+
 		for (int i = 0; i < tableauRec.length; i++) {
 			tableauRec[i].dessiner(g2d);
 		}
@@ -255,7 +255,7 @@ planCartesion.setPosition(null);
 			calculerUneIterationPhysique(deltaT);
 			testerCollisionsEtAjusterVitesses();
 			
-
+			planCartesion.setPosition(canon.getBalle().getPosition().multiplie(1/pixelParMetres));
 			for(int i =0 ; i < tableauRec.length ; i++) {
 				Collisions.collisionRectangle(canon.getBalle(),tableauRec[i]);
 			}
@@ -301,7 +301,12 @@ planCartesion.setPosition(null);
 			canon.setBalleTiree();
 		}
 	}//fin methode
-	
+	public void updateBallPosition() {
+	    double xGraphique = canon.getBalle().getPosition().getX() * pixelParMetres; 
+	    double yGraphique = canon.getBalle().getPosition().getY() * pixelParMetres;
+	    planCartesion.setPosition(new Vecteur2D(xGraphique, yGraphique));
+	    repaint(); 
+	}
 	
 	/**
 	 * Méthode qui arrête l'animation en cours.
@@ -348,6 +353,14 @@ planCartesion.setPosition(null);
 				repaint();
 			  }
 	  }
+	  public boolean getEnCoursAnimation() {
+			return enCoursDAnimation;
+			
+		}
+	  public void stopperAnim(){
+		  enCoursDAnimation=false;
+	  }
+	  
 	/**
      * Calcule une itération physique en fonction du deltaT.
      * @param deltaT Le temps écoulé depuis la dernière itération.

@@ -28,6 +28,7 @@ import physique.Vecteur2D;
 
 import java.awt.Color;
 
+import obstacles.Cercle;
 import obstacles.Rectangle;
 
 import obstacles.Triangle;
@@ -147,6 +148,8 @@ public class Niveau2 extends Niveaux {
      * Le plan cartésien utilisé pour le rendu graphique.
      */
     private PlanCartesien planCartesion= new PlanCartesien();
+
+	private Cercle[] tableauCercle;
     
 	/**
 	 * Constructeur de la classe. Permet de crée l'interface
@@ -157,6 +160,7 @@ public class Niveau2 extends Niveaux {
 		setLayout(null);
 		tableauRec = new Rectangle[3];
 		tableauTri = new Triangle[1];
+		tableauCercle = new Cercle[3];
 		ecouteurSouris();
 		ecouteurClavier();
 		
@@ -187,8 +191,13 @@ public class Niveau2 extends Niveaux {
 				espace = 0;
 //				for(int i = 0 ; i < tableauTri.length ; i++) {
 					tableauTri[0] = new Triangle(50, 50, 10, 15, pixelParMetres);
+					espace = 0;
+					for(int i = 0 ; i < tableauCercle.length ; i++) {
+		                tableauCercle[i] = new Cercle(  100 + espace,  100 + espace, pixelParMetres);
+		                espace = espace + 20;
+		            }
 					
-					espace = espace + 80;
+					
 //				}
 			premiereFois = false;
 		}
@@ -199,7 +208,9 @@ public class Niveau2 extends Niveaux {
 
 		tableauTri[0].dessiner(g2d);
 //		tableauTri[1].dessiner(g2d);
-
+		tableauCercle[0].dessiner(g2d);
+    	tableauCercle[1].dessiner(g2d);
+    	tableauCercle[2].dessiner(g2d);
 	//	planCartesion.setBalle(canon.getBalle());
 
 		
@@ -246,6 +257,9 @@ public class Niveau2 extends Niveaux {
 			for (int i = 0; i < tableauTri.length; i++) {
 				Collisions.collisionTriangle(canon.getBalle(), tableauTri[i]);
 
+			}
+			for (int i = 0; i < tableauCercle.length; i++) {
+				Collisions.collisionCercle(canon.getBalle(), tableauCercle[i]);
 			}
 
 			Area areaBalle = new Area(canon.getBalle().getCercle()); 
@@ -463,8 +477,9 @@ public class Niveau2 extends Niveaux {
 			public void mouseClicked(MouseEvent e) {
 			
 				gestionSourisRecClick(e);
-				gestionSourisTriClick(e);
-				repaint();
+                gestionSourisTriClick(e);
+                gestionSourisCercleClick(e);
+                repaint();
 			}
 			 
 		});
@@ -475,6 +490,7 @@ public class Niveau2 extends Niveaux {
 			public void mouseDragged(MouseEvent e) {
 				gestionSourisRecDragged(e);
 				gestionSourisTriDragged(e);
+				gestionSourisCercleDragged(e);
 				gestionSourisCanon(e);
 				repaint();
 			}
@@ -579,7 +595,38 @@ public class Niveau2 extends Niveaux {
 		    }
 		    repaint();
 		}
-	
+		
+		//Méthode qui gère le mouvement de la souris pour les rectangles
+				//Ahmad Khanafer
+				private void gestionSourisCercleClick(MouseEvent e) {
+					for(int i =0 ; i < tableauCercle.length; i++) {
+						if(tableauCercle[i].contient(e.getX(), e.getY())) {
+							tableauCercle[i].setClickedOnIt(true);
+							repaint();
+						}else {
+							tableauCercle[i].setClickedOnIt(false);
+							repaint();
+						}
+					}
+				}
+				//Méthode qui gère les click de la souris pour les rectangles
+				//Ahmad Khanafer
+				private void gestionSourisCercleDragged(MouseEvent e) {
+					for(int i =0 ; i < tableauCercle.length; i++) {
+						int index = tableauCercle[i].getClickedResizeHandleIndex(e.getX(), e.getY());
+							if (tableauCercle[i].isClickedOnIt() == true && index != -1) {
+								tableauCercle[i].redimension(index, e.getX(), e.getY());
+								repaint();
+							}else if(tableauCercle[i].isClickedOnIt() == true && index == -1 ) {
+								tableauCercle[i].rotate( e.getX(), e.getY());
+								repaint();
+							}
+							if(tableauCercle[i].contient(e.getX(), e.getY()) && tableauCercle[i].isClickedOnIt() == false) {
+								tableauCercle[i].move( e.getX(), e.getY());
+								repaint();
+							}
+					}	
+				}
 }
 		
 			

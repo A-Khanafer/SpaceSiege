@@ -247,6 +247,13 @@ public class Niveaux extends JPanel implements Runnable {
 	public void changerTypeGravite(String typeGravite) {
 	
 	}
+	public boolean getEnCoursAnimation() {
+		return enCoursDAnimation;
+		
+	}
+	 public void stopperAnim(){
+		  
+	  }
 	
 	/**
      * Initialise l'écouteur de clavier pour interagir avec l'animation via le clavier.

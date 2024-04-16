@@ -148,7 +148,7 @@ public class Collisions {
      * @param etat tableau de boolean pour connaitre l'état de tout les segments
 **/
 
-    private static void calculRebondPhysique(Line2D.Double segment, Balle balle, boolean [] etat) {
+    private static void calculRebondPhysique(Line2D.Double segment, Balle balle) {
    
     	double dx = segment.getX2() - segment.getX1();
  	    double dy = segment.getY2() - segment.getY1();
@@ -234,22 +234,22 @@ public class Collisions {
 		    }
 		    if (seg[0] == true) {
 		        System.out.println("Le segment 1 est vrai");
-		        calculRebondPhysique(segmentRec[0], balle, seg);
+		        calculRebondPhysique(segmentRec[0], balle);
 		        seg[0] = false;
 		    } 
 		    if (seg[1] == true) {
 		        System.out.println("Le segment 2 est vrai");
-		        calculRebondPhysique(segmentRec[1], balle, seg);
+		        calculRebondPhysique(segmentRec[1], balle);
 		        seg[1] = false;
 		    } 
 		    if (seg[2] == true) {
 		        System.out.println("Le segment 3 est vrai");
-		        calculRebondPhysique(segmentRec[2], balle, seg);
+		        calculRebondPhysique(segmentRec[2], balle);
 		        seg[2] = false;
 		    } 
 		    if (seg[3] == true) {
 		        System.out.println("Le segment 4 est vrai");
-		        calculRebondPhysique(segmentRec[3], balle, seg);
+		        calculRebondPhysique(segmentRec[3], balle);
 		        seg[3] = false;
 		        
 		    } 
@@ -306,26 +306,21 @@ public class Collisions {
 		    }
 		    if (seg[0] == true) {
 		        System.out.println("Le segment 1 est vrai");
-		        calculRebondPhysique(segmentTri[0], balle, seg);
+		        calculRebondPhysique(segmentTri[0], balle);
 		        seg[0] = false;
 		    } 
 		    if (seg[1] == true) {
 		        System.out.println("Le segment 2 est vrai");
-		        calculRebondPhysique(segmentTri[1], balle, seg);
+		        calculRebondPhysique(segmentTri[1], balle);
 		        seg[1] = false;
 		    } 
 		    if (seg[2] == true) {
 		        System.out.println("Le segment 3 est vrai");
-		        calculRebondPhysique(segmentTri[2], balle, seg);
+		        calculRebondPhysique(segmentTri[2], balle);
 		        seg[2] = false;
 		    } 
 
 		 }
-		 
-		 
-		 
-		 
-		 
 		 
 	 }
 	 
@@ -334,24 +329,43 @@ public class Collisions {
 		double RayBalle = balle.getRayon();
 		double RayCercle = cercle.getRayon();
 		
+		Vecteur2D pos = cercle.getPositionCentre();
+		
 		Point centreBalle = new Point ((int) balle.getPosXCentre(),(int) balle.getPosYCentre());
-		Point centreCercle = new Point ((int) cercle.getPosXCentre(), (int)cercle.getPosYCentre());
+		Point centreCercle = new Point ((int) pos.getX(), (int) pos.getY());
  
 		double distance = distanceEntreDeuxPoints(centreBalle.x, centreCercle.x, centreBalle.y, centreCercle.y);
-		double dx =  centreBalle.x - centreCercle.x;
-	    double dy =  centreBalle.y - centreCercle.y;
 		
-		//collision
 		if (distance <= RayBalle+ RayCercle) {
 			
-	      Vecteur2D vecUnitaire = (new Vecteur2D(dx/distance, dy/distance));
-	      //calcul impultion
-	      double J =  ((-(1+Math.E))*(balle.getVitesse().prodScalaire(vecUnitaire)))/(1/balle.getMasse());
-	      Vecteur2D vitesseBalle = balle.getVitesse().additionne(vecUnitaire.multiplie(-J/balle.getMasse()));
-		  balle.setVitesse(vitesseBalle);
+			double dx =  centreBalle.x - centreCercle.x;
+		    double dy =  centreBalle.y - centreCercle.y;
+			Vecteur2D vecNormal = (new Vecteur2D(dx, dy));
+			try {
+				vecNormal = vecNormal.normalise();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}		
 			
+			double produitScalaire = balle.getVitesse().prodScalaire(vecNormal);
+	 	    Vecteur2D vitesseApresCollision = balle.getVitesse().soustrait((vecNormal.multiplie(produitScalaire)).multiplie(2));
+	 	    balle.setVitesse(vitesseApresCollision);
 			
 		}
+		
+		
+		
+		
+		
+		//collision
+		
+			
+	     
+	      //calcul impultion
+	     
+			
+			
+		
 		 
 	 }
 }

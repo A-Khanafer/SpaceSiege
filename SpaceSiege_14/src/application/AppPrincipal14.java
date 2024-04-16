@@ -60,8 +60,7 @@ public class AppPrincipal14 extends JFrame{
 	private int longueur = 1280;
 	private int hauteur = 720;
 	private BoutonsIntro boutonsIntro;
-	private static Point mouseDownCompCoords;
-	private long startTime;
+
 	
 	private boolean son = true;
 	
