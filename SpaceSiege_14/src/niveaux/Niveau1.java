@@ -13,6 +13,8 @@ import java.awt.event.MouseMotionAdapter;
 
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.Arrays;
 
 import javax.swing.JOptionPane;
@@ -48,7 +50,8 @@ public class Niveau1 extends Niveaux {
      */
 	private boolean enCoursDAnimation=false;
 
-	private double rotation=20;
+	private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+
 	/**
      * L'intervalle de temps (en secondes) utilisé pour chaque itération du calcul physique.
      */
@@ -112,10 +115,7 @@ public class Niveau1 extends Niveaux {
      */
     private Monstres monstre;
 
-    /**
-     * Le facteur de conversion de pixels en mètres, utilisé pour ajuster les dimensions des objets par rapport à la taille de l'écran.
-     */
-    private double pixelParMetres;
+    
     /**
      * Indique si c'est la première fois que le niveau est affiché, utilisé pour initialiser les objets une seule fois.
      */
@@ -133,15 +133,12 @@ public class Niveau1 extends Niveaux {
     /**
      * Le canon utilisé pour tirer des balles.
      */
-	private Canon canon;
+	
 	/**
     * Indique si le monstre est mort.
     */
     private boolean monstreMort=false;
-    /**
-     * Le plan cartésien utilisé pour le rendu graphique.
-     */
-    private PlanCartesien planCartesion= new PlanCartesien();
+   
 
     
     
@@ -178,8 +175,7 @@ public class Niveau1 extends Niveaux {
 			monstre = new Monstres(1000, 20, "images.jpg", pixelParMetres);
 			 canon=new Canon (0,10,pixelParMetres);
 			 
-			 
-
+		
 			 
 			 tableauRec[0] = new Rectangle(  143,  354, 330, 53,0);
 			 tableauRec[1] = new Rectangle(  644,  120, 186, 48,0);
@@ -210,7 +206,7 @@ public class Niveau1 extends Niveaux {
 			premiereFois = false;
 		}
 
-		planCartesion.setPosition(canon.getBalle().getPosition().multiplie(1/pixelParMetres));
+		
 
 		for (int i = 0; i < tableauRec.length; i++) {
 			tableauRec[i].dessiner(g2d);
@@ -251,11 +247,12 @@ public class Niveau1 extends Niveaux {
 	public void run() {
 		while (enCoursDAnimation) {
 
-
+			Vecteur2D anciennePosition = canon.getBalle().getPosition();
 			calculerUneIterationPhysique(deltaT);
-			testerCollisionsEtAjusterVitesses();
 			
-			planCartesion.setPosition(canon.getBalle().getPosition().multiplie(1/pixelParMetres));
+			testerCollisionsEtAjusterVitesses();
+			this.pcs.firePropertyChange("position", anciennePosition, canon.getBalle().getPosition());	
+			
 			for(int i =0 ; i < tableauRec.length ; i++) {
 				Collisions.collisionRectangle(canon.getBalle(),tableauRec[i]);
 			}
@@ -268,7 +265,7 @@ public class Niveau1 extends Niveaux {
 	        if (!areaBalle.isEmpty()) {
 	        	monstre.perdUneVie();
 	        	reinitialiserApplication();
-	        	System.out.println(monstre.getNombreDeVie());
+//	        	System.out.println(monstre.getNombreDeVie());
 	        }
 
 
@@ -301,13 +298,6 @@ public class Niveau1 extends Niveaux {
 			canon.setBalleTiree();
 		}
 	}//fin methode
-	public void updateBallPosition() {
-	    double xGraphique = canon.getBalle().getPosition().getX() * pixelParMetres; 
-	    double yGraphique = canon.getBalle().getPosition().getY() * pixelParMetres;
-	    planCartesion.setPosition(new Vecteur2D(xGraphique, yGraphique));
-	    repaint(); 
-	}
-	
 	/**
 	 * Méthode qui arrête l'animation en cours.
 	 */
@@ -347,7 +337,7 @@ public class Niveau1 extends Niveaux {
 
 	  public void prochaineImage() {
 		  if(canon.getBalle().getVitesse()!=new Vecteur2D(0,0)) {
-			  System.out.println("Prochaine image...on avance de " + deltaT + " secondes");
+//			  System.out.println("Prochaine image...on avance de " + deltaT + " secondes");
 			  canon.setProchaineImage(true);
 				calculerUneIterationPhysique(deltaT);
 				repaint();
@@ -404,7 +394,6 @@ public class Niveau1 extends Niveaux {
 		  enCoursDAnimation = false;
 
 
-		    rotation = 0;
 		    tempsTotalEcoule = 0;
 
 
@@ -448,10 +437,19 @@ public class Niveau1 extends Niveaux {
 	 */
 	//Benakmoum Walid
 	public void setNombreDeVie(int nb) {
-	   super.setNombreDeVie(nb);
+	    this.nombreDeVie = nb;
+	    if (this.monstre != null) {
+	        this.monstre.setNombreDeVie(nb);
+	    }
+	    repaint();
 	}
 
-	
+//	public double getPixelParMetres() {
+//		 return super.getPixelParMetres();
+//	 }
+//	public Balle getBalle() {
+//		 return super.getBalle();
+//	 }
 	/**
      * Initialise l'écouteur de clavier pour interagir avec l'animation via le clavier.
      */
@@ -471,6 +469,10 @@ public class Niveau1 extends Niveaux {
 	            repaint();
 	        }
 	    });
+	}
+	
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
+		this.pcs.addPropertyChangeListener(listener);
 	}
 
 

@@ -31,6 +31,9 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.DefaultComboBoxModel;
+import physique.Vecteur2D;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
 /**
  * Classe principale de l'interface de jeu, gérant la disposition des éléments de jeu et les interactions utilisateur.
  * Cette classe crée une fenêtre contenant une zone d'animation pour visualiser le jeu, un ensemble de contrôles pour interagir avec le jeu,
@@ -66,6 +69,8 @@ public class FenetreDeJeu extends JFrame {
 	private JRadioButton rdbBalleNormal;
 	private JRadioButton rdbBalleElastique;
 	private JRadioButton rdbBalleNova;
+	private JPanel panelGraphique;
+	private PlanCartesien planCartesien;
 	/**
      * Méthode statique pour afficher la fenêtre de jeu. Crée une instance de {@code FenetreDeJeu} et la rend visible.
      */
@@ -98,6 +103,13 @@ public class FenetreDeJeu extends JFrame {
 		 niveaux[1] = niv2;
 		 niveaux[2] = niv3;
 		 nivActuel = niveaux[index];
+		 nivActuel.addPropertyChangeListener(new PropertyChangeListener() {
+		 	public void propertyChange(PropertyChangeEvent evt) {
+		 		if (evt.getPropertyName().equals("position") ) {
+					planCartesien.setPosition((Vecteur2D) evt.getNewValue());
+			 }
+		 	}
+		 });
 		 nivSuivant = niveaux[index +1];
 		 
 		 
@@ -320,14 +332,16 @@ else {
 		contentPane.add(panelTable);
 		panelTable.setLayout(null);
 		
-		JPanel panelGraphique = new JPanel();
-		panelGraphique.setBounds(1306, 198, 268, 474);
+		panelGraphique = new JPanel();
+		panelGraphique.setBounds(1321, 11, 253, 661);
 		contentPane.add(panelGraphique);
 		panelGraphique.setLayout(null);
 		
-		PlanCartesien planCartesien = new PlanCartesien();
-		planCartesien.setBounds(0, 5, 268, 318);
+		planCartesien = new PlanCartesien(nivActuel.getBalle().getPosition());
+		planCartesien.setBounds(0, 0, 377, 661);
 		panelGraphique.add(planCartesien);
+		
+		
 		
 		comboBoxTypeGrav.setSelectedItem("ESPACE"); 
 	    niv1.changerTypeGravite("ESPACE"); 

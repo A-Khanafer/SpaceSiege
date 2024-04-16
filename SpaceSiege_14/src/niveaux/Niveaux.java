@@ -47,32 +47,21 @@ public class Niveaux extends JPanel implements Runnable {
 	/**
      * Indique si une animation est actuellement en cours.
      */
-	private boolean enCoursDAnimation=false;
+	protected boolean enCoursDAnimation=false;
 
-	private double rotation=20;
-	/**
-     * L'intervalle de temps (en secondes) utilisé pour chaque itération du calcul physique.
-     */
-	private double deltaT=0.10;
-	/**
-     * Le temps de pause (en millisecondes) entre chaque itération de l'animation.
-     */
-	private int tempsDuSleep = 10;
-	/**
-     * Un rectangle servant d'obstacle dans la zone d'animation.
-     */
+	
 
-	private Rectangle[] tableauRec;
+	
 	
 	/**
      * Indique si une balle a été tirée par le canon.
      */
-	private boolean balleTiree = false;
+	protected boolean balleTiree = false;
 	
 	/**
      * Utilisé pour effectuer des opérations lors du premier appel de certaines méthodes ou conditions.
      */
-	private double tempsTotalEcoule =0;
+	protected double tempsTotalEcoule =0;
 	
 	/**
      * Position du mur du sol, utilisée pour détecter les collisions et gérer les rebonds ou arrêts des objets animés.
@@ -103,24 +92,17 @@ public class Niveaux extends JPanel implements Runnable {
     /**
      * Index utilisé pour identifier les manipulations spécifiques des éléments de l'interface, telles que le redimensionnement ou la rotation d'obstacles.
      */
-    private int index = -1;
-    private int nombreDeVie=1;
-    private Monstres monstre;
+
 
     
-    private double pixelParMetres;
-	private boolean premiereFois = true;
+    protected double pixelParMetres;
 
-
-    private  int balleChoisie;
-
-    private Triangle[] tableauTri;
     /**
      * Le canon utilisé pour tirer des balles.
      */
-	private Canon canon;
-    private boolean monstreMort=false;
-    private PlanCartesien planCartesion= new PlanCartesien();
+    protected Canon canon ;
+    protected boolean monstreMort=false;
+//    private PlanCartesien planCartesion= new PlanCartesien();
 
     
     
@@ -131,11 +113,8 @@ public class Niveaux extends JPanel implements Runnable {
 	public Niveaux() {
 		setBackground(new Color(192, 192, 192));
 		setLayout(null);
-		tableauRec = new Rectangle[3];
-		tableauTri = new Triangle[3];
-		ecouteurSouris();
-		ecouteurClavier();
-		
+		pixelParMetres = 8.64;
+		canon=new Canon (0,10,pixelParMetres);
 		
 	}
 	/**
@@ -149,7 +128,6 @@ public class Niveaux extends JPanel implements Runnable {
 
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		
-		
 	    posMurSol = getHeight();
 	    posMurDroit = getWidth();
 	    posMurGauche = 0;
@@ -157,8 +135,6 @@ public class Niveaux extends JPanel implements Runnable {
 
 	    hauteurComposant = getHeight();
 	    largeurComposant = getWidth();
-	   
-	   
 
 	}
 	/**
@@ -167,7 +143,7 @@ public class Niveaux extends JPanel implements Runnable {
 	//Benakmoum Walid
 	public void run() {
 		
-}
+	}
 
 	/**
      * Démarre le thread d'animation si ce n'est pas déjà fait.
@@ -238,23 +214,29 @@ public class Niveaux extends JPanel implements Runnable {
 
 	}
 	public void setNombreDeVie(int nb) {
-	    this.nombreDeVie = nb;
-	    if (this.monstre != null) {
-	        this.monstre.setNombreDeVie(nb);
-	    }
-	    repaint();
+	    
 	}
+	
 	public void changerTypeGravite(String typeGravite) {
 	
 	}
+	
 	public boolean getEnCoursAnimation() {
 		return enCoursDAnimation;
 		
 	}
 	 public void stopperAnim(){
 		  
-	  }
+	 }
 	
+	 public double getPixelParMetres() {
+		 return pixelParMetres;
+	 }
+	 
+	 public Balle getBalle() {
+		 return canon.getBalle();
+	 }
+	 
 	/**
      * Initialise l'écouteur de clavier pour interagir avec l'animation via le clavier.
      */
