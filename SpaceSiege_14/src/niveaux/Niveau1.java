@@ -167,9 +167,9 @@ public class Niveau1 extends Niveaux {
 
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		
-		System.out.println(pixelParMetres);
 		if(premiereFois) {
-			pixelParMetres = getWidth()/150;
+			pixelParMetres = (double)getWidth()/150;
+		System.out.println(pixelParMetres+"PIXELLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLl");
 			int espace=0;
 			
 			monstre = new Monstres(1000, 20, "images.jpg", pixelParMetres);
@@ -227,7 +227,7 @@ public class Niveau1 extends Niveaux {
 
 		canon.dessiner(g2d);
 
-
+System.out.println(getHeight()+" JAIME LES HOMMES");
 	    posMurSol = getHeight();
 	    posMurDroit = getWidth();
 	    posMurGauche = 0;
@@ -247,11 +247,11 @@ public class Niveau1 extends Niveaux {
 	public void run() {
 		while (enCoursDAnimation) {
 
-			Vecteur2D anciennePosition = canon.getBalle().getPosition();
+			Vecteur2D anciennePosition = canon.getBalle().getPositionEnMetre();
 			calculerUneIterationPhysique(deltaT);
 			
 			testerCollisionsEtAjusterVitesses();
-			this.pcs.firePropertyChange("position", anciennePosition, canon.getBalle().getPosition());	
+			this.pcs.firePropertyChange("position", anciennePosition, canon.getBalle().getPositionEnMetre());	
 			
 			for(int i =0 ; i < tableauRec.length ; i++) {
 				Collisions.collisionRectangle(canon.getBalle(),tableauRec[i]);
@@ -265,7 +265,7 @@ public class Niveau1 extends Niveaux {
 	        if (!areaBalle.isEmpty()) {
 	        	monstre.perdUneVie();
 	        	reinitialiserApplication();
-//	        	System.out.println(monstre.getNombreDeVie());
+     
 	        }
 
 
@@ -290,7 +290,7 @@ public class Niveau1 extends Niveaux {
 	// Benakmoum Walid
 	public void demarrer() {
 		if (!enCoursDAnimation) {
-			System.out.println("bangbangbang");
+		
 			Thread proc = new Thread(this);
 			proc.start();
 			enCoursDAnimation = true;

@@ -78,9 +78,8 @@ public class Balle {
 		diametre = diametreDonne;
 		this.vitesse = vitesse;
 		this.position = position;
-		System.out.println(pixelsParMetre);
+		System.out.println(pixelsParMetre+"QUESSSPASSSSSS");
 		this.position = this.position.multiplie(1/pixelsParMetre);
-//		System.out.println(this.position.getX() +"     " + this.position.getY() + "dakmowdnc");
 		initialiserCercle();
 	}
 	/**
@@ -103,7 +102,6 @@ public class Balle {
 
 
 			 accel = MoteurPhysique.calculAcceleration(sommeForcesSurLaBalle, masse);
-//		System.out.println(sommeForcesSurLaBalle.getY()+"N");
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -253,7 +251,9 @@ public class Balle {
 		// TODO Auto-generated method stub
 		
 	}
-
+public Vecteur2D getPositionEnMetre() {
+	return(position.multiplie(1/pixelsParMetre));
+}
 	
 	
 	

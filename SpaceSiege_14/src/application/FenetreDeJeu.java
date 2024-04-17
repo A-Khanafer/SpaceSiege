@@ -195,6 +195,7 @@ else {
 				
 				
               nivActuel.reinitialiserApplication();
+              planCartesien.reset();
               desactiverLesRadios();
               
               
@@ -337,8 +338,8 @@ else {
 		contentPane.add(panelGraphique);
 		panelGraphique.setLayout(null);
 		
-		planCartesien = new PlanCartesien(nivActuel.getBalle().getPosition());
-		planCartesien.setBounds(0, 0, 377, 661);
+		planCartesien = new PlanCartesien(nivActuel.getBalle().getPositionEnMetre());
+		planCartesien.setBounds(0, 0, 253, 661);
 		panelGraphique.add(planCartesien);
 		
 		
