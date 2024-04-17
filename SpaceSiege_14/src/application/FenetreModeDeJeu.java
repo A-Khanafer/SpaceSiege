@@ -170,7 +170,7 @@ public class FenetreModeDeJeu extends JFrame {
 										
 										AppPrincipal14.afficherFenetre();
 										setVisible(false);
-
+										
 										
 										
 									}
