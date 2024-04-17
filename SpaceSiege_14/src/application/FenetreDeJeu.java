@@ -47,7 +47,7 @@ public class FenetreDeJeu extends JFrame {
 	
 	private JPanel contentPane;
 	private JPanel panelTable;
-	private JButton btnBacAsable;
+	private JButton btnRetour;
 	private JButton btnNiveauPrecedent;
 	private JButton btnNiveauSuivant;
 	private JButton btnPause;
@@ -133,17 +133,18 @@ public class FenetreDeJeu extends JFrame {
 		contentPane.add(panelFonctionnalites);
 		panelFonctionnalites.setLayout(null);
 		
-		btnBacAsable = new JButton("RETOUR");
-		btnBacAsable.addActionListener(new ActionListener() {
+		btnRetour = new JButton("RETOUR");
+		btnRetour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				FenetreModeDeJeu.afficherFenetre();
 				setVisible(false);
+				nivActuel.stopperAnim();
 			}
 		});
-		btnBacAsable.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
-		btnBacAsable.setBounds(870, 204, 209, 68);
-		panelFonctionnalites.add(btnBacAsable);
+		btnRetour.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
+		btnRetour.setBounds(870, 204, 209, 68);
+		panelFonctionnalites.add(btnRetour);
 		
 		btnNiveauPrecedent = new JButton("NIVEAU PRECEDENT");
 		btnNiveauPrecedent.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
