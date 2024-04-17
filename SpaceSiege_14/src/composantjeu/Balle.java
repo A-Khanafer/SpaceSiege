@@ -80,7 +80,7 @@ public class Balle {
 		this.position = position;
 		System.out.println(pixelsParMetre);
 		this.position = this.position.multiplie(1/pixelsParMetre);
-		System.out.println(this.position.getX() +"     " + this.position.getY() + "dakmowdnc");
+//		System.out.println(this.position.getX() +"     " + this.position.getY() + "dakmowdnc");
 		initialiserCercle();
 	}
 	/**
@@ -103,7 +103,7 @@ public class Balle {
 
 
 			 accel = MoteurPhysique.calculAcceleration(sommeForcesSurLaBalle, masse);
-		System.out.println(sommeForcesSurLaBalle.getY()+"N");
+//		System.out.println(sommeForcesSurLaBalle.getY()+"N");
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -173,7 +173,7 @@ public class Balle {
 	  //Benakmoum Walid
 	public void setVitesse(Vecteur2D vit) {
 	    this.vitesse = vit;
-	    System.out.println(vitesse.getX()+" VITESSE EN X");
+//	    System.out.println(vitesse.getX()+" VITESSE EN X");
 	}
 
 	/**

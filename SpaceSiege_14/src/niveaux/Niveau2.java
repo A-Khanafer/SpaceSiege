@@ -18,7 +18,7 @@ import java.util.Arrays;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-
+import composantdessin.PlanCartesien;
 import composantjeu.Balle;
 import composantjeu.BalleBasique;
 import composantjeu.Canon;
@@ -142,8 +142,10 @@ public class Niveau2 extends Niveaux {
     * Indique si le monstre est mort.
     */
     private boolean monstreMort=false;
-   
-
+    /**
+     * Le plan cartésien utilisé pour le rendu graphique.
+     */
+    
     
 	/**
 	 * Constructeur de la classe. Permet de crée l'interface
@@ -170,7 +172,7 @@ public class Niveau2 extends Niveaux {
 
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		System.out.println(monstreMort+" NIVEAU 22222222");
-
+	
 
 		if(premiereFois) {
 			pixelParMetres = getWidth()/150;
@@ -196,6 +198,7 @@ public class Niveau2 extends Niveaux {
 		tableauTri[0].dessiner(g2d);
 		tableauTri[1].dessiner(g2d);
 
+	//	planCartesion.setBalle(canon.getBalle());
 
 		
 		

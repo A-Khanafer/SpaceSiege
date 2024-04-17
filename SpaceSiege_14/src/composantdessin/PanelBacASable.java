@@ -12,6 +12,7 @@ import java.awt.geom.Ellipse2D;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import obstacles.Cercle;
 import obstacles.Rectangle;
 import obstacles.Triangle;
 
@@ -36,6 +37,10 @@ public class PanelBacASable extends JPanel {
 	 * Le tableau contenant les objets Triangle.
 	 */
 	private Triangle[] tableauTri;
+	/**
+	 * Le tableau contenant les objets Cercle.
+	 */
+	private Cercle[] tableauCercle;
 
 	/**
 	 * Indique si c'est la première fois que le panneau est peint.
@@ -52,10 +57,15 @@ public class PanelBacASable extends JPanel {
 	 */
 	private int nbrTri = 0;
 
+	private int nbrCercle = 0;
 	/**
 	 * Indique si le mode éditeur est activé ou désactivé.
 	 */
 	private boolean editeurModeOn = true;
+
+
+
+	
 
     /**
      * Constructeur par défaut de PanelBacASable.
@@ -66,6 +76,7 @@ public class PanelBacASable extends JPanel {
         setBackground(new Color(255, 255, 255));
         tableauRec = new Rectangle[3];
         tableauTri = new Triangle[3];
+        tableauCercle = new Cercle[3];
         ecouteurSouris();
     }
 
@@ -86,8 +97,13 @@ public class PanelBacASable extends JPanel {
                 espace = espace + 20;
             }
             espace = 0;
-            for(int i = 0 ; i < tableauRec.length ; i++) {
+            for(int i = 0 ; i < tableauTri.length ; i++) {
                 tableauTri[i] = new Triangle(50 + espace, 50 + espace, 10, 15, pixelParMetres);
+                espace = espace + 20;
+            }
+            espace = 0;
+            for(int i = 0 ; i < tableauCercle.length ; i++) {
+                tableauCercle[i] = new Cercle(100 + espace, 100 + espace, pixelParMetres);
                 espace = espace + 20;
             }
             premiereFois = false;
@@ -95,6 +111,7 @@ public class PanelBacASable extends JPanel {
         
         dessinerRec(g2d);
         dessinerTri(g2d);
+        dessinerCercle(g2d);
     }
 
     /**
@@ -117,6 +134,18 @@ public class PanelBacASable extends JPanel {
     public void ajouterTriangle() {
         if(nbrTri < 2) {
             nbrTri += 1;
+            repaint();
+        } else {
+            JOptionPane.showMessageDialog(null,"Nombre Maximale de Triangle Atteint");
+        }
+    }
+    /**
+     * Ajoute un triangle au panel.
+     */
+  //Ahmnad Khanafer
+    public void ajouterCercle() {
+        if(nbrCercle < 3) {
+            nbrCercle += 1;
             repaint();
         } else {
             JOptionPane.showMessageDialog(null,"Nombre Maximale de Triangle Atteint");
@@ -165,6 +194,29 @@ public class PanelBacASable extends JPanel {
                 break;
         }
     }
+    /**
+     * Dessine les rectangles sur le panel.
+     * @param g2d Objet Graphics2D pour dessiner les rectangles.
+     */
+  //Ahmnad Khanafer
+    private void dessinerCercle(Graphics2D g2d) {
+        switch(nbrCercle) {
+            case 0 :
+                break;
+            case 1 :
+                tableauCercle[0].dessiner(g2d);
+                break;
+            case 2 :
+                tableauCercle[0].dessiner(g2d);
+                tableauCercle[1].dessiner(g2d);
+                break;
+            case 3 :
+            	tableauCercle[0].dessiner(g2d);
+            	tableauCercle[1].dessiner(g2d);
+            	tableauCercle[2].dessiner(g2d);
+                break;
+        }
+    }
 
     
     //Ajoute des écouteurs de souris pour la gestion des actions de l'utilisateur.
@@ -175,6 +227,7 @@ public class PanelBacASable extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 gestionSourisRecClick(e);
                 gestionSourisTriClick(e);
+                gestionSourisCercleClick(e);
                 repaint();
             }
         });
@@ -184,6 +237,7 @@ public class PanelBacASable extends JPanel {
             public void mouseDragged(MouseEvent e) {
                 gestionSourisRecDragged(e);
                 gestionSourisTriDragged(e);
+                gestionSourisCercleDragged(e);
                 repaint();
             }
         });
@@ -225,6 +279,24 @@ public class PanelBacASable extends JPanel {
 				}
 		}
 	}
+	//Méthode qui gère les click de la souris pour les rectangles
+		//Ahmad Khanafer
+		private void gestionSourisCercleDragged(MouseEvent e) {
+			for(int i =0 ; i < tableauCercle.length; i++) {
+				int index = tableauCercle[i].getClickedResizeHandleIndex(e.getX(), e.getY());
+					if (tableauCercle[i].isClickedOnIt() == true && index != -1) {
+						tableauCercle[i].redimension(index, e.getX(), e.getY());
+						repaint();
+					}else if(tableauCercle[i].isClickedOnIt() == true && index == -1 ) {
+						tableauCercle[i].rotate( e.getX(), e.getY());
+						repaint();
+					}
+					if(tableauCercle[i].contient(e.getX(), e.getY()) && tableauCercle[i].isClickedOnIt() == false) {
+						tableauCercle[i].move( e.getX(), e.getY());
+						repaint();
+					}
+			}	
+		}
 	//Méthode qui gère le mouvement de la souris pour les rectangles
 	//Ahmad Khanafer
 	private void gestionSourisRecClick(MouseEvent e) {
@@ -253,6 +325,19 @@ public class PanelBacASable extends JPanel {
 			}
 		}
 	}
+	//Méthode qui gère le mouvement de la souris pour les rectangles
+		//Ahmad Khanafer
+		private void gestionSourisCercleClick(MouseEvent e) {
+			for(int i =0 ; i < tableauCercle.length; i++) {
+				if(tableauCercle[i].contient(e.getX(), e.getY())) {
+					tableauCercle[i].setClickedOnIt(true);
+					repaint();
+				}else {
+					tableauCercle[i].setClickedOnIt(false);
+					repaint();
+				}
+			}
+		}
 
 	
 	}
