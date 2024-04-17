@@ -18,7 +18,7 @@ import java.util.Arrays;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import composantdessin.PlanCartesien;
+
 import composantjeu.Balle;
 import composantjeu.BalleBasique;
 import composantjeu.Canon;
@@ -120,7 +120,7 @@ public class Niveaux extends JPanel implements Runnable {
      */
 	private Canon canon;
     private boolean monstreMort=false;
-    private PlanCartesien planCartesion= new PlanCartesien();
+    
 
     
     
@@ -133,8 +133,7 @@ public class Niveaux extends JPanel implements Runnable {
 		setLayout(null);
 		tableauRec = new Rectangle[3];
 		tableauTri = new Triangle[3];
-		ecouteurSouris();
-		ecouteurClavier();
+
 		
 		
 	}
@@ -238,11 +237,7 @@ public class Niveaux extends JPanel implements Runnable {
 
 	}
 	public void setNombreDeVie(int nb) {
-	    this.nombreDeVie = nb;
-	    if (this.monstre != null) {
-	        this.monstre.setNombreDeVie(nb);
-	    }
-	    repaint();
+	  
 	}
 	public void changerTypeGravite(String typeGravite) {
 	
@@ -255,31 +250,7 @@ public class Niveaux extends JPanel implements Runnable {
 		  
 	  }
 	
-	/**
-     * Initialise l'écouteur de clavier pour interagir avec l'animation via le clavier.
-     */
-	  //Benakmoum Walid
-	private void ecouteurClavier() {
-		
-	}
-	private void ecouteurSouris() {
-		
-	}
-	private void gestionSourisRecDragged(MouseEvent e) {
-		
-	}
-	private void gestionSourisTriDragged(MouseEvent e) {
-		
-	}
-	private void gestionSourisRecClick(MouseEvent e) {
-		
-	}
-	private void gestionSourisTriClick(MouseEvent e) {
-		
-	}
-	private void gestionSourisCanon(MouseEvent e) {
-		
-	}
+
 }
 		
 			

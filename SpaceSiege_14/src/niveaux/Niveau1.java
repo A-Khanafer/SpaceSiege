@@ -18,7 +18,7 @@ import java.util.Arrays;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import composantdessin.PlanCartesien;
+
 import composantjeu.Balle;
 import composantjeu.BalleBasique;
 import composantjeu.Canon;
@@ -133,15 +133,12 @@ public class Niveau1 extends Niveaux {
     /**
      * Le canon utilisé pour tirer des balles.
      */
-	private Canon canon;
+	private Canon canon=new Canon (0,10,pixelParMetres);
 	/**
     * Indique si le monstre est mort.
     */
     private boolean monstreMort=false;
-    /**
-     * Le plan cartésien utilisé pour le rendu graphique.
-     */
-    private PlanCartesien planCartesion= new PlanCartesien();
+  
 
     
     
@@ -156,7 +153,7 @@ public class Niveau1 extends Niveaux {
 //		tableauTri = new Triangle[3];
 		ecouteurSouris();
 		ecouteurClavier();
-		
+	
 		
 	}
 	/**
@@ -210,7 +207,7 @@ public class Niveau1 extends Niveaux {
 			premiereFois = false;
 		}
 
-		planCartesion.setPosition(canon.getBalle().getPosition().multiplie(1/pixelParMetres));
+		System.out.println(canon.getBalle().getPosition().multiplie(1/pixelParMetres)+"///////////////////");
 
 		for (int i = 0; i < tableauRec.length; i++) {
 			tableauRec[i].dessiner(g2d);
@@ -220,10 +217,7 @@ public class Niveau1 extends Niveaux {
 //		tableauTri[0].dessiner(g2d);
 //		tableauTri[1].dessiner(g2d);
 
-		
-
-		
-		
+	
 		if(monstreMort==false) {
 			monstre.dessiner(g2d);
 		}
@@ -255,7 +249,7 @@ public class Niveau1 extends Niveaux {
 			calculerUneIterationPhysique(deltaT);
 			testerCollisionsEtAjusterVitesses();
 			
-			planCartesion.setPosition(canon.getBalle().getPosition().multiplie(1/pixelParMetres));
+		
 			for(int i =0 ; i < tableauRec.length ; i++) {
 				Collisions.collisionRectangle(canon.getBalle(),tableauRec[i]);
 			}
@@ -301,12 +295,7 @@ public class Niveau1 extends Niveaux {
 			canon.setBalleTiree();
 		}
 	}//fin methode
-	public void updateBallPosition() {
-	    double xGraphique = canon.getBalle().getPosition().getX() * pixelParMetres; 
-	    double yGraphique = canon.getBalle().getPosition().getY() * pixelParMetres;
-	    planCartesion.setPosition(new Vecteur2D(xGraphique, yGraphique));
-	    repaint(); 
-	}
+	
 	
 	/**
 	 * Méthode qui arrête l'animation en cours.
@@ -359,6 +348,13 @@ public class Niveau1 extends Niveaux {
 		}
 	  public void stopperAnim(){
 		  enCoursDAnimation=false;
+	  }
+	  
+	  public double getPixelParMetre() {
+			return pixelParMetres;
+		}
+	  public Balle getBalle() {
+		  return canon.getBalle();
 	  }
 	  
 	/**
@@ -448,7 +444,11 @@ public class Niveau1 extends Niveaux {
 	 */
 	//Benakmoum Walid
 	public void setNombreDeVie(int nb) {
-	   super.setNombreDeVie(nb);
+		  this.nombreDeVie = nb;
+		    if (this.monstre != null) {
+		        this.monstre.setNombreDeVie(nb);
+		    }
+		    repaint();
 	}
 
 	

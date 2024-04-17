@@ -1,6 +1,5 @@
 package composantdessin;
 
-
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -9,12 +8,11 @@ import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Path2D;
+import java.awt.geom.RectangularShape;
 import java.text.DecimalFormat;
 
 import javax.swing.JPanel;
 
-import composantjeu.Balle;
-import composantjeu.BalleBasique;
 import physique.Vecteur2D;
 
 import java.awt.event.MouseEvent;
@@ -42,7 +40,7 @@ public class PlanCartesien extends JPanel {
 	/** Valeur par défaut de l'abscisse minimale. */
 	private final double DEFAUT_X_MIN = 0;
 	/** Valeur par défaut de l'abscisse maximale. */
-	private final double DEFAUT_X_MAX = 150;
+	private final double DEFAUT_X_MAX = 200;
 	/** Valeur par défaut de l'ordonnée minimale. */
 	private final double DEFAUT_Y_MIN = -0.5;
 	/** Valeur par défaut de l'ordonnée maximale. */
@@ -93,13 +91,12 @@ public class PlanCartesien extends JPanel {
 	private double pixelsParUniteX;
 	/** Nombre de pixels par unité en ordonnée. */
 	private double pixelsParUniteY;
-	private Vecteur2D position;
-	private Balle balle;
+
+	private Vecteur2D position=new Vecteur2D(0,0);
 
 	/**
 	 * Constructeur: cree le composant et fixe la couleur de fond
 	 */
-	//Benakmoum Walid
 	public PlanCartesien() {
 		addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
@@ -125,8 +122,6 @@ public class PlanCartesien extends JPanel {
 		});
 		setBackground(Color.white);
 		cercleDia = DEFAUT_CERCLE_DIA;
-		position=new Vecteur2D(10,3);
-		//balle= new BalleBasique(0, 0, 0, new Vecteur2D(20,25), new Vecteur2D(0,0),0);
 	}// fin du constructeur
 
 	/**
@@ -134,19 +129,19 @@ public class PlanCartesien extends JPanel {
 	 * 
 	 * @param g Le contexte graphique
 	 */
-	// Benakmoum Walid
+	//Auteur Benakmoum Walid
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		
+		double y = position.getY();
 		double deltaY = (yMax - yMin) / (nmbreLigY+1);
 		double deltaX = (xMax - xMin) / (nmbreLigX+1);
-		yMax = 5;
+		yMax =150;
 		yMin=-deltaY;
 		xMin=-deltaX;
-		recadrer(xMin-deltaX, xMax, yMin, yMax);
+		
 		pixelsParUniteX = getWidth() / (xMax - xMin);
 		pixelsParUniteY = getHeight() / (yMax - yMin);
 
@@ -156,7 +151,7 @@ public class PlanCartesien extends JPanel {
 
 		creerApproxCourbe();
 
-		creerCercle();
+		recadrer(xMin-deltaX, xMax, yMin, yMax);
 
 		creerTaquets(g2d);
 
@@ -200,7 +195,7 @@ public class PlanCartesien extends JPanel {
 
 		// On dessine le cercle
 		g2d.setColor(Color.green);
-		g2d.fill(matTransfo.createTransformedShape(cercle));
+
 
 		
 		g2d.setColor(Color.black);
@@ -212,8 +207,7 @@ public class PlanCartesien extends JPanel {
 	 * 
 	 * @param g2d Le contexte graphique 2D.
 	 */
-	//Benakmoum Walid
-
+	//Auteur Benakmoum Walid
 	private void creerAxes(Graphics2D g2d) {
 		axes = new Path2D.Double();
 		BasicStroke stroke = new BasicStroke(2.0f);
@@ -227,21 +221,21 @@ public class PlanCartesien extends JPanel {
 	/**
 	 * Creation de l'approximation de la courbe sous la forme d'un Path2D
 	 */
-	//Benakmoum Walid
-
+	//Auteur Benakmoum Walid
 	private void creerApproxCourbe() {
-	    ligneBrisee = new Path2D.Double();
-	    ligneBrisee.moveTo(3, 3);
-	    ligneBrisee.lineTo(10,10);
-	    
-	  /*  System.out.println("siuuuuuuu");
-	    System.out.println("_________________________________________" + position.getX());
-	    System.out.println("_________________________________________" + position.getY());
-	    */
+		double x, y;
+		ligneBrisee = new Path2D.Double();
+		x = position.getX(); // on commence à 0
+		y = position.getY();
+		ligneBrisee.moveTo(x, y);
+		for (int k = 1; k < nbSegmentsPourApproximer + 1; k++) {
+			x = xMin + k * (xMax - xMin) / nbSegmentsPourApproximer; 
+			if (x > 0) {
+				y = position.getY();
+				ligneBrisee.lineTo(x, y);
+			}
+		} // fin for
 	}
-
-	
-	
 
 	/**
 	 * 
@@ -252,11 +246,8 @@ public class PlanCartesien extends JPanel {
 	 * @return la valeur de la fonction pour ce x, en fonction de la fonction
 	 *         envigueur
 	 */
-	//Benakmoum Walid
+	//Auteur Benakmoum Walid
 
-	private Vecteur2D fonctionDeLaBalle() {
-		return ( position);
-	}
 
 	/**
 	 * Modifie le nombre de petits segments de droite qui formeront la courbe (nb
@@ -264,8 +255,6 @@ public class PlanCartesien extends JPanel {
 	 * 
 	 * @param nbSegmentsPourApproximer Le nombdrfe de segments voulus
 	 */
-	//Benakmoum Walid
-
 	public void setNbSegmentsPourApproximer(int nbSegmentsPourApproximer) {
 		this.nbSegmentsPourApproximer = nbSegmentsPourApproximer;
 		repaint();
@@ -282,8 +271,6 @@ public class PlanCartesien extends JPanel {
 	 * @param yMin Ordonnee minimale visible
 	 * @param yMax Ordonnee maximale visible
 	 */
-	//Benakmoum Walid
-
 	public void recadrer(double xMin, double xMax, double yMin, double yMax) {
 
 		this.xMin = xMin;
@@ -298,8 +285,7 @@ public class PlanCartesien extends JPanel {
 	 * en utilisant les paramètres de la grille définis par `nmbreLigX` et `nmbreLigY`. La grille est centrée autour de l'origine.
 	 * Chaque ligne de la grille est créée avec des segments de droite.
 	 */
-	//Benakmoum Walid
-
+	//Auteur Benakmoum Walid
 	private void creerGrille() {
 		grille = new Path2D.Double();
 
@@ -334,8 +320,7 @@ public class PlanCartesien extends JPanel {
 	 *
 	 * @param g2d Le contexte graphique 2D dans lequel dessiner les taquets et les chiffres.
 	 */
-	//Benakmoum Walid
-
+	//Auteur Benakmoum Walid
 	private void creerTaquets(Graphics2D g2d) {
 		taquets = new Path2D.Double();
 
@@ -386,75 +371,17 @@ public class PlanCartesien extends JPanel {
 		}
 	}
 
-	/**
-	 * Cette méthode génère une ellipse (cercle) qui représente visuellement une certaine quantité ou valeur associée au temps.
-	 */
-	//Benakmoum Walid
-
-	private void creerCercle() {
-	    // Assurez-vous que 'position' est mis à jour avec la position actuelle de la balle
-	    // Vous pourriez avoir besoin de convertir les unités si nécessaire
-	    double xCercle = position.getX(); // Position X de la balle
-	    double yCercle = position.getY(); // Position Y de la balle
-
-	    // Calcule le rayon du cercle en fonction du diamètre
-	    double rayonCercle = cercleDia / 2;
-
-	    // Crée un cercle à la position de la balle
-	    cercle = new Ellipse2D.Double(xCercle - rayonCercle, yCercle - rayonCercle, cercleDia, cercleDia);
-	}
-
-
-	/**
-	 * Définit la quantité de sel sélectionnée par l'utilisateur grâce au spinner.
-	 *
-	 * @param qSelSpinner La quantité sélectionnée.
-	 */
-	//Benakmoum Walid
-
-	public void setQuantSel(int qSelSpinner) {
-		quantSel = qSelSpinner;
-		repaint();
-	}
-
-	/**
-	 * Définit le volume initial sélectionnée par l'utilisateur grâce au spinner.
-	 *
-	 * @param vIniSpinner Le volume initial.
-	 */
-//Benakmoum Walid
-	public void setVolumeIni(int vIniSpinner) {
-		volumeIni = vIniSpinner;
-		repaint();
-	}
-
-	/**
-	 * Définit le débit sélectionnée par l'utilisateur grâce au spinner.
-	 *
-	 * @param debitSpinner Le débit.
-	 */
-	//Benakmoum Walid
-	public void setDebit(double debitSpinner) {
-		debit = debitSpinner;
-		repaint();
-	}
 
 	/**
 	 * Définit le temps sélectionnée par l'utilisateur grâce au curseurs.
 	 *
 	 * @param tempsSpinner Le temps.
 	 */
-//Benakmoum Walid
-	public void setTemps(int tempsSpinner) {
-		temps = tempsSpinner;
-		creerCercle();
-		repaint();
-	}
-	//Benakmoum Walid
-
-    public void setPosition(Vecteur2D pos) {
-    	this.position=pos;;
-    	repaint();
-    }
+	//Auteur Benakmoum Walid
+public void setPosition(Vecteur2D pos) {
+	position=pos;
+	repaint();
+	
 }
 
+}
