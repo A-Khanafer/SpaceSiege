@@ -3,6 +3,7 @@ package composantdessin;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -38,7 +39,7 @@ public class PlanCartesien extends JPanel {
 	/** Valeur par défaut de l'ordonnée maximale. */
 	private  double yMax;
 	private int nmbreLig = 12;
-	private double pixelParMetre;
+	private double pixelParMetreX;
 	private Vecteur2D position;
 	private Ellipse2D.Double cercle;
 	private Line2D.Double axeX, axeY;
@@ -47,6 +48,7 @@ public class PlanCartesien extends JPanel {
 private double deltaX;
 private double deltaY;
 private double pixelParMetreY;
+private Path2D.Double taquets;
 private Path2D.Double ligne=new Path2D.Double();
 	public PlanCartesien(Vecteur2D posInitial) {
 		setBackground(Color.white);
@@ -70,7 +72,7 @@ private Path2D.Double ligne=new Path2D.Double();
 			x = getWidth(); 
 			y = getHeight();
 			
-			pixelParMetre = ((double)getWidth()-deltaX)/150.0;
+			pixelParMetreX = ((double)getWidth()-deltaX)/150.0;
 			pixelParMetreY=((double)getHeight()-deltaY)/77.7;	
 			
 			g2d.setColor(Color.blue);
@@ -95,11 +97,14 @@ private Path2D.Double ligne=new Path2D.Double();
 		*/
 
 		//cercle = new Ellipse2D.Double((position.getX()*pixelParMetre)+deltaX,( position.getY()*pixelParMetreY), 5, 5);
-		ligne.moveTo((position.getX()*pixelParMetre)+deltaX, ( position.getY()*pixelParMetreY));
-		ligne.lineTo((position.getX()*pixelParMetre)+deltaX, ( position.getY()*pixelParMetreY));
+		ligne.moveTo((position.getX()*pixelParMetreX)+deltaX, ( position.getY()*pixelParMetreY));
+		ligne.lineTo((position.getX()*pixelParMetreX)+deltaX, ( position.getY()*pixelParMetreY));
 		
 		g2d.draw(ligne);
 		g2d.fill(cercle);
+		g2d.setColor(Color.black);
+creerTaquetsSui(g2d);
+		
 		
 	}
 	
@@ -121,7 +126,6 @@ private Path2D.Double ligne=new Path2D.Double();
 			grille.lineTo(grilleX, yMax);
 		}
 
-		// Lignes de grille en y
 		for (int i = 0; i < nmbreLig + 1; i++) {
 			double grilleY = yMin + i * deltaY + yCentrage;
 			grille.moveTo(xMin, grilleY);
@@ -134,7 +138,32 @@ private Path2D.Double ligne=new Path2D.Double();
 		ligne.reset();
 		repaint();
 	}
+	private void creerTaquetsSui(Graphics2D g2d) {
+	    g2d.setColor(Color.black);
+	    int taquetSize = 5; 
+	    Font smallFont = new Font("SansSerif", Font.PLAIN, 8); 
+	    g2d.setFont(smallFont);
+
+	   
+	    for (int i = 0; i <= nmbreLig; i++) {
+	        double grilleX = xMin + i * deltaX;
+	        int positionEnMetresX = (int) (grilleX / pixelParMetreX); 
+	        g2d.drawLine((int) (grilleX), (int) (yMax - 50 - taquetSize), (int) (grilleX), (int) (yMax - 50 + taquetSize));
+	        g2d.drawString(String.format("%d", positionEnMetresX), (int) (grilleX - 10) + (int)deltaX, (int) (yMax - 35)); 
+	    }
+
+	  
+	    for (int i = 0; i <= nmbreLig; i++) {
+	        double grilleY = yMax - (yMin + i * deltaY);
+	        int positionEnMetresY = (int) ((yMax - grilleY) / pixelParMetreY); 
+	        g2d.drawLine((int) (deltaX - taquetSize), (int) (grilleY), (int) (deltaX + taquetSize), (int) (grilleY));
+	      
+	        g2d.drawString(String.format("%d", positionEnMetresY), (int) (deltaX - 17), (int) (grilleY - deltaY)); 
+	    }
+	}
 	
+	
+
 	
 }
 

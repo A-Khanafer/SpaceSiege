@@ -173,7 +173,7 @@ public class Niveau1 extends Niveaux {
 			int espace=0;
 			
 			monstre = new Monstres(1000, 20, "images.jpg", pixelParMetres);
-			 canon=new Canon (0,10,pixelParMetres);
+			  canon = new Canon(0, 10,pixelParMetres,"CANONSEXY.png");
 			 
 		
 			 
@@ -401,7 +401,7 @@ System.out.println(getHeight()+" JAIME LES HOMMES");
 		    canon.setPremiereFois(true);
 		    monstre = new Monstres(1000, 20, "images.jpg", pixelParMetres);
 		    monstre.setNombreDeVie(1);
-		    canon = new Canon(0, 10,pixelParMetres);
+		    canon = new Canon(0, 10,pixelParMetres,"CANONSEXY.png");
 		    
 		   monstreMort=false;
 
