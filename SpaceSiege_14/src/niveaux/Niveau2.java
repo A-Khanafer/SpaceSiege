@@ -147,9 +147,10 @@ public class Niveau2 extends Niveaux {
     /**
      * Le plan cartésien utilisé pour le rendu graphique.
      */
-    private PlanCartesien planCartesion= new PlanCartesien();
+
 
 	private Cercle[] tableauCercle;
+
     
 	/**
 	 * Constructeur de la classe. Permet de crée l'interface
@@ -177,7 +178,7 @@ public class Niveau2 extends Niveaux {
 
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		System.out.println(monstreMort+" NIVEAU 22222222");
-		planCartesion.setPosition(null);
+	
 
 		if(premiereFois) {
 			pixelParMetres = getWidth()/150;

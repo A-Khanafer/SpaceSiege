@@ -142,7 +142,7 @@ public class Niveau3 extends Niveaux {
     /**
      * Le plan cartésien utilisé pour le rendu graphique.
      */
-    private PlanCartesien planCartesion= new PlanCartesien();
+    
 
     
     
@@ -172,7 +172,7 @@ public class Niveau3 extends Niveaux {
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		
 		System.out.println(pixelParMetres);
-        planCartesion.setPosition(null);
+       
 		if(premiereFois) {
 			pixelParMetres = getWidth()/150;
 			int espace=0;

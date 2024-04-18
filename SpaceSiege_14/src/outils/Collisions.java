@@ -20,7 +20,7 @@ import physique.Vecteur2D;
 public class Collisions {
 	private static  Line2D.Double [] segmentRec = new Line2D.Double[4];
 	private static Line2D.Double [] segmentTri = new Line2D.Double[3];
-	private static int buffer = 5;
+	private static int buffer = 2;
 	/**
 	 * Méthode qui calcul la distance entre deux point
 	 * @param x1 position x premier point

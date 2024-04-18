@@ -191,7 +191,7 @@ if(!balleTiree) {
 		
 		//ROTATED
 		g2dPrive.rotate(rotation, cercle.getCenterX(), cercle.getCenterY());
-		g2dPrive.setColor(Color.BLACK);
+		g2dPrive.setColor(Color.GREEN);
 		g2dPrive.fill(aireRect);
 		
 	

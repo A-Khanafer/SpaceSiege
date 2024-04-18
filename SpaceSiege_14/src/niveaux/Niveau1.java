@@ -2,7 +2,7 @@ package niveaux;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-
+import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -13,8 +13,12 @@ import java.awt.event.MouseMotionAdapter;
 
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.Arrays;
 
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -48,15 +52,16 @@ public class Niveau1 extends Niveaux {
      */
 	private boolean enCoursDAnimation=false;
 
-	private double rotation=20;
+	private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+
 	/**
      * L'intervalle de temps (en secondes) utilisé pour chaque itération du calcul physique.
      */
-	private double deltaT=0.10;
+	private double deltaT=0.005;
 	/**
      * Le temps de pause (en millisecondes) entre chaque itération de l'animation.
      */
-	private int tempsDuSleep = 10;
+	private int tempsDuSleep = 1;
 	/**
      * Un rectangle servant d'obstacle dans la zone d'animation.
      */
@@ -112,10 +117,7 @@ public class Niveau1 extends Niveaux {
      */
     private Monstres monstre;
 
-    /**
-     * Le facteur de conversion de pixels en mètres, utilisé pour ajuster les dimensions des objets par rapport à la taille de l'écran.
-     */
-    private double pixelParMetres;
+    
     /**
      * Indique si c'est la première fois que le niveau est affiché, utilisé pour initialiser les objets une seule fois.
      */
@@ -133,15 +135,14 @@ public class Niveau1 extends Niveaux {
     /**
      * Le canon utilisé pour tirer des balles.
      */
-	private Canon canon;
+	
 	/**
     * Indique si le monstre est mort.
     */
     private boolean monstreMort=false;
-    /**
-     * Le plan cartésien utilisé pour le rendu graphique.
-     */
-    private PlanCartesien planCartesion= new PlanCartesien();
+    private boolean first =true;
+   
+   
 
     
     
@@ -150,13 +151,28 @@ public class Niveau1 extends Niveaux {
 	 */
     //Benakmoum Walid
 	public Niveau1() {
-		setBackground(new Color(192, 192, 192));
-		setLayout(null);
+		
+		
+		 
+
+        
+		
+		if(first) {
+			
+		
+	    setLayout(null);
+	    first =false;
+		}
+		
+		
+		
 		tableauRec = new Rectangle[11];
-//		tableauTri = new Triangle[3];
 		ecouteurSouris();
 		ecouteurClavier();
 		
+		
+		
+			
 		
 	}
 	/**
@@ -170,16 +186,21 @@ public class Niveau1 extends Niveaux {
 
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		
-		System.out.println(pixelParMetres);
+		
+		
+		
+             
+		
 		if(premiereFois) {
+			
+			
 			pixelParMetres = getWidth()/150;
 			int espace=0;
 			
 			monstre = new Monstres(1000, 20, "images.jpg", pixelParMetres);
-			 canon=new Canon (0,10,pixelParMetres);
+			canon=new Canon (0,10,pixelParMetres);
 			 
-			 
-
+		
 			 
 			 tableauRec[0] = new Rectangle(  143,  354, 330, 53,0);
 			 tableauRec[1] = new Rectangle(  644,  120, 186, 48,0);
@@ -203,27 +224,23 @@ public class Niveau1 extends Niveaux {
 			
 			espace = 0;
 			 
-//				for(int i = 0 ; i < tableauTri.length ; i++) {
-//					tableauTri[i] = new Triangle(50, 50, 10, 15, pixelParMetres);
-//					espace = espace + 80;
-//				}
+			
 			premiereFois = false;
+			
 		}
 
-		planCartesion.setPosition(canon.getBalle().getPosition().multiplie(1/pixelParMetres));
+		
 
 		for (int i = 0; i < tableauRec.length; i++) {
 			tableauRec[i].dessiner(g2d);
 		}
 		
 
-//		tableauTri[0].dessiner(g2d);
-//		tableauTri[1].dessiner(g2d);
 
 		
 
 		
-		
+		 
 		if(monstreMort==false) {
 			monstre.dessiner(g2d);
 		}
@@ -240,8 +257,12 @@ public class Niveau1 extends Niveaux {
 	    hauteurComposant = getHeight();
 	    largeurComposant = getWidth();
 	    
-	    g2d.setColor(Color.red);
-	    g2d.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
+//	    g2d.setColor(Color.red);
+//	    g2d.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
+//	   
+	    
+	   
+	    
 
 	}
 	/**
@@ -251,11 +272,13 @@ public class Niveau1 extends Niveaux {
 	public void run() {
 		while (enCoursDAnimation) {
 
-
+			Vecteur2D anciennePosition = canon.getBalle().getPosition();
 			calculerUneIterationPhysique(deltaT);
+			
 			testerCollisionsEtAjusterVitesses();
 			
-			planCartesion.setPosition(canon.getBalle().getPosition().multiplie(1/pixelParMetres));
+			this.pcs.firePropertyChange("position", anciennePosition, canon.getBalle().getPosition());	
+			
 			for(int i =0 ; i < tableauRec.length ; i++) {
 				Collisions.collisionRectangle(canon.getBalle(),tableauRec[i]);
 			}
@@ -268,11 +291,12 @@ public class Niveau1 extends Niveaux {
 	        if (!areaBalle.isEmpty()) {
 	        	monstre.perdUneVie();
 	        	reinitialiserApplication();
-	        	System.out.println(monstre.getNombreDeVie());
+
 	        }
 
 
 			repaint();
+			
 			if(monstre.getNombreDeVie()==0) {
 	    	    monstreMort=true;
 	            enCoursDAnimation = false; 
@@ -293,7 +317,6 @@ public class Niveau1 extends Niveaux {
 	// Benakmoum Walid
 	public void demarrer() {
 		if (!enCoursDAnimation) {
-			System.out.println("bangbangbang");
 			Thread proc = new Thread(this);
 			proc.start();
 			enCoursDAnimation = true;
@@ -301,13 +324,6 @@ public class Niveau1 extends Niveaux {
 			canon.setBalleTiree();
 		}
 	}//fin methode
-	public void updateBallPosition() {
-	    double xGraphique = canon.getBalle().getPosition().getX() * pixelParMetres; 
-	    double yGraphique = canon.getBalle().getPosition().getY() * pixelParMetres;
-	    planCartesion.setPosition(new Vecteur2D(xGraphique, yGraphique));
-	    repaint(); 
-	}
-	
 	/**
 	 * Méthode qui arrête l'animation en cours.
 	 */
@@ -325,14 +341,15 @@ public class Niveau1 extends Niveaux {
 	    double gravite;
 	    switch (typeGravite) {
 	        case "TERRE":
-	            gravite = 9.81/2;  // Diviser par deux car sinon la force est trop forte 
+	            gravite = 9.81/2;
 	            break;
 	        case "MARS":
-	            gravite = 3.711/2; 
+	            gravite = 3.711/2;
 	            break;
 	        case "ESPACE":
-	            gravite = 0; 
+	            gravite = 0;
 	            break;
+	        case "LUNE":
 	        default:
 	            gravite = 0; 
 	            break;
@@ -347,7 +364,6 @@ public class Niveau1 extends Niveaux {
 
 	  public void prochaineImage() {
 		  if(canon.getBalle().getVitesse()!=new Vecteur2D(0,0)) {
-			  System.out.println("Prochaine image...on avance de " + deltaT + " secondes");
 			  canon.setProchaineImage(true);
 				calculerUneIterationPhysique(deltaT);
 				repaint();
@@ -404,7 +420,6 @@ public class Niveau1 extends Niveaux {
 		  enCoursDAnimation = false;
 
 
-		    rotation = 0;
 		    tempsTotalEcoule = 0;
 
 
@@ -448,10 +463,19 @@ public class Niveau1 extends Niveaux {
 	 */
 	//Benakmoum Walid
 	public void setNombreDeVie(int nb) {
-	   super.setNombreDeVie(nb);
+	    this.nombreDeVie = nb;
+	    if (this.monstre != null) {
+	        this.monstre.setNombreDeVie(nb);
+	    }
+	    repaint();
 	}
 
-	
+//	public double getPixelParMetres() {
+//		 return super.getPixelParMetres();
+//	 }
+//	public Balle getBalle() {
+//		 return super.getBalle();
+//	 }
 	/**
      * Initialise l'écouteur de clavier pour interagir avec l'animation via le clavier.
      */
@@ -471,6 +495,10 @@ public class Niveau1 extends Niveaux {
 	            repaint();
 	        }
 	    });
+	}
+	
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
+		this.pcs.addPropertyChangeListener(listener);
 	}
 
 
@@ -601,7 +629,9 @@ public class Niveau1 extends Niveaux {
 		    }
 		    repaint();
 		}
-	
+		
+		
+		
 }
 		
 			

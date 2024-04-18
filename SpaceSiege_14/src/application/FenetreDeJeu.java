@@ -9,6 +9,7 @@ import niveaux.Niveau1;
 import niveaux.Niveau2;
 import niveaux.Niveau3;
 import niveaux.Niveaux;
+import outils.OutilsImage;
 import composantdessin.PlanCartesien;
 import java.awt.Color;
 import java.awt.Component;
@@ -17,6 +18,8 @@ import javax.swing.JTable;
 import javax.swing.JButton;
 import javax.swing.JSlider;
 import java.awt.Font;
+import java.awt.Image;
+
 import javax.swing.JSpinner;
 import javax.swing.JCheckBox;
 import javax.swing.JRadioButton;
@@ -31,6 +34,11 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+
+import physique.Vecteur2D;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
 /**
  * Classe principale de l'interface de jeu, gérant la disposition des éléments de jeu et les interactions utilisateur.
  * Cette classe crée une fenêtre contenant une zone d'animation pour visualiser le jeu, un ensemble de contrôles pour interagir avec le jeu,
@@ -44,7 +52,7 @@ public class FenetreDeJeu extends JFrame {
 	
 	private JPanel contentPane;
 	private JPanel panelTable;
-	private JButton btnRetour;
+	private JButton btnBacAsable;
 	private JButton btnNiveauPrecedent;
 	private JButton btnNiveauSuivant;
 	private JButton btnPause;
@@ -66,6 +74,11 @@ public class FenetreDeJeu extends JFrame {
 	private JRadioButton rdbBalleNormal;
 	private JRadioButton rdbBalleElastique;
 	private JRadioButton rdbBalleNova;
+	private JPanel panelGraphique;
+	private PlanCartesien planCartesien;
+//    private String fondActuel = "/gifgif.gif";
+//    private JLabel lbl = new JLabel();
+//    private Image  img;
 	/**
      * Méthode statique pour afficher la fenêtre de jeu. Crée une instance de {@code FenetreDeJeu} et la rend visible.
      */
@@ -74,7 +87,6 @@ public class FenetreDeJeu extends JFrame {
        
 		FenetreDeJeu fenetre = new FenetreDeJeu();
         fenetre.setVisible(true);
-        fenetre.setExtendedState(JFrame.MAXIMIZED_BOTH);
         
     }
 	public void changerNiveau() {
@@ -91,6 +103,8 @@ public class FenetreDeJeu extends JFrame {
      */
 	//ZAKARIA SOUDAKI
 	public FenetreDeJeu() {
+		
+		
 		 niv1 = new Niveau1();
 	   	 niv2 = new Niveau2();
 		 niv3 = new Niveau3();
@@ -98,44 +112,55 @@ public class FenetreDeJeu extends JFrame {
 		 niveaux[1] = niv2;
 		 niveaux[2] = niv3;
 		 nivActuel = niveaux[index];
+
+		 
+		 
+		 nivActuel.addPropertyChangeListener(new PropertyChangeListener() {
+		 	public void propertyChange(PropertyChangeEvent evt) {
+		 		if (evt.getPropertyName().equals("position") ) {
+					planCartesien.setPosition((Vecteur2D) evt.getNewValue());
+			 }
+		 	}
+		 });
 		 nivSuivant = niveaux[index +1];
 		 
 		 
 		setLocationRelativeTo(null);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(0, 0, 1920, 1200);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-
-
+		setBounds(100, 100, 1600, 1010);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(0, 0, 0));
+		contentPane.setBackground(new Color(192, 192, 192));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		
+		 
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		nivActuel.setBounds(10, 10, 1884, 823);
-		contentPane.add(nivActuel);
 		
+		//
+	    nivActuel.setBounds(0, 0, 1296, 672);
+		contentPane.add(nivActuel);
+		//
 		JPanel panelFonctionnalites = new JPanel();
 		panelFonctionnalites.setBackground(new Color(255, 255, 255));
-		panelFonctionnalites.setBounds(10, 845, 1101, 286);
+		panelFonctionnalites.setBounds(0, 683, 1187, 286);
 		contentPane.add(panelFonctionnalites);
 		panelFonctionnalites.setLayout(null);
 		
-		btnRetour = new JButton("RETOUR");
-		btnRetour.addActionListener(new ActionListener() {
+		btnBacAsable = new JButton("RETOUR");
+		btnBacAsable.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				FenetreModeDeJeu.afficherFenetre();
 				setVisible(false);
-			    nivActuel.stopperAnim();
+				nivActuel.arreter();
 			}
 		});
-		btnRetour.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
-		btnRetour.setBounds(870, 204, 209, 68);
-		panelFonctionnalites.add(btnRetour);
+		btnBacAsable.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
+		btnBacAsable.setBounds(870, 204, 209, 68);
+		panelFonctionnalites.add(btnBacAsable);
 		
 		btnNiveauPrecedent = new JButton("NIVEAU PRECEDENT");
 		btnNiveauPrecedent.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
@@ -147,15 +172,16 @@ public class FenetreDeJeu extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				 
 				
-                if (index >1 ) {
-	              JOptionPane.showMessageDialog(null, "FIN DES NIVEAUX __________");
-               }else {
+        if (index >1 ) {
+	       JOptionPane.showMessageDialog(null, "FIN DES NIVEAUX __________");
+          }
+           else {
 	
 
 				nivActuel.arreter();
 				getContentPane().remove(nivActuel);
 				
-				nivSuivant.setBounds(10, 10, 1884, 823);
+				nivSuivant.setBounds(0, 0, 1296, 672);
 				
 				contentPane.add(nivSuivant);
 
@@ -203,8 +229,6 @@ public class FenetreDeJeu extends JFrame {
 				nivActuel.demarrer();
 				desactiverLesRadios();
 				
-//				nivActuel.TirerBalle();
-				System.out.println(""+nivActuel.getClass()+"________________________________________________________________");
 				
 			}
 		});
@@ -279,7 +303,10 @@ public class FenetreDeJeu extends JFrame {
 		comboBoxTypeGrav.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String typeGravite = (String) comboBoxTypeGrav.getSelectedItem();
-		     nivActuel.changerTypeGravite(typeGravite);
+			
+				changerFondEtGrav(typeGravite);
+		     
+		     
 			}
 		});
 		comboBoxTypeGrav.setModel(new DefaultComboBoxModel(new String[] {"ESPACE", "TERRE", "MARS"}));
@@ -319,17 +346,35 @@ public class FenetreDeJeu extends JFrame {
 		
 		panelTable = new JPanel();
 		panelTable.setBackground(new Color(255, 255, 255));
-		panelTable.setBounds(1517, 845, 377, 286);
+		panelTable.setBounds(1197, 683, 377, 286);
 		contentPane.add(panelTable);
 		panelTable.setLayout(null);
 		
-		comboBoxTypeGrav.setSelectedItem("ESPACE"); 
+		panelGraphique = new JPanel();
+		panelGraphique.setBounds(1321, 11, 253, 661);
+		contentPane.add(panelGraphique);
+		panelGraphique.setLayout(null);
 		
-		PlanCartesien planCartesien = new PlanCartesien();
-		planCartesien.setBounds(1121, 845, 385, 286);
-		contentPane.add(planCartesien);
+		planCartesien = new PlanCartesien(nivActuel.getBalle().getPosition());
+		planCartesien.setBounds(0, 0, 377, 661);
+		panelGraphique.add(planCartesien);
+		
+		
+		
+		comboBoxTypeGrav.setSelectedItem("ESPACE");
 	    niv1.changerTypeGravite("ESPACE"); 
+	    
+	    	
 		
+		
+	    JLabel lbl = new JLabel("New label");
+		Image img  = new ImageIcon(this.getClass().getResource("/fondjeu4.png")).getImage();
+		lbl.setIcon(new ImageIcon(img));
+		lbl.setBounds(nivActuel.getX(), nivActuel.getY(), nivActuel.getWidth(), nivActuel.getHeight());
+		contentPane.add(lbl);
+//		img =OutilsImage.lireImageEtRedimensionner(fondActuel, nivActuel.getWidth(), nivActuel.getHeight());
+	
+	    
 	}
 	private void desactiverLesRadios() {
 		if(nivActuel.getEnCoursAnimation()==true) {
@@ -345,4 +390,30 @@ public class FenetreDeJeu extends JFrame {
 		comboBoxTypeGrav.setEnabled(true);
 	}
 	}
+	public void changerFondEtGrav(String fond) {
+		
+		 switch (fond) {
+	        case "TERRE":
+	        	
+	        	
+	            break;
+	        case "MARS":
+//	        	fondActuel = "mars2.jpg";
+	            break;
+	        case "ESPACE":
+//	        	fondActuel = "spacegif.gif";
+	            break;
+	        case "LUNE":
+	        	
+	        default:
+//	        	fondActuel = "terre4.png";
+	            break;
+	    }
+//			img =OutilsImage.lireImageEtRedimensionner(fondActuel, nivActuel.getWidth(), nivActuel.getHeight());
+//			lbl.setIcon(new ImageIcon(img));
+	        nivActuel.changerTypeGravite(fond);
+
+		repaint();
+	}
 }
+
