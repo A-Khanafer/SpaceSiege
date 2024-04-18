@@ -2,6 +2,7 @@ package composantjeu;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
@@ -12,6 +13,7 @@ import javax.swing.JPanel;
 
 import interfaces.Dessinable;
 import interfaces.Selectionnable;
+import outils.OutilsImage;
 import physique.Vecteur2D;
 /**
  * Classe représentant un canon dans une application d'animation physique. Le canon est capable de tirer des balles et de pivoter en fonction
@@ -126,6 +128,10 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
      * Indique la balle choisie par le joueur. Utile pour sélectionner le type de balle à tirer.
      */
     private static int balleChoisie = 1;
+    
+    private String urlImage;
+    
+    private Image image = null;
     /**
      * Constructeur de la classe Canon.
      * 
@@ -134,11 +140,11 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
      * @param pixelsParMetre Facteur de conversion de pixels en mètres.
      */
     //Benakmoum Walid
-	public Canon(double x,double y,double pixelsParMetre) {
+	public Canon(double x,double y,double pixelsParMetre,String urlImage) {
 		this.pixelsParMetre=pixelsParMetre;
 		this.x=x*this.pixelsParMetre;
 		this.y=y*this.pixelsParMetre;
-		
+		this.urlImage=urlImage;
 		hauteur = 6*this.pixelsParMetre;
 		largeur = 12*this.pixelsParMetre;
 
@@ -149,6 +155,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
      */
 	//Benakmoum Walid
 	private void creerLaGeometrie() {
+		
 		rectangleCanon=new Rectangle2D.Double(3+hauteur/2, y, largeur, hauteur);
 		base=new Ellipse2D.Double(0,y-10,3,hauteur+20);
 		cercle=new Ellipse2D.Double(3,y,hauteur,hauteur);
@@ -157,6 +164,8 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 		aireBase= new Area(base);
 		aireRect.add(aireCercle);
 		positionDeTir = new FlecheDeTir(cercle.getCenterX(), cercle.getCenterY(), dx,dy);
+		//image =OutilsImage.lireImageEtRedimensionner(urlImage,(int)103,(int) 51);
+
 
 		 if (!balleTiree && premiereFois) {
 
@@ -188,7 +197,7 @@ if(!balleTiree) {
 		balleActuelle.dessiner(g2dPrive);
 	}
 
-		
+	
 		//ROTATED
 		g2dPrive.rotate(rotation, cercle.getCenterX(), cercle.getCenterY());
 		g2dPrive.setColor(Color.GREEN);
@@ -314,10 +323,13 @@ if(!balleTiree) {
      * @param y2 La coordonnée y de la souris.
      */
 	//Benakmoum Walid
-	public void changerTaille(double x2,double y2) {
-		dx=x2-positionDeTir.getX1();
-		dy=y2-positionDeTir.getY1();
-		creerLaGeometrie();
+	public void changerTaille(double x2, double y2) {
+	    positionDeTir.ajusterTaille(x2, y2);
+	    rotation = positionDeTir.getAngle();
+	    vitesse.setX(Math.cos(rotation) * positionDeTir.calculerModulus() / 4);
+	    vitesse.setY(Math.sin(rotation) * positionDeTir.calculerModulus() / 4);
+	    balleActuelle.setVitesse(vitesse);
+
 	}
 	/**
      * Marque la balle comme ayant été tirée et réinitialise la géométrie du canon pour refléter tout changement nécessaire suite à cet événement.

@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 
 import composantdessin.Titre;
 import outils.OutilsImage;
+import systeme.Son;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -49,31 +50,35 @@ import java.util.Timer;
  * @author ZAKARIA SOUDAKI
  */
 
+
 public class AppPrincipal14 extends JFrame{
 	
 	
 	
-			
+	Son musique = new Son();		
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
- 
+	
 	private int longueur = 1280;
 	private int hauteur = 720;
 	private BoutonsIntro boutonsIntro;
-
-	
 	private boolean son = true;
+	private AppPrincipal14 actuel = this;
 	
 	 /**
      * Lance l'interface utilisateur principale de l'application.
      * Cette méthode statique crée une instance de {@code AppPrincipal14} et rend la fenêtre visible.
      */
-	public static void afficherFenetre() {
+	public static void retour(AppPrincipal14 app) {
 		
-		AppPrincipal14 fenetre = new AppPrincipal14();
-		fenetre.setLocationRelativeTo(null);
-		fenetre.setUndecorated(true); 
-        fenetre.setVisible(true);
+		app.setVisible(true);
+		
+		
+		
+//		AppPrincipal14 fenetre = new AppPrincipal14();
+//		fenetre.setLocationRelativeTo(null);
+//		fenetre.setUndecorated(true); 
+//        fenetre.setVisible(true);
     }
 	public void fermer() {
 		setVisible(false);
@@ -111,7 +116,9 @@ public class AppPrincipal14 extends JFrame{
 	//ZAKARIA SOUDAKI
 	public AppPrincipal14() {
 		
-		
+		musique.setFile(0);
+		musique.play();
+		musique.loop();
 		
 		Border emptyBorder = BorderFactory.createEmptyBorder();
 		
@@ -140,7 +147,7 @@ public class AppPrincipal14 extends JFrame{
 		titre_1.setBounds(465, 30, 342, 269);
 		contentPane.add(titre_1);
 		
-		boutonsIntro = new BoutonsIntro(longueur, hauteur, this);
+		boutonsIntro = new BoutonsIntro(longueur, hauteur, actuel);
 		boutonsIntro.setLocation(540, 355);
 		contentPane.add(boutonsIntro);
 		
@@ -148,8 +155,11 @@ public class AppPrincipal14 extends JFrame{
 		btnSon.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (son == true) {
+					musique.stop();
 					son = false;
 				}else {
+					musique.play();
+					musique.loop();
 					son=true;
 				}
 				
@@ -170,17 +180,17 @@ public class AppPrincipal14 extends JFrame{
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
-				if(son == true) {
+				if(son == false) {
 					OutilsImage.lireImageEtPlacerSurBouton("sansson1.png", btnSon);
 				}
-                if(son == false) {
+                if(son == true) {
 					OutilsImage.lireImageEtPlacerSurBouton("son1.png", btnSon);
 				}
 			}
 		});
 		btnSon.setBounds(10, 651, 55, 55);
 		contentPane.add(btnSon);
-		OutilsImage.lireImageEtPlacerSurBouton("sansson1.png", btnSon);
+		OutilsImage.lireImageEtPlacerSurBouton("son1.png", btnSon);
 
 		
 		JButton btnApropos = new JButton("New button");

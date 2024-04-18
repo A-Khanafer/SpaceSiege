@@ -38,12 +38,16 @@ public class FenetreBacASable extends JFrame {
 	private JButton btnMonstre;
 	private JButton btnRetour;
 	private PanelBacASable panelBacASable;
+	private static FenetreModeDeJeu appli;
 	
 	
-	public static void afficherFenetre() {
+	public static void afficherFenetre(FenetreModeDeJeu app) {
       
+		appli= app;
+		app.setVisible(false);
 		FenetreBacASable fenetre = new FenetreBacASable();
-		fenetre.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		fenetre.setLocationRelativeTo(null);
+		fenetre.setUndecorated(true); 
         fenetre.setVisible(true);
     }
 
@@ -99,7 +103,7 @@ public class FenetreBacASable extends JFrame {
 		btnRetour = new JButton("RETOUR");
 		btnRetour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FenetreModeDeJeu.afficherFenetre();
+				FenetreModeDeJeu.retour(appli);
 				setVisible(false);
 			}
 		});

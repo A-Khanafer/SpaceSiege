@@ -186,19 +186,16 @@ public class Niveau1 extends Niveaux {
 
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		
-		
-		
-		
-             
-		
+
 		if(premiereFois) {
 			
 			
-			pixelParMetres = getWidth()/150;
+			pixelParMetres = (double) getWidth()/150;
+		
 			int espace=0;
 			
 			monstre = new Monstres(1000, 20, "images.jpg", pixelParMetres);
-			canon=new Canon (0,10,pixelParMetres);
+			  canon = new Canon(0, 10,pixelParMetres,"CANONSEXY.png");
 			 
 		
 			 
@@ -248,7 +245,7 @@ public class Niveau1 extends Niveaux {
 
 		canon.dessiner(g2d);
 
-
+System.out.println(getHeight()+" JAIME LES HOMMES");
 	    posMurSol = getHeight();
 	    posMurDroit = getWidth();
 	    posMurGauche = 0;
@@ -272,12 +269,11 @@ public class Niveau1 extends Niveaux {
 	public void run() {
 		while (enCoursDAnimation) {
 
-			Vecteur2D anciennePosition = canon.getBalle().getPosition();
+			Vecteur2D anciennePosition = canon.getBalle().getPositionEnMetre();
 			calculerUneIterationPhysique(deltaT);
 			
 			testerCollisionsEtAjusterVitesses();
-			
-			this.pcs.firePropertyChange("position", anciennePosition, canon.getBalle().getPosition());	
+			this.pcs.firePropertyChange("position", anciennePosition, canon.getBalle().getPositionEnMetre());	
 			
 			for(int i =0 ; i < tableauRec.length ; i++) {
 				Collisions.collisionRectangle(canon.getBalle(),tableauRec[i]);
@@ -291,7 +287,6 @@ public class Niveau1 extends Niveaux {
 	        if (!areaBalle.isEmpty()) {
 	        	monstre.perdUneVie();
 	        	reinitialiserApplication();
-
 	        }
 
 
@@ -350,6 +345,8 @@ public class Niveau1 extends Niveaux {
 	            gravite = 0;
 	            break;
 	        case "LUNE":
+	        	gravite = 0;
+	        	break;
 	        default:
 	            gravite = 0; 
 	            break;
@@ -373,9 +370,7 @@ public class Niveau1 extends Niveaux {
 			return enCoursDAnimation;
 			
 		}
-	  public void stopperAnim(){
-		  enCoursDAnimation=false;
-	  }
+
 	  
 	/**
      * Calcule une itération physique en fonction du deltaT.
@@ -427,7 +422,7 @@ public class Niveau1 extends Niveaux {
 		    canon.setPremiereFois(true);
 		    monstre = new Monstres(1000, 20, "images.jpg", pixelParMetres);
 		    monstre.setNombreDeVie(1);
-		    canon = new Canon(0, 10,pixelParMetres);
+		    canon = new Canon(0, 10,pixelParMetres,"CANONSEXY.png");
 		    
 		   monstreMort=false;
 

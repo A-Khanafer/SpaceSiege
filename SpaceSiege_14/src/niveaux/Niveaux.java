@@ -125,7 +125,7 @@ public class Niveaux extends JPanel implements Runnable {
 		
 
 		pixelParMetres = 8.64;
-		canon=new Canon (0,10,pixelParMetres);
+		  canon = new Canon(0, 10,pixelParMetres,"CANONSEXY.png");
 		
 		
 		

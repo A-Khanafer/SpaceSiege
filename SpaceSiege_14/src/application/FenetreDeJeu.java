@@ -52,7 +52,7 @@ public class FenetreDeJeu extends JFrame {
 	
 	private JPanel contentPane;
 	private JPanel panelTable;
-	private JButton btnBacAsable;
+	private JButton btnRetour;
 	private JButton btnNiveauPrecedent;
 	private JButton btnNiveauSuivant;
 	private JButton btnPause;
@@ -76,16 +76,23 @@ public class FenetreDeJeu extends JFrame {
 	private JRadioButton rdbBalleNova;
 	private JPanel panelGraphique;
 	private PlanCartesien planCartesien;
-//    private String fondActuel = "/gifgif.gif";
-//    private JLabel lbl = new JLabel();
-//    private Image  img;
+    private String fondActuel = "";
+    private JLabel lbl = new JLabel();
+    private Image  img;
+    
+    private static FenetreModeDeJeu appli;
+    private static FenetreDeJeu fenetre;
 	/**
      * Méthode statique pour afficher la fenêtre de jeu. Crée une instance de {@code FenetreDeJeu} et la rend visible.
      */
 	//ZAKARIA SOUDAKI
-	public static void afficherFenetre() {
+	public static void afficherFenetre(FenetreModeDeJeu app) {
        
-		FenetreDeJeu fenetre = new FenetreDeJeu();
+		appli = app;
+		app.setVisible(false);
+		fenetre = new FenetreDeJeu();
+		fenetre.setLocationRelativeTo(null);
+		fenetre.setUndecorated(true); 
         fenetre.setVisible(true);
         
     }
@@ -149,18 +156,19 @@ public class FenetreDeJeu extends JFrame {
 		contentPane.add(panelFonctionnalites);
 		panelFonctionnalites.setLayout(null);
 		
-		btnBacAsable = new JButton("RETOUR");
-		btnBacAsable.addActionListener(new ActionListener() {
+		btnRetour = new JButton("RETOUR");
+		btnRetour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				FenetreModeDeJeu.afficherFenetre();
+				FenetreModeDeJeu.retour(appli);
 				setVisible(false);
 				nivActuel.arreter();
+
 			}
 		});
-		btnBacAsable.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
-		btnBacAsable.setBounds(870, 204, 209, 68);
-		panelFonctionnalites.add(btnBacAsable);
+		btnRetour.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
+		btnRetour.setBounds(870, 204, 209, 68);
+		panelFonctionnalites.add(btnRetour);
 		
 		btnNiveauPrecedent = new JButton("NIVEAU PRECEDENT");
 		btnNiveauPrecedent.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
@@ -212,6 +220,7 @@ public class FenetreDeJeu extends JFrame {
 				
 				
               nivActuel.reinitialiserApplication();
+              planCartesien.reset();
               desactiverLesRadios();
               
               
@@ -355,8 +364,8 @@ public class FenetreDeJeu extends JFrame {
 		contentPane.add(panelGraphique);
 		panelGraphique.setLayout(null);
 		
-		planCartesien = new PlanCartesien(nivActuel.getBalle().getPosition());
-		planCartesien.setBounds(0, 0, 377, 661);
+		planCartesien = new PlanCartesien(nivActuel.getBalle().getPositionEnMetre());
+		planCartesien.setBounds(0, 0, 253, 661);
 		panelGraphique.add(planCartesien);
 		
 		
@@ -367,12 +376,13 @@ public class FenetreDeJeu extends JFrame {
 	    	
 		
 		
-	    JLabel lbl = new JLabel("New label");
-		Image img  = new ImageIcon(this.getClass().getResource("/fondjeu4.png")).getImage();
+	    lbl = new JLabel();
+//		Image img  = new ImageIcon(this.getClass().getResource(fondActuel)).getImage();
+		img =OutilsImage.lireImageEtRedimensionner(fondActuel, nivActuel.getWidth(), nivActuel.getHeight());
+
 		lbl.setIcon(new ImageIcon(img));
 		lbl.setBounds(nivActuel.getX(), nivActuel.getY(), nivActuel.getWidth(), nivActuel.getHeight());
 		contentPane.add(lbl);
-//		img =OutilsImage.lireImageEtRedimensionner(fondActuel, nivActuel.getWidth(), nivActuel.getHeight());
 	
 	    
 	}
@@ -398,19 +408,19 @@ public class FenetreDeJeu extends JFrame {
 	        	
 	            break;
 	        case "MARS":
-//	        	fondActuel = "mars2.jpg";
+	        	fondActuel = "mars2.jpg";
 	            break;
 	        case "ESPACE":
-//	        	fondActuel = "spacegif.gif";
+	        	fondActuel = "spacegif.gif";
 	            break;
 	        case "LUNE":
 	        	
 	        default:
-//	        	fondActuel = "terre4.png";
+	        	fondActuel = "terre4.png";
 	            break;
 	    }
-//			img =OutilsImage.lireImageEtRedimensionner(fondActuel, nivActuel.getWidth(), nivActuel.getHeight());
-//			lbl.setIcon(new ImageIcon(img));
+			img =OutilsImage.lireImageEtRedimensionner(fondActuel, nivActuel.getWidth(), nivActuel.getHeight());
+			lbl.setIcon(new ImageIcon(img));
 	        nivActuel.changerTypeGravite(fond);
 
 		repaint();
