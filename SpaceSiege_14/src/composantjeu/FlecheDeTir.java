@@ -52,6 +52,8 @@ public class FlecheDeTir implements Dessinable {
      * Rotation appliquée à la flèche, permettant de modifier son orientation.
      */
     private double rotation;
+    
+    private double longueurMax = 500; 
 
 
  /**
@@ -238,6 +240,21 @@ public class FlecheDeTir implements Dessinable {
 	  //Benakmoum Walid
 	public double getY1() {
 		return this.y1;
+	}
+	public void ajusterTaille(double x2, double y2) {
+	    double dx = x2 - x1;
+	    double dy = y2 - y1;
+	    double distance = Math.sqrt(dx * dx + dy * dy);
+
+	    if (distance > longueurMax) {
+	        dx = dx*longueurMax/distance;
+	        dy = dy*longueurMax/distance;
+	        x2 = x1+dx;
+	        y2 = y1+dy;
+	    }
+	    this.x2 = x2;
+	    this.y2 = y2;
+	    creerLaGeometrie();
 	}
 
 }

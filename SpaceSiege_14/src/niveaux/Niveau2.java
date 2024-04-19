@@ -28,6 +28,7 @@ import physique.Vecteur2D;
 
 import java.awt.Color;
 
+import obstacles.Cercle;
 import obstacles.Rectangle;
 
 import obstacles.Triangle;
@@ -56,11 +57,11 @@ public class Niveau2 extends Niveaux {
 	/**
      * L'intervalle de temps (en secondes) utilisé pour chaque itération du calcul physique.
      */
-	private double deltaT=0.10;
+	private double deltaT=0.01;
 	/**
      * Le temps de pause (en millisecondes) entre chaque itération de l'animation.
      */
-	private int tempsDuSleep = 10;
+	private int tempsDuSleep = 5;
 	/**
      * Un rectangle servant d'obstacle dans la zone d'animation.
      */
@@ -133,6 +134,7 @@ public class Niveau2 extends Niveaux {
      * Un tableau de triangles servant d'obstacles dans la zone d'animation (commenté pour le moment).
      */
     private Triangle[] tableauTri;
+    private Triangle tri;
   
     /**
      * Le canon utilisé pour tirer des balles.
@@ -145,7 +147,10 @@ public class Niveau2 extends Niveaux {
     /**
      * Le plan cartésien utilisé pour le rendu graphique.
      */
-    private PlanCartesien planCartesion= new PlanCartesien();
+
+
+	private Cercle[] tableauCercle;
+
     
 	/**
 	 * Constructeur de la classe. Permet de crée l'interface
@@ -155,7 +160,8 @@ public class Niveau2 extends Niveaux {
 		setBackground(new Color(192, 192, 192));
 		setLayout(null);
 		tableauRec = new Rectangle[3];
-		tableauTri = new Triangle[3];
+		tableauTri = new Triangle[1];
+		tableauCercle = new Cercle[3];
 		ecouteurSouris();
 		ecouteurClavier();
 		
@@ -172,22 +178,28 @@ public class Niveau2 extends Niveaux {
 
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		System.out.println(monstreMort+" NIVEAU 22222222");
-		planCartesion.setPosition(null);
+	
 
 		if(premiereFois) {
 			pixelParMetres = getWidth()/150;
 			int espace=0;
 			monstre = new Monstres(1000, 20, "images.jpg", pixelParMetres);
-			 canon=new Canon (0,10,pixelParMetres);
+			  canon = new Canon(0, 10,pixelParMetres,"CANONSEXY.png");
 				for(int i = 0 ; i < tableauRec.length ; i++) {
 					tableauRec[i] = new Rectangle(50 + espace, 50 + espace, pixelParMetres);
 					espace = espace + 80;
 				}
 				espace = 0;
-				for(int i = 0 ; i < tableauRec.length ; i++) {
-					tableauTri[i] = new Triangle(50, 50, 10, 15, pixelParMetres);
-					espace = espace + 80;
-				}
+//				for(int i = 0 ; i < tableauTri.length ; i++) {
+					tableauTri[0] = new Triangle(50, 50, 10, 15, pixelParMetres);
+					espace = 0;
+					for(int i = 0 ; i < tableauCercle.length ; i++) {
+		                tableauCercle[i] = new Cercle(  100 + espace,  100 + espace, pixelParMetres);
+		                espace = espace + 20;
+		            }
+					
+					
+//				}
 			premiereFois = false;
 		}
 
@@ -196,8 +208,10 @@ public class Niveau2 extends Niveaux {
 		tableauRec[2].dessiner(g2d);
 
 		tableauTri[0].dessiner(g2d);
-		tableauTri[1].dessiner(g2d);
-
+//		tableauTri[1].dessiner(g2d);
+		tableauCercle[0].dessiner(g2d);
+    	tableauCercle[1].dessiner(g2d);
+    	tableauCercle[2].dessiner(g2d);
 	//	planCartesion.setBalle(canon.getBalle());
 
 		
@@ -241,7 +255,13 @@ public class Niveau2 extends Niveaux {
 			for(int i =0 ; i < tableauRec.length ; i++) {
 				Collisions.collisionRectangle(canon.getBalle(),tableauRec[i]);
 			}
-			
+			for (int i = 0; i < tableauTri.length; i++) {
+				Collisions.collisionTriangle(canon.getBalle(), tableauTri[i]);
+
+			}
+			for (int i = 0; i < tableauCercle.length; i++) {
+				Collisions.collisionCercle(canon.getBalle(), tableauCercle[i]);
+			}
 
 			Area areaBalle = new Area(canon.getBalle().getCercle()); 
 	        Area areaMonstre = monstre.getArea();
@@ -274,9 +294,7 @@ public class Niveau2 extends Niveaux {
      */
 	// Benakmoum Walid
 	public void demarrer() {
-		System.out.println("DEMAREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
 		if (!enCoursDAnimation) {
-			System.out.println("SUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII");
 
 			Thread proc = new Thread(this);
 			proc.start();
@@ -322,7 +340,7 @@ public class Niveau2 extends Niveaux {
 	//ZAKARIA SOUDAKI
 	public void testerCollisionsEtAjusterVitesses() {	
 		 
-		canon.getBalle().gererCollisions(posMurSol, posMurDroit , posMurHaut, posMurGauche);
+		canon.getBalle().gererCollisionsBordures(posMurSol, posMurDroit , posMurHaut, posMurGauche);
 	}
 
 	 /**
@@ -357,7 +375,7 @@ public class Niveau2 extends Niveaux {
 	
 
 	    monstre = new Monstres(1000, 20, "images.jpg", pixelParMetres);
-	    canon = new Canon(0, 10,pixelParMetres);
+	    canon = new Canon(0, 10,pixelParMetres,"CANONSEXY.png");
 	    
 	   monstreMort=false;
 
@@ -460,8 +478,9 @@ public class Niveau2 extends Niveaux {
 			public void mouseClicked(MouseEvent e) {
 			
 				gestionSourisRecClick(e);
-				gestionSourisTriClick(e);
-				repaint();
+                gestionSourisTriClick(e);
+                gestionSourisCercleClick(e);
+                repaint();
 			}
 			 
 		});
@@ -472,6 +491,7 @@ public class Niveau2 extends Niveaux {
 			public void mouseDragged(MouseEvent e) {
 				gestionSourisRecDragged(e);
 				gestionSourisTriDragged(e);
+				gestionSourisCercleDragged(e);
 				gestionSourisCanon(e);
 				repaint();
 			}
@@ -503,7 +523,7 @@ public class Niveau2 extends Niveaux {
 					if (tableauTri[i].isClickedOnIt() == true && index != -1) {
 						tableauTri[i].redimension(index, e.getX(), e.getY());
 						repaint();
-					}else if(tableauTri[i].contient(e.getX(), e.getY()) && tableauTri[i].isClickedOnIt() == true && index == -1 ) {
+					}else if( tableauTri[i].isClickedOnIt() == true && index == -1 ) {
 						tableauTri[i].rotate( e.getX(), e.getY());
 						repaint();
 					}
@@ -576,7 +596,38 @@ public class Niveau2 extends Niveaux {
 		    }
 		    repaint();
 		}
-	
+		
+		//Méthode qui gère le mouvement de la souris pour les rectangles
+				//Ahmad Khanafer
+				private void gestionSourisCercleClick(MouseEvent e) {
+					for(int i =0 ; i < tableauCercle.length; i++) {
+						if(tableauCercle[i].contient(e.getX(), e.getY())) {
+							tableauCercle[i].setClickedOnIt(true);
+							repaint();
+						}else {
+							tableauCercle[i].setClickedOnIt(false);
+							repaint();
+						}
+					}
+				}
+				//Méthode qui gère les click de la souris pour les rectangles
+				//Ahmad Khanafer
+				private void gestionSourisCercleDragged(MouseEvent e) {
+					for(int i =0 ; i < tableauCercle.length; i++) {
+						int index = tableauCercle[i].getClickedResizeHandleIndex(e.getX(), e.getY());
+							if (tableauCercle[i].isClickedOnIt() == true && index != -1) {
+								tableauCercle[i].redimension(index, e.getX(), e.getY());
+								repaint();
+							}else if(tableauCercle[i].isClickedOnIt() == true && index == -1 ) {
+								tableauCercle[i].rotate( e.getX(), e.getY());
+								repaint();
+							}
+							if(tableauCercle[i].contient(e.getX(), e.getY()) && tableauCercle[i].isClickedOnIt() == false) {
+								tableauCercle[i].move( e.getX(), e.getY());
+								repaint();
+							}
+					}	
+				}
 }
 		
 			

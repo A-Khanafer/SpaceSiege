@@ -91,7 +91,7 @@ public class PanelBacASable extends JPanel {
         pixelParMetres = getWidth()/150;
         
         if(premiereFois) {
-            int espace=0;
+            double espace=0;
             for(int i = 0 ; i < tableauRec.length ; i++) {
                 tableauRec[i] = new Rectangle(100 + espace, 100 + espace, pixelParMetres);
                 espace = espace + 20;
@@ -103,7 +103,7 @@ public class PanelBacASable extends JPanel {
             }
             espace = 0;
             for(int i = 0 ; i < tableauCercle.length ; i++) {
-                tableauCercle[i] = new Cercle(100 + espace, 100 + espace, pixelParMetres);
+                tableauCercle[i] = new Cercle(  100 + espace,  100 + espace, pixelParMetres);
                 espace = espace + 20;
             }
             premiereFois = false;
@@ -148,7 +148,7 @@ public class PanelBacASable extends JPanel {
             nbrCercle += 1;
             repaint();
         } else {
-            JOptionPane.showMessageDialog(null,"Nombre Maximale de Triangle Atteint");
+            JOptionPane.showMessageDialog(null,"Nombre Maximale de Cercle Atteint");
         }
     }
 

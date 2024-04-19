@@ -142,7 +142,7 @@ public class Niveau3 extends Niveaux {
     /**
      * Le plan cartésien utilisé pour le rendu graphique.
      */
-    private PlanCartesien planCartesion= new PlanCartesien();
+    
 
     
     
@@ -172,13 +172,13 @@ public class Niveau3 extends Niveaux {
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		
 		System.out.println(pixelParMetres);
-        planCartesion.setPosition(null);
+       
 		if(premiereFois) {
 			pixelParMetres = getWidth()/150;
 			int espace=0;
 			
 			monstre = new Monstres(1000, 20, "images.jpg", pixelParMetres);
-			 canon=new Canon (0,10,pixelParMetres);
+			  canon = new Canon(0, 10,pixelParMetres,"CANONSEXY.png");
 			 
 			 
 
@@ -360,7 +360,7 @@ public class Niveau3 extends Niveaux {
      */
 	//ZAKARIA SOUDAKI
 	public void testerCollisionsEtAjusterVitesses() {	
-		canon.getBalle().gererCollisions(posMurSol, posMurDroit , posMurHaut, posMurGauche);
+		canon.getBalle().gererCollisionsBordures(posMurSol, posMurDroit , posMurHaut, posMurGauche);
 	}
 
 	 /**
@@ -394,7 +394,7 @@ public class Niveau3 extends Niveaux {
 		    canon.setPremiereFois(true);
 		    monstre = new Monstres(1000, 20, "images.jpg", pixelParMetres);
 		    monstre.setNombreDeVie(1);
-		    canon = new Canon(0, 10,pixelParMetres);
+		    canon = new Canon(0, 10,pixelParMetres,"CANONSEXY.png");
 		    
 		   monstreMort=false;
 

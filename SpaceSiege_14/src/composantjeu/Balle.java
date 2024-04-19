@@ -78,9 +78,8 @@ public class Balle {
 		diametre = diametreDonne;
 		this.vitesse = vitesse;
 		this.position = position;
-		System.out.println(pixelsParMetre);
+		System.out.println(pixelsParMetre+"QUESSSPASSSSSS");
 		this.position = this.position.multiplie(1/pixelsParMetre);
-		System.out.println(this.position.getX() +"     " + this.position.getY() + "dakmowdnc");
 		initialiserCercle();
 	}
 	/**
@@ -103,7 +102,6 @@ public class Balle {
 
 
 			 accel = MoteurPhysique.calculAcceleration(sommeForcesSurLaBalle, masse);
-		System.out.println(sommeForcesSurLaBalle.getY()+"N");
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -173,7 +171,7 @@ public class Balle {
 	  //Benakmoum Walid
 	public void setVitesse(Vecteur2D vit) {
 	    this.vitesse = vit;
-	    System.out.println(vitesse.getX()+" VITESSE EN X");
+//	    System.out.println(vitesse.getX()+" VITESSE EN X");
 	}
 
 	/**
@@ -191,7 +189,7 @@ public class Balle {
 	 * 
 	 * @return La coordonnée X du centre de la balle.
 	 */
-	  //Benakmoum Walid
+	  //Zakaria SOudaki
 	public double getPosXCentre() {
 	    return this.position.getX() + diametre / 2;
 	}
@@ -201,7 +199,7 @@ public class Balle {
 	 * 
 	 * @return La coordonnée Y du centre de la balle.
 	 */
-	  //Benakmoum Walid
+	  //Zakaria Soudaki
 	public double getPosYCentre() {
 	    return this.position.getY() + diametre / 2;
 	}
@@ -223,7 +221,7 @@ public class Balle {
 	public Ellipse2D.Double getCercle() {
 		return cercle;
 	}
-	 public void gererCollisions(double posSol, double posMurDroit, double posMurHaut, double posMurGauche) {
+	 public void gererCollisionsBordures(double posSol, double posMurDroit, double posMurHaut, double posMurGauche) {
 	    	if ( (position.getY() + diametre) >= ( posSol ) ) {
 	    		
 	    		vitesse.setY(-vitesse.getY());
@@ -254,6 +252,15 @@ public class Balle {
 		
 	}
 
+
+	//ZAKARIA SOUDAKI
+	public double getRayon() {
+		return diametre/2;
+	}
+
+public Vecteur2D getPositionEnMetre() {
+	return(position.multiplie(1/pixelsParMetre));
+}
 	
 	
 	

@@ -2,7 +2,7 @@ package niveaux;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-
+import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -15,6 +15,8 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.util.Arrays;
 
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -47,32 +49,21 @@ public class Niveaux extends JPanel implements Runnable {
 	/**
      * Indique si une animation est actuellement en cours.
      */
-	private boolean enCoursDAnimation=false;
+	protected boolean enCoursDAnimation=false;
 
-	private double rotation=20;
-	/**
-     * L'intervalle de temps (en secondes) utilisé pour chaque itération du calcul physique.
-     */
-	private double deltaT=0.10;
-	/**
-     * Le temps de pause (en millisecondes) entre chaque itération de l'animation.
-     */
-	private int tempsDuSleep = 10;
-	/**
-     * Un rectangle servant d'obstacle dans la zone d'animation.
-     */
+	
 
-	private Rectangle[] tableauRec;
+	
 	
 	/**
      * Indique si une balle a été tirée par le canon.
      */
-	private boolean balleTiree = false;
+	protected boolean balleTiree = false;
 	
 	/**
      * Utilisé pour effectuer des opérations lors du premier appel de certaines méthodes ou conditions.
      */
-	private double tempsTotalEcoule =0;
+	protected double tempsTotalEcoule =0;
 	
 	/**
      * Position du mur du sol, utilisée pour détecter les collisions et gérer les rebonds ou arrêts des objets animés.
@@ -103,38 +94,43 @@ public class Niveaux extends JPanel implements Runnable {
     /**
      * Index utilisé pour identifier les manipulations spécifiques des éléments de l'interface, telles que le redimensionnement ou la rotation d'obstacles.
      */
-    private int index = -1;
-    private int nombreDeVie=1;
-    private Monstres monstre;
+
 
     
-    private double pixelParMetres;
-	private boolean premiereFois = true;
+    protected double pixelParMetres;
 
-
-    private  int balleChoisie;
-
-    private Triangle[] tableauTri;
     /**
      * Le canon utilisé pour tirer des balles.
      */
-	private Canon canon;
-    private boolean monstreMort=false;
-    private PlanCartesien planCartesion= new PlanCartesien();
-
+    protected Canon canon ;
+    protected boolean monstreMort=false;
+    
+//    protected String fondActuel = "/fondjeu4.png";
+//    private PlanCartesien planCartesion= new PlanCartesien();
+//    protected JLabel lbl;
+//    protected Image img;
     
     
 	/**
 	 * Constructeur de la classe. Permet de crée l'interface
 	 */
-    //Benakmoum Walid
 	public Niveaux() {
-		setBackground(new Color(192, 192, 192));
+		
+		setOpaque(false);
+		
+		
+		setBounds(0, 0, 1296, 672);
 		setLayout(null);
-		tableauRec = new Rectangle[3];
-		tableauTri = new Triangle[3];
-		ecouteurSouris();
-		ecouteurClavier();
+		
+		
+
+		pixelParMetres = 8.64;
+		  canon = new Canon(0, 10,pixelParMetres,"CANONSEXY.png");
+		
+		
+		
+		
+		
 		
 		
 	}
@@ -142,13 +138,10 @@ public class Niveaux extends JPanel implements Runnable {
      * Dessine les composants graphiques de la zone d'animation, y compris le canon et les obstacles.
      * @param g L'objet Graphics utilisé pour dessiner.
      */
-	// Benakmoum Walid 
 	public void paintComponent(Graphics g ) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
-
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-		
 		
 	    posMurSol = getHeight();
 	    posMurDroit = getWidth();
@@ -157,29 +150,24 @@ public class Niveaux extends JPanel implements Runnable {
 
 	    hauteurComposant = getHeight();
 	    largeurComposant = getWidth();
-	   
-	   
 
 	}
 	/**
      * Exécute l'animation en boucle tant que enCoursDAnimation est vrai. Gère le calcul physique et les collisions.
      */
-	//Benakmoum Walid
 	public void run() {
 		
-}
+	}
 
 	/**
      * Démarre le thread d'animation si ce n'est pas déjà fait.
      */
-	// Benakmoum Walid
 	public void demarrer() {
 		
 		
 			
 		}
 	//fin methode
-	//WALID
 	  public void prochaineImage() {
 		  
 	  }
@@ -187,8 +175,7 @@ public class Niveaux extends JPanel implements Runnable {
      * Calcule une itération physique en fonction du deltaT.
      * @param deltaT Le temps écoulé depuis la dernière itération.
      */
-	//Benakmoum Walid
-	public void calculerUneIterationPhysique(double deltaT) {
+		public void calculerUneIterationPhysique(double deltaT) {
 		
 	}
 	
@@ -204,7 +191,6 @@ public class Niveaux extends JPanel implements Runnable {
 	 /**
      * Calcule les forces agissant sur les objets de la zone d'animation, telles que la gravité.
      */
-// Benakmoum Walid
 	private void calculerLesForces() {
 
 //		Vecteur2D forceDeGravite=MoteurPhysique.calculForceGrav(canon.getBalle().getMasse(), Math.toRadians(90));
@@ -218,7 +204,7 @@ public class Niveaux extends JPanel implements Runnable {
 	 * Réinitialise l'application à son état initial, incluant la remise à zéro de tous les composants d'animation et des variables d'état.
 	 * Cette méthode stoppe l'animation en cours si elle est active, réinitialise la rotation, le temps total écoulé, l'état de tir de la balle,
 	 */
-	  //Benakmoum Walid
+	  
 	public void reinitialiserApplication() {
 	
 	  
@@ -227,7 +213,7 @@ public class Niveaux extends JPanel implements Runnable {
 	/**
      * Méthode qui permet de tirer la balle.
      */
-	  //Benakmoum Wid
+	 
 	public  void TirerBalle() {
 		
 	}
@@ -238,27 +224,33 @@ public class Niveaux extends JPanel implements Runnable {
 
 	}
 	public void setNombreDeVie(int nb) {
-	    this.nombreDeVie = nb;
-	    if (this.monstre != null) {
-	        this.monstre.setNombreDeVie(nb);
-	    }
-	    repaint();
+	    
 	}
+	
 	public void changerTypeGravite(String typeGravite) {
 	
 	}
+	
 	public boolean getEnCoursAnimation() {
 		return enCoursDAnimation;
 		
 	}
 	 public void stopperAnim(){
 		  
-	  }
+	 }
 	
+	 public double getPixelParMetres() {
+		 return pixelParMetres;
+	 }
+	 
+	 public Balle getBalle() {
+		 return canon.getBalle();
+	 }
+	 
 	/**
      * Initialise l'écouteur de clavier pour interagir avec l'animation via le clavier.
      */
-	  //Benakmoum Walid
+	  
 	private void ecouteurClavier() {
 		
 	}
@@ -280,8 +272,10 @@ public class Niveaux extends JPanel implements Runnable {
 	private void gestionSourisCanon(MouseEvent e) {
 		
 	}
-}
-		
-			
+	
+	
+	
+	
+	}
 
 		

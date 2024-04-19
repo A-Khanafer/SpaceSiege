@@ -1,3 +1,4 @@
+
 package obstacles;
 
 import java.awt.BasicStroke;
@@ -13,6 +14,7 @@ import java.awt.geom.Rectangle2D;
 import interfaces.Dessinable;
 import interfaces.Obstacles;
 import interfaces.Selectionnable;
+import physique.Vecteur2D;
 
 public class Cercle implements Obstacles, Dessinable, Selectionnable {
 	
@@ -66,6 +68,20 @@ public class Cercle implements Obstacles, Dessinable, Selectionnable {
      * Aire de la poignée de rotation du cercle.
      */
 	private Area  aireCercle;
+	
+	private double diametre;
+	private double rayon;
+	 /**
+    * Position actuelle de la balle dans l'espace de simulation, exprimée par un vecteur.
+    */
+    protected Vecteur2D positionCentre;
+	
+	
+	
+	
+	
+	
+	
 	/**
      * Constructeur de la classe Rectangle.
      *
@@ -73,15 +89,20 @@ public class Cercle implements Obstacles, Dessinable, Selectionnable {
      * @param posY La position en Y du coin supérieur gauche du rectangle.
      */
     //Ahmad Khanafer
+	
 	public Cercle(double posX, double posY, double pixelsParMetre) {
-    	this.pixelsParMetre = pixelsParMetre;
+		
+		this.pixelsParMetre = pixelsParMetre;
         this.coinXGauche = posX;
         this.coinYGauche = posY;
+      
         largeur = 10 * this.pixelsParMetre;
-        longueur = 10 * this.pixelsParMetre;
+        longueur = largeur;
+        diametre = largeur;
+        rayon = diametre /2;
         poigneRedimensionnement = new Ellipse2D.Double[8];
         creerLaGeometrie();
-    }
+	}
 	// Méthode privée pour initialiser la géométrie du rectangle
     //Ahmad Khanafer
     private void creerLaGeometrie() {
@@ -100,6 +121,7 @@ public class Cercle implements Obstacles, Dessinable, Selectionnable {
         centreY = cercle.getCenterY();
         aireCercle = new Area(cercle);
         
+        positionCentre = new Vecteur2D(centreX, centreY);
         creationResizeHandles();
         calculerCoins();
         
@@ -235,31 +257,21 @@ public class Cercle implements Obstacles, Dessinable, Selectionnable {
         }
         return -1; // Aucune poignée de redimensionnement trouvée à cette position
     }
+	//Zakaria SOudaki
+    public double getRayon() {
+		return rayon;
+	}
+	public Vecteur2D getPositionCentre() {
+		return positionCentre;
+	}
+	public void setPositionCentre(Vecteur2D positionCentre) {
+		this.positionCentre = positionCentre;
+	}
+
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	
 }
+

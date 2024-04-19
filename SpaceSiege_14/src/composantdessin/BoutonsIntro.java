@@ -67,9 +67,8 @@ public class BoutonsIntro extends JPanel {
 				
 				OutilsImage.lireImageEtPlacerSurBouton("q2.png", btnJouer);
 			
-				FenetreModeDeJeu.afficherFenetre();
-				app.setVisible(false);
-				app.dispose();
+				FenetreModeDeJeu.afficherFenetre(app);
+			
 				
 			}
 		});

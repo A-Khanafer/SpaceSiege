@@ -123,5 +123,6 @@ public class Monstres extends JPanel{
 	    public void setNombreDeVie(int nb) {
 	    	nombreDeVie=nb;
 	    }
+	    
 	   
 }
