@@ -17,7 +17,7 @@ import interfaces.Obstacles;
 import interfaces.Selectionnable;
 import physique.Vecteur2D;
 
-public class Cercle implements Obstacles, Dessinable, Selectionnable {
+public class CercleElectrique implements Obstacles, Dessinable, Selectionnable {
 	
 	 /**
      * Le nombre de pixels par mètre.
@@ -72,6 +72,9 @@ public class Cercle implements Obstacles, Dessinable, Selectionnable {
 	
 	private double diametre;
 	private double rayon;
+	
+	private double rayonElectrique;
+	private double charge;
 	 /**
     * Position actuelle de la balle dans l'espace de simulation, exprimée par un vecteur.
     */
@@ -91,7 +94,7 @@ public class Cercle implements Obstacles, Dessinable, Selectionnable {
      */
     //Ahmad Khanafer
 	
-	public Cercle(double posX, double posY, double pixelsParMetre) {
+	public CercleElectrique(double posX, double posY, double pixelsParMetre) {
 		
 		this.pixelsParMetre = pixelsParMetre;
         this.coinXGauche = posX;
@@ -99,14 +102,16 @@ public class Cercle implements Obstacles, Dessinable, Selectionnable {
       
         largeur = 10 * this.pixelsParMetre;
         longueur = largeur;
-        diametre = largeur;
-        rayon = diametre /2;
+        
         poigneRedimensionnement = new Ellipse2D.Double[8];
         creerLaGeometrie();
 	}
 	// Méthode privée pour initialiser la géométrie du rectangle
     //Ahmad Khanafer
     private void creerLaGeometrie() {
+    	diametre = largeur;
+        rayon = diametre /2;
+    	
     	coinXDroite = coinXGauche + largeur;
         coinYDroite = coinYGauche;
 
@@ -174,7 +179,7 @@ public class Cercle implements Obstacles, Dessinable, Selectionnable {
 	   	
         Graphics2D g2dCopy = (Graphics2D) g2d.create();
         Graphics2D g2dCopy2 = (Graphics2D) g2d.create();
-        g2dCopy.setColor(Color.red);
+        g2dCopy.setColor(Color.black);
         g2dCopy.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2dCopy.rotate(angleRotation, centreX, centreY);
         g2dCopy.fill(cercle);
