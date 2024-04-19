@@ -35,12 +35,6 @@ public class Cercle implements Obstacles, Dessinable, Selectionnable {
      * La forme du rectangle.
      */
     private Rectangle2D.Double  rectanglePointille;
-
-    /**
-     * La zone délimitée par le rectangle.
-     */
-    private Area aireRec;
-
     /**
      * Les coordonnées du centre du cercle.
      */
