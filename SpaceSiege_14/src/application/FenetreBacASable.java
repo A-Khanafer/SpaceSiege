@@ -5,18 +5,24 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import outils.OutilsImage;
+import sandbox.CreationFichierBinaireObjet;
+import sandbox.LireFichierTexte;
+import sandbox.PanelBacASable;
 
 import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.JSlider;
-import composantdessin.PanelBacASable;
+import javax.swing.JFileChooser;
 
 public class FenetreBacASable extends JFrame {
 
@@ -39,6 +45,9 @@ public class FenetreBacASable extends JFrame {
 	private JButton btnRetour;
 	private PanelBacASable panelBacASable;
 	private static FenetreModeDeJeu appli;
+	private JFileChooser fileChooser;
+	private JButton btnLoad;
+	private String selectedFilePath;
 	
 	
 	public static void afficherFenetre(FenetreModeDeJeu app) {
@@ -88,7 +97,7 @@ public class FenetreBacASable extends JFrame {
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(255, 255, 255));
-		panel_1.setBounds(1489, 235, 394, 771);
+		panel_1.setBounds(1489, 464, 394, 542);
 		contentPane.add(panel_1);
 		panel_1.setLayout(null);
 		
@@ -107,11 +116,11 @@ public class FenetreBacASable extends JFrame {
 				setVisible(false);
 			}
 		});
-		btnRetour.setBounds(23, 579, 115, 105);
+		btnRetour.setBounds(23, 435, 115, 105);
 		panel_1.add(btnRetour);
 		
 		JButton btnNewButton_3 = new JButton("New button");
-		btnNewButton_3.setBounds(210, 579, 115, 105);
+		btnNewButton_3.setBounds(150, 435, 115, 105);
 		panel_1.add(btnNewButton_3);
 		
 		JLabel lblNbDeBalle = new JLabel("Nombre de balles total  :");
@@ -145,6 +154,48 @@ public class FenetreBacASable extends JFrame {
 		JSlider slider = new JSlider();
 		slider.setBounds(24, 367, 200, 26);
 		panel_1.add(slider);
+		
+		btnLoad = new JButton("Load Niveau");
+		btnLoad.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				JFrame frame = new JFrame();
+			    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			    frame.setSize(400, 300);
+			    frame.setLocationRelativeTo(null);
+				
+				fileChooser = new JFileChooser();
+				fileChooser.setBounds(1076, 11, 576, 453);
+				contentPane.add(fileChooser);
+				fileChooser.setAcceptAllFileFilterUsed(false); // Désactive le filtre "Tous les fichiers"
+		        FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files", "txt");
+		        fileChooser.setFileFilter(filter);
+		        
+		        // Afficher le dialogue et obtenir la réponse de l'utilisateur
+		        int result = fileChooser.showOpenDialog(frame);
+		
+		        if (result == JFileChooser.APPROVE_OPTION) {
+		            File selectedFile = fileChooser.getSelectedFile();
+		            // Vérifier si le fichier a l'extension correcte
+		            if (selectedFile != null && selectedFile.getName().endsWith(".txt")) {
+		            	  // Sauvegarder le chemin du fichier
+		            	selectedFilePath = selectedFile.getAbsolutePath();
+		                JOptionPane.showMessageDialog(frame, "Fichier sélectionné: " + selectedFile.getAbsolutePath());
+		            } else {
+		            	JOptionPane.showMessageDialog(frame, "Erreur: Veuillez sélectionner un fichier .txt!", "Erreur de fichier", JOptionPane.ERROR_MESSAGE);
+		                // Vous pouvez maintenant lire ou écrire dans le fichier
+		            }
+		        }  else if (JFileChooser.CANCEL_SELECTION.equals(e.getActionCommand())) {
+	                JOptionPane.showMessageDialog(frame, "Sélection annulée.");
+	            }
+				
+		        System.out.println(selectedFilePath);
+		        LireFichierTexte.lireFichierTexte(selectedFilePath);
+		        CreationFichierBinaireObjet.creationFichierBinaire(selectedFilePath);
+			}
+		});
+		btnLoad.setBounds(273, 367, 89, 23);
+		panel_1.add(btnLoad);
 		
 		btnCarre = new JButton("Carre");
 		btnCarre.setBounds(10, 901, 115, 105);
@@ -200,8 +251,9 @@ public class FenetreBacASable extends JFrame {
 		btnMonstre.setBounds(912, 901, 115, 105);
 		contentPane.add(btnMonstre);
 		OutilsImage.lireImageEtPlacerSurBouton("images.jpg", btnMonstre);
-		
-		
-
 	}
+	
+	public String getSelectedFilePath() {
+        return selectedFilePath;
+    }
 }
