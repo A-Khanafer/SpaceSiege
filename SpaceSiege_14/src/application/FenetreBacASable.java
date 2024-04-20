@@ -181,6 +181,8 @@ public class FenetreBacASable extends JFrame {
 		            	  // Sauvegarder le chemin du fichier
 		            	selectedFilePath = selectedFile.getAbsolutePath();
 		                JOptionPane.showMessageDialog(frame, "Fichier sélectionné: " + selectedFile.getAbsolutePath());
+		                LireFichierTexte.lireFichierTexte(selectedFilePath);
+				        CreationFichierBinaireObjet.creationFichierBinaire(selectedFilePath);
 		            } else {
 		            	JOptionPane.showMessageDialog(frame, "Erreur: Veuillez sélectionner un fichier .txt!", "Erreur de fichier", JOptionPane.ERROR_MESSAGE);
 		                // Vous pouvez maintenant lire ou écrire dans le fichier
@@ -190,8 +192,7 @@ public class FenetreBacASable extends JFrame {
 	            }
 				
 		        System.out.println(selectedFilePath);
-		        LireFichierTexte.lireFichierTexte(selectedFilePath);
-		        CreationFichierBinaireObjet.creationFichierBinaire(selectedFilePath);
+		        
 			}
 		});
 		btnLoad.setBounds(273, 367, 89, 23);
