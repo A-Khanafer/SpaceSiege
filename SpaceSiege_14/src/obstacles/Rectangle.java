@@ -3,6 +3,7 @@ package obstacles;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
@@ -10,6 +11,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.Random;
 
 import interfaces.Dessinable;
 import interfaces.Obstacles;
@@ -91,6 +93,8 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 	private Area airePoigne;
 	
 	private Point2D.Double[] coins;
+	
+	private Image texture;
     /**
      * Constructeur de la classe Rectangle.
      *
@@ -105,6 +109,7 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
         largeurRec = 10 * this.pixelsParMetre;
         longueurRec = 10 * this.pixelsParMetre;
         poigneRedimensionnement = new Ellipse2D.Double[8];
+        
         creerLaGeometrie();
     }
 
@@ -140,6 +145,7 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
         AffineTransform transformation = new AffineTransform();
         transformation.rotate(angleRotation, centreX, centreY);
         airePoigne.transform(transformation);
+        textureRandom();
         creationResizeHandles();
         calculerCoins();
         
@@ -380,6 +386,7 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
         g2dCopy.rotate(angleRotation, centreX, centreY);
         g2dCopy.setColor(Color.blue);
         g2dCopy.fill(rectangle);
+        g2dCopy.drawImage(texture, (int) coinXGauche, (int) coinYGauche, null, null);
         
         if (estClique) {
             BasicStroke pointille = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
@@ -488,5 +495,22 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 //        points[3] = segment.getY2();
 //        return points;
 //    }
+    
+    private void textureRandom() {
+    	 Random rand = new Random();
+         int i = rand.nextInt(3) + 1;
+         
+         switch(i) {
+         case 1 : 
+        	 texture = OutilsImage.lireImageEtRedimensionner("textureRec1.jpg", (int)largeurRec, (int) longueurRec);
+        	 break;
+         case 2 : 
+        	 texture = OutilsImage.lireImageEtRedimensionner("textureRec2.jpg", (int)largeurRec, (int) longueurRec);
+        	 break;
+         case 3 : 
+        	 texture = OutilsImage.lireImageEtRedimensionner("textureRec3.jpg", (int)largeurRec, (int) longueurRec);
+        	 break;
+         }
+    }
 
 }

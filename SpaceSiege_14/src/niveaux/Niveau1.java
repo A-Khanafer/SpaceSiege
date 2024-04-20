@@ -245,7 +245,7 @@ public class Niveau1 extends Niveaux {
 
 		canon.dessiner(g2d);
 
-System.out.println(getHeight()+" JAIME LES HOMMES");
+
 	    posMurSol = getHeight();
 	    posMurDroit = getWidth();
 	    posMurGauche = 0;
