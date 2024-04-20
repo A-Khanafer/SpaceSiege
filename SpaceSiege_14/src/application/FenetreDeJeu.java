@@ -475,20 +475,24 @@ public class FenetreDeJeu extends JFrame {
 		comboBoxTypeGrav.setSelectedItem("ESPACE");
 	    niv1.changerTypeGravite("ESPACE"); 
 	    
-	    	
-		
-		
-	    lbl = new JLabel();
-//		Image img  = new ImageIcon(this.getClass().getResource(fondActuel)).getImage();
-		img =OutilsImage.lireImageEtRedimensionner(fondActuel, nivActuel.getWidth(), nivActuel.getHeight());
-
-		lbl.setIcon(new ImageIcon(img));
-		lbl.setBounds(nivActuel.getX(), nivActuel.getY(), nivActuel.getWidth(), nivActuel.getHeight());
-		contentPane.add(lbl);
-		
 		planCartesien = new PlanCartesien(nivActuel.getBalle().getPositionEnMetre());
 		planCartesien.setBounds(1192, 683, 382, 286);
 		contentPane.add(planCartesien);
+		
+		
+	  
+		
+		
+		    lbl = new JLabel();
+//			Image img  = new ImageIcon(this.getClass().getResource(fondActuel)).getImage();
+			img =OutilsImage.lireImageEtRedimensionner(fondActuel, nivActuel.getWidth(), nivActuel.getHeight());
+
+			lbl.setIcon(new ImageIcon(img));
+			lbl.setBounds(nivActuel.getX(), nivActuel.getY(), nivActuel.getWidth(), nivActuel.getHeight());
+			contentPane.add(lbl);
+			
+		
+		
 	
 	    
 	}

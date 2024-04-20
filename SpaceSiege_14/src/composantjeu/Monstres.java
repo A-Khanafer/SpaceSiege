@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 
 import outils.OutilsImage;
 
-public class Monstres extends JPanel{
+public class Monstres extends JPanel implements Runnable{
 	
 	/**
 	 * La classe Monstres représente un élément de jeu interactif qui peut être dessiné sur un JPanel.
@@ -51,8 +51,16 @@ public class Monstres extends JPanel{
 	    
 	    /** La zone d'air du monstre, utilisée pour les collisions **/
 	    private Area air;
+	    
+	    private boolean enCourDAnimation = false;
+
 
 	    private static int nombreDeVie=1;
+	    
+	    private String nomImg;
+	    
+	    private int index = 1;
+	    private String imgActuel;
 	    /**
 		 * Constructeur de la classe Monstres.
 		 * @param posX La position en X du monstre.
@@ -60,15 +68,18 @@ public class Monstres extends JPanel{
 		 * @param nomImage Le nom de l'image à utiliser pour représenter le monstre.
 		 **/
 	    //Zakaria Soudaki
-	    public Monstres(int posX, int posY, String nomImage, double pixelsParMetres) {
+	    public Monstres(int posX, int posY, String nomImg, double pixelsParMetres) {
+	    	setOpaque(false);
 	    	this.pixelsParMetres = pixelsParMetres;
 	        this.posX = posX;
 	        this.posY = posY;
+	        this.nomImg = nomImg;
 	        largeurRectangle = 15*this.pixelsParMetres;
 	        hauteurRectangle = 15*this.pixelsParMetres;
-	       imgDecor = OutilsImage.lireImage(nomImage); 
+	        imgDecor = OutilsImage.lireImage(nomImg); 
 	       
 	       creerLaGeometrie();
+	       demarrer();
 	    }
 
 	    /**
@@ -79,9 +90,6 @@ public class Monstres extends JPanel{
 	        rec = new Rectangle2D.Double(posX,posY,largeurRectangle,hauteurRectangle);
 	        air = new Area(rec);
 	        
-	        
-	        
-	       
 	    }
 
 	    /**
@@ -90,8 +98,7 @@ public class Monstres extends JPanel{
 		 **/
 	    //zakaria soudaki
 	    public void dessiner(Graphics2D g2d) {
-	        g2d.setColor(Color.GREEN);
-	        g2d.fill(rec); // Dessiner le rectangle avec l'image
+	    	
 	        g2d.drawImage( imgDecor,  posX,  posY,  (int)largeurRectangle, (int) hauteurRectangle,  null);
 
 
@@ -123,6 +130,54 @@ public class Monstres extends JPanel{
 	    public void setNombreDeVie(int nb) {
 	    	nombreDeVie=nb;
 	    }
+
+	    public void demarrer() {
+			if (!enCourDAnimation) {
+				Thread proc = new Thread(this);
+				proc.start();
+				enCourDAnimation = true;
+			}
+		}//fin
+	    
+		@Override
+		public void run() {
+		while(enCourDAnimation) {
+			
+			
+			imgActuel =  nomImg + index;
+			index++;
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			repaint();
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+		}
+			
+		}
 	    
 	   
 }
