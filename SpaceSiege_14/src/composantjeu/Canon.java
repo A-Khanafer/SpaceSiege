@@ -164,7 +164,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 		aireBase= new Area(base);
 		aireRect.add(aireCercle);
 		positionDeTir = new FlecheDeTir(cercle.getCenterX(), cercle.getCenterY(), dx,dy);
-		//image =OutilsImage.lireImageEtRedimensionner(urlImage,(int)103,(int) 51);
+		image =OutilsImage.lireImageEtRedimensionner(urlImage,(int)103,(int) 51);
 
 
 		 if (!balleTiree && premiereFois) {
@@ -202,7 +202,7 @@ if(!balleTiree) {
 		g2dPrive.rotate(rotation, cercle.getCenterX(), cercle.getCenterY());
 		g2dPrive.setColor(Color.BLACK);
 		g2dPrive.fill(aireRect);
-		
+		g2d.drawImage(image,(int)( 3+hauteur/2), (int)y, (int)largeur,(int) hauteur,null);
 	
 	}
 	
@@ -424,6 +424,9 @@ if(!balleTiree) {
     public void setPixelsParMetre(int pixel) {
         this.pixelsParMetre = pixel;
         creerLaGeometrie();
+    }
+    public double getRotation() {
+    	return Math.toDegrees(rotation);
     }
 
 }

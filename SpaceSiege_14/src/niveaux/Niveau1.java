@@ -109,7 +109,7 @@ public class Niveau1 extends Niveaux {
     /**
      * Le nombre de vie du joueur.
      */
-    private int nombreDeVie=1;
+    private int nombreDeVie=2;
     /**
      * L'instance du monstre présent dans le niveau.
      */
@@ -178,21 +178,21 @@ public class Niveau1 extends Niveaux {
 		
 			 
 			 tableauRec[0] = new Rectangle(  143,  354, 330, 53,0);
-			 tableauRec[1] = new Rectangle(  644,  120, 186, 48,0);
+			 tableauRec[1] = new Rectangle(  100000,  120, 186, 48,0);
 			 
-			 tableauRec[2] = new Rectangle(  224,  0, 229, 57,0);
+			 tableauRec[2] = new Rectangle(  100000,  0, 229, 57,0);
 			 
-			 tableauRec[3] = new Rectangle(  246,  393, 280, 56,0);
+			 tableauRec[3] = new Rectangle(  100000,  393, 280, 56,0);
 			 
-			 tableauRec[4] = new Rectangle( 344, 0, 258, 57,0);
+			 tableauRec[4] = new Rectangle( 100000, 0, 258, 57,0);
 			 
 			 tableauRec[5] = new Rectangle(  398, 377, 290, 52,0);
 			 
-			 tableauRec[6] = new Rectangle( 489, 0, 238, 47,0);
+			 tableauRec[6] = new Rectangle( 10000, 0, 238, 47,0);
 			 
-			 tableauRec[7] = new Rectangle(  560,458, 210, 60,0);
-			 tableauRec[8] = new Rectangle( 800, 20, 162, 36,45);
-			 tableauRec[9] = new Rectangle(  780, 464, 140, 124,45);
+			 tableauRec[7] = new Rectangle(  1000,458, 210, 60,0);
+			 tableauRec[8] = new Rectangle( 1000, 20, 162, 36,45);
+			 tableauRec[9] = new Rectangle(  100080, 464, 140, 124,45);
 			 
 			 tableauRec[10] = new Rectangle(  1172, 238, 113, 92,0);
 
@@ -227,7 +227,6 @@ public class Niveau1 extends Niveaux {
 
 		canon.dessiner(g2d);
 
-System.out.println(getHeight()+" JAIME LES HOMMES");
 	    posMurSol = getHeight();
 	    posMurDroit = getWidth();
 	    posMurGauche = 0;
@@ -264,7 +263,7 @@ System.out.println(getHeight()+" JAIME LES HOMMES");
 
 	        if (!areaBalle.isEmpty()) {
 	        	monstre.perdUneVie();
-	        	reinitialiserApplication();
+	        
      
 	        }
 
@@ -439,7 +438,7 @@ System.out.println(getHeight()+" JAIME LES HOMMES");
 	public void setNombreDeVie(int nb) {
 	    this.nombreDeVie = nb;
 	    if (this.monstre != null) {
-	        this.monstre.setNombreDeVie(nb);
+	        this.monstre.setNombreDeVie(nombreDeVie);
 	    }
 	    repaint();
 	}
@@ -593,8 +592,13 @@ System.out.println(getHeight()+" JAIME LES HOMMES");
 //		    }
 
 		    if (!balleTiree && !toucheObjet) {
+		 
+		    	if(e.getX()>30) {
 		        canon.rotate(e.getX(), e.getY());
+		    
+		    	
 		        canon.changerTaille(e.getX(), e.getY());
+		    	}
 		    }
 
 		   
@@ -603,7 +607,9 @@ System.out.println(getHeight()+" JAIME LES HOMMES");
 		    }
 		    repaint();
 		}
-	
+	public int getVie() {
+		return this.nombreDeVie;
+	}
 }
 		
 			

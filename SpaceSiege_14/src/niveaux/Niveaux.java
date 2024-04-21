@@ -235,6 +235,7 @@ public class Niveaux extends JPanel implements Runnable {
 	 public Balle getBalle() {
 		 return canon.getBalle();
 	 }
+	
 	 
 	/**
      * Initialise l'écouteur de clavier pour interagir avec l'animation via le clavier.
