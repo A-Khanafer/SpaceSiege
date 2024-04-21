@@ -124,5 +124,6 @@ public class Monstres extends JPanel{
 	    	nombreDeVie=nb;
 	    	
 	    }
+	    
 	   
 }

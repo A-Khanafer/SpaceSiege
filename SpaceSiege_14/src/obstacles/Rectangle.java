@@ -3,6 +3,7 @@ package obstacles;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
@@ -10,6 +11,8 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.io.Serializable;
+import java.util.Random;
 
 import interfaces.Dessinable;
 import interfaces.Obstacles;
@@ -24,10 +27,12 @@ import outils.OutilsImage;
  * @author Ahmad Khanafer
  * @author zakaria soudaki
  */
-public class Rectangle implements Obstacles, Dessinable, Selectionnable {
+public class Rectangle implements Obstacles, Dessinable, Selectionnable, Serializable {
 
 
-    /**
+	private static final long serialVersionUID = -6979285541279947116L;
+
+	/**
      * Le nombre de pixels par mètre.
      */
     private double pixelsParMetre;
@@ -89,6 +94,10 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
      * Aire de la poignée de rotation du rectangle.
      */
 	private Area airePoigne;
+	
+	private Point2D.Double[] coins;
+	
+	private Image texture;
     /**
      * Constructeur de la classe Rectangle.
      *
@@ -103,6 +112,7 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
         largeurRec = 10 * this.pixelsParMetre;
         longueurRec = 10 * this.pixelsParMetre;
         poigneRedimensionnement = new Ellipse2D.Double[8];
+        textureRandom();
         creerLaGeometrie();
     }
 
@@ -113,7 +123,8 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
         angleRotation = rotation;
         longueurRec = longueur;
         largeurRec = largeur;
-    	poigneRedimensionnement = new Ellipse2D.Double[8];  	
+    	poigneRedimensionnement = new Ellipse2D.Double[8];
+    	textureRandom();
     	creerLaGeometrie();
     }
     // Méthode privée pour initialiser la géométrie du rectangle
@@ -138,6 +149,7 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
         AffineTransform transformation = new AffineTransform();
         transformation.rotate(angleRotation, centreX, centreY);
         airePoigne.transform(transformation);
+        
         creationResizeHandles();
         calculerCoins();
         
@@ -191,19 +203,17 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 
         AffineTransform rotation = AffineTransform.getRotateInstance(angleRotation, centreX, centreY);
 
-        Point2D.Double[] coins = new Point2D.Double[4];
+        coins = new Point2D.Double[4];
         rotation.transform(coinSupGauche, coins[0] = new Point2D.Double());
         rotation.transform(coinSupDroit, coins[1] = new Point2D.Double());
         rotation.transform(coinInfDroit, coins[2] = new Point2D.Double());
         rotation.transform(coinInfGauche, coins[3] = new Point2D.Double());
 
-        segmentHaut = new Line2D.Double(coins[0].getX(), coins[0].getY(), coins[1].getX(), coins[1].getY());
-        segmentBas = new Line2D.Double(coins[3].getX(), coins[3].getY(), coins[2].getX(), coins[2].getY());
-        segmentGauche = new Line2D.Double(coins[0].getX(), coins[0].getY(), coins[3].getX(), coins[3].getY());
-        segmentDroite = new Line2D.Double(coins[1].getX(), coins[1].getY(), coins[2].getX(), coins[2].getY());
+        calculerSegments();
+       
     }
     
-    private Point2D.Double transformMousePoint(double mouseX, double mouseY) {
+	private Point2D.Double transformMousePoint(double mouseX, double mouseY) {
         // Inverser l'angle de rotation pour transformer les coordonnées
         double inverseAngle = -this.angleRotation;
 
@@ -327,7 +337,6 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 	        }
     	}
         creerLaGeometrie();
-        System.out.println("_______________________angle_________________________"+angleRotation);
     }
     
     /**
@@ -380,6 +389,7 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
         g2dCopy.rotate(angleRotation, centreX, centreY);
         g2dCopy.setColor(Color.blue);
         g2dCopy.fill(rectangle);
+        g2dCopy.drawImage(texture, (int) coinXGauche, (int) coinYGauche, (int)largeurRec, (int) longueurRec, null, null);
         
         if (estClique) {
             BasicStroke pointille = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
@@ -436,6 +446,18 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
     }
 
     /**
+     * méthode pour calculer les segments sur chaque coter du rectangle
+     */
+    //ZAKARIA SOUDAKI
+    private void calculerSegments() {
+    	 segmentHaut = new Line2D.Double(coins[0].getX(), coins[0].getY(), coins[1].getX(), coins[1].getY());
+         segmentBas = new Line2D.Double(coins[3].getX(), coins[3].getY(), coins[2].getX(), coins[2].getY());
+         segmentGauche = new Line2D.Double(coins[0].getX(), coins[0].getY(), coins[3].getX(), coins[3].getY());
+         segmentDroite = new Line2D.Double(coins[1].getX(), coins[1].getY(), coins[2].getX(), coins[2].getY());		
+	}
+
+    
+    /**
      * Méthode pour obtenir un segment spécifique du rectangle.
      *
      * @param num Le numéro du segment à récupérer (1 pour le bas, 2 pour la droite, 3 pour le haut, 4 pour la gauche).
@@ -459,22 +481,53 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
         }
         return seg;
     }
-    /**
-     * Cette méthode retourne les coordonnées des deux points définissant un segment de ligne.
-     *
-     * @param segment Le segment de ligne dont vous souhaitez obtenir les coordonnées des points.
-     * @return Un tableau de double de longueur 4 contenant les coordonnées des deux points du segment.
-     *         Les deux premiers éléments du tableau représentent les coordonnées (x, y) du premier point
-     *         et les deux derniers éléments du tableau représentent les coordonnées (x, y) du deuxième point.
-     */
-    //Zakaria Soudaki
-    public double[] getPointsSegment(Line2D.Double segment) {
-        double[] points = new double[4];
-        points[0] = segment.getX1();
-        points[1] = segment.getY1();
-        points[2] = segment.getX2();
-        points[3] = segment.getY2();
-        return points;
+//    /**
+//     * Cette méthode retourne les coordonnées des deux points définissant un segment de ligne.
+//     *
+//     * @param segment Le segment de ligne dont vous souhaitez obtenir les coordonnées des points.
+//     * @return Un tableau de double de longueur 4 contenant les coordonnées des deux points du segment.
+//     *         Les deux premiers éléments du tableau représentent les coordonnées (x, y) du premier point
+//     *         et les deux derniers éléments du tableau représentent les coordonnées (x, y) du deuxième point.
+//     */
+//    //Zakaria Soudaki
+//    public double[] getPointsSegment(Line2D.Double segment) {
+//        double[] points = new double[4];
+//        points[0] = segment.getX1();
+//        points[1] = segment.getY1();
+//        points[2] = segment.getX2();
+//        points[3] = segment.getY2();
+//        return points;
+//    }
+    
+    private void textureRandom() {
+    	 Random rand = new Random();
+         int i = rand.nextInt(3) + 1;
+         
+         switch(i) {
+         case 1 : 
+        	 texture = OutilsImage.lireImage("textureRec1.jpg");
+        	 break;
+         case 2 : 
+        	 texture = OutilsImage.lireImage("textureRec2.jpg");
+        	 break;
+         case 3 : 
+        	 texture = OutilsImage.lireImage("textureRec3.jpg");
+        	 break;
+         }
+    }
+    
+    public String toString() {
+    	
+    	String rec;
+    	
+    	rec= "rec\n" + 
+    			Integer.toString((int) coinXGauche) + "\n" +
+    			Integer.toString((int) coinYGauche) + "\n" +
+    			Integer.toString((int) largeurRec) + "\n" +
+    			Integer.toString((int) longueurRec) + "\n" +
+    			Integer.toString((int) angleRotation) + "\n";
+		return rec;
+    	
     }
 
 }

@@ -1,3 +1,4 @@
+
 package obstacles;
 
 import java.awt.BasicStroke;
@@ -8,11 +9,13 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import interfaces.Dessinable;
 import interfaces.Obstacles;
 import interfaces.Selectionnable;
+import physique.Vecteur2D;
 
 public class Cercle implements Obstacles, Dessinable, Selectionnable {
 	
@@ -35,12 +38,6 @@ public class Cercle implements Obstacles, Dessinable, Selectionnable {
      * La forme du rectangle.
      */
     private Rectangle2D.Double  rectanglePointille;
-
-    /**
-     * La zone délimitée par le rectangle.
-     */
-    private Area aireRec;
-
     /**
      * Les coordonnées du centre du cercle.
      */
@@ -72,6 +69,20 @@ public class Cercle implements Obstacles, Dessinable, Selectionnable {
      * Aire de la poignée de rotation du cercle.
      */
 	private Area  aireCercle;
+	
+	private double diametre;
+	private double rayon;
+	 /**
+    * Position actuelle de la balle dans l'espace de simulation, exprimée par un vecteur.
+    */
+    private Vecteur2D positionCentre;
+	
+	
+	
+	
+	
+	
+	
 	/**
      * Constructeur de la classe Rectangle.
      *
@@ -79,15 +90,20 @@ public class Cercle implements Obstacles, Dessinable, Selectionnable {
      * @param posY La position en Y du coin supérieur gauche du rectangle.
      */
     //Ahmad Khanafer
+	
 	public Cercle(double posX, double posY, double pixelsParMetre) {
-    	this.pixelsParMetre = pixelsParMetre;
+		
+		this.pixelsParMetre = pixelsParMetre;
         this.coinXGauche = posX;
         this.coinYGauche = posY;
+      
         largeur = 10 * this.pixelsParMetre;
-        longueur = 10 * this.pixelsParMetre;
+        longueur = largeur;
+        diametre = largeur;
+        rayon = diametre /2;
         poigneRedimensionnement = new Ellipse2D.Double[8];
         creerLaGeometrie();
-    }
+	}
 	// Méthode privée pour initialiser la géométrie du rectangle
     //Ahmad Khanafer
     private void creerLaGeometrie() {
@@ -106,6 +122,7 @@ public class Cercle implements Obstacles, Dessinable, Selectionnable {
         centreY = cercle.getCenterY();
         aireCercle = new Area(cercle);
         
+        positionCentre = new Vecteur2D(centreX, centreY);
         creationResizeHandles();
         calculerCoins();
         
@@ -179,12 +196,79 @@ public class Cercle implements Obstacles, Dessinable, Selectionnable {
 
 	@Override
 	public void redimension(int index, int eX, int eY) {
-		// TODO Auto-generated method stub	
+		if (estClique) {
+		    // Convertir les coordonnées de la souris en coordonnées du système de dessin
+		    Point2D point = transformMousePoint(eX, eY);
+		    eX = (int) point.getX();
+		    eY = (int) point.getY();
+
+		    // Calculer le décalage entre la position actuelle de la souris et le centre de la poignée de redimensionnement
+		    double offsetX = eX - poigneRedimensionnement[index].getCenterX();
+		    double offsetY = eY - poigneRedimensionnement[index].getCenterY();
+
+		    // Effectuer le redimensionnement en fonction de l'index de la poignée de redimensionnement sélectionnée
+		    switch (index) {
+		    case 0: // En haut à gauche
+                if (rectanglePointille.width - offsetX >= 20 && rectanglePointille.height - offsetY >= 20) {
+                    // Redimensionner le rectangle
+                    largeur -= offsetX;
+                    longueur -= offsetY;
+                    coinXGauche += offsetX;
+                    coinYGauche += offsetY;
+                }
+                break;
+     
+            case 1: // En haut à droite
+                if (rectanglePointille.width + offsetX >= 20 && rectanglePointille.height - offsetY >= 20) {
+                    largeur += offsetX;
+                    longueur -= offsetY;
+                    coinYGauche += offsetY;
+                }
+                break;
+            case 2: // En bas à droite
+                if (rectanglePointille.width + offsetX >= 20 && rectanglePointille.height + offsetY >= 20) {
+                    largeur += offsetX;
+                    longueur += offsetY;
+                }
+                break;
+            case 3: // En bas à gauche
+                if (rectanglePointille.width - offsetX >= 20 && rectanglePointille.height + offsetY >= 20) {
+                    largeur -= offsetX;
+                    longueur += offsetY;
+                    coinXGauche += offsetX;
+                }
+                break;
+            }
+           
+
+		    // Recréer la géométrie du rectangle après le redimensionnement
+		    creerLaGeometrie();
+		}
+
+
+
 	}
 
+	private Point2D transformMousePoint(int mouseX, int mouseY) {
+		// Inverser l'angle de rotation pour transformer les coordonnées
+        double inverseAngle = -this.angleRotation;
+
+        // Calculer le vecteur de la souris par rapport au centre du rectangle
+        double mouseXfromCenter = mouseX - this.centreX;
+        double mouseYfromCenter = mouseY - this.centreY;
+
+        // Appliquer la rotation inverse
+        double rotatedX = mouseXfromCenter * Math.cos(inverseAngle) - mouseYfromCenter * Math.sin(inverseAngle);
+        double rotatedY = mouseXfromCenter * Math.sin(inverseAngle) + mouseYfromCenter * Math.cos(inverseAngle);
+
+        // Re-calculer les coordonnées par rapport à l'origine
+        double finalX = rotatedX + this.centreX;
+        double finalY = rotatedY + this.centreY;
+
+        return new Point2D.Double(finalX, finalY);
+	}
 	@Override
 	public void rotate(int eX, int eY) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
@@ -241,31 +325,21 @@ public class Cercle implements Obstacles, Dessinable, Selectionnable {
         }
         return -1; // Aucune poignée de redimensionnement trouvée à cette position
     }
+	//Zakaria SOudaki
+    public double getRayon() {
+		return rayon;
+	}
+	public Vecteur2D getPositionCentre() {
+		return positionCentre;
+	}
+	public void setPositionCentre(Vecteur2D positionCentre) {
+		this.positionCentre = positionCentre;
+	}
+
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	
 }
+

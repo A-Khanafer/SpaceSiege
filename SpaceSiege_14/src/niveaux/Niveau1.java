@@ -2,7 +2,7 @@ package niveaux;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-
+import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -17,6 +17,8 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.Arrays;
 
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -55,11 +57,11 @@ public class Niveau1 extends Niveaux {
 	/**
      * L'intervalle de temps (en secondes) utilisé pour chaque itération du calcul physique.
      */
-	private double deltaT=0.10;
+	private double deltaT=0.005;
 	/**
      * Le temps de pause (en millisecondes) entre chaque itération de l'animation.
      */
-	private int tempsDuSleep = 10;
+	private int tempsDuSleep = 1;
 	/**
      * Un rectangle servant d'obstacle dans la zone d'animation.
      */
@@ -138,6 +140,8 @@ public class Niveau1 extends Niveaux {
     * Indique si le monstre est mort.
     */
     private boolean monstreMort=false;
+    private boolean first =true;
+   
    
 
     
@@ -147,13 +151,28 @@ public class Niveau1 extends Niveaux {
 	 */
     //Benakmoum Walid
 	public Niveau1() {
-		setBackground(new Color(192, 192, 192));
-		setLayout(null);
+		
+		
+		 
+
+        
+		
+		if(first) {
+			
+		
+	    setLayout(null);
+	    first =false;
+		}
+		
+		
+		
 		tableauRec = new Rectangle[11];
-//		tableauTri = new Triangle[3];
 		ecouteurSouris();
 		ecouteurClavier();
 		
+		
+		
+			
 		
 	}
 	/**
@@ -167,9 +186,12 @@ public class Niveau1 extends Niveaux {
 
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		
+
 		if(premiereFois) {
-			pixelParMetres = (double)getWidth()/150;
-		System.out.println(pixelParMetres+"PIXELLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLl");
+			
+			
+			pixelParMetres = (double) getWidth()/150;
+		
 			int espace=0;
 			
 			monstre = new Monstres(1000, 20, "images.jpg", pixelParMetres);
@@ -199,11 +221,9 @@ public class Niveau1 extends Niveaux {
 			
 			espace = 0;
 			 
-//				for(int i = 0 ; i < tableauTri.length ; i++) {
-//					tableauTri[i] = new Triangle(50, 50, 10, 15, pixelParMetres);
-//					espace = espace + 80;
-//				}
+			
 			premiereFois = false;
+			
 		}
 
 		
@@ -213,19 +233,18 @@ public class Niveau1 extends Niveaux {
 		}
 		
 
-//		tableauTri[0].dessiner(g2d);
-//		tableauTri[1].dessiner(g2d);
 
 		
 
 		
-		
+		 
 		if(monstreMort==false) {
 			monstre.dessiner(g2d);
 		}
 
 
 		canon.dessiner(g2d);
+
 
 	    posMurSol = getHeight();
 	    posMurDroit = getWidth();
@@ -235,8 +254,12 @@ public class Niveau1 extends Niveaux {
 	    hauteurComposant = getHeight();
 	    largeurComposant = getWidth();
 	    
-	    g2d.setColor(Color.red);
-	    g2d.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
+//	    g2d.setColor(Color.red);
+//	    g2d.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
+//	   
+	    
+	   
+	    
 
 	}
 	/**
@@ -263,12 +286,13 @@ public class Niveau1 extends Niveaux {
 
 	        if (!areaBalle.isEmpty()) {
 	        	monstre.perdUneVie();
-	        
-     
+
+	        	reinitialiserApplication();
 	        }
 
 
 			repaint();
+			
 			if(monstre.getNombreDeVie()==0) {
 	    	    monstreMort=true;
 	            enCoursDAnimation = false; 
@@ -289,7 +313,6 @@ public class Niveau1 extends Niveaux {
 	// Benakmoum Walid
 	public void demarrer() {
 		if (!enCoursDAnimation) {
-		
 			Thread proc = new Thread(this);
 			proc.start();
 			enCoursDAnimation = true;
@@ -314,14 +337,17 @@ public class Niveau1 extends Niveaux {
 	    double gravite;
 	    switch (typeGravite) {
 	        case "TERRE":
-	            gravite = 9.81/2;  // Diviser par deux car sinon la force est trop forte 
+	            gravite = 9.81/2;
 	            break;
 	        case "MARS":
-	            gravite = 3.711/2; 
+	            gravite = 3.711/2;
 	            break;
 	        case "ESPACE":
-	            gravite = 0; 
+	            gravite = 0;
 	            break;
+	        case "LUNE":
+	        	gravite = 0;
+	        	break;
 	        default:
 	            gravite = 0; 
 	            break;
@@ -336,7 +362,6 @@ public class Niveau1 extends Niveaux {
 
 	  public void prochaineImage() {
 		  if(canon.getBalle().getVitesse()!=new Vecteur2D(0,0)) {
-//			  System.out.println("Prochaine image...on avance de " + deltaT + " secondes");
 			  canon.setProchaineImage(true);
 				calculerUneIterationPhysique(deltaT);
 				repaint();
@@ -346,9 +371,7 @@ public class Niveau1 extends Niveaux {
 			return enCoursDAnimation;
 			
 		}
-	  public void stopperAnim(){
-		  enCoursDAnimation=false;
-	  }
+
 	  
 	/**
      * Calcule une itération physique en fonction du deltaT.
@@ -367,7 +390,7 @@ public class Niveau1 extends Niveaux {
      */
 	//ZAKARIA SOUDAKI
 	public void testerCollisionsEtAjusterVitesses() {	
-		canon.getBalle().gererCollisions(posMurSol, posMurDroit , posMurHaut, posMurGauche);
+		canon.getBalle().gererCollisionsBordures(posMurSol, posMurDroit , posMurHaut, posMurGauche);
 	}
 
 	 /**
@@ -607,9 +630,14 @@ public class Niveau1 extends Niveaux {
 		    }
 		    repaint();
 		}
+
 	public int getVie() {
 		return this.nombreDeVie;
 	}
+
+		
+		
+		
 }
 		
 			

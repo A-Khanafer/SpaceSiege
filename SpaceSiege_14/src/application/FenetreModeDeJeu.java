@@ -32,19 +32,28 @@ public class FenetreModeDeJeu extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private static AppPrincipal14 appli;
+	private static FenetreModeDeJeu fenetre;
 	 /**
      * Méthode statique pour afficher la fenêtre de sélection de mode de jeu.
      * Cette méthode crée une instance de {@code FenetreModeDeJeu} et la rend visible.
      */
 	//ZAKARIA SOUDAKI
-	public static void afficherFenetre() {
-	       
-		FenetreModeDeJeu fenetre = new FenetreModeDeJeu();
+	public static void afficherFenetre(AppPrincipal14 app) {
+		
+	    appli =app;
+		app.setVisible(false);
+		fenetre = new FenetreModeDeJeu();
 		fenetre.setLocationRelativeTo(null);
 		fenetre.setUndecorated(true); 
         fenetre.setVisible(true);
         
     }
+	public static void retour(FenetreModeDeJeu app) {
+		
+		app.setVisible(true);
+		
+	}
 	/**
      * Méthode principale utilisée pour lancer l'interface de sélection de mode de jeu.
      * @param args Arguments passés au programme (non utilisés).
@@ -110,8 +119,7 @@ public class FenetreModeDeJeu extends JFrame {
 							public void actionPerformed(ActionEvent e) {
 								
 								
-								FenetreDeJeu.afficherFenetre();
-								setVisible(false);
+								FenetreDeJeu.afficherFenetre(fenetre);
 
 							}
 						});
@@ -139,8 +147,8 @@ public class FenetreModeDeJeu extends JFrame {
 									public void actionPerformed(ActionEvent e) {
 										
 										
-										FenetreBacASable.afficherFenetre();
-										setVisible(false);
+										FenetreBacASable.afficherFenetre(fenetre);
+										
 
 									
 									}
@@ -168,7 +176,7 @@ public class FenetreModeDeJeu extends JFrame {
 								btnMenu.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent e) {
 										
-										AppPrincipal14.afficherFenetre();
+										AppPrincipal14.retour(appli);
 										setVisible(false);
 
 										

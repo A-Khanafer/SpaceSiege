@@ -69,7 +69,7 @@ public class Triangle implements Dessinable, Obstacles, Selectionnable {
 	/**
      * Les segments du triangles.
      */
-	private Line2D.Double segmentHaut, segmentBas, segmentGauche, segmentDroite;
+	private Line2D.Double segmentBas, segmentGauche, segmentDroite;
 	/**
      * Les coordonnées des coins du rectangle pointillé.
      */
@@ -414,6 +414,29 @@ public class Triangle implements Dessinable, Obstacles, Selectionnable {
             }
         }
         return -1; // Aucune poignée de redimensionnement trouvée à cette position
+    }
+    
+    /**
+     * Méthode pour obtenir un segment spécifique du rectangle.
+     *
+     * @param num Le numéro du segment à récupérer (1 pour le gauche, 2 pour la droite, 3 pour le haut, ).
+     * @return Le segment spécifié.
+     */
+  //ZAKARIA SOUDAKI
+    public Line2D.Double getSegment(int num) {
+
+        Line2D.Double seg = new Line2D.Double();
+        if (num == 1) {
+            seg = segmentGauche;
+        }
+        if (num == 2) {
+            seg = segmentDroite;
+        }
+        if (num == 3) {
+            seg = segmentBas;
+        }
+ 
+        return seg;
     }
 	
 }

@@ -1,9 +1,13 @@
 package outils;
 
+import java.awt.Point;
+import java.awt.geom.Area;
 import java.awt.geom.Line2D;
+import java.nio.Buffer;
 
 import composantjeu.Balle;
 import composantjeu.BalleBasique;
+import obstacles.Cercle;
 import obstacles.Rectangle;
 import obstacles.Triangle;
 import physique.Vecteur2D;
@@ -14,7 +18,9 @@ import physique.Vecteur2D;
  *
  */
 public class Collisions {
-	private  Line2D.Double [] segmentRec = new Line2D.Double[4];
+	private static  Line2D.Double [] segmentRec = new Line2D.Double[4];
+	private static Line2D.Double [] segmentTri = new Line2D.Double[3];
+	private static int buffer = 2;
 	/**
 	 * Méthode qui calcul la distance entre deux point
 	 * @param x1 position x premier point
@@ -82,30 +88,32 @@ public class Collisions {
 	 * @param balle la deuxième géometrie ( la balle)
 	 * @return true si la balle touche un des coins, false si elle n'en touche aucun
 	 */
-	public static boolean detectionToucherCoinLigne(Rectangle rec, Balle balle) {
+	public static boolean detectionToucherCoinLigne(Line2D.Double [] segments , Balle balle) {
 		
-		boolean dansSeg1p1 = detectionPointCercle( balle.getPosXCentre() , rec.getSegment(1).getX1() ,balle.getPosYCentre() ,rec.getSegment(1).getY1() , balle.getDiametre()/2 );
-		boolean dansSeg1p2 = detectionPointCercle( balle.getPosXCentre() , rec.getSegment(1).getX2() ,balle.getPosYCentre() ,rec.getSegment(1).getY2() , balle.getDiametre()/2 );
+		boolean dansSeg1p1 = detectionPointCercle( balle.getPosXCentre() , segments[0].getX1() ,balle.getPosYCentre() ,segments[0].getY1() , balle.getDiametre()/2 +0.5);
+		boolean dansSeg1p2 = detectionPointCercle( balle.getPosXCentre() , segments[0].getX2() ,balle.getPosYCentre() ,segments[0].getY2() , balle.getDiametre()/2 +0.5);
 		
-		boolean dansSeg3p1 = detectionPointCercle( balle.getPosXCentre() , rec.getSegment(3).getX1() ,balle.getPosYCentre() ,rec.getSegment(3).getY1() , balle.getDiametre()/2 );
-		boolean dansSeg3p2 = detectionPointCercle( balle.getPosXCentre() , rec.getSegment(3).getX2() ,balle.getPosYCentre() ,rec.getSegment(3).getY2() , balle.getDiametre()/2 );
+		boolean dansSeg3p1 = detectionPointCercle( balle.getPosXCentre() , segments[2].getX1() ,balle.getPosYCentre() ,segments[2].getY1() , balle.getDiametre()/2 +0.5);
+		boolean dansSeg3p2 = detectionPointCercle( balle.getPosXCentre() , segments[2].getX2() ,balle.getPosYCentre() ,segments[2].getY2() , balle.getDiametre()/2 +0.5);
 
 		if (dansSeg1p1 || dansSeg1p2 || dansSeg3p1 || dansSeg3p2) {
 		 return true;
 		}
 	   	return false;
 	}
+	
+	
 	//calculer la longueur des segments
 	/**
 	 * Méthode qui calcul la longueur de tout les segments du rectangle
 	 * @param rec la géometrie ( le rectangle )
 	 * @return tableau contenant les longueurs [0]= segment1  [1]= segment2  [2]= segment3  [3]= segment4
 	 */
-    public static double [] longueurDesSegments(Rectangle rec ){
+    public static double [] longueurDesSegments(Line2D.Double [] segments ){
     
     	double[] longueursSegments = new double[4];
-    	for (int i = 0; i < 4; i++) {
-    	    Line2D.Double segment = rec.getSegment(i+1); // Supposant que l'index commence à 1
+    	for (int i = 0; i < segments.length; i++) {
+    	    Line2D.Double segment = segments[i]; // Supposant que l'index commence à 1
     	    longueursSegments[i] = distanceEntreDeuxPoints(segment.x2, segment.x1, segment.y2, segment.y1);
     	}
 		return longueursSegments;
@@ -118,13 +126,13 @@ public class Collisions {
      * @param longueurs Segments tableau des longueurs des segments du rectangle
      * @return tableau contenant le facteur dot de chaque segment   [0]= dotsegment1  [1]= dotsegment2  [2]= dotsegment3  [3]= dotsegment4
      */
-    public static double [] calculDot( Rectangle rec, Balle balle, double [] longueursSegments) {
+    public static double [] calculDot( Line2D.Double [] segments, Balle balle, double [] longueursSegments) {
 		
-    	double[] dot = new double[4];
+    	double[] dot = new double[segments.length];
     	
-    	for (int i = 0; i < 4; i++) {
+    	for (int i = 0; i < segments.length; i++) {
     		
-    		Line2D.Double segment = rec.getSegment(i+1);
+    		Line2D.Double segment = segments[i];
     		
     	     dot[i] = (
     	        (((balle.getPosXCentre() - segment.getX1()) * (segment.getX2() - segment.getX1())) +
@@ -140,7 +148,7 @@ public class Collisions {
      * @param etat tableau de boolean pour connaitre l'état de tout les segments
 **/
 
-    private static void calculRebondPhysique(Line2D.Double segment, Balle balle, boolean [] etat) {
+    private static void calculRebondPhysique(Line2D.Double segment, Balle balle) {
    
     	double dx = segment.getX2() - segment.getX1();
  	    double dy = segment.getY2() - segment.getY1();
@@ -177,21 +185,25 @@ public class Collisions {
 	 public static void collisionRectangle(Balle balle, Rectangle rec) {
 		 
 		
+		 for (int i = 0; i < segmentRec.length; i++) {
+	    		
+	    		segmentRec[i] = rec.getSegment(i+1);
+		 }
 		 
-		    boolean toucherCoinsLigne = detectionToucherCoinLigne(rec,balle);
+		    boolean toucherCoinsLigne = detectionToucherCoinLigne(segmentRec,balle);
 		   
 		    if (toucherCoinsLigne) {
 		    	calculRebondCoin(balle);
 		     }else if (!toucherCoinsLigne) {
 
-       		double [] longueur = longueurDesSegments(rec );
-			double [] dot = calculDot(rec , balle , longueur);
+       		double [] longueur = longueurDesSegments(segmentRec );
+			double [] dot = calculDot(segmentRec , balle , longueur);
 		    double [] xProcheSegments = new double[4];
 		    double [] yProcheSegments = new double[4];
 
-		    for (int i = 0; i < 4; i++) {
+		    for (int i = 0; i < segmentRec.length; i++) {
 		    	
-		        Line2D.Double segment = rec.getSegment(i + 1);
+		        Line2D.Double segment = segmentRec[i];
 		  
 		        double dotCopy = dot[i]; 
 		        double xProche = segment.getX1() + (dotCopy * (segment.getX2() - segment.getX1()));
@@ -205,11 +217,11 @@ public class Collisions {
 		    
 		    boolean[] seg = new boolean[4]; 
 
-		    for (int i = 0; i < 4; i++) {
-		        Line2D.Double segment = rec.getSegment(i + 1);
-		        double distanceSegBalle = distanceEntreDeuxPoints(balle.getPosXCentre(), xProcheSegments[i], balle.getPosYCentre(), yProcheSegments[i]) - balle.getDiametre()/2;
-		        
-		        if (distanceSegBalle <= balle.getDiametre()/8) {
+		    for (int i = 0; i < segmentRec.length; i++) {
+		        Line2D.Double segment = segmentRec[i];
+		        boolean distanceSegBalle = detectionPointCercle(balle.getPosXCentre(),xProcheSegments[i] ,balle.getPosYCentre(), yProcheSegments[i], balle.getDiametre()/2+buffer);
+		
+		        if (distanceSegBalle) {
 		            seg[i] = true; 
 		            
 		            
@@ -222,35 +234,138 @@ public class Collisions {
 		    }
 		    if (seg[0] == true) {
 		        System.out.println("Le segment 1 est vrai");
-		        calculRebondPhysique(rec.getSegment(1), balle, seg);
+		        calculRebondPhysique(segmentRec[0], balle);
 		        seg[0] = false;
 		    } 
 		    if (seg[1] == true) {
 		        System.out.println("Le segment 2 est vrai");
-		        calculRebondPhysique(rec.getSegment(2), balle, seg);
+		        calculRebondPhysique(segmentRec[1], balle);
 		        seg[1] = false;
 		    } 
 		    if (seg[2] == true) {
 		        System.out.println("Le segment 3 est vrai");
-		        calculRebondPhysique(rec.getSegment(3), balle, seg);
+		        calculRebondPhysique(segmentRec[2], balle);
 		        seg[2] = false;
 		    } 
 		    if (seg[3] == true) {
 		        System.out.println("Le segment 4 est vrai");
-		        calculRebondPhysique(rec.getSegment(4), balle, seg);
+		        calculRebondPhysique(segmentRec[3], balle);
 		        seg[3] = false;
 		        
 		    } 
 		 }
 	}
-	 public static void collisionRectangle(Balle balle, Triangle tri) {
+	 public static void collisionTriangle(Balle balle, Triangle tri) {
 		 
+		 for (int i = 0; i < segmentTri.length; i++) {
+	    		segmentTri[i] = tri.getSegment(i+1);
+		 }
 		 
+		    boolean toucherCoinsLigne = detectionToucherCoinLigne(segmentTri,balle);
+		   System.out.println(toucherCoinsLigne);
+		    if (toucherCoinsLigne) {
+		    	calculRebondCoin(balle);
+		     }else if (!toucherCoinsLigne) {
+
+    		double [] longueur = longueurDesSegments(segmentTri );
+			double [] dot = calculDot(segmentTri , balle , longueur);
+		    double [] xProcheSegments = new double[3];
+		    double [] yProcheSegments = new double[3];
+
+		    for (int i = 0; i < segmentTri.length; i++) {
+		    	
+		        Line2D.Double segment = segmentTri[i];
+		  
+		        double dotCopy = dot[i]; 
+		        double xProche = segment.getX1() + (dotCopy * (segment.getX2() - segment.getX1()));
+		        double yProche = segment.getY1() + (dotCopy * (segment.getY2() - segment.getY1()));
+		        
+		        xProcheSegments[i]= xProche;
+		        yProcheSegments[i]= yProche;
+		        
+
+		    }
+		    
+		    boolean[] seg = new boolean[3]; 
+
+		    for (int i = 0; i < segmentTri.length; i++) {
+		        Line2D.Double segment = segmentTri[i];
+		        boolean distanceSegBalle = detectionPointCercle(balle.getPosXCentre(),xProcheSegments[i] ,balle.getPosYCentre(), yProcheSegments[i], balle.getDiametre()/2+buffer);
+				
+		        if (distanceSegBalle) {
+		            seg[i] = true; 
+		            
+		            
+		            
+		            boolean surSegment = detectionLigne(xProcheSegments[i], yProcheSegments[i], segment.getX1(), segment.getY1(), segment.getX2(), segment.getY2(), longueur[i]);
+		            
+		            if (!surSegment) {
+		                seg[i] = false; 
+		            }
+		        }
+		    }
+		    if (seg[0] == true) {
+		        System.out.println("Le segment 1 est vrai");
+		        calculRebondPhysique(segmentTri[0], balle);
+		        seg[0] = false;
+		    } 
+		    if (seg[1] == true) {
+		        System.out.println("Le segment 2 est vrai");
+		        calculRebondPhysique(segmentTri[1], balle);
+		        seg[1] = false;
+		    } 
+		    if (seg[2] == true) {
+		        System.out.println("Le segment 3 est vrai");
+		        calculRebondPhysique(segmentTri[2], balle);
+		        seg[2] = false;
+		    } 
+
+		 }
 		 
+	 }
+	 
+	 public static void collisionCercle(Balle balle, Cercle cercle) {
 		 
-		 
-		 
-		 
+		double RayBalle = balle.getRayon();
+		double RayCercle = cercle.getRayon();
+		
+		Vecteur2D pos = cercle.getPositionCentre();
+		
+		Point centreBalle = new Point ((int) balle.getPosXCentre(),(int) balle.getPosYCentre());
+		Point centreCercle = new Point ((int) pos.getX(), (int) pos.getY());
+ 
+		double distance = distanceEntreDeuxPoints(centreBalle.x, centreCercle.x, centreBalle.y, centreCercle.y);
+		
+		if (distance <= RayBalle+ RayCercle) {
+			
+			double dx =  centreBalle.x - centreCercle.x;
+		    double dy =  centreBalle.y - centreCercle.y;
+			Vecteur2D vecNormal = (new Vecteur2D(dx, dy));
+			try {
+				vecNormal = vecNormal.normalise();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}		
+			
+			double produitScalaire = balle.getVitesse().prodScalaire(vecNormal);
+	 	    Vecteur2D vitesseApresCollision = balle.getVitesse().soustrait((vecNormal.multiplie(produitScalaire)).multiplie(2));
+	 	    balle.setVitesse(vitesseApresCollision);
+			
+		}
+		
+		
+		
+		
+		
+		//collision
+		
+			
+	     
+	      //calcul impultion
+	     
+			
+			
+		
 		 
 	 }
 }

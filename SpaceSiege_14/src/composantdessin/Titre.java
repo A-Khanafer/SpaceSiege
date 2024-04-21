@@ -31,8 +31,7 @@ public class Titre extends JPanel implements Runnable{
 	 * Create the panel.
 	 */
 	public Titre(String etoiles, String titre, int longueurImg, int hauteurImg) {
-		setOpaque(false);
-//		setBackground(new Color(0, 0, 0,0));
+		 setOpaque(false);
 		 imgTitre = OutilsImage.lireImage(titre); 
 	     imgEtoile= OutilsImage.lireImage(etoiles);
 	     longueurTitre = longueurImg;

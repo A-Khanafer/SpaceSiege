@@ -63,17 +63,22 @@ public class AppPrincipal14 extends JFrame{
 	private int hauteur = 720;
 	private BoutonsIntro boutonsIntro;
 	private boolean son = true;
+	private AppPrincipal14 actuel = this;
 	
 	 /**
      * Lance l'interface utilisateur principale de l'application.
      * Cette méthode statique crée une instance de {@code AppPrincipal14} et rend la fenêtre visible.
      */
-	public static void afficherFenetre() {
+	public static void retour(AppPrincipal14 app) {
 		
-		AppPrincipal14 fenetre = new AppPrincipal14();
-		fenetre.setLocationRelativeTo(null);
-		fenetre.setUndecorated(true); 
-        fenetre.setVisible(true);
+		app.setVisible(true);
+		
+		
+		
+//		AppPrincipal14 fenetre = new AppPrincipal14();
+//		fenetre.setLocationRelativeTo(null);
+//		fenetre.setUndecorated(true); 
+//        fenetre.setVisible(true);
     }
 	public void fermer() {
 		setVisible(false);
@@ -115,18 +120,10 @@ public class AppPrincipal14 extends JFrame{
 		musique.play();
 		musique.loop();
 		
-		Border emptyBorder = BorderFactory.createEmptyBorder();
-		
-		
+		Border emptyBorder = BorderFactory.createEmptyBorder();		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, longueur, hauteur);
-		
-		
-		
-		
-		
-		
 		
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
@@ -135,14 +132,12 @@ public class AppPrincipal14 extends JFrame{
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		
-		
 		Titre titre_1 = new Titre("etoiles2.png", "titre2.png", 280,150);
 		titre_1.setBackground(new Color(0, 0, 0,0));
 		titre_1.setBounds(465, 30, 342, 269);
 		contentPane.add(titre_1);
 		
-		boutonsIntro = new BoutonsIntro(longueur, hauteur, this);
+		boutonsIntro = new BoutonsIntro(longueur, hauteur, actuel);
 		boutonsIntro.setLocation(540, 355);
 		contentPane.add(boutonsIntro);
 		

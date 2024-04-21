@@ -77,37 +77,6 @@ public class BalleBasique extends Balle {
         creerLaGeometrie();
     }
 
-    /**
-     * Gère les collisions de la balle avec les murs en inversant sa vitesse lorsqu'une collision est détectée et en ajustant sa position pour éviter les chevauchements.
-     *
-     * @param posSol La position du sol dans la simulation.
-     * @param posMurDroit La position du mur droit.
-     * @param posMurHaut La position du mur haut.
-     * @param posMurGauche La position du mur gauche.
-     */
-  //Soudaki Zakaria
-    /*
-    public void gererCollisions(double posSol, double posMurDroit, double posMurHaut, double posMurGauche) {
-    	if ( (position.getY() + diametre) >= ( posSol ) ) {
-    		
-    		vitesse.setY(-vitesse.getY());
-    		position.setY(posSol-diametre);
-    	}
-    	if ( (position.getX() + diametre) >= ( posMurDroit ) ) {
-    		vitesse.setX(-vitesse.getX());
-    		position.setX(posMurDroit-diametre);
-    	}
-    	if ( (position.getY()) <= ( posMurHaut ) ) {
-    		
-    		vitesse.setY(-vitesse.getY());
-    		position.setY(posMurHaut);
-    	}
-    	if ( (position.getX()) <= ( posMurGauche ) ) {
-    		
-    		vitesse.setX(-vitesse.getX());
-    		position.setX(posMurGauche);
-    	}
-    }
-    */
+   
 }
 
