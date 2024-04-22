@@ -252,12 +252,8 @@ public class Niveaux extends JPanel implements Runnable {
      * Initialise l'écouteur de clavier pour interagir avec l'animation via le clavier.
      */
 	  
-	private void ecouteurClavier() {
-		
-	}
-	private void ecouteurSouris() {
-		
-	}
+
+	
 	private void gestionSourisRecDragged(MouseEvent e) {
 		
 	}

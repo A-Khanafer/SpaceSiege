@@ -260,7 +260,7 @@ public class Niveau1 extends Niveaux {
 	    
 	   
 	    
-
+	   
 	}
 	/**
      * Exécute l'animation en boucle tant que enCoursDAnimation est vrai. Gère le calcul physique et les collisions.
@@ -298,6 +298,7 @@ public class Niveau1 extends Niveaux {
 	            enCoursDAnimation = false; 
 	            JOptionPane.showMessageDialog(null,"VOUS AVEZ GAGNE");
 	    	}
+			ecouteurClavier();
 			try {
 				Thread.sleep(tempsDuSleep);
 			} catch (InterruptedException e) {
@@ -476,22 +477,7 @@ public class Niveau1 extends Niveaux {
      * Initialise l'écouteur de clavier pour interagir avec l'animation via le clavier.
      */
 	  //Benakmoum Walid
-	private void ecouteurClavier() {
-	    addKeyListener(new KeyAdapter() {
-	        @Override
-	        public void keyPressed(KeyEvent e) {
-	            switch (e.getKeyCode()) {
-	                case KeyEvent.VK_W: 
-//	                	 System.out.println("SALUT JE ne VAIS pas ICI");
-	                    break;
-	                case KeyEvent.VK_S: 
-//	                   System.out.println("SALUT JE VAIS ICI");
-	                    break;
-	            }
-	            repaint();
-	        }
-	    });
-	}
+
 	
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
 		this.pcs.addPropertyChangeListener(listener);
@@ -634,7 +620,27 @@ public class Niveau1 extends Niveaux {
 	public int getVie() {
 		return this.nombreDeVie;
 	}
-
+	public void ecouteurClavier() {
+		
+	    addKeyListener(new KeyAdapter() {
+	        @Override
+	        public void keyPressed(KeyEvent e) {
+	        	 System.out.println("WSH SA RENTRE");
+	            switch (e.getKeyCode()) {
+	                case KeyEvent.VK_SPACE:
+	                    
+	                    Thread explosionThread = new Thread(() -> {
+	                       canon.getBalle().exploser();
+	                     
+	                    });
+	                    explosionThread.start();
+	                    break;
+	            }
+	            repaint();
+	        }
+	    });
+	    setFocusable(true);
+	}
 		
 		
 		

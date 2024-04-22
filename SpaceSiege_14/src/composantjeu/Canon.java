@@ -404,13 +404,13 @@ if(!balleTiree) {
     public void setBalleActuelle(int i) {
         switch (i) {
             case 1:
-                balleActuelle = new BalleBasique(50, 2, hauteur, new Vecteur2D(3*pixelsParMetre, y*pixelsParMetre), vitesse, pixelsParMetre);
+                balleActuelle = new BalleBasique(50, 2, hauteur-15, new Vecteur2D(3*pixelsParMetre, y*pixelsParMetre), vitesse, pixelsParMetre);
                 break;
             case 2:
-                balleActuelle = new BalleElastique(50, 2, hauteur, new Vecteur2D(3*pixelsParMetre, y*pixelsParMetre), vitesse, pixelsParMetre);
+                balleActuelle = new BalleElastique(50, 2, hauteur-15, new Vecteur2D(3*pixelsParMetre, y*pixelsParMetre), vitesse, pixelsParMetre);
                 break;
             case 3:
-                balleActuelle = new BalleNova(50, 2, hauteur, new Vecteur2D(3*pixelsParMetre, y*pixelsParMetre), vitesse, pixelsParMetre);
+                balleActuelle = new BalleNova(50, 2, hauteur-15, new Vecteur2D(3*pixelsParMetre, y*pixelsParMetre), vitesse, pixelsParMetre);
                 break;
         }
     }

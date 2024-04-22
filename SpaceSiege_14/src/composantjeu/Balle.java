@@ -3,6 +3,7 @@ package composantjeu;
 import java.awt.Graphics2D;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
+import java.util.LinkedList;
 
 import physique.MoteurPhysique;
 import physique.Vecteur2D;
@@ -61,6 +62,10 @@ public class Balle {
      * Représentation géométrique de la balle utilisée pour le dessin à l'écran.
      */
     protected Ellipse2D.Double cercle;
+    protected LinkedList<Ellipse2D.Double> trainees = new LinkedList<>();
+    protected final int MAX_TRAÎNÉES = 12;
+    protected volatile boolean running = true;
+
     /**
      * Constructeur qui initialise une nouvelle instance de balle avec des valeurs spécifiques.
      * 
@@ -261,7 +266,9 @@ public class Balle {
 public Vecteur2D getPositionEnMetre() {
 	return(position.multiplie(1/pixelsParMetre));
 }
-	
+public void exploser() {
+
+}
 	
 	
 	
