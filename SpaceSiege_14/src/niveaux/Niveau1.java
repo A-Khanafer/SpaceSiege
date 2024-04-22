@@ -196,7 +196,7 @@ public class Niveau1 extends Niveaux {
 			
 			monstre = new Monstres(1000, 20, "images.jpg", pixelParMetres);
 			  canon = new Canon(0, 10,pixelParMetres,"CANONSEXY.png");
-			 
+			  System.out.println(monstre.getNombreDeVie()+"___");
 		
 			 
 			 tableauRec[0] = new Rectangle(  143,  354, 330, 53,0);
@@ -253,10 +253,7 @@ public class Niveau1 extends Niveaux {
 
 	    hauteurComposant = getHeight();
 	    largeurComposant = getWidth();
-	    
-//	    g2d.setColor(Color.red);
-//	    g2d.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
-//	   
+	     
 	    
 	   
 	    
@@ -286,19 +283,21 @@ public class Niveau1 extends Niveaux {
 
 	        if (!areaBalle.isEmpty()) {
 	        	monstre.perdUneVie();
-
-	        	reinitialiserApplication();
+				System.out.println(monstre.getNombreDeVie()+"DANS LA METHODE");
+	        	reinitialiserPosition();
 	        }
 
 
-			repaint();
-			
+		
+			System.out.println(monstre.getNombreDeVie()+"AVANT");
 			if(monstre.getNombreDeVie()==0) {
 	    	    monstreMort=true;
 	            enCoursDAnimation = false; 
 	            JOptionPane.showMessageDialog(null,"VOUS AVEZ GAGNE");
+	            reinitialiserApplication();
 	    	}
 			ecouteurClavier();
+			repaint();
 			try {
 				Thread.sleep(tempsDuSleep);
 			} catch (InterruptedException e) {
@@ -422,13 +421,22 @@ public class Niveau1 extends Niveaux {
 		    balleTiree = false;
 		    canon.setPremiereFois(true);
 		    monstre = new Monstres(1000, 20, "images.jpg", pixelParMetres);
+		    if(monstre.getNombreDeVie()==0) {
 		    monstre.setNombreDeVie(1);
+		    }
 		    canon = new Canon(0, 10,pixelParMetres,"CANONSEXY.png");
 		    
 		   monstreMort=false;
 
 
 		   repaint();
+	}
+	public void reinitialiserPosition() {
+		enCoursDAnimation=false;
+		balleTiree = false;
+	    canon.setPremiereFois(true);
+	    canon = new Canon(0, 10,pixelParMetres,"CANONSEXY.png");
+	    repaint();
 	}
 	/**
      * Méthode qui permet de tirer la balle.
