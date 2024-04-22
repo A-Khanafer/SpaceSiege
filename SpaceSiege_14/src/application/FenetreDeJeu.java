@@ -127,8 +127,6 @@ public class FenetreDeJeu extends JFrame {
 		 niveaux[2] = niv3;
 		 nivActuel = niveaux[index];
 
-		 
-		 
 		 nivActuel.addPropertyChangeListener(new PropertyChangeListener() {
 		 	public void propertyChange(PropertyChangeEvent evt) {
 		 		if (evt.getPropertyName().equals("position") ) {
@@ -381,6 +379,7 @@ public class FenetreDeJeu extends JFrame {
 		spinnerVieMonstre.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				nivActuel.setNombreDeVie((int)spinnerVieMonstre.getValue());
+				System.out.println("ALHAMDOULLIHA");
 			}
 		});
 		spinnerVieMonstre.setBounds(167, 131, 109, 44);
@@ -508,8 +507,12 @@ public class FenetreDeJeu extends JFrame {
 	}
 	private void refreshLabel() {
 		getContentPane().remove(lbl);
-		
+
+		comboBoxTypeGrav.setSelectedItem("ESPACE"); 
+	    niv1.changerTypeGravite("ESPACE"); 
+
 		contentPane.add(lbl);
+
 		
 	}
 	

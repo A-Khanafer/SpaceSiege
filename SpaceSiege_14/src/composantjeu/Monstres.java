@@ -129,6 +129,7 @@ public class Monstres extends JPanel implements Runnable{
 	    }
 	    public void setNombreDeVie(int nb) {
 	    	nombreDeVie=nb;
+	    	
 	    }
 
 	    public void demarrer() {

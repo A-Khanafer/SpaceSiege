@@ -121,18 +121,10 @@ public class AppPrincipal14 extends JFrame{
 		musique.play();
 		musique.loop();
 		
-		Border emptyBorder = BorderFactory.createEmptyBorder();
-		
-		
+		Border emptyBorder = BorderFactory.createEmptyBorder();		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, longueur, hauteur);
-		
-		
-		
-		
-		
-		
 		
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
@@ -141,6 +133,7 @@ public class AppPrincipal14 extends JFrame{
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+
 		
 		
 		Titre titre_1 = new Titre("etoiles2.png", "titre2.png", 330,220, 450,360);

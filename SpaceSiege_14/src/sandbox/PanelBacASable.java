@@ -1,4 +1,4 @@
-package composantdessin;
+package sandbox;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -8,10 +8,15 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.Ellipse2D;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import interfaces.Obstacles;
 import obstacles.Cercle;
 import obstacles.Rectangle;
 import obstacles.Triangle;
@@ -63,7 +68,7 @@ public class PanelBacASable extends JPanel {
 	 */
 	private boolean editeurModeOn = true;
 
-
+	private ArrayList<Obstacles> obstacles;
 
 	
 
@@ -163,6 +168,7 @@ public class PanelBacASable extends JPanel {
                 break;
             case 1 :
                 tableauRec[0].dessiner(g2d);
+                System.out.println(tableauRec[0].toString());
                 break;
             case 2 :
                 tableauRec[0].dessiner(g2d);
@@ -338,6 +344,14 @@ public class PanelBacASable extends JPanel {
 				}
 			}
 		}
+		
+	public void sauvegardeNiveau() {
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter("mon_fichier.txt"))) {
+           
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
 
 	
 	}

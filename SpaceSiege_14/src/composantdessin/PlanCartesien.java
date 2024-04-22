@@ -32,11 +32,11 @@ import java.awt.event.MouseMotionAdapter;
 
 public class PlanCartesien extends JPanel {
 	private  double xMin =0;
-	/** Valeur par défaut de l'abscisse maximale. */
+	/** Valeur par dde l'abscisse maximale. */
 	private  double xMax ;
-	/** Valeur par défaut de l'ordonnée minimale. */
+	/** Valeur par dde l'ordonnminimale. */
 	private  double yMin=0;
-	/** Valeur par défaut de l'ordonnée maximale. */
+	/** Valeur par dde l'ordonnmaximale. */
 	private  double yMax;
 	private int nmbreLig = 12;
 	private double pixelParMetreX;
@@ -76,7 +76,7 @@ private Path2D.Double ligne=new Path2D.Double();
 			pixelParMetreY=((double)getHeight()-deltaY)/77.7;	
 			
 			g2d.setColor(Color.blue);
-			axeX = new Line2D.Double(0, y - 50, x, y - 50);
+			axeX = new Line2D.Double(0, y - deltaY, x, y - deltaY);
 			axeY = new Line2D.Double( deltaX, 0, deltaX, y);
 				
 			premiereFois = false;
@@ -149,8 +149,8 @@ creerTaquetsSui(g2d);
 	    for (int i = 0; i <= nmbreLig; i++) {
 	        double grilleX = xMin + i * deltaX;
 	        int positionEnMetresX = (int) (grilleX / pixelParMetreX); 
-	        g2d.drawLine((int) (grilleX), (int) (yMax - 50 - taquetSize), (int) (grilleX), (int) (yMax - 50 + taquetSize));
-	        g2d.drawString(String.format("%d", positionEnMetresX), (int) (grilleX - 10) + (int)deltaX, (int) (yMax - 35)); 
+	        g2d.drawLine((int) (grilleX), (int) (yMax - deltaY - taquetSize), (int) (grilleX), (int) (yMax - deltaY + taquetSize));
+	        g2d.drawString(String.format("%d", positionEnMetresX), (int) (grilleX - 10) + (int)deltaX, (int) (yMax - deltaY+10)); 
 	    }
 
 	  
@@ -167,4 +167,3 @@ creerTaquetsSui(g2d);
 
 	
 }
-

@@ -11,6 +11,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.io.Serializable;
 import java.util.Random;
 
 import interfaces.Dessinable;
@@ -26,10 +27,12 @@ import outils.OutilsImage;
  * @author Ahmad Khanafer
  * @author zakaria soudaki
  */
-public class Rectangle implements Obstacles, Dessinable, Selectionnable {
+public class Rectangle implements Obstacles, Dessinable, Selectionnable, Serializable {
 
 
-    /**
+	private static final long serialVersionUID = -6979285541279947116L;
+
+	/**
      * Le nombre de pixels par mètre.
      */
     private double pixelsParMetre;
@@ -109,7 +112,7 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
         largeurRec = 10 * this.pixelsParMetre;
         longueurRec = 10 * this.pixelsParMetre;
         poigneRedimensionnement = new Ellipse2D.Double[8];
-        
+        textureRandom();
         creerLaGeometrie();
     }
 
@@ -120,7 +123,8 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
         angleRotation = rotation;
         longueurRec = longueur;
         largeurRec = largeur;
-    	poigneRedimensionnement = new Ellipse2D.Double[8];  	
+    	poigneRedimensionnement = new Ellipse2D.Double[8];
+    	textureRandom();
     	creerLaGeometrie();
     }
     // Méthode privée pour initialiser la géométrie du rectangle
@@ -145,7 +149,7 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
         AffineTransform transformation = new AffineTransform();
         transformation.rotate(angleRotation, centreX, centreY);
         airePoigne.transform(transformation);
-        textureRandom();
+        
         creationResizeHandles();
         calculerCoins();
         
@@ -333,7 +337,6 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
 	        }
     	}
         creerLaGeometrie();
-        System.out.println("_______________________angle_________________________"+angleRotation);
     }
     
     /**
@@ -386,7 +389,7 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
         g2dCopy.rotate(angleRotation, centreX, centreY);
         g2dCopy.setColor(Color.blue);
         g2dCopy.fill(rectangle);
-        g2dCopy.drawImage(texture, (int) coinXGauche, (int) coinYGauche, null, null);
+        g2dCopy.drawImage(texture, (int) coinXGauche, (int) coinYGauche, (int)largeurRec, (int) longueurRec, null, null);
         
         if (estClique) {
             BasicStroke pointille = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
@@ -502,15 +505,29 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable {
          
          switch(i) {
          case 1 : 
-        	 texture = OutilsImage.lireImageEtRedimensionner("textureRec1.jpg", (int)largeurRec, (int) longueurRec);
+        	 texture = OutilsImage.lireImage("textureRec1.jpg");
         	 break;
          case 2 : 
-        	 texture = OutilsImage.lireImageEtRedimensionner("textureRec2.jpg", (int)largeurRec, (int) longueurRec);
+        	 texture = OutilsImage.lireImage("textureRec2.jpg");
         	 break;
          case 3 : 
-        	 texture = OutilsImage.lireImageEtRedimensionner("textureRec3.jpg", (int)largeurRec, (int) longueurRec);
+        	 texture = OutilsImage.lireImage("textureRec3.jpg");
         	 break;
          }
+    }
+    
+    public String toString() {
+    	
+    	String rec;
+    	
+    	rec= "rec\n" + 
+    			Integer.toString((int) coinXGauche) + "\n" +
+    			Integer.toString((int) coinYGauche) + "\n" +
+    			Integer.toString((int) largeurRec) + "\n" +
+    			Integer.toString((int) longueurRec) + "\n" +
+    			Integer.toString((int) angleRotation) + "\n";
+		return rec;
+    	
     }
 
 }
