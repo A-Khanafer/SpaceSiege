@@ -269,6 +269,10 @@ public Vecteur2D getPositionEnMetre() {
 public void exploser() {
 
 }
+public void setMasse(int mas) {
+	this.masse=mas;
+}
+
 	
 	
 	

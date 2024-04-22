@@ -269,7 +269,9 @@ public class Niveaux extends JPanel implements Runnable {
 	private void gestionSourisCanon(MouseEvent e) {
 		
 	}
+	public void setMasseBalle(int mas) {
 	
+	}
 	
 	
 	

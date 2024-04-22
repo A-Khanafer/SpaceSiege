@@ -242,7 +242,7 @@ public class Niveau1 extends Niveaux {
 			monstre.dessiner(g2d);
 		}
 
-
+        
 		canon.dessiner(g2d);
 
 
@@ -399,9 +399,8 @@ public class Niveau1 extends Niveaux {
      */
 // Benakmoum Walid
 	private void calculerLesForces() {
-
 		Vecteur2D forceDeGravite=MoteurPhysique.calculForceGrav(canon.getBalle().getMasse(), Math.toRadians(90));
-       
+     
         
 	canon.getBalle().setSommeDesForces(forceDeGravite);
 
@@ -416,7 +415,7 @@ public class Niveau1 extends Niveaux {
 	
 		  enCoursDAnimation = false;
 
-
+       
 		    tempsTotalEcoule = 0;
 
 
@@ -625,10 +624,9 @@ public class Niveau1 extends Niveaux {
 	    addKeyListener(new KeyAdapter() {
 	        @Override
 	        public void keyPressed(KeyEvent e) {
-	        	 System.out.println("WSH SA RENTRE");
 	            switch (e.getKeyCode()) {
 	                case KeyEvent.VK_SPACE:
-	                    
+	                 
 	                    Thread explosionThread = new Thread(() -> {
 	                       canon.getBalle().exploser();
 	                     
@@ -639,9 +637,11 @@ public class Niveau1 extends Niveaux {
 	            repaint();
 	        }
 	    });
-	    setFocusable(true);
+
 	}
-		
+	public void setMasseBalle(int mas) {
+		canon.getBalle().setMasse(mas);
+	}
 		
 		
 }

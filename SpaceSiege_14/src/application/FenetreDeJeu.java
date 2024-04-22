@@ -124,6 +124,7 @@ public class FenetreDeJeu extends JFrame {
 		 niveaux[1] = niv2;
 		 niveaux[2] = niv3;
 		 nivActuel = niveaux[index];
+		 nivActuel.setFocusable(true);
 
 		 nivActuel.addPropertyChangeListener(new PropertyChangeListener() {
 		 	public void propertyChange(PropertyChangeEvent evt) {
@@ -369,6 +370,14 @@ public class FenetreDeJeu extends JFrame {
 		panelFonctionnalites.add(slider);
 		
 		JSpinner spinner = new JSpinner();
+		spinner.setModel(new SpinnerNumberModel(50, 10, 80, 1));
+		spinner.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+            int masse= (int)spinner.getValue();
+            nivActuel.setMasseBalle(masse);
+            						
+			}
+		});
 		spinner.setBounds(167, 52, 109, 46);
 		panelFonctionnalites.add(spinner);
 		
