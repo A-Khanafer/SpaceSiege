@@ -78,11 +78,6 @@ public class Cercle implements Obstacles, Dessinable, Selectionnable {
     private Vecteur2D positionCentre;
 	
 	
-	
-	
-	
-	
-	
 	/**
      * Constructeur de la classe Rectangle.
      *
@@ -99,14 +94,15 @@ public class Cercle implements Obstacles, Dessinable, Selectionnable {
       
         largeur = 10 * this.pixelsParMetre;
         longueur = largeur;
-        diametre = largeur;
-        rayon = diametre /2;
+        
         poigneRedimensionnement = new Ellipse2D.Double[8];
         creerLaGeometrie();
 	}
 	// Méthode privée pour initialiser la géométrie du rectangle
     //Ahmad Khanafer
     private void creerLaGeometrie() {
+    	diametre = largeur;
+        rayon = diametre /2;
     	coinXDroite = coinXGauche + largeur;
         coinYDroite = coinYGauche;
 
@@ -209,33 +205,47 @@ public class Cercle implements Obstacles, Dessinable, Selectionnable {
 		    // Effectuer le redimensionnement en fonction de l'index de la poignée de redimensionnement sélectionnée
 		    switch (index) {
 		    case 0: // En haut à gauche
-                if (rectanglePointille.width - offsetX >= 20 && rectanglePointille.height - offsetY >= 20) {
+		    	if (rectanglePointille.width - offsetX >= 20 && rectanglePointille.height - offsetY >= 20) {
+                    // Calculer le décalage moyen
+                    double averageOffset = (offsetX + offsetY) / 2.0;
+
                     // Redimensionner le rectangle
-                    largeur -= offsetX;
-                    longueur -= offsetY;
-                    coinXGauche += offsetX;
-                    coinYGauche += offsetY;
+                    largeur -= averageOffset;
+                    longueur -= averageOffset;
+                    coinXGauche += averageOffset;
+                    coinYGauche += averageOffset;
                 }
                 break;
      
             case 1: // En haut à droite
-                if (rectanglePointille.width + offsetX >= 20 && rectanglePointille.height - offsetY >= 20) {
-                    largeur += offsetX;
-                    longueur -= offsetY;
-                    coinYGauche += offsetY;
+            	if (rectanglePointille.width + offsetX >= 20 && rectanglePointille.height - offsetY >= 20) {
+                    // Calculer le décalage moyen
+                    double averageOffset = (offsetX - offsetY) / 2.0;
+
+                    // Redimensionner le rectangle
+                    largeur += averageOffset;
+                    longueur -= averageOffset;
+                    coinYGauche -= averageOffset;
                 }
                 break;
             case 2: // En bas à droite
-                if (rectanglePointille.width + offsetX >= 20 && rectanglePointille.height + offsetY >= 20) {
-                    largeur += offsetX;
-                    longueur += offsetY;
+            	if (rectanglePointille.width + offsetX >= 20 && rectanglePointille.height + offsetY >= 20) {
+                    // Calculer le décalage moyen
+                    double averageOffset = (offsetX + offsetY) / 2.0;
+
+                    // Redimensionner le rectangle
+                    largeur += averageOffset;
+                    longueur += averageOffset;
                 }
                 break;
             case 3: // En bas à gauche
-                if (rectanglePointille.width - offsetX >= 20 && rectanglePointille.height + offsetY >= 20) {
-                    largeur -= offsetX;
-                    longueur += offsetY;
-                    coinXGauche += offsetX;
+            	double moyenneOffset4 = (-offsetX - offsetY) / 2.0;
+                double nouvelleLargeur4 = rectanglePointille.width - moyenneOffset4;
+                double nouvelleLongueur4 = rectanglePointille.height + moyenneOffset4;
+                if (nouvelleLargeur4 >= 20 && nouvelleLongueur4 >= 20) {
+                    largeur = nouvelleLargeur4;
+                    longueur = nouvelleLongueur4;
+                    coinXGauche += moyenneOffset4;
                 }
                 break;
             }

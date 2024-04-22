@@ -59,8 +59,8 @@ public class AppPrincipal14 extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	
-	private int longueur = 1280;
-	private int hauteur = 720;
+	private int longueur = 1920;
+	private int hauteur = 1200;
 	private BoutonsIntro boutonsIntro;
 	private boolean son = true;
 	private AppPrincipal14 actuel = this;
@@ -97,6 +97,7 @@ public class AppPrincipal14 extends JFrame{
 				try {
 					AppPrincipal14 frame = new AppPrincipal14();
 					frame.setLocationRelativeTo(null);
+					frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 					
 					frame.setUndecorated(true); 
 					
@@ -132,13 +133,14 @@ public class AppPrincipal14 extends JFrame{
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		Titre titre_1 = new Titre("etoiles2.png", "titre2.png", 280,150);
-		titre_1.setBackground(new Color(0, 0, 0,0));
-		titre_1.setBounds(465, 30, 342, 269);
-		contentPane.add(titre_1);
+
 		
+		
+		Titre titre_1 = new Titre("etoiles2.png", "titre2.png", 330,220, 450,360);
+		titre_1.setBounds(1920/2-512/2, 66, 512, 500);
+		contentPane.add(titre_1);
+	
 		boutonsIntro = new BoutonsIntro(longueur, hauteur, actuel);
-		boutonsIntro.setLocation(540, 355);
 		contentPane.add(boutonsIntro);
 		
 		JButton btnSon = new JButton("New button");
@@ -178,7 +180,7 @@ public class AppPrincipal14 extends JFrame{
 				}
 			}
 		});
-		btnSon.setBounds(10, 651, 55, 55);
+		btnSon.setBounds(10, 1005, 55, 55);
 		contentPane.add(btnSon);
 		OutilsImage.lireImageEtPlacerSurBouton("son1.png", btnSon);
 
@@ -262,45 +264,24 @@ public class AppPrincipal14 extends JFrame{
 
 			}
 		});
-		btnX.setBounds(1209, 11, 55, 55);
+		btnX.setBounds( 1920-80, 10, 75, 65);
 		contentPane.add(btnX);
 		OutilsImage.lireImageEtPlacerSurBouton("xBlanc.png", btnX);
 		
-		JLabel lbl = new JLabel("");
-		Image img  = new ImageIcon(this.getClass().getResource("/fondanimer.gif")).getImage();
-		lbl.setIcon(new ImageIcon(img));
-		lbl.setBounds(0, -25, 1280, 770);
+		
+		
+		
+		JLabel lbl  = new JLabel("");
+		ImageIcon gifIcon = new ImageIcon(this.getClass().getResource("/fondanime4.gif"));
+		Image img = gifIcon.getImage();
+		Image resizedImg = img.getScaledInstance(1920,1080, Image.SCALE_DEFAULT);
+		lbl.setIcon(new ImageIcon(resizedImg));
+		lbl.setBounds(0, 0, 1920, 1080);
 		contentPane.add(lbl);
 		
 		
 		
 		
-		
-		
-		
-//		JButton btnJouer = new JButton("JOUER");
-//		btnJouer.setBounds(550, 448, 216, 69);
-//		contentPane.add(btnJouer);
-//		btnJouer.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				
-//				FenetreModeDeJeu.afficherFenetre();
-//				setVisible(false);
-//			}
-//		});
-//		btnJouer.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 23));
-		
-//				JButton btnQuitter = new JButton("QUITTER");
-//				btnQuitter.setBounds(550, 545, 216, 69);
-//				contentPane.add(btnQuitter);
-//				btnQuitter.addActionListener(new ActionListener() {
-//					public void actionPerformed(ActionEvent e) {
-//						setVisible(false);
-//					}
-//				});
-//				btnQuitter.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 23));
-		
-		 
 		
 
 	}

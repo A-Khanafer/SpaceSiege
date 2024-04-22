@@ -80,9 +80,10 @@ public class FenetreDeJeu extends JFrame {
 	private JRadioButton rdbBalleElastique;
 	private JRadioButton rdbBalleNova;
 	private PlanCartesien planCartesien;
-    private String fondActuel = "";
-    private JLabel lbl = new JLabel();
+    private String fondActuel = "/fondanimer.gif";
+    private JLabel lbl;
     private Image  img;
+    private ImageIcon gifIcon;
     
     private static FenetreModeDeJeu appli;
     private static FenetreDeJeu fenetre;
@@ -93,11 +94,12 @@ public class FenetreDeJeu extends JFrame {
 	public static void afficherFenetre(FenetreModeDeJeu app) {
        
 		appli = app;
-		app.setVisible(false);
+		
 		fenetre = new FenetreDeJeu();
 		fenetre.setLocationRelativeTo(null);
 		fenetre.setUndecorated(true); 
         fenetre.setVisible(true);
+        app.setVisible(false);
         
     }
 	public void changerNiveau() {
@@ -483,20 +485,32 @@ public class FenetreDeJeu extends JFrame {
 		comboBoxTypeGrav.setSelectedItem("ESPACE");
 	    niv1.changerTypeGravite("ESPACE"); 
 	    
-	    	
-		
-		
-	    lbl = new JLabel();
-//		Image img  = new ImageIcon(this.getClass().getResource(fondActuel)).getImage();
-		img =OutilsImage.lireImageEtRedimensionner(fondActuel, nivActuel.getWidth(), nivActuel.getHeight());
-
-		lbl.setIcon(new ImageIcon(img));
-		lbl.setBounds(nivActuel.getX(), nivActuel.getY(), nivActuel.getWidth(), nivActuel.getHeight());
-		contentPane.add(lbl);
-		
 		planCartesien = new PlanCartesien(nivActuel.getBalle().getPositionEnMetre());
 		planCartesien.setBounds(1192, 683, 382, 286);
 		contentPane.add(planCartesien);
+		
+		
+	  
+		
+		
+//		    lbl = new JLabel();
+////			Image img  = new ImageIcon(this.getClass().getResource(fondActuel)).getImage();
+//			img =OutilsImage.lireImageEtRedimensionner(fondActuel, nivActuel.getWidth(), nivActuel.getHeight());
+//
+//			lbl.setIcon(new ImageIcon(img));
+//			lbl.setBounds(nivActuel.getX(), nivActuel.getY(), nivActuel.getWidth(), nivActuel.getHeight());
+//			contentPane.add(lbl);
+			
+			lbl  = new JLabel();
+			
+			ImageIcon gifIcon = new ImageIcon(this.getClass().getResource("/espacelvl.gif"));
+			img = gifIcon.getImage();
+			Image resizedImg = img.getScaledInstance(nivActuel.getWidth(),nivActuel.getHeight(), Image.SCALE_DEFAULT);
+			lbl.setIcon(new ImageIcon(resizedImg));
+			lbl.setBounds(nivActuel.getX(),nivActuel.getY(), nivActuel.getWidth(), nivActuel.getHeight());
+			contentPane.add(lbl);
+		
+		
 	
 	    
 	}
@@ -543,9 +557,9 @@ public class FenetreDeJeu extends JFrame {
 	        	fondActuel = "terre4.png";
 	            break;
 	    }
-			img =OutilsImage.lireImageEtRedimensionner(fondActuel, nivActuel.getWidth(), nivActuel.getHeight());
-			lbl.setIcon(new ImageIcon(img));
-	        nivActuel.changerTypeGravite(fond);
+//			img =OutilsImage.lireImageEtRedimensionner(fondActuel, nivActuel.getWidth(), nivActuel.getHeight());
+//			lbl.setIcon(new ImageIcon(img));
+//	        nivActuel.changerTypeGravite(fond);
 
 		repaint();
 	}

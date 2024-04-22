@@ -53,11 +53,12 @@ public class FenetreBacASable extends JFrame {
 	public static void afficherFenetre(FenetreModeDeJeu app) {
       
 		appli= app;
-		app.setVisible(false);
+		
 		FenetreBacASable fenetre = new FenetreBacASable();
 		fenetre.setLocationRelativeTo(null);
 		fenetre.setUndecorated(true); 
         fenetre.setVisible(true);
+        app.setVisible(false);
     }
 
 	/**

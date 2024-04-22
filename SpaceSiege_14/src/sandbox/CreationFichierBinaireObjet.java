@@ -10,12 +10,13 @@ import java.util.Scanner;
 import java.util.TreeSet;
 
 import interfaces.Obstacles;
+import obstacles.ObstacleHolder;
 import obstacles.Rectangle;
 
 public class CreationFichierBinaireObjet {
 
 	
-	private static ArrayList<Obstacles>arbreCategories = new ArrayList<Obstacles>();
+	private static ObstacleHolder obstacleHolder =   new ObstacleHolder();
 	
 	public static void creationFichierBinaire(String niveau) {
 		
@@ -30,7 +31,7 @@ public class CreationFichierBinaireObjet {
 		        if(data.startsWith("*")) {// Lorsque la ligne commence avec un * cela signifie categorie
 		        	data = data.replace("*","");
 		        	if(data.equalsIgnoreCase("rec")) {
-		        		arbreCategories.add(new Rectangle(	Double.parseDouble(myReader.nextLine()),
+		        		obstacleHolder.getObstacleHolder().add(new Rectangle(	Double.parseDouble(myReader.nextLine()),
 		        											Double.parseDouble(myReader.nextLine()),
 		        											Double.parseDouble(myReader.nextLine()),
 		        											Double.parseDouble(myReader.nextLine()),
@@ -55,17 +56,17 @@ public class CreationFichierBinaireObjet {
 		        
 		      }	
 		      myReader.close();
-		      System.out.println(arbreCategories.toString());
+		      System.out.println(obstacleHolder.toString());
 		      
-//		      try {
-//		          FileOutputStream fileOut = new FileOutputStream("binobj.dat");
-//		          ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
-//		          objectOut.writeObject(arbreCategories); //Ajoute l'arbre
-//		          objectOut.close(); 
-//		    	} catch (IOException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
+		      try {
+		          FileOutputStream fileOut = new FileOutputStream("binobj.dat");
+		          ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
+		          objectOut.writeObject(obstacleHolder.getObstacleHolder()); //Ajoute l'arbre
+		          objectOut.close(); 
+		    	} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 		    } catch (FileNotFoundException e) {
 		      System.out.println("An error occurred.");
