@@ -42,11 +42,12 @@ public class FenetreModeDeJeu extends JFrame {
 	public static void afficherFenetre(AppPrincipal14 app) {
 		
 	    appli =app;
-		app.setVisible(false);
 		fenetre = new FenetreModeDeJeu();
 		fenetre.setLocationRelativeTo(null);
 		fenetre.setUndecorated(true); 
+		fenetre.setExtendedState(JFrame.MAXIMIZED_BOTH);
         fenetre.setVisible(true);
+        app.setVisible(false);
         
     }
 	public static void retour(FenetreModeDeJeu app) {
@@ -65,6 +66,7 @@ public class FenetreModeDeJeu extends JFrame {
 					FenetreModeDeJeu frame = new FenetreModeDeJeu();
 					frame.setLocationRelativeTo(null);
 					frame.setUndecorated(true); 
+					frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 					frame.setVisible(true);
 
 				} catch (Exception e) {
@@ -83,16 +85,16 @@ public class FenetreModeDeJeu extends JFrame {
 		setLocationRelativeTo(null);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1280, 720);
+		setBounds(0, 0, 1920, 1200);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		Titre titre_1 = new Titre("etoiles1.png", "modedejeu.png", 250,200);
+		Titre titre_1 = new Titre("etoiles1.png", "modedejeu.png", 300,250, 430, 320);
 		titre_1.setBackground(new Color(0, 0, 0));
-		titre_1.setBounds(1280/2- 362/2, 66, 362, 309);
+		titre_1.setBounds(1920/2- 412/2, 116, 412, 359);
 		contentPane.add(titre_1);
 						
 						JButton btnClassic = new JButton("CLASSIQUE");
@@ -101,19 +103,19 @@ public class FenetreModeDeJeu extends JFrame {
 							@Override
 							public void mouseEntered(MouseEvent e) {
 								OutilsImage.lireImageEtPlacerSurBouton("classique2.png", btnClassic);
-								btnClassic.setBounds(237, 416, 302, 69);
+								btnClassic.setBounds(581, 565, 302, 69);
 
 								
 							}
 							@Override
 							public void mouseExited(MouseEvent e) {
 								OutilsImage.lireImageEtPlacerSurBouton("classique.png", btnClassic);
-								btnClassic.setBounds(237, 426, 302, 69);
+								btnClassic.setBounds(575, 575, 302, 69);
 
 								
 							}
 						});
-						btnClassic.setBounds(237, 426, 302, 69);
+						btnClassic.setBounds(575, 575, 302, 69);
 						contentPane.add(btnClassic);
 						btnClassic.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
@@ -131,17 +133,17 @@ public class FenetreModeDeJeu extends JFrame {
 									@Override
 									public void mouseEntered(MouseEvent e) {
 										OutilsImage.lireImageEtPlacerSurBouton("bacasable2.png", btnSandBox);
-										btnSandBox.setBounds(733, 416, 325, 69);
+										btnSandBox.setBounds(1071, 565, 325, 69);
 
 									}
 									@Override
 									public void mouseExited(MouseEvent e) {
 										OutilsImage.lireImageEtPlacerSurBouton("bacasable.png", btnSandBox);
-										btnSandBox.setBounds(733, 426, 325, 69);
+										btnSandBox.setBounds(1071, 575, 325, 69);
 
 									}
 								});
-								btnSandBox.setBounds(733, 426, 325, 69);
+								btnSandBox.setBounds(1071, 575, 325, 69);
 								contentPane.add(btnSandBox);
 								btnSandBox.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent e) {
@@ -162,16 +164,16 @@ public class FenetreModeDeJeu extends JFrame {
 									@Override
 									public void mouseEntered(MouseEvent e) {
 										OutilsImage.lireImageEtPlacerSurBouton("menu2.png", btnMenu);
-										btnMenu.setBounds(545, 564, 190, 65);
+										btnMenu.setBounds(1920/2-80, 712, 190, 69);
 										
 									}
 									@Override
 									public void mouseExited(MouseEvent e) {
 										OutilsImage.lireImageEtPlacerSurBouton("menu.png", btnMenu);
-										btnMenu.setBounds(545, 574, 190, 65);
+										btnMenu.setBounds(1920/2-80, 722, 190, 69);
 									}
 								});
-								btnMenu.setBounds(545, 574, 190, 69);
+								btnMenu.setBounds(1920/2-80, 722, 190, 69);
 								contentPane.add(btnMenu);
 								btnMenu.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent e) {
@@ -204,15 +206,18 @@ public class FenetreModeDeJeu extends JFrame {
 
 									}
 								});
-								btnX.setBounds(1209, 11, 55, 54);
+								btnX.setBounds(1920 - 95, 11, 75, 65);
 								contentPane.add(btnX);
 								OutilsImage.lireImageEtPlacerSurBouton("xBlanc.png", btnX);
 								
-								JLabel lbl = new JLabel("New label");
-								Image img  = new ImageIcon(this.getClass().getResource("/fondjeu4.png")).getImage();
-								lbl.setIcon(new ImageIcon(img));
-								lbl.setBounds(-12, -34, 1300, 790);
+								JLabel lbl  = new JLabel("");
+								ImageIcon gifIcon = new ImageIcon(this.getClass().getResource("/fondmodedejeu3.gif"));
+								Image img = gifIcon.getImage();
+								Image resizedImg = img.getScaledInstance(1920,1200, Image.SCALE_DEFAULT);
+								lbl.setIcon(new ImageIcon(resizedImg));
+								lbl.setBounds(0, 0, 1920, 1200);
 								contentPane.add(lbl);
+//								
 	}
 }
 

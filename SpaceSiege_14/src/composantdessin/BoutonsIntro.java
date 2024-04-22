@@ -37,7 +37,7 @@ public class BoutonsIntro extends JPanel {
 	 */
 	public BoutonsIntro( int longueur,  int hauteur , AppPrincipal14 app) {
 		
-		this.setBounds(longueur/2 - longueurPanel/2 , hauteur/2 - 50 ,longueurPanel, hauteurPanel);
+		this.setBounds(longueur/2 - longueurPanel/2 , hauteur/2 +60 ,longueurPanel, hauteurPanel);
 		setBackground(new Color(0, 0, 0,0));
 		setLayout(null);
 		
