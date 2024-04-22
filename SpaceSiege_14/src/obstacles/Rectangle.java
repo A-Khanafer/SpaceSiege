@@ -11,6 +11,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.Random;
 
@@ -55,7 +56,7 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable, Seriali
     /**
      * La zone délimitée par le rectangle.
      */
-    private Area aireRec;
+    private transient Area aireRec;
 
     /**
      * Les coordonnées du centre du rectangle.
@@ -93,11 +94,11 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable, Seriali
     /**
      * Aire de la poignée de rotation du rectangle.
      */
-	private Area airePoigne;
+	private transient Area airePoigne;
 	
 	private Point2D.Double[] coins;
 	
-	private Image texture;
+	private transient BufferedImage texture;
     /**
      * Constructeur de la classe Rectangle.
      *
@@ -190,7 +191,7 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable, Seriali
         double sinAngle = Math.sin(angle);
         double rotatedX = x * cosAngle - y * sinAngle;
         double rotatedY = x * sinAngle + y * cosAngle;
-        return new double[]{rotatedX, rotatedY};
+        return new double[]{rotatedX, rotatedY};  
     }
     //Méthode privée qui calcule les 4 coins en rotation et dessine les segments pour permettre la collisions.
     //Ahmad Khanafer
@@ -505,13 +506,13 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable, Seriali
          
          switch(i) {
          case 1 : 
-        	 texture = OutilsImage.lireImage("textureRec1.jpg");
+        	 texture = (BufferedImage) OutilsImage.lireImage("textureRec1.jpg");
         	 break;
          case 2 : 
-        	 texture = OutilsImage.lireImage("textureRec2.jpg");
+        	 texture = (BufferedImage) OutilsImage.lireImage("textureRec2.jpg");
         	 break;
          case 3 : 
-        	 texture = OutilsImage.lireImage("textureRec3.jpg");
+        	 texture = (BufferedImage) OutilsImage.lireImage("textureRec3.jpg");
         	 break;
          }
     }

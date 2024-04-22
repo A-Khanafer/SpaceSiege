@@ -63,7 +63,7 @@ public class Balle {
      */
     protected Ellipse2D.Double cercle;
     protected LinkedList<Ellipse2D.Double> trainees = new LinkedList<>();
-    protected final int MAX_TRAÎNÉES = 12;
+    protected final int MAX_TRAÎNÉES = 8;
     protected volatile boolean running = true;
 
     /**

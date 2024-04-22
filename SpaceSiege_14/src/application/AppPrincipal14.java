@@ -180,7 +180,7 @@ public class AppPrincipal14 extends JFrame{
 				}
 			}
 		});
-		btnSon.setBounds(10, 1140, 55, 55);
+		btnSon.setBounds(10, 1005, 55, 55);
 		contentPane.add(btnSon);
 		OutilsImage.lireImageEtPlacerSurBouton("son1.png", btnSon);
 
@@ -264,7 +264,7 @@ public class AppPrincipal14 extends JFrame{
 
 			}
 		});
-		btnX.setBounds(1920 - 95, 11, 75, 65);
+		btnX.setBounds( 1920-80, 10, 75, 65);
 		contentPane.add(btnX);
 		OutilsImage.lireImageEtPlacerSurBouton("xBlanc.png", btnX);
 		
@@ -274,9 +274,9 @@ public class AppPrincipal14 extends JFrame{
 		JLabel lbl  = new JLabel("");
 		ImageIcon gifIcon = new ImageIcon(this.getClass().getResource("/fondanime4.gif"));
 		Image img = gifIcon.getImage();
-		Image resizedImg = img.getScaledInstance(1920,1200, Image.SCALE_DEFAULT);
+		Image resizedImg = img.getScaledInstance(1920,1080, Image.SCALE_DEFAULT);
 		lbl.setIcon(new ImageIcon(resizedImg));
-		lbl.setBounds(0, 0, 1920, 1200);
+		lbl.setBounds(0, 0, 1920, 1080);
 		contentPane.add(lbl);
 		
 		
