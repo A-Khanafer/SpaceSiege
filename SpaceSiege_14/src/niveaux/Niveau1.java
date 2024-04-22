@@ -35,7 +35,7 @@ import java.awt.Color;
 import obstacles.Rectangle;
 
 import obstacles.Triangle;
-import outils.Collisions;
+import physique.Collisions;
 import physique.MoteurPhysique;
 
 public class Niveau1 extends Niveaux {
@@ -57,7 +57,7 @@ public class Niveau1 extends Niveaux {
 	/**
      * L'intervalle de temps (en secondes) utilisé pour chaque itération du calcul physique.
      */
-	private double deltaT=0.005;
+	private double deltaT=0.06;
 	/**
      * Le temps de pause (en millisecondes) entre chaque itération de l'animation.
      */
@@ -278,7 +278,7 @@ public class Niveau1 extends Niveaux {
 			for(int i =0 ; i < tableauRec.length ; i++) {
 				Collisions.collisionRectangle(canon.getBalle(),tableauRec[i]);
 			}
-			
+			System.out.println("_____________________________________"+Collisions.getNbRebond());
 
 			Area areaBalle = new Area(canon.getBalle().getCercle()); 
 	        Area areaMonstre = monstre.getArea();

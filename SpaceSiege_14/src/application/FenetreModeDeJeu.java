@@ -88,7 +88,7 @@ public class FenetreModeDeJeu extends JFrame {
 		setBounds(0, 0, 1920, 1200);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		
+	
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		

@@ -5,6 +5,7 @@ import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.util.LinkedList;
 
+import physique.Collisions;
 import physique.MoteurPhysique;
 import physique.Vecteur2D;
 
@@ -231,21 +232,26 @@ public class Balle {
 	    		
 	    		vitesse.setY(-vitesse.getY());
 	    		position.setY(posSol-diametre);
+	    		Collisions.setNbrebond(Collisions.getNbRebond()+1);
 	    	}
 	    	if ( (position.getX() + diametre) >= ( posMurDroit ) ) {
 	    		vitesse.setX(-vitesse.getX());
 	    		position.setX(posMurDroit-diametre);
+	    		Collisions.setNbrebond(Collisions.getNbRebond()+1);
 	    	}
 	    	if ( (position.getY()) <= ( posMurHaut ) ) {
 	    		
 	    		vitesse.setY(-vitesse.getY());
 	    		position.setY(posMurHaut);
+	    		Collisions.setNbrebond(Collisions.getNbRebond()+1);
 	    	}
 	    	if ( (position.getX()) <= ( posMurGauche ) ) {
 	    		
 	    		vitesse.setX(-vitesse.getX());
 	    		position.setX(posMurGauche);
+	    		Collisions.setNbrebond(Collisions.getNbRebond()+1);
 	    	}
+	    	
 	    }
 	 /**
 	  * Méthode pour dessiner
@@ -263,12 +269,12 @@ public class Balle {
 		return diametre/2;
 	}
 
-public Vecteur2D getPositionEnMetre() {
-	return(position.multiplie(1/pixelsParMetre));
-}
-public void exploser() {
+    public Vecteur2D getPositionEnMetre() {
+	    return(position.multiplie(1/pixelsParMetre));
+    }
+    public void exploser() {
 
-}
+    }
 	
 	
 	

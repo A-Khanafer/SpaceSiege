@@ -93,21 +93,21 @@ public class FenetreBacASable extends JFrame {
 		contentPane.setLayout(null);
 		
 		panelBacASable = new PanelBacASable();
-		panelBacASable.setBounds(10, 11, 1060, 771);
+		panelBacASable.setBounds(0, 0, 1920, 864);
 		contentPane.add(panelBacASable);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(255, 255, 255));
-		panel_1.setBounds(1489, 464, 394, 542);
+		panel_1.setBounds(1052, 901, 842, 223);
 		contentPane.add(panel_1);
 		panel_1.setLayout(null);
 		
 		JButton btnNewButton = new JButton("New button");
-		btnNewButton.setBounds(23, 675, 115, 105);
+		btnNewButton.setBounds(10, 155, 261, 31);
 		panel_1.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("New button");
-		btnNewButton_1.setBounds(210, 675, 115, 105);
+		btnNewButton_1.setBounds(197, 155, 74, 31);
 		panel_1.add(btnNewButton_1);
 		
 		btnRetour = new JButton("RETOUR");
@@ -117,43 +117,43 @@ public class FenetreBacASable extends JFrame {
 				setVisible(false);
 			}
 		});
-		btnRetour.setBounds(23, 435, 115, 105);
+		btnRetour.setBounds(10, 92, 73, 52);
 		panel_1.add(btnRetour);
 		
 		JButton btnNewButton_3 = new JButton("New button");
-		btnNewButton_3.setBounds(150, 435, 115, 105);
+		btnNewButton_3.setBounds(93, 92, 96, 52);
 		panel_1.add(btnNewButton_3);
 		
 		JLabel lblNbDeBalle = new JLabel("Nombre de balles total  :");
-		lblNbDeBalle.setBounds(23, 21, 201, 28);
+		lblNbDeBalle.setBounds(477, 11, 135, 28);
 		panel_1.add(lblNbDeBalle);
 		
 		JSpinner spinner = new JSpinner();
-		spinner.setBounds(23, 60, 133, 34);
+		spinner.setBounds(549, 50, 63, 34);
 		panel_1.add(spinner);
 		
 		JLabel lblNewLabel = new JLabel("Nombre de balles elastiques :");
-		lblNewLabel.setBounds(23, 123, 201, 28);
+		lblNewLabel.setBounds(676, 11, 156, 28);
 		panel_1.add(lblNewLabel);
 		
 		JSpinner spinner_1 = new JSpinner();
-		spinner_1.setBounds(23, 172, 133, 34);
+		spinner_1.setBounds(676, 50, 75, 34);
 		panel_1.add(spinner_1);
 		
 		JLabel lblNewLabel_1 = new JLabel("New label");
-		lblNewLabel_1.setBounds(23, 233, 201, 22);
+		lblNewLabel_1.setBounds(93, 17, 63, 22);
 		panel_1.add(lblNewLabel_1);
 		
 		JSpinner spinner_2 = new JSpinner();
-		spinner_2.setBounds(23, 266, 143, 34);
+		spinner_2.setBounds(93, 50, 63, 34);
 		panel_1.add(spinner_2);
 		
 		JLabel lblNewLabel_2 = new JLabel("New label");
-		lblNewLabel_2.setBounds(23, 329, 159, 22);
+		lblNewLabel_2.setBounds(10, 17, 71, 22);
 		panel_1.add(lblNewLabel_2);
 		
 		JSlider slider = new JSlider();
-		slider.setBounds(24, 367, 200, 26);
+		slider.setBounds(11, 55, 70, 26);
 		panel_1.add(slider);
 		
 		btnLoad = new JButton("Load Niveau");
@@ -196,11 +196,11 @@ public class FenetreBacASable extends JFrame {
 		        
 			}
 		});
-		btnLoad.setBounds(273, 367, 89, 23);
+		btnLoad.setBounds(741, 155, 91, 57);
 		panel_1.add(btnLoad);
 		
 		btnCarre = new JButton("Carre");
-		btnCarre.setBounds(10, 901, 115, 105);
+		btnCarre.setBounds(10, 1019, 115, 105);
 		contentPane.add(btnCarre);
 		btnCarre.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -215,12 +215,12 @@ public class FenetreBacASable extends JFrame {
 				panelBacASable.ajouterCercle();
 			}
 		});
-		btnCercle.setBounds(141, 901, 115, 105);
+		btnCercle.setBounds(141, 1019, 115, 105);
 		contentPane.add(btnCercle);
 		OutilsImage.lireImageEtPlacerSurBouton("cercle.png", btnCercle);
 		
 		btnTriangle = new JButton("Triangle");
-		btnTriangle.setBounds(273, 901, 115, 105);
+		btnTriangle.setBounds(273, 1019, 115, 105);
 		contentPane.add(btnTriangle);
 		btnTriangle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -230,27 +230,27 @@ public class FenetreBacASable extends JFrame {
 		OutilsImage.lireImageEtPlacerSurBouton("imageTriangle.jpg", btnTriangle);
 		
 		btnSpikes = new JButton("Spikes");
-		btnSpikes.setBounds(402, 901, 115, 105);
+		btnSpikes.setBounds(402, 1019, 115, 105);
 		contentPane.add(btnSpikes);
 		OutilsImage.lireImageEtPlacerSurBouton("spikes.png", btnSpikes);
 		
 		btnPlaqueRebondissante = new JButton("Plaque Rebondissante");
-		btnPlaqueRebondissante.setBounds(527, 901, 115, 105);
+		btnPlaqueRebondissante.setBounds(527, 1019, 115, 105);
 		contentPane.add(btnPlaqueRebondissante);
 		OutilsImage.lireImageEtPlacerSurBouton("bouncePad.png", btnPlaqueRebondissante);
 		
 		btnAimant = new JButton("BouleAiment");
-		btnAimant.setBounds(662, 901, 115, 105);
+		btnAimant.setBounds(662, 1019, 115, 105);
 		contentPane.add(btnAimant);
 		OutilsImage.lireImageEtPlacerSurBouton("balle.png", btnAimant);
 		
 		btnCanon = new JButton("Position Canon");
-		btnCanon.setBounds(787, 901, 115, 105);
+		btnCanon.setBounds(787, 1019, 115, 105);
 		contentPane.add(btnCanon);
 		OutilsImage.lireImageEtPlacerSurBouton("canon.png", btnCanon);
 		
 		btnMonstre = new JButton("Monstres");
-		btnMonstre.setBounds(912, 901, 115, 105);
+		btnMonstre.setBounds(912, 1019, 115, 105);
 		contentPane.add(btnMonstre);
 		OutilsImage.lireImageEtPlacerSurBouton("images.jpg", btnMonstre);
 	}
