@@ -27,14 +27,14 @@ public class FenetreNiveaux extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private static FenetreModeDeJeu appli;
-	private static FenetreNiveaux fenetre = new FenetreNiveaux();
+	private static FenetreNiveaux fenetre;
 	
 	
 	public static void afficherFenetre(FenetreModeDeJeu app) {
 	       
 		appli = app;
 		
-		
+		fenetre = new FenetreNiveaux();
 		fenetre.setLocationRelativeTo(null);
 		fenetre.setUndecorated(true);
 		fenetre.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -184,7 +184,8 @@ public class FenetreNiveaux extends JFrame {
 		});
 		btnRetour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				FenetreModeDeJeu.retour(appli);
+				setVisible(false);
 			}
 		});
 		btnRetour.setBounds(1920/2-150, 965, 300, 83);

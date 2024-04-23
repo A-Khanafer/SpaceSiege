@@ -98,10 +98,6 @@ public class FenetreDeJeu extends JFrame {
 		appli = app;
 		fenetre = new FenetreDeJeu();
 		
-//		nivActuel = niveaux[indexx];
-//		nivActuel.setBounds(0, 0, 1920, 864);
-//		nivActuel.setFocusable(true);
-//		fenetre.getContentPane().add(nivActuel);
 		fenetre.setLocationRelativeTo(null);
 		fenetre.setUndecorated(true);
 		fenetre.setExtendedState(JFrame.MAXIMIZED_BOTH);
