@@ -58,15 +58,17 @@ public class FenetreDeJeu extends JFrame {
 	private JPanel contentPane;
 	private JPanel panelTable;
 	private JButton btnRetour;
-	private JButton btnNiveauPrecedent;
-	private JButton btnNiveauSuivant;
+	
+//	private JButton btnNiveauPrecedent;
+//	private JButton btnNiveauSuivant;
+	
 	private JButton btnPause;
 	private JButton btnReinitialiser;
 	private JButton btnDemarrer;
 	private JButton btn1Image;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
-	private Niveaux niveaux [] = new Niveaux[10]; 
-	private int index = 0;
+	private static Niveaux niveaux [] = new Niveaux[10]; 
+	private static int index = 0;
 	private boolean enCoursDAnimation=false;
 
 	private JComboBox comboBoxTypeGrav;
@@ -74,8 +76,7 @@ public class FenetreDeJeu extends JFrame {
 	private Niveau1 niv1;
 	private Niveau2 niv2;
 	private Niveau3 niv3;
-	private Niveaux nivActuel;
-	private Niveaux nivSuivant ;
+	private static Niveaux nivActuel;
 	private JRadioButton rdbBalleNormal;
 	private JRadioButton rdbBalleElastique;
 	private JRadioButton rdbBalleNova;
@@ -85,17 +86,22 @@ public class FenetreDeJeu extends JFrame {
     private Image  img;
     private ImageIcon gifIcon;
     
-    private static FenetreModeDeJeu appli;
+    private static FenetreNiveaux appli;
     private static FenetreDeJeu fenetre;
 	/**
      * Méthode statique pour afficher la fenêtre de jeu. Crée une instance de {@code FenetreDeJeu} et la rend visible.
      */
 	//ZAKARIA SOUDAKI
-	public static void afficherFenetre(FenetreModeDeJeu app) {
-       
-		appli = app;
+	public static void afficherFenetre(FenetreNiveaux app, int indexx) {
 		
+        index = indexx;
+		appli = app;
 		fenetre = new FenetreDeJeu();
+		
+//		nivActuel = niveaux[indexx];
+//		nivActuel.setBounds(0, 0, 1920, 864);
+//		nivActuel.setFocusable(true);
+//		fenetre.getContentPane().add(nivActuel);
 		fenetre.setLocationRelativeTo(null);
 		fenetre.setUndecorated(true);
 		fenetre.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -103,14 +109,16 @@ public class FenetreDeJeu extends JFrame {
         app.setVisible(false);
         
     }
-	public void changerNiveau() {
-	   	 index++;
-		 niveaux[0] = niv1;
-		 niveaux[1] = niv2;
-		 niveaux[2] = niv3;
-		 nivActuel = niveaux[index];
-		 nivSuivant = niveaux[index +1];
-	}
+//	public void changerNiveau() {
+//	   	 index++;
+//		 niveaux[0] = niv1;
+//		 niveaux[1] = niv2;
+//		 niveaux[2] = niv3;
+//		 nivActuel = niveaux[index];
+//		 
+//		 nivSuivant = niveaux[index +1];
+//	}
+	
 	/**
      * Constructeur qui initialise la fenêtre de jeu, y compris la zone d'animation et les panneaux de contrôle.
      *
@@ -119,7 +127,7 @@ public class FenetreDeJeu extends JFrame {
 	public FenetreDeJeu() {
 		
 
-		Border emptyBorder = BorderFactory.createEmptyBorder();
+		 Border emptyBorder = BorderFactory.createEmptyBorder();
 		
 		 niv1 = new Niveau1();
 	   	 niv2 = new Niveau2();
@@ -128,6 +136,7 @@ public class FenetreDeJeu extends JFrame {
 		 niveaux[1] = niv2;
 		 niveaux[2] = niv3;
 		 nivActuel = niveaux[index];
+		 nivActuel.setFocusable(true);
 
 		 nivActuel.addPropertyChangeListener(new PropertyChangeListener() {
 		 	public void propertyChange(PropertyChangeEvent evt) {
@@ -136,18 +145,17 @@ public class FenetreDeJeu extends JFrame {
 			 }
 		 	}
 		 });
-		 nivSuivant = niveaux[index +1];
-		 
-		 
-		setLocationRelativeTo(null);
 
+		 
+		 
+	
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1920, 1200);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(192, 192, 192));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		
-		 
+
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -180,8 +188,9 @@ public class FenetreDeJeu extends JFrame {
 		btnRetour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				FenetreModeDeJeu.retour(appli);
+				FenetreNiveaux.retour(appli);
 				setVisible(false);
+				contentPane.remove(nivActuel);
 				nivActuel.arreter();
 
 			}
@@ -192,67 +201,67 @@ public class FenetreDeJeu extends JFrame {
 		OutilsImage.lireImageEtPlacerSurBouton("retour1.png", btnRetour);
 
 		
-		btnNiveauPrecedent = new JButton("NIVEAU PRECEDENT");
-		btnNiveauPrecedent.setBorder(emptyBorder);
-		btnNiveauPrecedent.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				OutilsImage.lireImageEtPlacerSurBouton("nivPrecedent2.png", btnNiveauPrecedent);
-
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				OutilsImage.lireImageEtPlacerSurBouton("nivPrecedent1.png", btnNiveauPrecedent);
-
-			}
-		});
-		btnNiveauPrecedent.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
-		btnNiveauPrecedent.setBounds(640, 52, 68, 68);
-		panelFonctionnalites.add(btnNiveauPrecedent);
-		OutilsImage.lireImageEtPlacerSurBouton("nivPrecedent1.png", btnNiveauPrecedent);
+//		btnNiveauPrecedent = new JButton("NIVEAU PRECEDENT");
+//		btnNiveauPrecedent.setBorder(emptyBorder);
+//		btnNiveauPrecedent.addMouseListener(new MouseAdapter() {
+//			@Override
+//			public void mouseEntered(MouseEvent e) {
+//				OutilsImage.lireImageEtPlacerSurBouton("nivPrecedent2.png", btnNiveauPrecedent);
+//
+//			}
+//			@Override
+//			public void mouseExited(MouseEvent e) {
+//				OutilsImage.lireImageEtPlacerSurBouton("nivPrecedent1.png", btnNiveauPrecedent);
+//
+//			}
+//		});
+//		btnNiveauPrecedent.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
+//		btnNiveauPrecedent.setBounds(640, 52, 68, 68);
+//		panelFonctionnalites.add(btnNiveauPrecedent);
+//		OutilsImage.lireImageEtPlacerSurBouton("nivPrecedent1.png", btnNiveauPrecedent);
 
 		
-		btnNiveauSuivant = new JButton("NIVEAU SUIVANT");
-		btnNiveauSuivant.setBorder(emptyBorder);
-		btnNiveauSuivant.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				OutilsImage.lireImageEtPlacerSurBouton("nivsuivant2.png", btnNiveauSuivant);
-
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				OutilsImage.lireImageEtPlacerSurBouton("nivsuivant1.png", btnNiveauSuivant);
-
-			}
-		});
-		btnNiveauSuivant.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				 
-				
-        if (index >1 ) {
-	       JOptionPane.showMessageDialog(null, "FIN DES NIVEAUX __________");
-          }
-           else {
-	
-
-				nivActuel.arreter();
-				getContentPane().remove(nivActuel);
-				
-				nivSuivant.setBounds(0, 0, 1920, 864);
-				
-				contentPane.add(nivSuivant);
-				refreshLabel();
-			
-				changerNiveau();
-				repaint();
-}
-			}
-		});
-		btnNiveauSuivant.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
-		btnNiveauSuivant.setBounds(718, 52, 68, 68);
-		panelFonctionnalites.add(btnNiveauSuivant);
-		OutilsImage.lireImageEtPlacerSurBouton("nivsuivant1.png", btnNiveauSuivant);
+//		btnNiveauSuivant = new JButton("NIVEAU SUIVANT");
+//		btnNiveauSuivant.setBorder(emptyBorder);
+//		btnNiveauSuivant.addMouseListener(new MouseAdapter() {
+//			@Override
+//			public void mouseEntered(MouseEvent e) {
+//				OutilsImage.lireImageEtPlacerSurBouton("nivsuivant2.png", btnNiveauSuivant);
+//
+//			}
+//			@Override
+//			public void mouseExited(MouseEvent e) {
+//				OutilsImage.lireImageEtPlacerSurBouton("nivsuivant1.png", btnNiveauSuivant);
+//
+//			}
+//		});
+//		btnNiveauSuivant.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				 
+//				
+//        if (index >1 ) {
+//	       JOptionPane.showMessageDialog(null, "FIN DES NIVEAUX __________");
+//          }
+//           else {
+//	
+//
+//				nivActuel.arreter();
+//				getContentPane().remove(nivActuel);
+//				
+//				nivSuivant.setBounds(0, 0, 1920, 864);
+//				
+//				contentPane.add(nivSuivant);
+//				refreshLabel();
+//			
+////				changerNiveau();
+//				repaint();
+//}
+//			}
+//		});
+//		btnNiveauSuivant.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
+//		btnNiveauSuivant.setBounds(718, 52, 68, 68);
+//		panelFonctionnalites.add(btnNiveauSuivant);
+//		OutilsImage.lireImageEtPlacerSurBouton("nivsuivant1.png", btnNiveauSuivant);
 
 		
 		btnPause = new JButton("PAUSE");
@@ -373,6 +382,14 @@ public class FenetreDeJeu extends JFrame {
 		panelFonctionnalites.add(slider);
 		
 		JSpinner spinner = new JSpinner();
+		spinner.setModel(new SpinnerNumberModel(50, 10, 80, 1));
+		spinner.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+            int masse= (int)spinner.getValue();
+            nivActuel.setMasseBalle(masse);
+            						
+			}
+		});
 		spinner.setBounds(167, 52, 109, 46);
 		panelFonctionnalites.add(spinner);
 		
@@ -485,14 +502,6 @@ public class FenetreDeJeu extends JFrame {
 		
 	  
 		
-		
-//		    lbl = new JLabel();
-////			Image img  = new ImageIcon(this.getClass().getResource(fondActuel)).getImage();
-//			img =OutilsImage.lireImageEtRedimensionner(fondActuel, nivActuel.getWidth(), nivActuel.getHeight());
-//
-//			lbl.setIcon(new ImageIcon(img));
-//			lbl.setBounds(nivActuel.getX(), nivActuel.getY(), nivActuel.getWidth(), nivActuel.getHeight());
-//			contentPane.add(lbl);
 			
 			
 			

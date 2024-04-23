@@ -33,7 +33,7 @@ import java.awt.Color;
 import obstacles.Rectangle;
 
 import obstacles.Triangle;
-import physique.Collisions;
+
 import physique.MoteurPhysique;
 
 public class Niveaux extends JPanel implements Runnable {
@@ -118,7 +118,7 @@ public class Niveaux extends JPanel implements Runnable {
 		setOpaque(false);
 		
 		
-		setBounds(0, 0, 1574, 864);
+		setBounds(0, 0, 1296, 672);
 		setLayout(null);
 		
 		
@@ -268,10 +268,10 @@ public class Niveaux extends JPanel implements Runnable {
 	private void gestionSourisCanon(MouseEvent e) {
 		
 	}
+	public void setMasseBalle(int mas) {
 	
+	}
 	
 	
 	
 	}
-
-		

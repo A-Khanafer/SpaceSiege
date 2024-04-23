@@ -57,7 +57,7 @@ public class Niveau1 extends Niveaux {
 	/**
      * L'intervalle de temps (en secondes) utilisé pour chaque itération du calcul physique.
      */
-	private double deltaT=0.06;
+	private double deltaT=0.05;
 	/**
      * Le temps de pause (en millisecondes) entre chaque itération de l'animation.
      */
@@ -196,7 +196,7 @@ public class Niveau1 extends Niveaux {
 			
 			monstre = new Monstres(1000, 20, "images.jpg", pixelParMetres);
 			  canon = new Canon(0, 10,pixelParMetres,"CANONSEXY.png");
-			 
+			  System.out.println(monstre.getNombreDeVie()+"___");
 		
 			 
 			 tableauRec[0] = new Rectangle(  143,  354, 330, 53,0);
@@ -242,7 +242,7 @@ public class Niveau1 extends Niveaux {
 			monstre.dessiner(g2d);
 		}
 
-
+        
 		canon.dessiner(g2d);
 
 
@@ -253,10 +253,7 @@ public class Niveau1 extends Niveaux {
 
 	    hauteurComposant = getHeight();
 	    largeurComposant = getWidth();
-	    
-//	    g2d.setColor(Color.red);
-//	    g2d.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
-//	   
+	     
 	    
 	   
 	    
@@ -278,7 +275,7 @@ public class Niveau1 extends Niveaux {
 			for(int i =0 ; i < tableauRec.length ; i++) {
 				Collisions.collisionRectangle(canon.getBalle(),tableauRec[i]);
 			}
-			System.out.println("_____________________________________"+Collisions.getNbRebond());
+			
 
 			Area areaBalle = new Area(canon.getBalle().getCercle()); 
 	        Area areaMonstre = monstre.getArea();
@@ -286,19 +283,21 @@ public class Niveau1 extends Niveaux {
 
 	        if (!areaBalle.isEmpty()) {
 	        	monstre.perdUneVie();
-
-	        	reinitialiserApplication();
+				System.out.println(monstre.getNombreDeVie()+"DANS LA METHODE");
+	        	reinitialiserPosition();
 	        }
 
 
-			repaint();
-			
+		
+			System.out.println(monstre.getNombreDeVie()+"AVANT");
 			if(monstre.getNombreDeVie()==0) {
 	    	    monstreMort=true;
 	            enCoursDAnimation = false; 
 	            JOptionPane.showMessageDialog(null,"VOUS AVEZ GAGNE");
+	            reinitialiserApplication();
 	    	}
 			ecouteurClavier();
+			repaint();
 			try {
 				Thread.sleep(tempsDuSleep);
 			} catch (InterruptedException e) {
@@ -399,9 +398,8 @@ public class Niveau1 extends Niveaux {
      */
 // Benakmoum Walid
 	private void calculerLesForces() {
-
 		Vecteur2D forceDeGravite=MoteurPhysique.calculForceGrav(canon.getBalle().getMasse(), Math.toRadians(90));
-       
+     
         
 	canon.getBalle().setSommeDesForces(forceDeGravite);
 
@@ -416,20 +414,29 @@ public class Niveau1 extends Niveaux {
 	
 		  enCoursDAnimation = false;
 
-
+       
 		    tempsTotalEcoule = 0;
 
 
 		    balleTiree = false;
 		    canon.setPremiereFois(true);
 		    monstre = new Monstres(1000, 20, "images.jpg", pixelParMetres);
+		    if(monstre.getNombreDeVie()==0) {
 		    monstre.setNombreDeVie(1);
+		    }
 		    canon = new Canon(0, 10,pixelParMetres,"CANONSEXY.png");
 		    
 		   monstreMort=false;
 
 
 		   repaint();
+	}
+	public void reinitialiserPosition() {
+		enCoursDAnimation=false;
+		balleTiree = false;
+	    canon.setPremiereFois(true);
+	    canon = new Canon(0, 10,pixelParMetres,"CANONSEXY.png");
+	    repaint();
 	}
 	/**
      * Méthode qui permet de tirer la balle.
@@ -625,10 +632,9 @@ public class Niveau1 extends Niveaux {
 	    addKeyListener(new KeyAdapter() {
 	        @Override
 	        public void keyPressed(KeyEvent e) {
-	        	 System.out.println("WSH SA RENTRE");
 	            switch (e.getKeyCode()) {
 	                case KeyEvent.VK_SPACE:
-	                    
+	                 
 	                    Thread explosionThread = new Thread(() -> {
 	                       canon.getBalle().exploser();
 	                     
@@ -639,9 +645,11 @@ public class Niveau1 extends Niveaux {
 	            repaint();
 	        }
 	    });
-	    setFocusable(true);
+
 	}
-		
+	public void setMasseBalle(int mas) {
+		canon.getBalle().setMasse(mas);
+	}
 		
 		
 }

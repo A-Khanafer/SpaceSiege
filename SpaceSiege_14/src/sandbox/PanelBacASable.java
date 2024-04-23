@@ -259,11 +259,12 @@ public class PanelBacASable extends JPanel {
 					repaint();
 				}else if(tableauRec[i].isClickedOnIt() == true && index == -1 ) {
 					tableauRec[i].rotate( e.getX(), e.getY());
-					repaint();
+					repaint();	
 				}
 				if(tableauRec[i].contient(e.getX(), e.getY()) && tableauRec[i].isClickedOnIt() == false) {
 					tableauRec[i].move( e.getX(), e.getY());
 					repaint();
+					break;
 				}
 		}	
 	}
@@ -282,6 +283,7 @@ public class PanelBacASable extends JPanel {
 				if(tableauTri[i].contient(e.getX(), e.getY()) && tableauTri[i].isClickedOnIt() == false) {
 					tableauTri[i].move( e.getX(), e.getY());
 					repaint();
+					break;
 				}
 		}
 	}
@@ -300,6 +302,7 @@ public class PanelBacASable extends JPanel {
 					if(tableauCercle[i].contient(e.getX(), e.getY()) && tableauCercle[i].isClickedOnIt() == false) {
 						tableauCercle[i].move( e.getX(), e.getY());
 						repaint();
+						break;
 					}
 			}	
 		}
@@ -308,11 +311,9 @@ public class PanelBacASable extends JPanel {
 	private void gestionSourisRecClick(MouseEvent e) {
 		for(int i =0 ; i < tableauRec.length; i++) {
 			if(tableauRec[i].contient(e.getX(), e.getY())) {
-				System.out.println("CLICKEEEZZZZZZZZZ on");
 				tableauRec[i].setClickedOnIt(true);
 				repaint();
 			}else {
-				System.out.println("CLICKEEEZZZZZZZZZ off");
 				tableauRec[i].setClickedOnIt(false);
 				repaint();
 			}

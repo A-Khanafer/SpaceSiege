@@ -48,13 +48,14 @@ public class FenetreBacASable extends JFrame {
 	private JFileChooser fileChooser;
 	private JButton btnLoad;
 	private String selectedFilePath;
+	private static FenetreBacASable fenetre;
 	
 	
 	public static void afficherFenetre(FenetreModeDeJeu app) {
       
 		appli= app;
 		
-		FenetreBacASable fenetre = new FenetreBacASable();
+		fenetre = new FenetreBacASable();
 		fenetre.setLocationRelativeTo(null);
 		fenetre.setUndecorated(true); 
         fenetre.setVisible(true);

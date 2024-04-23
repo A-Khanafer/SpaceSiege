@@ -42,7 +42,7 @@ public class FenetreModeDeJeu extends JFrame {
 	public static void afficherFenetre(AppPrincipal14 app) {
 		
 	    appli =app;
-		fenetre = new FenetreModeDeJeu();
+	    fenetre = new FenetreModeDeJeu();
 		fenetre.setLocationRelativeTo(null);
 		fenetre.setUndecorated(true); 
 		fenetre.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -120,8 +120,8 @@ public class FenetreModeDeJeu extends JFrame {
 						btnClassic.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								
-								
-								FenetreDeJeu.afficherFenetre(fenetre);
+								FenetreNiveaux.afficherFenetre(fenetre);
+//								FenetreDeJeu.afficherFenetre(fenetre);
 
 							}
 						});

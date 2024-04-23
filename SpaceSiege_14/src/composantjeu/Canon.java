@@ -132,6 +132,8 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
     private String urlImage;
     
     private Image image = null;
+    
+    private boolean balleDessiner=false;
     /**
      * Constructeur de la classe Canon.
      * 
@@ -203,7 +205,7 @@ if(!balleTiree) {
 		g2dPrive.setColor(Color.GREEN);
 		g2dPrive.fill(aireRect);
 		g2d.drawImage(image,(int)( 3+hauteur/2), (int)y, (int)largeur,(int) hauteur,null);
-	
+	balleDessiner=true;
 	}
 	
 
@@ -338,7 +340,6 @@ if(!balleTiree) {
 	//Benakmoum Walid
 	public void setBalleTiree() {
 		balleTiree=true;
-		System.out.println("EST CE QUE JE TIREEEE"+ balleTiree);
 		
 		creerLaGeometrie();
 	}
@@ -428,6 +429,14 @@ if(!balleTiree) {
     public double getRotation() {
     	return Math.toDegrees(rotation);
     }
+    public void setMasseBalle(int mas) {
+    	balleActuelle.setMasse(mas);
+    }
+    public boolean getBalleDessiner() {
+    	return this.balleDessiner;
+    }
+    public void setBalleDessiner(boolean des) {
+    	balleDessiner=des;
+    }
 
 }
-
