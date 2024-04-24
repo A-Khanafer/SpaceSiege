@@ -16,7 +16,7 @@ import physique.Vecteur2D;
  * La classe BalleBasique représente une balle simple dans une simulation physique.
  * Elle hérite de la classe Balle et permet de dessiner la balle, de la faire avancer et de gérer ses collisions avec les murs.
  * @author Benakmoum Walid
- * @author ZAKARIA SOUDAKI
+ * 
  */
 public class BalleBasique extends Balle implements Runnable{
 	
@@ -146,4 +146,5 @@ public class BalleBasique extends Balle implements Runnable{
 	    }
    
 }
+
 

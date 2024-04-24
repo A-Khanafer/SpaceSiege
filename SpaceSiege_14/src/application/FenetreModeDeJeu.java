@@ -42,7 +42,7 @@ public class FenetreModeDeJeu extends JFrame {
 	public static void afficherFenetre(AppPrincipal14 app) {
 		
 	    appli =app;
-		fenetre = new FenetreModeDeJeu();
+	    fenetre = new FenetreModeDeJeu();
 		fenetre.setLocationRelativeTo(null);
 		fenetre.setUndecorated(true); 
 		fenetre.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -88,7 +88,7 @@ public class FenetreModeDeJeu extends JFrame {
 		setBounds(0, 0, 1920, 1200);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		
+	
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
@@ -120,8 +120,8 @@ public class FenetreModeDeJeu extends JFrame {
 						btnClassic.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								
-								
-								FenetreDeJeu.afficherFenetre(fenetre);
+								FenetreNiveaux.afficherFenetre(fenetre);
+//								FenetreDeJeu.afficherFenetre(fenetre);
 
 							}
 						});
@@ -213,9 +213,9 @@ public class FenetreModeDeJeu extends JFrame {
 								JLabel lbl  = new JLabel("");
 								ImageIcon gifIcon = new ImageIcon(this.getClass().getResource("/fondmodedejeu3.gif"));
 								Image img = gifIcon.getImage();
-								Image resizedImg = img.getScaledInstance(1920,1080, Image.SCALE_DEFAULT);
+								Image resizedImg = img.getScaledInstance(1920,1200, Image.SCALE_DEFAULT);
 								lbl.setIcon(new ImageIcon(resizedImg));
-								lbl.setBounds(0, 0, 1920, 1080);
+								lbl.setBounds(0, 0, 1920, 1200);
 								contentPane.add(lbl);
 //								
 	}

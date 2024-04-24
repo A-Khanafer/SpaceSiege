@@ -36,7 +36,7 @@ import obstacles.CercleElectrique;
 import obstacles.Rectangle;
 
 import obstacles.Triangle;
-import outils.Collisions;
+import physique.Collisions;
 import physique.MoteurPhysique;
 
 public class Niveau1 extends Niveaux {
@@ -59,7 +59,7 @@ public class Niveau1 extends Niveaux {
 	/**
      * L'intervalle de temps (en secondes) utilisé pour chaque itération du calcul physique.
      */
-	private double deltaT=0.005;
+	private double deltaT=0.05;
 	/**
      * Le temps de pause (en millisecondes) entre chaque itération de l'animation.
      */

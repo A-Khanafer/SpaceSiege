@@ -274,9 +274,9 @@ public class AppPrincipal14 extends JFrame{
 		JLabel lbl  = new JLabel("");
 		ImageIcon gifIcon = new ImageIcon(this.getClass().getResource("/fondanime4.gif"));
 		Image img = gifIcon.getImage();
-		Image resizedImg = img.getScaledInstance(1920,1080, Image.SCALE_DEFAULT);
+		Image resizedImg = img.getScaledInstance(1920,1200, Image.SCALE_DEFAULT);
 		lbl.setIcon(new ImageIcon(resizedImg));
-		lbl.setBounds(0, 0, 1920, 1080);
+		lbl.setBounds(0, 0, 1920, 1200);
 		contentPane.add(lbl);
 		
 		

@@ -32,7 +32,7 @@ import obstacles.Cercle;
 import obstacles.Rectangle;
 
 import obstacles.Triangle;
-import outils.Collisions;
+import physique.Collisions;
 import physique.MoteurPhysique;
 
 public class Niveau2 extends Niveaux {

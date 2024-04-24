@@ -34,7 +34,6 @@ import obstacles.Rectangle;
 
 import obstacles.Triangle;
 
-import outils.Collisions;
 import physique.MoteurPhysique;
 
 public class Niveaux extends JPanel implements Runnable {
@@ -276,5 +275,3 @@ public class Niveaux extends JPanel implements Runnable {
 	
 	
 	}
-
-		

@@ -283,3 +283,4 @@ public void setMasse(int mas) {
 	
 	
 }
+
