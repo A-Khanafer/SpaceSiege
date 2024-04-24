@@ -208,6 +208,10 @@ public class Balle {
 	public double getPosYCentre() {
 	    return this.position.getY() + diametre / 2;
 	}
+	
+	public Vecteur2D getPosCentral() {
+		return new Vecteur2D(position.getX() + diametre / 2,position.getY() + diametre / 2);
+	}
 
 	/**
 	 * Définit la position de la balle.

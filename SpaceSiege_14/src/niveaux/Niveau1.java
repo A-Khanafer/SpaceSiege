@@ -32,6 +32,7 @@ import physique.Vecteur2D;
 
 import java.awt.Color;
 
+import obstacles.CercleElectrique;
 import obstacles.Rectangle;
 
 import obstacles.Triangle;
@@ -53,7 +54,8 @@ public class Niveau1 extends Niveaux {
 	private boolean enCoursDAnimation=false;
 
 	private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
-
+	
+	  private static final double K_CONST = 9.0e4;
 	/**
      * L'intervalle de temps (en secondes) utilisé pour chaque itération du calcul physique.
      */
@@ -132,6 +134,7 @@ public class Niveau1 extends Niveaux {
      */
     private Triangle[] tableauTri;
   
+    private CercleElectrique boule;
     /**
      * Le canon utilisé pour tirer des balles.
      */
@@ -231,8 +234,9 @@ public class Niveau1 extends Niveaux {
 		for (int i = 0; i < tableauRec.length; i++) {
 			tableauRec[i].dessiner(g2d);
 		}
-		
-
+		boule= new CercleElectrique(398 ,200,pixelParMetres);
+		boule.dessiner(g2d);
+          
 
 		
 
@@ -380,7 +384,12 @@ public class Niveau1 extends Niveaux {
 	//Benakmoum Walid
 	public void calculerUneIterationPhysique(double deltaT) {
 		tempsTotalEcoule += deltaT;
+	try {
 		calculerLesForces();
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
 		canon.avancerUnPas(deltaT);
 	}
 	
@@ -395,15 +404,37 @@ public class Niveau1 extends Niveaux {
 
 	 /**
      * Calcule les forces agissant sur les objets de la zone d'animation, telles que la gravité.
+
      */
 // Benakmoum Walid
-	private void calculerLesForces() {
-		Vecteur2D forceDeGravite=MoteurPhysique.calculForceGrav(canon.getBalle().getMasse(), Math.toRadians(90));
-     
-        
-	canon.getBalle().setSommeDesForces(forceDeGravite);
+	private void calculerLesForces() throws Exception {
+		 // Calculer la distance entre la balle et la boule électrique
+		 double distance = canon.getBalle().getPosCentral().distance(boule.getPositionCentre());
+		 System.out.println(distance+"DISTANCEEEEEEEEEEE");
+		 Vecteur2D forceDeGravite=MoteurPhysique.calculForceGrav(canon.getBalle().getMasse(), Math.toRadians(90));
+	 Vecteur2D force=new Vecteur2D(0,0);
+	    double rayonElectrique = boule.getRayonElectrique();
+	    if (distance < rayonElectrique) {
+	        try {
+	        	boule.setAnimation(true);
+	            // Calculer le vecteur unitaire entre la balle et la boule électrique
+	            Vecteur2D vecteurUnitaire = boule.getPositionCentre().soustrait(canon.getBalle().getPosCentral()).normalise();
 
+	            // Calculer la force électrique proportionnelle à la distance
+	            double forceElectrique = K_CONST * (1 / distance);
+                  System.out.println(forceElectrique+"____________________________---");
+	         
+	           force = vecteurUnitaire.multiplie(forceElectrique);
 
+	          
+	           
+	        } catch (Exception e) {
+	            // Gérer l'exception ici
+	            System.err.println("Une erreur est survenue lors de la normalisation du vecteur unitaire : " + e.getMessage());
+	        }
+	    }
+	 
+	    canon.getBalle().setSommeDesForces(forceDeGravite.additionne(force));
 	}
 	/**
 	 * Réinitialise l'application à son état initial, incluant la remise à zéro de tous les composants d'animation et des variables d'état.
@@ -650,7 +681,13 @@ public class Niveau1 extends Niveaux {
 	public void setMasseBalle(int mas) {
 		canon.getBalle().setMasse(mas);
 	}
-		
+		public void stopperAnim() {
+			if(enCoursDAnimation==true) {
+		enCoursDAnimation=false;
+			}else {
+			demarrer();
+			}
+		}
 		
 }
 		

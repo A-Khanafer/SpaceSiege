@@ -87,6 +87,8 @@ public class FenetreDeJeu extends JFrame {
     
     private static FenetreModeDeJeu appli;
     private static FenetreDeJeu fenetre;
+    private JSpinner spinnerMasse;
+    private JSpinner spinnerVieMonstre;
 	/**
      * Méthode statique pour afficher la fenêtre de jeu. Crée une instance de {@code FenetreDeJeu} et la rend visible.
      */
@@ -371,19 +373,19 @@ public class FenetreDeJeu extends JFrame {
 		slider.setBounds(325, 246, 440, 26);
 		panelFonctionnalites.add(slider);
 		
-		JSpinner spinner = new JSpinner();
-		spinner.setModel(new SpinnerNumberModel(50, 10, 80, 1));
-		spinner.addChangeListener(new ChangeListener() {
+		spinnerMasse = new JSpinner();
+		spinnerMasse.setModel(new SpinnerNumberModel(50, 10, 80, 1));
+		spinnerMasse.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-            int masse= (int)spinner.getValue();
+            int masse= (int)spinnerMasse.getValue();
             nivActuel.setMasseBalle(masse);
             						
 			}
 		});
-		spinner.setBounds(167, 52, 109, 46);
-		panelFonctionnalites.add(spinner);
+		spinnerMasse.setBounds(167, 52, 109, 46);
+		panelFonctionnalites.add(spinnerMasse);
 		
-		JSpinner spinnerVieMonstre = new JSpinner();
+		spinnerVieMonstre = new JSpinner();
 		spinnerVieMonstre.setModel(new SpinnerNumberModel(Integer.valueOf(1), null, null, Integer.valueOf(1)));
 		spinnerVieMonstre.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
@@ -531,12 +533,17 @@ public class FenetreDeJeu extends JFrame {
 		rdbBalleElastique.setEnabled(false);
 		rdbBalleNova.setEnabled(false);
 		comboBoxTypeGrav.setEnabled(false);
+		spinnerMasse.setEnabled(false);
+		spinnerVieMonstre.setEnabled(false);
+		
 	}
 	if(nivActuel.getEnCoursAnimation()==false) {
 		rdbBalleNormal.setEnabled(true);
 		rdbBalleElastique.setEnabled(true);
 		rdbBalleNova.setEnabled(true);
 		comboBoxTypeGrav.setEnabled(true);
+		spinnerMasse.setEnabled(true);
+		spinnerVieMonstre.setEnabled(true);
 	}
 	}
 	public void changerFondEtGrav(String fond) {
