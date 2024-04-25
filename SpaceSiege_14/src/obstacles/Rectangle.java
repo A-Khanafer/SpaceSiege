@@ -28,7 +28,7 @@ import outils.OutilsImage;
  * @author Ahmad Khanafer
  * @author zakaria soudaki
  */
-public class Rectangle implements Obstacles, Dessinable, Selectionnable, Serializable {
+public class Rectangle implements Obstacles,  Serializable {
 
 
 	private static final long serialVersionUID = -6979285541279947116L;
@@ -144,6 +144,7 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable, Seriali
         rectanglePointille = rectangle;
         centreX = rectangle.getCenterX();
         centreY = rectangle.getCenterY();
+        System.out.println("Nouvelle aire creeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
         aireRec = new Area(rectangle);
         poigneRotation = new Ellipse2D.Double((coinXGauche+largeurRec/2) - 15, coinYGauche - 50, 30, 30);
         airePoigne = new Area(poigneRotation);
@@ -312,8 +313,6 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable, Seriali
                     break;
             }
             creerLaGeometrie();
-            System.out.println("_______________________longueurRec_________________________"+longueurRec);
-            System.out.println("_______________________largeurRec_________________________"+largeurRec);
         }
     }
 

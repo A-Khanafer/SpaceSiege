@@ -11,15 +11,18 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.io.Serializable;
 
 import interfaces.Dessinable;
 import interfaces.Obstacles;
 import interfaces.Selectionnable;
 import physique.Vecteur2D;
 
-public class CercleElectrique implements Obstacles, Dessinable, Selectionnable {
+public class CercleElectrique implements Obstacles, Serializable {
 	
-	 /**
+	 private static final long serialVersionUID = -513264159309596680L;
+
+	/**
      * Le nombre de pixels par mètre.
      */
     private double pixelsParMetre;
@@ -46,7 +49,7 @@ public class CercleElectrique implements Obstacles, Dessinable, Selectionnable {
     /**
      * L'angle de rotation du rectangle.
      */
-    private double angleRotation;
+    private double angleRotation = 0;
 
     /**
      * Les poignées de redimensionnement du rectangle.
@@ -68,7 +71,7 @@ public class CercleElectrique implements Obstacles, Dessinable, Selectionnable {
     /**
      * Aire de la poignée de rotation du cercle.
      */
-	private Area  aireCercle;
+	private transient Area  aireCercle;
 	
 	private double diametre;
 	private double rayon;
@@ -103,9 +106,20 @@ public class CercleElectrique implements Obstacles, Dessinable, Selectionnable {
         largeur = 10 * this.pixelsParMetre;
         longueur = largeur;
         
-        poigneRedimensionnement = new Ellipse2D.Double[8];
+        poigneRedimensionnement = new Ellipse2D.Double[4];
         creerLaGeometrie();
 	}
+	
+	public CercleElectrique(double posX, double posY,double largeur, double longueur , double angleRotation) {
+        this.coinXGauche = posX;
+        this.coinYGauche = posY;
+        this.largeur = largeur;
+        this.longueur = largeur;
+        this.angleRotation = angleRotation;
+        poigneRedimensionnement = new Ellipse2D.Double[4];
+        creerLaGeometrie();
+	}
+	
 	// Méthode privée pour initialiser la géométrie du rectangle
     //Ahmad Khanafer
     private void creerLaGeometrie() {
@@ -214,33 +228,47 @@ public class CercleElectrique implements Obstacles, Dessinable, Selectionnable {
 		    // Effectuer le redimensionnement en fonction de l'index de la poignée de redimensionnement sélectionnée
 		    switch (index) {
 		    case 0: // En haut à gauche
-                if (rectanglePointille.width - offsetX >= 20 && rectanglePointille.height - offsetY >= 20) {
+		    	if (rectanglePointille.width - offsetX >= 20 && rectanglePointille.height - offsetY >= 20) {
+                    // Calculer le décalage moyen
+                    double averageOffset = (offsetX + offsetY) / 2.0;
+
                     // Redimensionner le rectangle
-                    largeur -= offsetX;
-                    longueur -= offsetY;
-                    coinXGauche += offsetX;
-                    coinYGauche += offsetY;
+                    largeur -= averageOffset;
+                    longueur -= averageOffset;
+                    coinXGauche += averageOffset;
+                    coinYGauche += averageOffset;
                 }
                 break;
      
             case 1: // En haut à droite
-                if (rectanglePointille.width + offsetX >= 20 && rectanglePointille.height - offsetY >= 20) {
-                    largeur += offsetX;
-                    longueur -= offsetY;
-                    coinYGauche += offsetY;
+            	if (rectanglePointille.width + offsetX >= 20 && rectanglePointille.height - offsetY >= 20) {
+                    // Calculer le décalage moyen
+                    double averageOffset = (offsetX - offsetY) / 2.0;
+
+                    // Redimensionner le rectangle
+                    largeur += averageOffset;
+                    longueur -= averageOffset;
+                    coinYGauche -= averageOffset;
                 }
                 break;
             case 2: // En bas à droite
-                if (rectanglePointille.width + offsetX >= 20 && rectanglePointille.height + offsetY >= 20) {
-                    largeur += offsetX;
-                    longueur += offsetY;
+            	if (rectanglePointille.width + offsetX >= 20 && rectanglePointille.height + offsetY >= 20) {
+                    // Calculer le décalage moyen
+                    double averageOffset = (offsetX + offsetY) / 2.0;
+
+                    // Redimensionner le rectangle
+                    largeur += averageOffset;
+                    longueur += averageOffset;
                 }
                 break;
             case 3: // En bas à gauche
-                if (rectanglePointille.width - offsetX >= 20 && rectanglePointille.height + offsetY >= 20) {
-                    largeur -= offsetX;
-                    longueur += offsetY;
-                    coinXGauche += offsetX;
+            	double moyenneOffset4 = (-offsetX - offsetY) / 2.0;
+                double nouvelleLargeur4 = rectanglePointille.width - moyenneOffset4;
+                double nouvelleLongueur4 = rectanglePointille.height + moyenneOffset4;
+                if (nouvelleLargeur4 >= 20 && nouvelleLongueur4 >= 20) {
+                    largeur = nouvelleLargeur4;
+                    longueur = nouvelleLongueur4;
+                    coinXGauche += moyenneOffset4;
                 }
                 break;
             }
@@ -341,7 +369,19 @@ public class CercleElectrique implements Obstacles, Dessinable, Selectionnable {
 		this.positionCentre = positionCentre;
 	}
 
-	
+	public String toString() {
+    	
+	    String cerE;
+	    	
+	    cerE= "cerE\n" + 
+	    		Integer.toString((int) coinXGauche) + "\n" +
+	    		Integer.toString((int) coinYGauche) + "\n" +
+	    		Integer.toString((int) largeur) + "\n" +
+	    		Integer.toString((int) longueur) + "\n"+
+	    	    Integer.toString((int) angleRotation) + "\n";
+		return cerE;
+	    	
+	}
 	
 
 	

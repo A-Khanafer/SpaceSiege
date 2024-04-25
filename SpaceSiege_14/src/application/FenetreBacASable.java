@@ -8,9 +8,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import outils.OutilsImage;
-import sandbox.CreationFichierBinaireObjet;
-import sandbox.LireFichierTexte;
 import sandbox.PanelBacASable;
+import sandbox.SauvegardeNiveau;
 
 import java.awt.Color;
 import javax.swing.JTextField;
@@ -37,9 +36,9 @@ public class FenetreBacASable extends JFrame {
 	private JButton btnCarre;
 	private JButton btnCercle;
 	private JButton btnTriangle;
-	private JButton btnSpikes;
+	private JButton btnEpines;
 	private JButton btnPlaqueRebondissante;
-	private JButton btnAimant;
+	private JButton btnCercleElectrique;
 	private JButton btnCanon;
 	private JButton btnMonstre;
 	private JButton btnRetour;
@@ -49,6 +48,7 @@ public class FenetreBacASable extends JFrame {
 	private JButton btnLoad;
 	private String selectedFilePath;
 	private static FenetreBacASable fenetre;
+	private JButton btnSauvegarder;
 	
 	
 	public static void afficherFenetre(FenetreModeDeJeu app) {
@@ -183,11 +183,16 @@ public class FenetreBacASable extends JFrame {
 		            	  // Sauvegarder le chemin du fichier
 		            	selectedFilePath = selectedFile.getAbsolutePath();
 		                JOptionPane.showMessageDialog(frame, "Fichier sélectionné: " + selectedFile.getAbsolutePath());
-		                LireFichierTexte.lireFichierTexte(selectedFilePath);
-				        CreationFichierBinaireObjet.creationFichierBinaire(selectedFilePath);
-		            } else {
+		                SauvegardeNiveau.lireFichierTexte(selectedFilePath);
+		                SauvegardeNiveau.creationFichierBinaire(selectedFilePath);
+				        
+				        //Donne le Holder d'obstacle au panel
+				        panelBacASable.setObHolder(SauvegardeNiveau.lectureFichierBinaireObjet());
+				        
+				        
+				        } else {
 		            	JOptionPane.showMessageDialog(frame, "Erreur: Veuillez sélectionner un fichier .txt!", "Erreur de fichier", JOptionPane.ERROR_MESSAGE);
-		                // Vous pouvez maintenant lire ou écrire dans le fichier
+		                
 		            }
 		        }  else if (JFileChooser.CANCEL_SELECTION.equals(e.getActionCommand())) {
 	                JOptionPane.showMessageDialog(frame, "Sélection annulée.");
@@ -199,6 +204,15 @@ public class FenetreBacASable extends JFrame {
 		});
 		btnLoad.setBounds(741, 155, 91, 57);
 		panel_1.add(btnLoad);
+		
+		btnSauvegarder = new JButton("Sauvegarder");
+		btnSauvegarder.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelBacASable.sauvegardeNiveau();
+			}
+		});
+		btnSauvegarder.setBounds(256, 40, 89, 23);
+		panel_1.add(btnSauvegarder);
 		
 		btnCarre = new JButton("Carre");
 		btnCarre.setBounds(10, 1019, 115, 105);
@@ -230,20 +244,30 @@ public class FenetreBacASable extends JFrame {
 		});
 		OutilsImage.lireImageEtPlacerSurBouton("imageTriangle.jpg", btnTriangle);
 		
-		btnSpikes = new JButton("Spikes");
-		btnSpikes.setBounds(402, 1019, 115, 105);
-		contentPane.add(btnSpikes);
-		OutilsImage.lireImageEtPlacerSurBouton("spikes.png", btnSpikes);
+		btnEpines = new JButton("Spikes");
+		btnEpines.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelBacASable.ajouterEpines();
+			}
+		});
+		btnEpines.setBounds(402, 1019, 115, 105);
+		contentPane.add(btnEpines);
+		OutilsImage.lireImageEtPlacerSurBouton("spikes.png", btnEpines);
 		
 		btnPlaqueRebondissante = new JButton("Plaque Rebondissante");
 		btnPlaqueRebondissante.setBounds(527, 1019, 115, 105);
 		contentPane.add(btnPlaqueRebondissante);
 		OutilsImage.lireImageEtPlacerSurBouton("bouncePad.png", btnPlaqueRebondissante);
 		
-		btnAimant = new JButton("BouleAiment");
-		btnAimant.setBounds(662, 1019, 115, 105);
-		contentPane.add(btnAimant);
-		OutilsImage.lireImageEtPlacerSurBouton("balle.png", btnAimant);
+		btnCercleElectrique = new JButton("BouleAiment");
+		btnCercleElectrique.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelBacASable.ajouterCercleElectrique();
+			}
+		});
+		btnCercleElectrique.setBounds(662, 1019, 115, 105);
+		contentPane.add(btnCercleElectrique);
+		OutilsImage.lireImageEtPlacerSurBouton("balle.png", btnCercleElectrique);
 		
 		btnCanon = new JButton("Position Canon");
 		btnCanon.setBounds(787, 1019, 115, 105);
