@@ -205,7 +205,7 @@ if(!balleTiree) {
 		g2dPrive.setColor(Color.GREEN);
 		g2dPrive.fill(aireRect);
 		g2d.drawImage(image,(int)( 3+hauteur/2), (int)y, (int)largeur,(int) hauteur,null);
-	balleDessiner=true;
+	    balleDessiner=true;
 	}
 	
 

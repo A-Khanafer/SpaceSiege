@@ -14,6 +14,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import outils.OutilsImage;
+import physique.MoteurPhysique;
+import physique.Vecteur2D;
 
 public class Monstres extends JPanel implements Runnable{
 	
@@ -36,21 +38,17 @@ public class Monstres extends JPanel implements Runnable{
 	    private Image imgDecor = null;
 	    
 	    /** La position en X du monstre **/
-	    private int posX;
-	    
-	    /** La position en Y du monstre **/
-	    private int posY;
+	
 	    
 	    /** La largeur du rectangle représentant le monstre **/
 
 	   
-	    private double largeurRectangle; // Exemple : largeur du rectangle
+	    private double longueurRectangle; // Exemple : largeur du rectangle
 
 	    
 	    private double hauteurRectangle; // Exemple : hauteur du rectangle
 	    
-	    /** La zone d'air du monstre, utilisée pour les collisions **/
-	    private Area air;
+	  
 	    
 	    private boolean enCourDAnimation = false;
 
@@ -60,7 +58,52 @@ public class Monstres extends JPanel implements Runnable{
 	    private String nomImg;
 	    
 	    private int index = 1;
+	    
 	    private String imgActuel;
+	    
+	    
+	    
+	    
+	    
+	    
+	    /**
+	     * Masse de la balle, affectant son comportement dans les calculs physiques.
+	     */
+	    protected int masse = 5;
+
+
+	    /**
+	     * Ratio de conversion des unités physiques en pixels pour l'affichage à l'écran. Non initialisé ici.
+	     */
+	    protected double pixelsParMetre;
+
+	    /**
+	     * Zone graphique représentant la balle, utile pour le dessin et les détections de collision.
+	     */
+	    protected Area air;
+
+
+	    /**
+	     * Position actuelle de la balle dans l'espace de simulation, exprimée par un vecteur.
+	     */
+	    protected Vecteur2D position = new Vecteur2D();
+
+	    /**
+	     * Vitesse actuelle de la balle, représentée par un vecteur.
+	     */
+	    protected Vecteur2D vitesse= new Vecteur2D(0,0);
+
+	    /**
+	     * Accélération de la balle, déterminée par les forces appliquées sur elle. Initialement définie à zéro.
+	     */
+	    protected Vecteur2D accel = new Vecteur2D(0, 0);
+
+	    
+	    
+	    
+	    
+	    
+	    
 	    /**
 		 * Constructeur de la classe Monstres.
 		 * @param posX La position en X du monstre.
@@ -71,15 +114,14 @@ public class Monstres extends JPanel implements Runnable{
 	    public Monstres(int posX, int posY, String nomImg, double pixelsParMetres) {
 	    	setOpaque(false);
 	    	this.pixelsParMetres = pixelsParMetres;
-	        this.posX = posX;
-	        this.posY = posY;
+	        this.position = new Vecteur2D(posX,posY);
 	        this.nomImg = nomImg;
-	        largeurRectangle = 15*this.pixelsParMetres;
-	        hauteurRectangle = 15*this.pixelsParMetres;
+	        longueurRectangle = 5*this.pixelsParMetres;
+	        hauteurRectangle = 5*this.pixelsParMetres;
 	        imgDecor = OutilsImage.lireImage(nomImg); 
 	       
 	       creerLaGeometrie();
-	       demarrer();
+//	       demarrer();
 	    }
 
 	    /**
@@ -87,7 +129,7 @@ public class Monstres extends JPanel implements Runnable{
 		 **/
 	    //Zakaria Soudaki
 	    private void creerLaGeometrie() {
-	        rec = new Rectangle2D.Double(posX,posY,largeurRectangle,hauteurRectangle);
+	        rec = new Rectangle2D.Double(position.getX(),position.getY(),longueurRectangle,hauteurRectangle);
 	        air = new Area(rec);
 	        
 	    }
@@ -99,7 +141,7 @@ public class Monstres extends JPanel implements Runnable{
 	    //zakaria soudaki
 	    public void dessiner(Graphics2D g2d) {
 	    	
-	        g2d.drawImage( imgDecor,  posX,  posY,  (int)largeurRectangle, (int) hauteurRectangle,  null);
+	        g2d.drawImage( imgDecor, (int) position.getX(), (int) position.getY(),  (int)longueurRectangle, (int) hauteurRectangle,  null);
 
 
 	    }
@@ -109,7 +151,7 @@ public class Monstres extends JPanel implements Runnable{
 		 * @return La zone d'air du monstre.
 		 **/
 	    //zakaria soudaki
-	    public Area getArea() {
+	    public Area getAir() {
 	    	return this.air;
 	    }
 	    
@@ -121,12 +163,18 @@ public class Monstres extends JPanel implements Runnable{
 	    public Rectangle2D getRec() {
 	    	return this.rec;
 	    }
+	    
+	    
 	    public void perdUneVie() {
 	    	nombreDeVie--;
 	    }
+	    
+	    
 	    public int getNombreDeVie(){
 	    	return nombreDeVie;
 	    }
+	    
+	    
 	    public void setNombreDeVie(int nb) {
 	    	nombreDeVie=nb;
 	    	
@@ -150,35 +198,115 @@ public class Monstres extends JPanel implements Runnable{
 			
 			
 			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
 			repaint();
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
 		}
 			
 		}
-	    
-	   
+		
+	
+	  
+	/**
+     * Met à jour l'accélération de la balle en fonction de la somme des forces appliquées sur elle.
+     * 
+     * @param sommeForcesSurLaBalle La somme des forces appliquées sur la balle.
+     */
+	public void setSommeDesForces(Vecteur2D sommeForcesSurLaBalle) {
+
+		try {
+
+
+			 accel = MoteurPhysique.calculAcceleration(sommeForcesSurLaBalle, masse);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	/**
+     * Fait avancer la balle d'un pas, en mettant à jour sa position et sa vitesse en fonction de son accélération actuelle.
+     * 
+     * @param deltaT Le temps écoulé depuis la dernière mise à jour, en secondes.
+     */
+	public void avancerUnPas(double deltaT) {
+	
+		vitesse = MoteurPhysique.calculVitesse(deltaT, vitesse, accel);
+		position = MoteurPhysique.calculPosition(deltaT, position, vitesse);
+		System.out.println("________"+position.getX()+"_________"+position.getY());
+	    creerLaGeometrie();
+		repaint();
+	}
+	
+	/**
+	 * Retourne la masse de la balle.
+	 * 
+	 * @return La masse de la balle.
+	 */
+	public int getMasse() {
+	    return this.masse;
+	}
+
+	/**
+	 * Génère une représentation textuelle de la balle, affichant sa position avec un nombre spécifié de décimales.
+	 * 
+	 * @param nbDecimales Le nombre de décimales à afficher pour les coordonnées de la position.
+	 * @return Une chaîne de caractères décrivant la position de la balle.
+	 */
+	public String toString(int nbDecimales) {
+	    String s = "Balle : position=[ " + String.format("%."+nbDecimales+"f", position.getX()) + ", " + String.format("%."+nbDecimales+"f", position.getY()) + "]" ;
+	    return s;
+	}
+
+	/**
+	 * Retourne la position actuelle de la balle.
+	 * 
+	 * @return La position de la balle sous forme de vecteur.
+	 */
+	public Vecteur2D getPosition() {
+	    return this.position;
+	}
+
+	public void setPosition(Vecteur2D vec) {
+		this.position = vec;
+	}
+	
+	/**
+	 * Définit la vitesse de la balle.
+	 * 
+	 * @param vit La nouvelle vitesse de la balle sous forme de vecteur.
+	 */
+	public void setVitesse(Vecteur2D vit) {
+	    this.vitesse = vit;
+	}
+
+	/**
+	 * Retourne la vitesse actuelle de la balle.
+	 * 
+	 * @return La vitesse de la balle.
+	 */
+	public Vecteur2D getVitesse() {
+	    return this.vitesse;
+	}
+	
+	
+	public void collisionMur(int longueur, int hauteur) {
+		if (  position.getX() + longueurRectangle >= longueur ) {
+			setVitesse(new Vecteur2D(0,0));
+			setPosition(new Vecteur2D(longueur -longueurRectangle -2,getPosition().getY()));
+			
+		}
+		if(position.getY() + hauteurRectangle >= hauteur) {
+			setVitesse(new Vecteur2D(0,0));
+			setPosition(new Vecteur2D(getPosition().getX() , hauteur -hauteurRectangle -2));
+
+		}
+		if ( position.getX() <= 0  )	{
+			setVitesse(new Vecteur2D(0,0));
+			setPosition(new Vecteur2D( 2,getPosition().getY()));
+
+		}
+		if(position.getY() <= 0) {
+			setVitesse(new Vecteur2D(0,0));
+			setPosition(new Vecteur2D( getPosition().getX(),2 ));
+
+		}
+	}
 }

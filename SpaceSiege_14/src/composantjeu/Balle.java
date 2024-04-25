@@ -101,12 +101,12 @@ public class Balle {
      * @param sommeForcesSurLaBalle La somme des forces appliquées sur la balle.
      */
 	  //Benakmoum Walid
-	public void setSommeDesForces(Vecteur2D sommeForcesSurLaBalle) {
+	public void setSommeDesForces(Vecteur2D sommeForcesSurMonstre) {
 
 		try {
 
 
-			 accel = MoteurPhysique.calculAcceleration(sommeForcesSurLaBalle, masse);
+			 accel = MoteurPhysique.calculAcceleration(sommeForcesSurMonstre, masse);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -263,15 +263,15 @@ public class Balle {
 		return diametre/2;
 	}
 
-public Vecteur2D getPositionEnMetre() {
-	return(position.multiplie(1/pixelsParMetre));
-}
-public void exploser() {
+    public Vecteur2D getPositionEnMetre() {
+	  return(position.multiplie(1/pixelsParMetre));
+    }
+    public void exploser() {
 
 }
-public void setMasse(int mas) {
-	this.masse=mas;
-}
+    public void setMasse(int mas) {
+	  this.masse=mas;
+    }
 
 	
 	

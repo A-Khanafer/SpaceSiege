@@ -75,10 +75,7 @@ public class AppPrincipal14 extends JFrame{
 		
 		
 		
-//		AppPrincipal14 fenetre = new AppPrincipal14();
-//		fenetre.setLocationRelativeTo(null);
-//		fenetre.setUndecorated(true); 
-//        fenetre.setVisible(true);
+		
     }
 	public void fermer() {
 		setVisible(false);

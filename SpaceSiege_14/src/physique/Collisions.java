@@ -7,6 +7,7 @@ import java.nio.Buffer;
 
 import composantjeu.Balle;
 import composantjeu.BalleBasique;
+import composantjeu.Monstres;
 import obstacles.Cercle;
 import obstacles.Rectangle;
 import obstacles.Triangle;
@@ -17,6 +18,7 @@ import obstacles.Triangle;
  *
  */
 public class Collisions {
+	
 	private static  Line2D.Double [] segmentRec = new Line2D.Double[4];
 	private static Line2D.Double [] segmentTri = new Line2D.Double[3];
 	private static int buffer = 2;
@@ -356,7 +358,23 @@ public class Collisions {
 		
 
 	 }
-	 
+	 public static void collisionMonstreRec (Monstres monstre, Rectangle rec) {
+		 Area areaRec = rec.getAir();
+		 Area areaMonstre = monstre.getAir();
+	        areaMonstre.intersect(areaRec);
+
+	        if (!areaMonstre.isEmpty()) {
+	        	monstre.setVitesse(new Vecteur2D(-monstre.getVitesse().getX(),-monstre.getVitesse().getY()));
+	        	System.out.println("TOUCHEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+	        }
+		 
+	 }
+     public static void collisionMonstreTri (Monstres monstre, Triangle tri) {
+		 
+	 }
+     public static void collisionMonstreCercle (Monstres monstre, Cercle cercle) {
+		 
+	 }
 	 
 	 
 	 public static int getNbRebond() {

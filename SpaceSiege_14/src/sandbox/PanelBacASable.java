@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import composantjeu.Canon;
 import interfaces.Obstacles;
 import obstacles.Cercle;
 import obstacles.Rectangle;
@@ -27,6 +28,8 @@ import obstacles.Triangle;
  * @author Ahmad Khanafer
  */
 public class PanelBacASable extends JPanel {
+
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Le ratio utilisé pour convertir les mètres en pixels.
@@ -46,6 +49,8 @@ public class PanelBacASable extends JPanel {
 	 * Le tableau contenant les objets Cercle.
 	 */
 	private Cercle[] tableauCercle;
+	
+	private Canon canon;
 
 	/**
 	 * Indique si c'est la première fois que le panneau est peint.
@@ -82,6 +87,7 @@ public class PanelBacASable extends JPanel {
         tableauRec = new Rectangle[3];
         tableauTri = new Triangle[3];
         tableauCercle = new Cercle[3];
+//        canon = new Canon()
         ecouteurSouris();
     }
 

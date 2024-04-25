@@ -530,5 +530,9 @@ public class Rectangle implements Obstacles, Dessinable, Selectionnable, Seriali
 		return rec;
     	
     }
+    
+    public Area getAir() {
+    	return this.aireRec;
+    }
 
 }

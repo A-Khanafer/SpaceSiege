@@ -23,6 +23,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.JSlider;
 import javax.swing.JFileChooser;
+import javax.swing.JRadioButton;
+import javax.swing.ButtonGroup;
 
 public class FenetreBacASable extends JFrame {
 
@@ -49,6 +51,7 @@ public class FenetreBacASable extends JFrame {
 	private JButton btnLoad;
 	private String selectedFilePath;
 	private static FenetreBacASable fenetre;
+	private final ButtonGroup buttonGroup = new ButtonGroup();
 	
 	
 	public static void afficherFenetre(FenetreModeDeJeu app) {
@@ -199,6 +202,27 @@ public class FenetreBacASable extends JFrame {
 		});
 		btnLoad.setBounds(741, 155, 91, 57);
 		panel_1.add(btnLoad);
+		
+		JRadioButton btnRadioHaut = new JRadioButton("HAUT");
+		buttonGroup.add(btnRadioHaut);
+		btnRadioHaut.setBounds(288, 163, 109, 23);
+		panel_1.add(btnRadioHaut);
+		
+		JRadioButton btnRadioDroite = new JRadioButton("DROITE");
+		buttonGroup.add(btnRadioDroite);
+		btnRadioDroite.setBounds(288, 121, 109, 23);
+		panel_1.add(btnRadioDroite);
+		
+		JRadioButton btnRadioBas = new JRadioButton("BAS");
+		buttonGroup.add(btnRadioBas);
+		btnRadioBas.setBounds(288, 77, 109, 23);
+		panel_1.add(btnRadioBas);
+		
+		JRadioButton btnRadioGauche = new JRadioButton("GAUCHE");
+		btnRadioGauche.setSelected(true);
+		buttonGroup.add(btnRadioGauche);
+		btnRadioGauche.setBounds(288, 36, 109, 23);
+		panel_1.add(btnRadioGauche);
 		
 		btnCarre = new JButton("Carre");
 		btnCarre.setBounds(10, 1019, 115, 105);
