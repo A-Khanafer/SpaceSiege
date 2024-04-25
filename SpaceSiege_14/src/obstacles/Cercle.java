@@ -11,15 +11,18 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.io.Serializable;
 
 import interfaces.Dessinable;
 import interfaces.Obstacles;
 import interfaces.Selectionnable;
 import physique.Vecteur2D;
 
-public class Cercle implements Obstacles, Dessinable, Selectionnable {
+public class Cercle implements Obstacles, Serializable {
 	
-	 /**
+	 private static final long serialVersionUID = -7469332963393316101L;
+
+	/**
      * Le nombre de pixels par mètre.
      */
     private double pixelsParMetre;
@@ -46,7 +49,7 @@ public class Cercle implements Obstacles, Dessinable, Selectionnable {
     /**
      * L'angle de rotation du rectangle.
      */
-    private double angleRotation;
+    private double angleRotation = 0;
 
     /**
      * Les poignées de redimensionnement du rectangle.
@@ -68,7 +71,7 @@ public class Cercle implements Obstacles, Dessinable, Selectionnable {
     /**
      * Aire de la poignée de rotation du cercle.
      */
-	private Area  aireCercle;
+	private transient Area  aireCercle;
 	
 	private double diametre;
 	private double rayon;
@@ -91,13 +94,21 @@ public class Cercle implements Obstacles, Dessinable, Selectionnable {
 		this.pixelsParMetre = pixelsParMetre;
         this.coinXGauche = posX;
         this.coinYGauche = posY;
-      
         largeur = 10 * this.pixelsParMetre;
-        longueur = largeur;
-        
-        poigneRedimensionnement = new Ellipse2D.Double[8];
+        this.longueur = largeur;
+        poigneRedimensionnement = new Ellipse2D.Double[4];
         creerLaGeometrie();
 	}
+	
+	public Cercle(double posX, double posY,double largeur, double longueur , double angleRotation) {
+	        this.coinXGauche = posX;
+	        this.coinYGauche = posY;
+	        this.largeur = largeur;
+	        this.longueur = largeur;
+	        this.angleRotation = angleRotation;
+	        poigneRedimensionnement = new Ellipse2D.Double[4];
+	        creerLaGeometrie();
+		}
 	// Méthode privée pour initialiser la géométrie du rectangle
     //Ahmad Khanafer
     private void creerLaGeometrie() {
@@ -346,7 +357,19 @@ public class Cercle implements Obstacles, Dessinable, Selectionnable {
 		this.positionCentre = positionCentre;
 	}
 
-	
+	public String toString() {
+	    	
+	    String cer;
+	    	
+	   	cer= "cer\n" + 
+	    		Integer.toString((int) coinXGauche) + "\n" +
+	    		Integer.toString((int) coinYGauche) + "\n" +
+	    		Integer.toString((int) largeur) + "\n" +
+	    		Integer.toString((int) longueur) + "\n" +
+	    		Integer.toString((int) angleRotation) + "\n";
+		return cer;
+	    	
+	}
 	
 
 	

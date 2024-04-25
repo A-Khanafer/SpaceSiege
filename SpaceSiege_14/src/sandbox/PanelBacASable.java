@@ -7,11 +7,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
-import java.awt.geom.Ellipse2D;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -19,6 +17,9 @@ import javax.swing.JPanel;
 import composantjeu.Canon;
 import interfaces.Obstacles;
 import obstacles.Cercle;
+import obstacles.CercleElectrique;
+import obstacles.Epines;
+import obstacles.ObstacleHolder;
 import obstacles.Rectangle;
 import obstacles.Triangle;
 
@@ -68,14 +69,17 @@ public class PanelBacASable extends JPanel {
 	private int nbrTri = 0;
 
 	private int nbrCercle = 0;
+	
+	private int nbrCercleElectrique = 0;
+	
+	private int nbrEpines = 0;
 	/**
 	 * Indique si le mode éditeur est activé ou désactivé.
 	 */
 	private boolean editeurModeOn = true;
 
-	private ArrayList<Obstacles> obstacles;
+	private ObstacleHolder obHolder = new ObstacleHolder();
 
-	
 
     /**
      * Constructeur par défaut de PanelBacASable.
@@ -88,6 +92,7 @@ public class PanelBacASable extends JPanel {
         tableauTri = new Triangle[3];
         tableauCercle = new Cercle[3];
 //        canon = new Canon()
+
         ecouteurSouris();
     }
 
@@ -101,28 +106,9 @@ public class PanelBacASable extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
         pixelParMetres = getWidth()/150;
         
-        if(premiereFois) {
-            double espace=0;
-            for(int i = 0 ; i < tableauRec.length ; i++) {
-                tableauRec[i] = new Rectangle(100 + espace, 100 + espace, pixelParMetres);
-                espace = espace + 20;
-            }
-            espace = 0;
-            for(int i = 0 ; i < tableauTri.length ; i++) {
-                tableauTri[i] = new Triangle(50 + espace, 50 + espace, 10, 15, pixelParMetres);
-                espace = espace + 20;
-            }
-            espace = 0;
-            for(int i = 0 ; i < tableauCercle.length ; i++) {
-                tableauCercle[i] = new Cercle(  100 + espace,  100 + espace, pixelParMetres);
-                espace = espace + 20;
-            }
-            premiereFois = false;
+        if(obHolder!=null) {
+        	obHolder.drawContient(g2d);
         }
-        
-        dessinerRec(g2d);
-        dessinerTri(g2d);
-        dessinerCercle(g2d);
     }
 
     /**
@@ -131,6 +117,10 @@ public class PanelBacASable extends JPanel {
   //Ahmnad Khanafer
     public void ajouterRectangle() {
         if(nbrRec < 3) {
+        	double espace=0;
+        	Rectangle rec = new Rectangle(100 + espace, 100 + espace, pixelParMetres);
+            obHolder.addObstacle(rec);
+            espace = espace + 20;
             nbrRec += 1;
             repaint();
         } else {
@@ -144,6 +134,10 @@ public class PanelBacASable extends JPanel {
   //Ahmnad Khanafer
     public void ajouterTriangle() {
         if(nbrTri < 2) {
+        	double espace=0;
+        	Triangle tri = new Triangle(50 + espace, 50 + espace, pixelParMetres);
+            obHolder.addObstacle(tri);
+            espace = espace + 20;
             nbrTri += 1;
             repaint();
         } else {
@@ -156,77 +150,37 @@ public class PanelBacASable extends JPanel {
   //Ahmnad Khanafer
     public void ajouterCercle() {
         if(nbrCercle < 3) {
+        	double espace=0;
+        	Cercle cer = new Cercle(50 + espace, 50 + espace, pixelParMetres);
+            obHolder.addObstacle(cer);
             nbrCercle += 1;
             repaint();
         } else {
             JOptionPane.showMessageDialog(null,"Nombre Maximale de Cercle Atteint");
         }
     }
-
-    /**
-     * Dessine les rectangles sur le panel.
-     * @param g2d Objet Graphics2D pour dessiner les rectangles.
-     */
-  //Ahmnad Khanafer
-    private void dessinerRec(Graphics2D g2d) {
-        switch(nbrRec) {
-            case 0 :
-                break;
-            case 1 :
-                tableauRec[0].dessiner(g2d);
-                System.out.println(tableauRec[0].toString());
-                break;
-            case 2 :
-                tableauRec[0].dessiner(g2d);
-                tableauRec[1].dessiner(g2d);
-                break;
-            case 3 :
-                tableauRec[0].dessiner(g2d);
-                tableauRec[1].dessiner(g2d);
-                tableauRec[2].dessiner(g2d);
-                break;
+    
+    public void ajouterCercleElectrique() {
+        if(nbrCercleElectrique < 3) {
+        	double espace=0;
+        	CercleElectrique cer = new CercleElectrique(50 + espace, 50 + espace, pixelParMetres);
+            obHolder.addObstacle(cer);
+            nbrCercleElectrique += 1;
+            repaint();
+        } else {
+            JOptionPane.showMessageDialog(null,"Nombre Maximale de Cercle Atteint");
         }
     }
-
-    /**
-     * Dessine les triangles sur le panel.
-     * @param g2d Objet Graphics2D pour dessiner les triangles.
-     */
-  //Ahmnad Khanafer
-    private void dessinerTri(Graphics2D g2d) {
-        switch(nbrTri) {
-            case 0 :
-                break;
-            case 1 :
-                tableauTri[0].dessiner(g2d);
-                break;
-            case 2 :
-                tableauTri[0].dessiner(g2d);
-                tableauTri[1].dessiner(g2d);
-                break;
-        }
-    }
-    /**
-     * Dessine les rectangles sur le panel.
-     * @param g2d Objet Graphics2D pour dessiner les rectangles.
-     */
-  //Ahmnad Khanafer
-    private void dessinerCercle(Graphics2D g2d) {
-        switch(nbrCercle) {
-            case 0 :
-                break;
-            case 1 :
-                tableauCercle[0].dessiner(g2d);
-                break;
-            case 2 :
-                tableauCercle[0].dessiner(g2d);
-                tableauCercle[1].dessiner(g2d);
-                break;
-            case 3 :
-            	tableauCercle[0].dessiner(g2d);
-            	tableauCercle[1].dessiner(g2d);
-            	tableauCercle[2].dessiner(g2d);
-                break;
+    
+    public void ajouterEpines() {
+        if(nbrEpines < 3) {
+        	double espace=0;
+        	Epines epi = new Epines(50 + espace, 50 + espace, pixelParMetres);
+            obHolder.addObstacle(epi);
+            nbrEpines += 1;
+            repaint();
+        } else {
+            JOptionPane.showMessageDialog(null,"Nombre Maximale de Cercle Atteint");
         }
     }
 
@@ -237,9 +191,7 @@ public class PanelBacASable extends JPanel {
         addMouseListener((MouseListener) new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                gestionSourisRecClick(e);
-                gestionSourisTriClick(e);
-                gestionSourisCercleClick(e);
+            	gestionSourisFormeClick(e);
                 repaint();
             }
         });
@@ -247,117 +199,71 @@ public class PanelBacASable extends JPanel {
         addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                gestionSourisRecDragged(e);
-                gestionSourisTriDragged(e);
-                gestionSourisCercleDragged(e);
+            	gestionSourisFormeDragged(e);
                 repaint();
             }
         });
     }
+
 	
-	//Méthode qui gère les click de la souris pour les rectangles
-	//Ahmad Khanafer
-	private void gestionSourisRecDragged(MouseEvent e) {
-		for(int i =0 ; i < tableauRec.length; i++) {
-			int index = tableauRec[i].getClickedResizeHandleIndex(e.getX(), e.getY());
-				if (tableauRec[i].isClickedOnIt() == true && index != -1) {
-					tableauRec[i].redimension(index, e.getX(), e.getY());
+	private void gestionSourisFormeDragged(MouseEvent e) {
+			
+		for(Obstacles ob : obHolder.getObstacleHolder()) {
+			int index = ob.getClickedResizeHandleIndex(e.getX(), e.getY());
+				if (ob.isClickedOnIt() == true && index != -1) {
+					ob.redimension(index, e.getX(), e.getY());
 					repaint();
-				}else if(tableauRec[i].isClickedOnIt() == true && index == -1 ) {
-					tableauRec[i].rotate( e.getX(), e.getY());
+				}else if(ob.isClickedOnIt() == true && index == -1 ) {
+					ob.rotate( e.getX(), e.getY());
 					repaint();	
 				}
-				if(tableauRec[i].contient(e.getX(), e.getY()) && tableauRec[i].isClickedOnIt() == false) {
-					tableauRec[i].move( e.getX(), e.getY());
+				if(ob.contient(e.getX(), e.getY()) && ob.isClickedOnIt() == false) {
+					ob.move( e.getX(), e.getY());
 					repaint();
 					break;
-				}
-		}	
-	}
-	//Méthode qui gère le mouvement de la souris pour les triangles
-	//Ahmad Khanafer
-	private void gestionSourisTriDragged(MouseEvent e) {
-		for(int i =0 ; i < tableauTri.length; i++) {
-			int index = tableauTri[i].getClickedResizeHandleIndex(e.getX(), e.getY());
-				if (tableauTri[i].isClickedOnIt() == true && index != -1) {
-					tableauTri[i].redimension(index, e.getX(), e.getY());
-					repaint();
-				}else if( tableauTri[i].isClickedOnIt() == true && index == -1 ) {
-					tableauTri[i].rotate( e.getX(), e.getY());
-					repaint();
-				}
-				if(tableauTri[i].contient(e.getX(), e.getY()) && tableauTri[i].isClickedOnIt() == false) {
-					tableauTri[i].move( e.getX(), e.getY());
-					repaint();
-					break;
-				}
+				}		
 		}
 	}
-	//Méthode qui gère les click de la souris pour les rectangles
-		//Ahmad Khanafer
-		private void gestionSourisCercleDragged(MouseEvent e) {
-			for(int i =0 ; i < tableauCercle.length; i++) {
-				int index = tableauCercle[i].getClickedResizeHandleIndex(e.getX(), e.getY());
-					if (tableauCercle[i].isClickedOnIt() == true && index != -1) {
-						tableauCercle[i].redimension(index, e.getX(), e.getY());
-						repaint();
-					}else if(tableauCercle[i].isClickedOnIt() == true && index == -1 ) {
-						tableauCercle[i].rotate( e.getX(), e.getY());
-						repaint();
-					}
-					if(tableauCercle[i].contient(e.getX(), e.getY()) && tableauCercle[i].isClickedOnIt() == false) {
-						tableauCercle[i].move( e.getX(), e.getY());
-						repaint();
-						break;
-					}
-			}	
-		}
-	//Méthode qui gère le mouvement de la souris pour les rectangles
-	//Ahmad Khanafer
-	private void gestionSourisRecClick(MouseEvent e) {
-		for(int i =0 ; i < tableauRec.length; i++) {
-			if(tableauRec[i].contient(e.getX(), e.getY())) {
-				tableauRec[i].setClickedOnIt(true);
+	
+	private void gestionSourisFormeClick(MouseEvent e) {
+		for(Obstacles ob : obHolder.getObstacleHolder()) {
+			if(ob.contient(e.getX(), e.getY())) {
+				ob.setClickedOnIt(true);
 				repaint();
 			}else {
-				tableauRec[i].setClickedOnIt(false);
+				ob.setClickedOnIt(false);
 				repaint();
 			}
 		}
 	}
-	//Méthode qui gère les click de la souris pour les triangles
-	//Ahmad Khanafer
-	private void gestionSourisTriClick(MouseEvent e) {
-		for(int i =0 ; i < tableauTri.length; i++) {
-			if(tableauTri[i].contient(e.getX(), e.getY())) {
-				tableauTri[i].setClickedOnIt(true);
-				repaint();
-			}else {
-				tableauTri[i].setClickedOnIt(false);
-				repaint();
-			}
-		}
-	}
-	//Méthode qui gère le mouvement de la souris pour les rectangles
-		//Ahmad Khanafer
-		private void gestionSourisCercleClick(MouseEvent e) {
-			for(int i =0 ; i < tableauCercle.length; i++) {
-				if(tableauCercle[i].contient(e.getX(), e.getY())) {
-					tableauCercle[i].setClickedOnIt(true);
-					repaint();
-				}else {
-					tableauCercle[i].setClickedOnIt(false);
-					repaint();
-				}
-			}
-		}
+	
+	
 		
 	public void sauvegardeNiveau() {
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter("mon_fichier.txt"))) {
-           
-        } catch (IOException e) {
+		String filePath = System.getProperty("user.home") + "/Documents/obstacles.txt";
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+			for (Obstacles obstacle : obHolder.getObstacleHolder()) {
+                String[] lines = obstacle.toString().split("\\n");
+                writer.write("*" + lines[0]);
+                for (int i = 1; i < lines.length; i++) {
+                    writer.newLine();
+                    writer.write(lines[i]);
+                }
+                writer.newLine();
+            }
+            writer.write("//");
+		} catch (IOException e) {
             e.printStackTrace();
         }
+	}
+
+	public ObstacleHolder getObHolder() {
+		return obHolder;
+	}
+
+	public void setObHolder(ObstacleHolder obHolder) {
+		this.obHolder = obHolder;
+		repaint();
 	}
 
 	
