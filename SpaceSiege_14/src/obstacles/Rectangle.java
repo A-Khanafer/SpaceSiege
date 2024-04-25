@@ -145,13 +145,14 @@ public class Rectangle implements Obstacles,  Serializable {
         centreX = rectangle.getCenterX();
         centreY = rectangle.getCenterY();
         System.out.println("Nouvelle aire creeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+        
         aireRec = new Area(rectangle);
         poigneRotation = new Ellipse2D.Double((coinXGauche+largeurRec/2) - 15, coinYGauche - 50, 30, 30);
         airePoigne = new Area(poigneRotation);
         AffineTransform transformation = new AffineTransform();
         transformation.rotate(angleRotation, centreX, centreY);
         airePoigne.transform(transformation);
-        
+        aireRec.transform(transformation);
         creationResizeHandles();
         calculerCoins();
         
