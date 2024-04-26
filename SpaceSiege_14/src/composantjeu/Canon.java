@@ -1,6 +1,7 @@
 package composantjeu;
 
 import java.awt.Color;
+import java.awt.GradientPaint;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.AffineTransform;
@@ -134,6 +135,8 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
     private Image image = null;
     
     private boolean balleDessiner=false;
+    
+    Color couleur;
     /**
      * Constructeur de la classe Canon.
      * 
@@ -198,16 +201,32 @@ if(!balleTiree) {
 	if(balleTiree || prochaineImage) {
 		balleActuelle.dessiner(g2dPrive);
 	}
-
 	
+	  
 		//ROTATED
 		g2dPrive.rotate(rotation, cercle.getCenterX(), cercle.getCenterY());
-		g2dPrive.setColor(Color.GREEN);
+		 int hauteurCanon = (int) hauteur;
+		    for (int i = 0; i < hauteurCanon; i++) {
+		        // Calculer l'alpha en fonction de la position dans le canon
+		        double alpha = (double) i / hauteurCanon;
+		        // Combiner la couleur bleue avec la couleur noire en utilisant l'alpha
+		         couleur = combine(Color.BLUE, Color.BLACK, alpha);
+		        // Définir la couleur pour chaque ligne du canon
+		         g2dPrive.setColor(couleur);
+		         
+		         g2dPrive.drawLine((int) (3 + hauteur / 2), (int) (y + i), (int) (3 + hauteur / 2 + largeur), (int) (y + i));
+		        
+		    }
 		g2dPrive.fill(aireRect);
-		g2d.drawImage(image,(int)( 3+hauteur/2), (int)y, (int)largeur,(int) hauteur,null);
+	
 	balleDessiner=true;
 	}
-	
+    public  Color combine(Color c1, Color c2, double alpha) {
+        int r = (int) (alpha * c1.getRed()   + (1 - alpha) * c2.getRed());
+        int g = (int) (alpha * c1.getGreen() + (1 - alpha) * c2.getGreen());
+        int b = (int) (alpha * c1.getBlue()  + (1 - alpha) * c2.getBlue());
+        return new Color(r, g, b);
+    }
 
     /**
      * Vérifie si un point donné est contenu dans la zone du canon ou de sa base.

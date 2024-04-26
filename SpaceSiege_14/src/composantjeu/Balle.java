@@ -63,7 +63,7 @@ public class Balle {
      */
     protected Ellipse2D.Double cercle;
     protected LinkedList<Ellipse2D.Double> trainees = new LinkedList<>();
-    protected final int MAX_TRAÎNÉES = 8;
+    protected final int MAX_TRAÎNÉES = 3;
     protected volatile boolean running = true;
 
     /**
@@ -83,7 +83,6 @@ public class Balle {
 		diametre = diametreDonne;
 		this.vitesse = vitesse;
 		this.position = position;
-		System.out.println(pixelsParMetre+"QUESSSPASSSSSS");
 		this.position = this.position.multiplie(1/pixelsParMetre);
 		initialiserCercle();
 	}
@@ -277,7 +276,12 @@ public void setMasse(int mas) {
 	this.masse=mas;
 }
 
-	
+    public int quelleTypeBalle() {
+		return 0;
+	}
+	public void boostVitesse() {
+		this.vitesse.additionne(new Vecteur2D(1000,1000));
+	}
 	
 	
 	

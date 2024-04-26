@@ -18,7 +18,7 @@ import physique.Vecteur2D;
  * @author Benakmoum Walid
  * 
  */
-public class BalleBasique extends Balle implements Runnable{
+public class BalleBasique extends Balle{
 	
     /**
      * Constructeur de BalleBasique initialisant la balle avec des propriétés spécifiques.
@@ -59,7 +59,6 @@ public class BalleBasique extends Balle implements Runnable{
         synchronized (trainees) {
             float alpha = 1.0f, facteurDecroissance = 0.1f;
             for (Ellipse2D.Double trace : trainees) {
-                // Définir une couleur avec un dégradé de magenta
                 Color couleur = new Color(255, 0, 255, (int) (alpha * 255));
                 g2dPrive.setColor(couleur);
                 g2dPrive.fill(trace);
@@ -68,7 +67,6 @@ public class BalleBasique extends Balle implements Runnable{
             }
         }
 
-        // Dessiner la balle avec une couleur magenta unie
         g2dPrive.setColor(Color.MAGENTA);
         g2dPrive.fill(cercle);
     }
@@ -130,21 +128,13 @@ public class BalleBasique extends Balle implements Runnable{
         creerLaGeometrie();
     }
 
-	@Override
-	public void run() {
-        while (running) {
-            avancerUnPas(0.016);
-            try {
-                Thread.sleep(16);
-            } catch (InterruptedException e) {
-                running = false;
-            }
-        }
-    }
+
 	 public void stop() {
 	        running = false;
 	    }
-   
+	 public int quelleTypeBalle() {
+	    	return 1;
+	    }
 }
 
 

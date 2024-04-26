@@ -24,6 +24,7 @@ import java.awt.Image;
 import javax.swing.JSpinner;
 import javax.swing.JCheckBox;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -34,6 +35,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.event.ChangeListener;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.DefaultComboBoxModel;
@@ -90,6 +92,13 @@ public class FenetreDeJeu extends JFrame {
     private static FenetreDeJeu fenetre;
     private JSpinner spinnerMasse;
     private JSpinner spinnerVieMonstre;
+    private JPanel panelTableDonne;
+    private JTable table;
+    private Object[][] data = {
+            {"Niveau 1", "Donnée 1 Niveau 1", "Donnée 2 Niveau 1", "Donnée 3 Niveau 1"},
+            {"Niveau 2", "Donnée 1 Niveau 2", "Donnée 2 Niveau 2", "Donnée 3 Niveau 2"},
+            {"Niveau 3", "Donnée 1 Niveau 3", "Donnée 2 Niveau 3", "Donnée 3 Niveau 3"}
+    };
 	/**
      * Méthode statique pour afficher la fenêtre de jeu. Crée une instance de {@code FenetreDeJeu} et la rend visible.
      */
@@ -308,6 +317,10 @@ public class FenetreDeJeu extends JFrame {
 				
 				
               nivActuel.reinitialiserApplication();
+              rdbBalleNormal.setSelected(true);
+            
+              rdbBalleElastique.setSelected(false);
+              rdbBalleNova.setSelected(false);
               planCartesien.reset();
               desactiverLesRadios();
               
@@ -517,10 +530,9 @@ public class FenetreDeJeu extends JFrame {
 			JPanel panel_1 = new JPanel();
 			panel_1.setBounds(1125, 875, 310, 286);
 			contentPane.add(panel_1);
-		
-		
-	
-	    
+			
+			
+
 	}
 	private void refreshLabel() {
 		getContentPane().remove(lbl);

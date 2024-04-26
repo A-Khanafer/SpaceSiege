@@ -63,7 +63,7 @@ public class Niveau1 extends Niveaux {
 	/**
      * Le temps de pause (en millisecondes) entre chaque itération de l'animation.
      */
-	private int tempsDuSleep = 1;
+	private int tempsDuSleep = 10;
 	/**
      * Un rectangle servant d'obstacle dans la zone d'animation.
      */
@@ -269,7 +269,7 @@ public class Niveau1 extends Niveaux {
 	//Benakmoum Walid
 	public void run() {
 		while (enCoursDAnimation) {
-
+		    System.out.println(Collisions.getNbRebond()+"________________________________________");
 			Vecteur2D anciennePosition = canon.getBalle().getPositionEnMetre();
 			calculerUneIterationPhysique(deltaT);
 			
@@ -287,13 +287,12 @@ public class Niveau1 extends Niveaux {
 
 	        if (!areaBalle.isEmpty()) {
 	        	monstre.perdUneVie();
-				System.out.println(monstre.getNombreDeVie()+"DANS LA METHODE");
 	        	reinitialiserPosition();
 	        }
 
 
 		
-			System.out.println(monstre.getNombreDeVie()+"AVANT");
+		
 			if(monstre.getNombreDeVie()==0) {
 	    	    monstreMort=true;
 	            enCoursDAnimation = false; 
@@ -301,6 +300,12 @@ public class Niveau1 extends Niveaux {
 	            reinitialiserApplication();
 	    	}
 			ecouteurClavier();
+			if(Collisions.getNbRebond()>=3) {
+				enCoursDAnimation=false;
+		
+				reinitialiserPosition();
+				
+			}
 			repaint();
 			try {
 				Thread.sleep(tempsDuSleep);
@@ -322,6 +327,7 @@ public class Niveau1 extends Niveaux {
 			enCoursDAnimation = true;
 			balleTiree=true;
 			canon.setBalleTiree();
+			requestFocus();
 		}
 	}//fin methode
 	/**
@@ -408,19 +414,18 @@ public class Niveau1 extends Niveaux {
      */
 // Benakmoum Walid
 	private void calculerLesForces() throws Exception {
-		 // Calculer la distance entre la balle et la boule électrique
+	
 		 double distance = canon.getBalle().getPosCentral().distance(boule.getPositionCentre());
-		 System.out.println(distance+"DISTANCEEEEEEEEEEE");
 		 Vecteur2D forceDeGravite=MoteurPhysique.calculForceGrav(canon.getBalle().getMasse(), Math.toRadians(90));
 	 Vecteur2D force=new Vecteur2D(0,0);
 	    double rayonElectrique = boule.getRayonElectrique();
 	    if (distance < rayonElectrique) {
 	        try {
 	        	boule.setAnimation(true);
-	            // Calculer le vecteur unitaire entre la balle et la boule électrique
+	           
 	            Vecteur2D vecteurUnitaire = boule.getPositionCentre().soustrait(canon.getBalle().getPosCentral()).normalise();
 
-	            // Calculer la force électrique proportionnelle à la distance
+	    // Pour le bien de l'appli K est reduit
 	            double forceElectrique = K_CONST * (1 / distance);
                   System.out.println(forceElectrique+"____________________________---");
 	         
@@ -429,7 +434,7 @@ public class Niveau1 extends Niveaux {
 	          
 	           
 	        } catch (Exception e) {
-	            // Gérer l'exception ici
+	            
 	            System.err.println("Une erreur est survenue lors de la normalisation du vecteur unitaire : " + e.getMessage());
 	        }
 	    }
@@ -456,7 +461,7 @@ public class Niveau1 extends Niveaux {
 		    monstre.setNombreDeVie(1);
 		    }
 		    canon = new Canon(0, 10,pixelParMetres,"CANONSEXY.png");
-		    
+		    Collisions.setNbrebond(0);
 		   monstreMort=false;
 
 
@@ -467,6 +472,7 @@ public class Niveau1 extends Niveaux {
 		balleTiree = false;
 	    canon.setPremiereFois(true);
 	    canon = new Canon(0, 10,pixelParMetres,"CANONSEXY.png");
+	    Collisions.setNbrebond(0);
 	    repaint();
 	}
 	/**
@@ -477,7 +483,6 @@ public class Niveau1 extends Niveaux {
 		balleTiree=true;
 		canon.setBalleTiree();
 		repaint();
-		
 		
 	}
 	/**
@@ -665,18 +670,20 @@ public class Niveau1 extends Niveaux {
 	        public void keyPressed(KeyEvent e) {
 	            switch (e.getKeyCode()) {
 	                case KeyEvent.VK_SPACE:
-	                 
-	                    Thread explosionThread = new Thread(() -> {
+	                	  if(canon.getBalle().quelleTypeBalle()==3) {
+	               for (int i = 0; i < 10; i++) {
+				
 	                       canon.getBalle().exploser();
+	               }
 	                     
-	                    });
-	                    explosionThread.start();
-	                    break;
+	                     repaint();
+	                	  }
+	                	
 	            }
-	            repaint();
+	         
 	        }
 	    });
-
+	    
 	}
 	public void setMasseBalle(int mas) {
 		canon.getBalle().setMasse(mas);

@@ -73,7 +73,7 @@ public class CercleElectrique implements Obstacles, Dessinable, Selectionnable {
 	private double diametre;
 	private double rayon;
 	
-	private double rayonElectrique=100;
+	private double rayonElectrique=300;
 	private double charge;
 	 /**
     * Position actuelle de la balle dans l'espace de simulation, exprimée par un vecteur.
