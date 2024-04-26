@@ -117,7 +117,7 @@ public class Rectangle implements Obstacles,  Serializable {
         creerLaGeometrie();
     }
 
-    public Rectangle(double posX, double posY, double longueur, double largeur , double rotation) {
+    public Rectangle(double posX, double posY, double largeur, double longueur , double rotation) {
     	
     	coinXGauche = posX;
         coinYGauche = posY;
@@ -144,7 +144,6 @@ public class Rectangle implements Obstacles,  Serializable {
         rectanglePointille = rectangle;
         centreX = rectangle.getCenterX();
         centreY = rectangle.getCenterY();
-        System.out.println("Nouvelle aire creeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
         
         aireRec = new Area(rectangle);
         poigneRotation = new Ellipse2D.Double((coinXGauche+largeurRec/2) - 15, coinYGauche - 50, 30, 30);
@@ -526,7 +525,7 @@ public class Rectangle implements Obstacles,  Serializable {
     			Integer.toString((int) coinYGauche) + "\n" +
     			Integer.toString((int) largeurRec) + "\n" +
     			Integer.toString((int) longueurRec) + "\n" +
-    			Integer.toString((int) angleRotation) + "\n";
+    			Double.toString((int) angleRotation) + "\n";
 		return rec;
     	
     }

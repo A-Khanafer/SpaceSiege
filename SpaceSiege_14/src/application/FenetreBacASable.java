@@ -7,9 +7,9 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import bacasable.PanelBacASable;
+import bacasable.SauvegardeNiveau;
 import outils.OutilsImage;
-import sandbox.PanelBacASable;
-import sandbox.SauvegardeNiveau;
 
 import java.awt.Color;
 import javax.swing.JTextField;

@@ -1,4 +1,4 @@
-package sandbox;
+package bacasable;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -36,20 +36,6 @@ public class PanelBacASable extends JPanel {
 	 * Le ratio utilisé pour convertir les mètres en pixels.
 	 */
 	private double pixelParMetres;
-
-	/**
-	 * Le tableau contenant les objets Rectangle.
-	 */
-	private Rectangle[] tableauRec;
-
-	/**
-	 * Le tableau contenant les objets Triangle.
-	 */
-	private Triangle[] tableauTri;
-	/**
-	 * Le tableau contenant les objets Cercle.
-	 */
-	private Cercle[] tableauCercle;
 	
 	private Canon canon;
 
@@ -88,11 +74,6 @@ public class PanelBacASable extends JPanel {
 	//Ahmnad Khanafer
     public PanelBacASable() {
         setBackground(new Color(255, 255, 255));
-        tableauRec = new Rectangle[3];
-        tableauTri = new Triangle[3];
-        tableauCercle = new Cercle[3];
-//        canon = new Canon()
-
         ecouteurSouris();
     }
 
@@ -145,7 +126,7 @@ public class PanelBacASable extends JPanel {
         }
     }
     /**
-     * Ajoute un triangle au panel.
+     * Ajoute un Cercle au panel.
      */
   //Ahmnad Khanafer
     public void ajouterCercle() {
@@ -205,7 +186,6 @@ public class PanelBacASable extends JPanel {
         });
     }
 
-	
 	private void gestionSourisFormeDragged(MouseEvent e) {
 			
 		for(Obstacles ob : obHolder.getObstacleHolder()) {
@@ -237,8 +217,6 @@ public class PanelBacASable extends JPanel {
 		}
 	}
 	
-	
-		
 	public void sauvegardeNiveau() {
 		String filePath = System.getProperty("user.home") + "/Documents/obstacles.txt";
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
