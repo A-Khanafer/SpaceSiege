@@ -15,6 +15,7 @@ import java.io.Serializable;
 import interfaces.Dessinable;
 import interfaces.Obstacles;
 import interfaces.Selectionnable;
+import physique.Vecteur2D;
 
 
 
@@ -466,6 +467,16 @@ public class Triangle implements Obstacles, Serializable {
 	    		Integer.toString((int) angleRotation) + "\n";
 		return tri;
 	    	
+	}
+
+	@Override
+	public Area getAir() {
+		return this.aireTri;
+	}
+
+	@Override
+	public Vecteur2D getPosition() {
+		return new Vecteur2D(coinXGauche, coinYGauche);
 	}
 	
 }

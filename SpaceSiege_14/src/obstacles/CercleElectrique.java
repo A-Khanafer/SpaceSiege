@@ -382,6 +382,16 @@ public class CercleElectrique implements Obstacles, Serializable {
 		return cerE;
 	    	
 	}
+
+	@Override
+	public Area getAir() {
+		return this.aireCercle;
+	}
+
+	@Override
+	public Vecteur2D getPosition() {
+		return new Vecteur2D(coinXGauche, coinYGauche);
+	}
 	
 
 	

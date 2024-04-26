@@ -19,6 +19,7 @@ import interfaces.Dessinable;
 import interfaces.Obstacles;
 import interfaces.Selectionnable;
 import outils.OutilsImage;
+import physique.Vecteur2D;
 
 /**
  * La classe Rectangle représente un obstacle rectangulaire dans un environnement graphique.
@@ -533,5 +534,11 @@ public class Rectangle implements Obstacles,  Serializable {
     public Area getAir() {
     	return this.aireRec;
     }
+
+	@Override
+	public Vecteur2D getPosition() {
+		
+		return new Vecteur2D(coinXGauche,coinYGauche);
+	}
 
 }

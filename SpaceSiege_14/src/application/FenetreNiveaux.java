@@ -92,14 +92,14 @@ public class FenetreNiveaux extends JFrame {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				OutilsImage.lireImageEtPlacerSurBouton("lvl1p.png", btnNiv1);
-				btnNiv1.setBounds(1920/2-450, 190, 900, 180);
+				btnNiv1.setBounds(1920/2-250, 190+70, 500, 100);
 
 
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
 				OutilsImage.lireImageEtPlacerSurBouton("lvl1.png", btnNiv1);
-				btnNiv1.setBounds(1920/2-450, 180, 900, 180);
+				btnNiv1.setBounds(1920/2-250, 180+70, 500, 100);
 
 
 			}
@@ -112,7 +112,7 @@ public class FenetreNiveaux extends JFrame {
 				
 			}
 		});
-		btnNiv1.setBounds(1920/2-450, 180, 900, 180);
+		btnNiv1.setBounds(1920/2-250, 180+70, 500, 100);
 		contentPane.add(btnNiv1);
 		OutilsImage.lireImageEtPlacerSurBouton("lvl1.png", btnNiv1);
 
@@ -123,14 +123,14 @@ public class FenetreNiveaux extends JFrame {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				OutilsImage.lireImageEtPlacerSurBouton("lvl2pt.png", btnNiv2);
-				btnNiv2.setBounds(1920/2-450, 1080/2-90, 900, 180);
+				btnNiv2.setBounds(1920/2-250, 1080/2-90, 500, 100);
 
 
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
 				OutilsImage.lireImageEtPlacerSurBouton("lvl2.png", btnNiv2);
-				btnNiv2.setBounds(1920/2-450, 1080/2-100, 900, 180);
+				btnNiv2.setBounds(1920/2-250, 1080/2-100, 500, 100);
 
 
 			}
@@ -142,7 +142,7 @@ public class FenetreNiveaux extends JFrame {
 				FenetreDeJeu.afficherFenetre(fenetre, 1);
 			}
 		});
-		btnNiv2.setBounds(1920/2-450, 1080/2-100, 900, 180);
+		btnNiv2.setBounds(1920/2-250, 1080/2-100, 500, 100);
 		contentPane.add(btnNiv2);
 		OutilsImage.lireImageEtPlacerSurBouton("lvl2.png", btnNiv2);
 
@@ -153,13 +153,13 @@ public class FenetreNiveaux extends JFrame {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				OutilsImage.lireImageEtPlacerSurBouton("lvl3pt.png", btnNiv3);
-				btnNiv3.setBounds(1920/2-450, 710, 900, 180);
+				btnNiv3.setBounds(1920/2-250, 710-70, 500, 100);
 
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
 				OutilsImage.lireImageEtPlacerSurBouton("lvl3.png", btnNiv3);
-				btnNiv3.setBounds(1920/2-450, 700, 900, 180);
+				btnNiv3.setBounds(1920/2-250, 700-70, 500, 100);
 
 			}
 		});
@@ -170,7 +170,7 @@ public class FenetreNiveaux extends JFrame {
 				FenetreDeJeu.afficherFenetre(fenetre, 2);
 			}
 		});
-		btnNiv3.setBounds(1920/2-450, 700, 900, 180);
+		btnNiv3.setBounds(1920/2-250, 700-70, 500, 100);
 		contentPane.add(btnNiv3);
 		OutilsImage.lireImageEtPlacerSurBouton("lvl3.png", btnNiv3);
 
@@ -181,13 +181,13 @@ public class FenetreNiveaux extends JFrame {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				OutilsImage.lireImageEtPlacerSurBouton("menu2.png", btnRetour);
-				btnRetour.setBounds(1920/2-150, 975, 300, 75);
+				btnRetour.setBounds(1920/2-150, 820, 300, 75);
 
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
 				OutilsImage.lireImageEtPlacerSurBouton("menu.png", btnRetour);
-				btnRetour.setBounds(1920/2-150, 965, 300, 75);
+				btnRetour.setBounds(1920/2-150, 810, 300, 75);
 
 			}
 		});
@@ -199,7 +199,7 @@ public class FenetreNiveaux extends JFrame {
 				setVisible(false);
 			}
 		});
-		btnRetour.setBounds(1920/2-150, 965, 300, 83);
+		btnRetour.setBounds(1920/2-150, 810, 300, 83);
 		contentPane.add(btnRetour);
 		OutilsImage.lireImageEtPlacerSurBouton("menu.png", btnRetour);
 
