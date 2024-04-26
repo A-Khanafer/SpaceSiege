@@ -284,31 +284,15 @@ public class Niveau1 extends Niveaux {
 			testerCollisionsEtAjusterVitesses();
 			
 			this.pcs.firePropertyChange("position", anciennePosition, canon.getBalle().getPositionEnMetre());	
-			
-			for(int i =0 ; i < tableauRec.length ; i++) {
-				Collisions.collisionRectangle(canon.getBalle(),tableauRec[i]);
-//			    Collisions.collisionMonstreRec(monstre, tableauRec[i]);		
-			}
-			
-			monstre.collisionMur(longueurComposant, hauteurComposant);
-			
-			Area areaBalle = new Area(canon.getBalle().getCercle()); 
-	        Area areaMonstre = monstre.getAir();
-	        areaBalle.intersect(areaMonstre);
-
-	        if (!areaBalle.isEmpty()) {
-	        	monstre.perdUneVie();
-				System.out.println(monstre.getNombreDeVie()+"DANS LA METHODE");
-	        	reinitialiserPosition();
-	        }
-
-
 		
 			System.out.println(monstre.getNombreDeVie()+"AVANT");
+			
 			if(monstre.getNombreDeVie()==0) {
 	    	    monstreMort=true;
 	            enCoursDAnimation = false; 
+	            
 	            JOptionPane.showMessageDialog(null,"VOUS AVEZ GAGNE");
+	            
 	            reinitialiserApplication();
 	    	}
 			
@@ -403,7 +387,24 @@ public class Niveau1 extends Niveaux {
      */
 	//ZAKARIA SOUDAKI
 	public void testerCollisionsEtAjusterVitesses() {	
-		canon.getBalle().gererCollisionsBordures(posMurSol, posMurDroit , posMurHaut, posMurGauche);
+		
+        boolean state = Collisions.collisionMonstreBalle(monstre, canon.getBalle());
+		
+		if (state) {
+			reinitialiserPosition();
+		}
+		
+	
+		
+		for(int i =0 ; i < tableauRec.length ; i++) {
+		    Collisions.collisionMonstreRec(monstre, tableauRec[1]);	
+		    Collisions.collisionMonstreRec(monstre, tableauRec[2]);	
+            Collisions.collisionRectangle(canon.getBalle(),tableauRec[i]);
+		}
+		
+		
+		Collisions.gererCollisionsBordures(posMurSol, posMurDroit , posMurHaut, posMurGauche, canon.getBalle());
+		Collisions.collisionMonstreMur(monstre, longueurComposant, hauteurComposant);
 	}
 
 	 /**

@@ -14,6 +14,7 @@ import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
 
 import interfaces.Obstacles;
+import physique.Vecteur2D;
 
 public class Epines implements Obstacles, Serializable{
 
@@ -379,5 +380,15 @@ public class Epines implements Obstacles, Serializable{
 		return epi;
 		    	
 		}
+
+	@Override
+	public Area getAir() {
+		return this.aireEpines;
+	}
+
+	@Override
+	public Vecteur2D getPosition() {
+		return new Vecteur2D(coinXGauche, coinYGauche);
+	}
 	
 }

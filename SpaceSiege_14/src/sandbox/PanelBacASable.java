@@ -219,6 +219,8 @@ public class PanelBacASable extends JPanel {
 				}
 				if(ob.contient(e.getX(), e.getY()) && ob.isClickedOnIt() == false) {
 					ob.move( e.getX(), e.getY());
+					
+					
 					repaint();
 					break;
 				}		

@@ -2,6 +2,9 @@ package interfaces;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.geom.Area;
+
+import physique.Vecteur2D;
 
 /**
  * L'interface Obstacles définit les méthodes permettant de manipuler un obstacle dans un système.
@@ -80,5 +83,11 @@ public interface Obstacles {
      */
     //Ahmad Khanafer
     public void setClickedOnIt(boolean clickedOnIt);
+    
+    public Area getAir();
+    
+    public Vecteur2D getPosition();
 }
+
+   
 

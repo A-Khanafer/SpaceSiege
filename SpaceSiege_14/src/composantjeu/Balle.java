@@ -226,27 +226,7 @@ public class Balle {
 	public Ellipse2D.Double getCercle() {
 		return cercle;
 	}
-	 public void gererCollisionsBordures(double posSol, double posMurDroit, double posMurHaut, double posMurGauche) {
-	    	if ( (position.getY() + diametre) >= ( posSol ) ) {
-	    		
-	    		vitesse.setY(-vitesse.getY());
-	    		position.setY(posSol-diametre);
-	    	}
-	    	if ( (position.getX() + diametre) >= ( posMurDroit ) ) {
-	    		vitesse.setX(-vitesse.getX());
-	    		position.setX(posMurDroit-diametre);
-	    	}
-	    	if ( (position.getY()) <= ( posMurHaut ) ) {
-	    		
-	    		vitesse.setY(-vitesse.getY());
-	    		position.setY(posMurHaut);
-	    	}
-	    	if ( (position.getX()) <= ( posMurGauche ) ) {
-	    		
-	    		vitesse.setX(-vitesse.getX());
-	    		position.setX(posMurGauche);
-	    	}
-	    }
+	
 	 /**
 	  * Méthode pour dessiner
 	  * @param g2dPrive Contexte graphique

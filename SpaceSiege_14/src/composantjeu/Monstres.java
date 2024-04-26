@@ -285,28 +285,23 @@ public class Monstres extends JPanel implements Runnable{
 	public Vecteur2D getVitesse() {
 	    return this.vitesse;
 	}
-	
-	
-	public void collisionMur(int longueur, int hauteur) {
-		if (  position.getX() + longueurRectangle >= longueur ) {
-			setVitesse(new Vecteur2D(0,0));
-			setPosition(new Vecteur2D(longueur -longueurRectangle -2,getPosition().getY()));
-			
-		}
-		if(position.getY() + hauteurRectangle >= hauteur) {
-			setVitesse(new Vecteur2D(0,0));
-			setPosition(new Vecteur2D(getPosition().getX() , hauteur -hauteurRectangle -2));
 
-		}
-		if ( position.getX() <= 0  )	{
-			setVitesse(new Vecteur2D(0,0));
-			setPosition(new Vecteur2D( 2,getPosition().getY()));
-
-		}
-		if(position.getY() <= 0) {
-			setVitesse(new Vecteur2D(0,0));
-			setPosition(new Vecteur2D( getPosition().getX(),2 ));
-
-		}
+	public double getLongueurRectangle() {
+		return longueurRectangle;
 	}
+
+	public void setLongueurRectangle(double longueurRectangle) {
+		this.longueurRectangle = longueurRectangle;
+	}
+
+	public double getHauteurRectangle() {
+		return hauteurRectangle;
+	}
+
+	public void setHauteurRectangle(double hauteurRectangle) {
+		this.hauteurRectangle = hauteurRectangle;
+	}
+	
+	
+	
 }

@@ -370,6 +370,16 @@ public class Cercle implements Obstacles, Serializable {
 		return cer;
 	    	
 	}
+
+	@Override
+	public Area getAir() {
+		return aireCercle;
+	}
+
+	@Override
+	public Vecteur2D getPosition() {
+		return new Vecteur2D(coinXGauche, coinYGauche);
+	}
 	
 
 	

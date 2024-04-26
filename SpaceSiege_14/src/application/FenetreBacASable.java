@@ -205,7 +205,7 @@ public class FenetreBacASable extends JFrame {
 		        
 			}
 		});
-		btnLoad.setBounds(741, 155, 91, 57);
+		btnLoad.setBounds(736, 155, 96, 57);
 		panel_1.add(btnLoad);
 		
 
@@ -236,7 +236,7 @@ public class FenetreBacASable extends JFrame {
 				panelBacASable.sauvegardeNiveau();
 			}
 		});
-		btnSauvegarder.setBounds(256, 40, 89, 23);
+		btnSauvegarder.setBounds(635, 155, 96, 57);
 		panel_1.add(btnSauvegarder);
 		
 		btnCarre = new JButton("Carre");
