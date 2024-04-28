@@ -55,10 +55,10 @@ public class AppPrincipal14 extends JFrame{
 	
 	
 	
-	Son musique = new Son();		
+	Son musique = new Son();
+	
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	
 	private int longueur = 1920;
 	private int hauteur = 1200;
 	private BoutonsIntro boutonsIntro;
@@ -72,9 +72,6 @@ public class AppPrincipal14 extends JFrame{
 	public static void retour(AppPrincipal14 app) {
 		
 		app.setVisible(true);
-		
-		
-		
 		
     }
 	public void fermer() {
