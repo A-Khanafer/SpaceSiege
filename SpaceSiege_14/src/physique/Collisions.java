@@ -7,6 +7,8 @@ import java.nio.Buffer;
 
 import composantjeu.Balle;
 import composantjeu.BalleBasique;
+import composantjeu.Monstres;
+import interfaces.Obstacles;
 import obstacles.Cercle;
 import obstacles.Rectangle;
 import obstacles.Triangle;
@@ -17,6 +19,7 @@ import obstacles.Triangle;
  *
  */
 public class Collisions {
+	
 	private static  Line2D.Double [] segmentRec = new Line2D.Double[4];
 	private static Line2D.Double [] segmentTri = new Line2D.Double[3];
 	private static int buffer = 2;
@@ -164,9 +167,11 @@ public class Collisions {
 		} 	    
  	    double produitScalaire = balle.getVitesse().prodScalaire(normale);
  	    Vecteur2D vitesseApresCollision = balle.getVitesse().soustrait((normale.multiplie(produitScalaire)).multiplie(2));
+
  	    if(balle.quelleTypeBalle()==2) {
  	    	  balle.setVitesse(vitesseApresCollision.additionne(new Vecteur2D(50,50)));	
  	    }else {
+
  	    balle.setVitesse(vitesseApresCollision);
  	    }
     }
@@ -241,7 +246,7 @@ public class Collisions {
 		        calculRebondPhysique(segmentRec[0], balle);
 		   
 		        seg[0] = false;
-		    } 
+		    }  
 		    if (seg[1] == true) {
 		    	compteurRebonds++;
 		        calculRebondPhysique(segmentRec[1], balle);
@@ -364,7 +369,53 @@ public class Collisions {
 		
 
 	 }
+	 public static boolean collisionMonstreBalle(Monstres monstre , Balle balle) {
+		 
+		 Area areaBalle = new Area(balle.getCercle()); 
+	        Area areaMonstre = monstre.getAir();
+	        areaBalle.intersect(areaMonstre);
+
+	        if (!areaBalle.isEmpty()) {
+	        	monstre.perdUneVie();
+	        	return true;
+	        }
+	        
+	        return false;
+		 
+	 }
 	 
+	 public static void collisionMonstreRec (Monstres monstre,  Rectangle rec ) {
+		 
+		 Area areaRec = rec.getAir();
+		 Area areaMonstre = monstre.getAir();
+	        areaMonstre.intersect(areaRec);
+
+	        if (!areaMonstre.isEmpty()) {
+	        	monstre.setVitesse(new Vecteur2D(-monstre.getVitesse().getX(),-monstre.getVitesse().getY()));
+	        	System.out.println("TOUCHEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+	        }
+	 }
+	 
+     public static void collisionMonstreTri (Monstres monstre, Triangle tri) {
+    	 Area areaRec = tri.getAir();
+		 Area areaMonstre = monstre.getAir();
+	        areaMonstre.intersect(areaRec);
+
+	        if (!areaMonstre.isEmpty()) {
+	        	monstre.setVitesse(new Vecteur2D(-monstre.getVitesse().getX(),-monstre.getVitesse().getY()));
+	        }
+		 
+	 }
+     
+     public static void collisionMonstreCercle (Monstres monstre, Cercle cercle) {
+    	 Area areaRec = cercle.getAir();
+		 Area areaMonstre = monstre.getAir();
+	        areaMonstre.intersect(areaRec);
+
+	        if (!areaMonstre.isEmpty()) {
+	        	monstre.setVitesse(new Vecteur2D(-monstre.getVitesse().getX(),-monstre.getVitesse().getY()));
+	        }
+	 }
 	 
 	 
 	 public static int getNbRebond() {
@@ -373,6 +424,54 @@ public class Collisions {
 	 public  static void setNbrebond(int nb) {
          compteurRebonds = nb;
 	 }
+	 
+	  public static void gererCollisionsBordures(double posSol, double posMurDroit, double posMurHaut, double posMurGauche, Balle balle) {
+	    	if ( (balle.getPosition().getY() + balle.getDiametre()) >= ( posSol ) ) {
+	    		
+	    		balle.getVitesse().setY(-balle.getVitesse().getY());
+	    		balle.getPosition().setY(posSol-balle.getDiametre());
+	    		 compteurRebonds++;
+	    	}
+	    	if ( (balle.getPosition().getX() + balle.getDiametre()) >= ( posMurDroit ) ) {
+	    		balle.getVitesse().setX(-balle.getVitesse().getX());
+	    		balle.getPosition().setX(posMurDroit-balle.getDiametre());
+	    		 compteurRebonds++;
+	    	}
+	    	if ( (balle.getPosition().getY()) <= ( posMurHaut ) ) {
+	    		balle.getVitesse().setY(-balle.getVitesse().getY());
+	    		balle.getPosition().setY(posMurHaut);
+	    		 compteurRebonds++;
+	    	}
+	    	if ( (balle.getPosition().getX()) <= ( posMurGauche ) ) {
+	    		
+	    		balle.getVitesse().setX(-balle.getVitesse().getX());
+	    		balle.getPosition().setX(posMurGauche);
+	    		 compteurRebonds++;
+	    	}
+	    }
+	  
+	  public static void collisionMonstreMur(Monstres monstre ,int longueur, int hauteur) {
+			if (  monstre.getPosition().getX() + monstre.getLongueurRectangle() >= longueur ) {
+				monstre.setVitesse(new Vecteur2D(0,0));
+				monstre.setPosition(new Vecteur2D(longueur -monstre.getLongueurRectangle() -2,monstre.getPosition().getY()));
+				
+			}
+			if(monstre.getPosition().getY() + monstre.getHauteurRectangle() >= hauteur) {
+				 monstre.setVitesse(new Vecteur2D(0,0));
+				monstre.setPosition(new Vecteur2D(monstre.getPosition().getX() , hauteur -monstre.getHauteurRectangle() -2));
+
+			}
+			if ( monstre.getPosition().getX() <= 0  )	{
+				monstre.setVitesse(new Vecteur2D(0,0));
+				monstre.setPosition(new Vecteur2D( 2,monstre.getPosition().getY()));
+
+			}
+			if(monstre.getPosition().getY() <= 0) {
+				monstre.setVitesse(new Vecteur2D(0,0));
+				monstre.setPosition(new Vecteur2D( monstre.getPosition().getX(),2 ));
+
+			}
+		}
 }
 
 

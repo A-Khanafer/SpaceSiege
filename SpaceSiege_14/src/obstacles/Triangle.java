@@ -10,10 +10,12 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.io.Serializable;
 
 import interfaces.Dessinable;
 import interfaces.Obstacles;
 import interfaces.Selectionnable;
+import physique.Vecteur2D;
 
 
 
@@ -24,7 +26,9 @@ import interfaces.Selectionnable;
  * @author Caroline Houle
  * @author Ahmad Khanafer
  */
-public class Triangle implements Dessinable, Obstacles, Selectionnable {
+public class Triangle implements Obstacles, Serializable {
+	
+	private static final long serialVersionUID = 8086144604516830730L;
 	/**
      * Le nombre de pixels par mètre.
      */
@@ -41,7 +45,7 @@ public class Triangle implements Dessinable, Obstacles, Selectionnable {
 	/**
      * La zone délimitée par le rectangle.
      */
-	private Area aireTri;
+	private transient Area aireTri;
 	 /**
      * L'angle de rotation du rectangle.
      */
@@ -65,7 +69,7 @@ public class Triangle implements Dessinable, Obstacles, Selectionnable {
     /**
      * Aire de la poignée de rotation du triangle.
      */
-	private Area airePoigne;
+	private transient Area airePoigne;
 	/**
      * Les segments du triangles.
      */
@@ -83,19 +87,28 @@ public class Triangle implements Dessinable, Obstacles, Selectionnable {
 	 *  
 	 * @param x Le x du coin supérieur-gauche du rectangle qui englobe le sapin
 	 * @param y Le y du coin supérieur-gauche du rectangle qui englobe le sapin
-	 * @param largeur La largeur du sapin
-	 * @param hauteur La hauteur totale du sapin
 	 */
-	public Triangle(double x, double y, double largeur, double hauteur, double pixelsParMetres) {
+	public Triangle(double x, double y, double pixelsParMetres) {
 		//on mémorise les caractéristique du sapin dans son ensemble
 		this.pixelsParMetres = pixelsParMetres;
 		this.coinXGauche = x;
 		this.coinYGauche = y;
-		this.largeur= largeur * this.pixelsParMetres;
-		this.longueur = hauteur* this.pixelsParMetres; 
+		this.largeur= 10 * this.pixelsParMetres;
+		this.longueur = 20* this.pixelsParMetres; 
 		poigneRedimensionnement = new Ellipse2D.Double[8];
 		creerLaGeometrie();
 	} //fin constructeur
+	
+	public Triangle(double x, double y, double largeur, double hauteur, double angleRotation) {
+		//on mémorise les caractéristique du sapin dans son ensemble
+		this.coinXGauche = x;
+		this.coinYGauche = y;
+		this.largeur= largeur;
+		this.longueur = hauteur; 
+		this.angleRotation = angleRotation;
+		poigneRedimensionnement = new Ellipse2D.Double[8];
+		creerLaGeometrie();
+	}
 
 	
 	// Méthode privée pour initialiser la géométrie du triangle
@@ -119,7 +132,7 @@ public class Triangle implements Dessinable, Obstacles, Selectionnable {
 		triangle = new Path2D.Double();
 		triangle.moveTo(coinXGauche, coinYGauche + longueur);
 		triangle.lineTo(coinXGauche+largeur, coinYGauche + longueur);
-		triangle.lineTo(coinXGauche+largeur/2, coinYGauche );
+		triangle.lineTo(sommetX, sommetY );
 		triangle.closePath();
 		aireTri = new Area(triangle);
 		poigneRotation = new Ellipse2D.Double((coinXGauche+largeur/2) - 15, coinYGauche - 50, 30, 30);
@@ -374,6 +387,7 @@ public class Triangle implements Dessinable, Obstacles, Selectionnable {
      * @return true si le triangle est sélectionné, sinon false.
      */
     //Ahmad Khanafer
+	@Override
     public boolean isClickedOnIt() {
         return estClique;
     }
@@ -384,6 +398,7 @@ public class Triangle implements Dessinable, Obstacles, Selectionnable {
      * @param clickedOnIt true pour sélectionner le rectangle, sinon false.
      */
     //Ahmad Khanafer
+    @Override
     public void setClickedOnIt(boolean clickedOnIt) {
         this.estClique = clickedOnIt;
     }
@@ -407,6 +422,7 @@ public class Triangle implements Dessinable, Obstacles, Selectionnable {
      * @return L'index de la poignée de redimensionnement, ou -1 s'il n'y a aucune poignée à cette position.
      */
     //Ahmad Khanafer
+	@Override
     public int getClickedResizeHandleIndex(double x, double y) {
         for (int i = 0; i < poigneRedimensionnement.length; i++) {
             if (poigneRedimensionnement[i].contains(x, y)) {
@@ -438,5 +454,29 @@ public class Triangle implements Dessinable, Obstacles, Selectionnable {
  
         return seg;
     }
+    
+	public String toString() {
+	    
+	    String tri;
+	    	
+	   	tri= "tri\n" + 
+	    		Integer.toString((int) coinXGauche) + "\n" +
+	    		Integer.toString((int) coinYGauche) + "\n" +
+	    		Integer.toString((int) largeur) + "\n" +
+	    		Integer.toString((int) longueur) + "\n" +
+	    		Integer.toString((int) angleRotation) + "\n";
+		return tri;
+	    	
+	}
+
+	@Override
+	public Area getAir() {
+		return this.aireTri;
+	}
+
+	@Override
+	public Vecteur2D getPosition() {
+		return new Vecteur2D(coinXGauche, coinYGauche);
+	}
 	
 }

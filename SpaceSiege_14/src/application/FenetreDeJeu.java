@@ -61,8 +61,7 @@ public class FenetreDeJeu extends JFrame {
 	private JPanel panelTable;
 	private JButton btnRetour;
 	
-//	private JButton btnNiveauPrecedent;
-//	private JButton btnNiveauSuivant;
+
 	
 	private JButton btnPause;
 	private JButton btnReinitialiser;
@@ -116,15 +115,7 @@ public class FenetreDeJeu extends JFrame {
         app.setVisible(false);
         
     }
-//	public void changerNiveau() {
-//	   	 index++;
-//		 niveaux[0] = niv1;
-//		 niveaux[1] = niv2;
-//		 niveaux[2] = niv3;
-//		 nivActuel = niveaux[index];
-//		 
-//		 nivSuivant = niveaux[index +1];
-//	}
+
 	
 	/**
      * Constructeur qui initialise la fenêtre de jeu, y compris la zone d'animation et les panneaux de contrôle.
@@ -143,7 +134,6 @@ public class FenetreDeJeu extends JFrame {
 		 niveaux[1] = niv2;
 		 niveaux[2] = niv3;
 		 nivActuel = niveaux[index];
-		 nivActuel.setFocusable(true);
 
 		 nivActuel.addPropertyChangeListener(new PropertyChangeListener() {
 		 	public void propertyChange(PropertyChangeEvent evt) {
@@ -196,10 +186,11 @@ public class FenetreDeJeu extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				FenetreNiveaux.retour(appli);
+				
 				setVisible(false);
-				contentPane.remove(nivActuel);
+				
 				nivActuel.arreter();
-
+                contentPane.remove(nivActuel);
 			}
 		});
 		btnRetour.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
@@ -351,9 +342,9 @@ public class FenetreDeJeu extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			
 
+			
 				nivActuel.demarrer();
 				desactiverLesRadios();
-				
 				
 			}
 		});

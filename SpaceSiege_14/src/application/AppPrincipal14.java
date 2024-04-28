@@ -75,10 +75,7 @@ public class AppPrincipal14 extends JFrame{
 		
 		
 		
-//		AppPrincipal14 fenetre = new AppPrincipal14();
-//		fenetre.setLocationRelativeTo(null);
-//		fenetre.setUndecorated(true); 
-//        fenetre.setVisible(true);
+		
     }
 	public void fermer() {
 		setVisible(false);
@@ -218,7 +215,7 @@ public class AppPrincipal14 extends JFrame{
 		contentPane.add(btnApropos);
 		OutilsImage.lireImageEtPlacerSurBouton("apropo1.png", btnApropos);
 		
-		JButton btnInfo = new JButton("New button");
+		JButton btnInfo = new JButton();
 		btnInfo.setBorder(emptyBorder);
 		btnInfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

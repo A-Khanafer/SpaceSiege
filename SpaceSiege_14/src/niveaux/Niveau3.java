@@ -254,7 +254,7 @@ public class Niveau3 extends Niveaux {
 			}
 
 			Area areaBalle = new Area(canon.getBalle().getCercle()); 
-	        Area areaMonstre = monstre.getArea();
+	        Area areaMonstre = monstre.getAir();
 	        areaBalle.intersect(areaMonstre);
 
 	        if (!areaBalle.isEmpty()) {
@@ -359,7 +359,7 @@ public class Niveau3 extends Niveaux {
      */
 	//ZAKARIA SOUDAKI
 	public void testerCollisionsEtAjusterVitesses() {	
-		canon.getBalle().gererCollisionsBordures(posMurSol, posMurDroit , posMurHaut, posMurGauche);
+		Collisions.gererCollisionsBordures(posMurSol, posMurDroit , posMurHaut, posMurGauche, canon.getBalle());
 	}
 
 	 /**

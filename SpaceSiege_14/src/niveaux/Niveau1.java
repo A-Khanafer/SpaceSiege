@@ -59,7 +59,7 @@ public class Niveau1 extends Niveaux {
 	/**
      * L'intervalle de temps (en secondes) utilisé pour chaque itération du calcul physique.
      */
-	private double deltaT=0.05;
+	private final double deltaT=0.05;
 	/**
      * Le temps de pause (en millisecondes) entre chaque itération de l'animation.
      */
@@ -100,11 +100,11 @@ public class Niveau1 extends Niveaux {
     /**
      * Hauteur du composant d'animation, utilisée pour ajuster les interactions et le rendu en fonction de la taille de la zone d'animation.
      */
-    double hauteurComposant;
+    int hauteurComposant;
     /**
      * Largeur du composant d'animation, influençant le placement des éléments et la détection des collisions.
      */
-    double largeurComposant;
+    int longueurComposant;
     
     /**
      * Index utilisé pour identifier les manipulations spécifiques des éléments de l'interface, telles que le redimensionnement ou la rotation d'obstacles.
@@ -133,6 +133,10 @@ public class Niveau1 extends Niveaux {
      * Un tableau de triangles servant d'obstacles dans la zone d'animation (commenté pour le moment).
      */
     private Triangle[] tableauTri;
+    
+    private int keyCode = 0;
+    
+    
   
     private CercleElectrique boule;
     /**
@@ -143,7 +147,14 @@ public class Niveau1 extends Niveaux {
     * Indique si le monstre est mort.
     */
     private boolean monstreMort=false;
+    
     private boolean first =true;
+    
+    private Vecteur2D forceHautBas = new Vecteur2D(0,0);
+    
+    private Vecteur2D forceDroiteGauche = new Vecteur2D(0,0);
+   
+
    
    
 
@@ -152,11 +163,10 @@ public class Niveau1 extends Niveaux {
 	/**
 	 * Constructeur de la classe. Permet de crée l'interface
 	 */
-    //Benakmoum Walid
 	public Niveau1() {
 		
 		
-		 
+		 setFocusable(true);
 
         
 		
@@ -182,7 +192,6 @@ public class Niveau1 extends Niveaux {
      * Dessine les composants graphiques de la zone d'animation, y compris le canon et les obstacles.
      * @param g L'objet Graphics utilisé pour dessiner.
      */
-	// Benakmoum Walid 
 	public void paintComponent(Graphics g ) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
@@ -190,42 +199,43 @@ public class Niveau1 extends Niveaux {
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		
 
-		if(premiereFois) {
+		   if(premiereFois) {
 			
 			
 			pixelParMetres = (double) getWidth()/150;
 		
-			int espace=0;
 			
-			monstre = new Monstres(1000, 20, "images.jpg", pixelParMetres);
-			  canon = new Canon(0, 10,pixelParMetres,"CANONSEXY.png");
-			  System.out.println(monstre.getNombreDeVie()+"___");
+			
+		   	monstre = new Monstres(1200, 40, "images.jpg", pixelParMetres);
+			canon = new Canon(0, 10,pixelParMetres,"CANONSEXY.png");
+			
+			System.out.println(monstre.getNombreDeVie()+"___");
 		
 			 
 			 tableauRec[0] = new Rectangle(  143,  354, 330, 53,0);
-			 tableauRec[1] = new Rectangle(  100000,  120, 186, 48,0);
 			 
-			 tableauRec[2] = new Rectangle(  100000,  0, 229, 57,0);
+			 tableauRec[1] = new Rectangle(  1200,  120, 186, 48,0);
 			 
-			 tableauRec[3] = new Rectangle(  100000,  393, 280, 56,0);
+			 tableauRec[2] = new Rectangle(  1000,  0, 229, 57,0);
 			 
-			 tableauRec[4] = new Rectangle( 100000, 0, 258, 57,0);
+			 tableauRec[3] = new Rectangle(  1100,  393, 280, 56,0);
+			 
+			 tableauRec[4] = new Rectangle( 1300, 0, 258, 57,0);
 			 
 			 tableauRec[5] = new Rectangle(  398, 377, 290, 52,0);
 			 
-			 tableauRec[6] = new Rectangle( 10000, 0, 238, 47,0);
+			 tableauRec[6] = new Rectangle( 1050, 0, 238, 47,0);
 			 
-			 tableauRec[7] = new Rectangle(  1000,458, 210, 60,0);
+			 tableauRec[7] = new Rectangle(  1100,458, 210, 60,0);
+			 
 			 tableauRec[8] = new Rectangle( 1000, 20, 162, 36,45);
-			 tableauRec[9] = new Rectangle(  100080, 464, 140, 124,45);
+			 
+			 tableauRec[9] = new Rectangle(  1080, 464, 140, 124,45);
 			 
 			 tableauRec[10] = new Rectangle(  1172, 238, 113, 92,0);
 
 			
-			espace = 0;
-			 
-			
-			premiereFois = false;
+			 premiereFois = false;
 			
 		}
 
@@ -249,14 +259,13 @@ public class Niveau1 extends Niveaux {
         
 		canon.dessiner(g2d);
 
-
 	    posMurSol = getHeight();
 	    posMurDroit = getWidth();
 	    posMurGauche = 0;
 	    posMurHaut = 0;
 
 	    hauteurComposant = getHeight();
-	    largeurComposant = getWidth();
+	    longueurComposant = getWidth();
 	     
 	    
 	   
@@ -266,15 +275,21 @@ public class Niveau1 extends Niveaux {
 	/**
      * Exécute l'animation en boucle tant que enCoursDAnimation est vrai. Gère le calcul physique et les collisions.
      */
-	//Benakmoum Walid
 	public void run() {
+		requestFocusInWindow(); 
 		while (enCoursDAnimation) {
-		    System.out.println(Collisions.getNbRebond()+"________________________________________");
+
+			ecouteurClavier();
+			
+
 			Vecteur2D anciennePosition = canon.getBalle().getPositionEnMetre();
+			
 			calculerUneIterationPhysique(deltaT);
 			
 			testerCollisionsEtAjusterVitesses();
+			
 			this.pcs.firePropertyChange("position", anciennePosition, canon.getBalle().getPositionEnMetre());	
+
 			
 			for(int i =0 ; i < tableauRec.length ; i++) {
 				Collisions.collisionRectangle(canon.getBalle(),tableauRec[i]);
@@ -282,7 +297,7 @@ public class Niveau1 extends Niveaux {
 			
 
 			Area areaBalle = new Area(canon.getBalle().getCercle()); 
-	        Area areaMonstre = monstre.getArea();
+	        Area areaMonstre = monstre.getAir();
 	        areaBalle.intersect(areaMonstre);
 
 	        if (!areaBalle.isEmpty()) {
@@ -291,21 +306,24 @@ public class Niveau1 extends Niveaux {
 	        }
 
 
-		
-		
+
+
 			if(monstre.getNombreDeVie()==0) {
 	    	    monstreMort=true;
 	            enCoursDAnimation = false; 
+	            
 	            JOptionPane.showMessageDialog(null,"VOUS AVEZ GAGNE");
+	            
 	            reinitialiserApplication();
 	    	}
-			ecouteurClavier();
+
 			if(Collisions.getNbRebond()>=3) {
 				enCoursDAnimation=false;
 		
 				reinitialiserPosition();
 				
 			}
+
 			repaint();
 			try {
 				Thread.sleep(tempsDuSleep);
@@ -319,7 +337,6 @@ public class Niveau1 extends Niveaux {
 	/**
      * Démarre le thread d'animation si ce n'est pas déjà fait.
      */
-	// Benakmoum Walid
 	public void demarrer() {
 		if (!enCoursDAnimation) {
 			Thread proc = new Thread(this);
@@ -333,7 +350,6 @@ public class Niveau1 extends Niveaux {
 	/**
 	 * Méthode qui arrête l'animation en cours.
 	 */
-	// Benakmoum Walid
 	public void arreter() {
 		enCoursDAnimation=false;
 	}
@@ -341,7 +357,6 @@ public class Niveau1 extends Niveaux {
 	 * Méthode qui change le type de gravité utilisé dans la simulation.
 	 * @param typeGravite Le type de gravité à utiliser : "TERRE", "MARS" ou "ESPACE".
 	 */
-	 //Benakmoum Walid
 
 	public void changerTypeGravite(String typeGravite) {
 	    double gravite;
@@ -368,14 +383,15 @@ public class Niveau1 extends Niveaux {
 	/**
 	 * Méthode qui avance l'animation d'une itération.
 	 */
-	 //Benakmoum Walid
 
 	  public void prochaineImage() {
+		  
 		  if(canon.getBalle().getVitesse()!=new Vecteur2D(0,0)) {
 			  canon.setProchaineImage(true);
-				calculerUneIterationPhysique(deltaT);
+			  calculerUneIterationPhysique(deltaT);
 				repaint();
-			  }
+		  }
+		  
 	  }
 	  public boolean getEnCoursAnimation() {
 			return enCoursDAnimation;
@@ -387,7 +403,6 @@ public class Niveau1 extends Niveaux {
      * Calcule une itération physique en fonction du deltaT.
      * @param deltaT Le temps écoulé depuis la dernière itération.
      */
-	//Benakmoum Walid
 	public void calculerUneIterationPhysique(double deltaT) {
 		tempsTotalEcoule += deltaT;
 	try {
@@ -397,6 +412,7 @@ public class Niveau1 extends Niveaux {
 		e.printStackTrace();
 	}
 		canon.avancerUnPas(deltaT);
+		monstre.avancerUnPas(deltaT);
 	}
 	
 
@@ -405,13 +421,31 @@ public class Niveau1 extends Niveaux {
      */
 	//ZAKARIA SOUDAKI
 	public void testerCollisionsEtAjusterVitesses() {	
-		canon.getBalle().gererCollisionsBordures(posMurSol, posMurDroit , posMurHaut, posMurGauche);
+		
+        boolean state = Collisions.collisionMonstreBalle(monstre, canon.getBalle());
+		
+		if (state) {
+			reinitialiserPosition();
+		}
+		
+	
+		
+		for(int i =0 ; i < tableauRec.length ; i++) {
+		    Collisions.collisionMonstreRec(monstre, tableauRec[1]);	
+		    Collisions.collisionMonstreRec(monstre, tableauRec[2]);	
+            Collisions.collisionRectangle(canon.getBalle(),tableauRec[i]);
+		}
+		
+		
+		Collisions.gererCollisionsBordures(posMurSol, posMurDroit , posMurHaut, posMurGauche, canon.getBalle());
+		Collisions.collisionMonstreMur(monstre, longueurComposant, hauteurComposant);
 	}
 
 	 /**
      * Calcule les forces agissant sur les objets de la zone d'animation, telles que la gravité.
 
      */
+
 // Benakmoum Walid
 	private void calculerLesForces() throws Exception {
 	
@@ -419,11 +453,13 @@ public class Niveau1 extends Niveaux {
 		 Vecteur2D forceDeGravite=MoteurPhysique.calculForceGrav(canon.getBalle().getMasse(), Math.toRadians(90));
 	 Vecteur2D force=new Vecteur2D(0,0);
 	    double rayonElectrique = boule.getRayonElectrique();
+		Vecteur2D forceMonstre= forceHautBas.additionne(forceDroiteGauche);
 	    if (distance < rayonElectrique) {
 	        try {
 	        	boule.setAnimation(true);
 	           
 	            Vecteur2D vecteurUnitaire = boule.getPositionCentre().soustrait(canon.getBalle().getPosCentral()).normalise();
+
 
 	    // Pour le bien de l'appli K est reduit
 	            double forceElectrique = K_CONST * (1 / distance);
@@ -440,17 +476,16 @@ public class Niveau1 extends Niveaux {
 	    }
 	 
 	    canon.getBalle().setSommeDesForces(forceDeGravite.additionne(force));
+	    monstre.setSommeDesForces(forceMonstre);
 	}
 	/**
 	 * Réinitialise l'application à son état initial, incluant la remise à zéro de tous les composants d'animation et des variables d'état.
 	 * Cette méthode stoppe l'animation en cours si elle est active, réinitialise la rotation, le temps total écoulé, l'état de tir de la balle,
 	 */
-	  //Benakmoum Walid
 	public void reinitialiserApplication() {
 	
-		  enCoursDAnimation = false;
+		    enCoursDAnimation = false;
 
-       
 		    tempsTotalEcoule = 0;
 
 
@@ -478,7 +513,6 @@ public class Niveau1 extends Niveaux {
 	/**
      * Méthode qui permet de tirer la balle.
      */
-	  //Benakmoum Walid
 	public  void TirerBalle() {
 		balleTiree=true;
 		canon.setBalleTiree();
@@ -489,7 +523,6 @@ public class Niveau1 extends Niveaux {
 	 * Méthode qui permet de choisir le type de balle à tirer.
 	 * @param nb Le numéro de la balle à choisir.
 	 */
-	 //Benakmoum Walid
 
 	public void choisirBalle(int nb) {
 
@@ -501,7 +534,6 @@ public class Niveau1 extends Niveaux {
 	 * Méthode qui définit le nombre de vie du joueur.
 	 * @param nb Le nombre de vie à définir.
 	 */
-	//Benakmoum Walid
 	public void setNombreDeVie(int nb) {
 	    this.nombreDeVie = nb;
 	    if (this.monstre != null) {
@@ -509,13 +541,14 @@ public class Niveau1 extends Niveaux {
 	    }
 	    repaint();
 	}
+	public void stopperAnim() {
+		if(enCoursDAnimation==true) {
+	enCoursDAnimation=false;
+		}else {
+		demarrer();
+		}
+	}
 
-//	public double getPixelParMetres() {
-//		 return super.getPixelParMetres();
-//	 }
-//	public Balle getBalle() {
-//		 return super.getBalle();
-//	 }
 	/**
      * Initialise l'écouteur de clavier pour interagir avec l'animation via le clavier.
      */
@@ -532,116 +565,25 @@ public class Niveau1 extends Niveaux {
      */
 	//Ahmad Khanafer
 	private void ecouteurSouris() {
-//		addMouseListener((MouseListener) new MouseAdapter() {
-//			@Override
-//
-//			public void mouseClicked(MouseEvent e) {
-//			
-//				gestionSourisRecClick(e);
-//				gestionSourisTriClick(e);
-//				repaint();
-//			}
-//			 
-//		});
 	
 		addMouseMotionListener(new MouseMotionAdapter() {
-			@Override
+			
 				
 			public void mouseDragged(MouseEvent e) {
-//				gestionSourisRecDragged(e);
-//				gestionSourisTriDragged(e);
 				gestionSourisCanon(e);
 				repaint();
 			}
 			
 		});
 	}
-	//Méthode qui gère les click de la souris pour le rectangle
-		//Ahmad Khanafer
-//		private void gestionSourisRecDragged(MouseEvent e) {
-//			for(int i =0 ; i < tableauRec.length; i++) {
-//				int index = tableauRec[i].getClickedResizeHandleIndex(e.getX(), e.getY());
-//					if (tableauRec[i].isClickedOnIt() == true && index != -1) {
-//						tableauRec[i].redimension(index, e.getX(), e.getY());
-//						repaint();
-//					}else if(tableauRec[i].contient(e.getX(), e.getY()) && tableauRec[i].isClickedOnIt() == true && index == -1 ) {
-//						tableauRec[i].rotate( e.getX(), e.getY());
-//						repaint();
-//					}
-//					if(tableauRec[i].contient(e.getX(), e.getY()) && tableauRec[i].isClickedOnIt() == false) {
-//						tableauRec[i].move( e.getX(), e.getY());
-//						repaint();
-//					}
-//			}	
-//		}
-//		
-//		private void gestionSourisTriDragged(MouseEvent e) {
-//			for(int i =0 ; i < tableauTri.length; i++) {
-//				int index = tableauTri[i].getClickedResizeHandleIndex(e.getX(), e.getY());
-//					if (tableauTri[i].isClickedOnIt() == true && index != -1) {
-//						tableauTri[i].redimension(index, e.getX(), e.getY());
-//						repaint();
-//					}else if(tableauTri[i].contient(e.getX(), e.getY()) && tableauTri[i].isClickedOnIt() == true && index == -1 ) {
-//						tableauTri[i].rotate( e.getX(), e.getY());
-//						repaint();
-//					}
-//					if(tableauTri[i].contient(e.getX(), e.getY()) && tableauTri[i].isClickedOnIt() == false) {
-//						tableauTri[i].move( e.getX(), e.getY());
-//						repaint();
-//					}
-//			}
-//		}
-//		
-//		private void gestionSourisRecClick(MouseEvent e) {
-//			for(int i =0 ; i < tableauRec.length; i++) {
-//				if(tableauRec[i].contient(e.getX(), e.getY())) {
-//					System.out.println("CLICKEEEZZZZZZZZZ on");
-//					tableauRec[i].setClickedOnIt(true);
-//					repaint();
-//				}else {
-//					System.out.println("CLICKEEEZZZZZZZZZ off");
-//					tableauRec[i].setClickedOnIt(false);
-//					repaint();
-//				}
-//			}
-//			
-//		}
-//		
-//		private void gestionSourisTriClick(MouseEvent e) {
-//			for(int i =0 ; i < tableauTri.length; i++) {
-//				if(tableauTri[i].contient(e.getX(), e.getY())) {
-//					tableauTri[i].setClickedOnIt(true);
-//					repaint();
-//				}else {
-//					tableauTri[i].setClickedOnIt(false);
-//					repaint();
-//				}
-//			}
-//		}
+	
 	/**
 	 * Méthode qui permet de gérer le canon selon les mouvements de la souris
 	 * @param e Événement de la souris
 	 */
-	  //Benakmoum Walid
 		private void gestionSourisCanon(MouseEvent e) {
-		    boolean toucheObjet = false;
+		boolean toucheObjet = false;
 
-//		    for (Rectangle rec : tableauRec) {
-//		        if (rec.contient(e.getX(), e.getY())) {
-//		            toucheObjet = true;
-//		            break; 
-//		        }
-//		    }
-//
-//		    
-//		    if (!toucheObjet) {
-//		        for (Triangle tri : tableauTri) {
-//		            if (tri.contient(e.getX(), e.getY())) {
-//		                toucheObjet = true;
-//		                break;
-//		            }
-//		        }
-//		    }
 
 		    if (!balleTiree && !toucheObjet) {
 		 
@@ -662,12 +604,9 @@ public class Niveau1 extends Niveaux {
 
 	public int getVie() {
 		return this.nombreDeVie;
-	}
-	public void ecouteurClavier() {
-		
-	    addKeyListener(new KeyAdapter() {
-	        @Override
-	        public void keyPressed(KeyEvent e) {
+		/*
+	      public void keyPressed(KeyEvent e) {
+	        	
 	            switch (e.getKeyCode()) {
 	                case KeyEvent.VK_SPACE:
 	                	  if(canon.getBalle().quelleTypeBalle()==3) {
@@ -680,23 +619,119 @@ public class Niveau1 extends Niveaux {
 	                	  }
 	                	
 	            }
+
 	         
 	        }
+	        */
+	}
+	public void ecouteurClavier() {
+
+	    addKeyListener(new KeyAdapter() {
+	        @Override
+	        public void keyPressed(KeyEvent e) {
+	        	
+	        	switch (e.getKeyCode()) {
+                case KeyEvent.VK_SPACE:
+                	  if(canon.getBalle().quelleTypeBalle()==3) {
+               for (int i = 0; i < 10; i++) {
+			
+                       canon.getBalle().exploser();
+               }
+                     
+                     repaint();
+                	  }
+                	
+            }
+
+	            if(enCoursDAnimation) {
+	            keyCode = e.getKeyCode();
+	            
+
+	            switch (keyCode) {
+	                case KeyEvent.VK_UP:
+	                    // Action à effectuer lors de l'appui sur la flèche vers le haut
+//	                		monstre.setPosY(-2);
+	                	forceHautBas.setY(-50);
+	                    break;
+	                case KeyEvent.VK_DOWN:
+	                    // Action à effectuer lors de l'appui sur la flèche vers le bas
+//	                		monstre.setPosY(2);
+	                	forceHautBas.setY(50);
+	                	
+	                	
+	                    break;
+	                case KeyEvent.VK_LEFT:
+	                    // Action à effectuer lors de l'appui sur la flèche vers la gauche
+//	                		monstre.setPosX(-2);
+	                	forceDroiteGauche.setX(-50);
+	                	
+	                	
+	                    break;
+	                case KeyEvent.VK_RIGHT:
+	                    // Action à effectuer lors de l'appui sur la flèche vers la droite
+//	                		monstre.setPosX(2);
+	                	forceDroiteGauche.setX(50);
+	                		
+	                	
+	                    break;
+	                default:
+	                	keyCode = 0;
+	                    // Action à effectuer pour d'autres touches, si nécessaire
+	                    break;
+	            }
+	          
+	        }
+	        }
+	    	
+	    	@Override
+	    	public void keyReleased(KeyEvent e) {
+	    		  keyCode = e.getKeyCode();
+		            switch (keyCode) {
+		                case KeyEvent.VK_UP:
+		                    // Action à effectuer lors de l'appui sur la flèche vers le haut
+//		                		monstre.setPosY(-2);
+		                	forceHautBas.setY(0);
+		                    break;
+		                case KeyEvent.VK_DOWN:
+		                    // Action à effectuer lors de l'appui sur la flèche vers le bas
+//		                		monstre.setPosY(2);
+		                	forceHautBas.setY(0);
+		                	
+		                	
+		                    break;
+		                case KeyEvent.VK_LEFT:
+		                    // Action à effectuer lors de l'appui sur la flèche vers la gauche
+//		                		monstre.setPosX(-2);
+		                	forceDroiteGauche.setX(0);
+		                	
+		                	
+		                    break;
+		                case KeyEvent.VK_RIGHT:
+		                    // Action à effectuer lors de l'appui sur la flèche vers la droite
+//		                		monstre.setPosX(2);
+		                	forceDroiteGauche.setX(0);
+		                		
+		                	
+		                    break;
+		                default:
+		                	keyCode = 0;
+		                    // Action à effectuer pour d'autres touches, si nécessaire
+		                    break;
+		            }
+	    	}
 	    });
-	    
 	}
 	public void setMasseBalle(int mas) {
 		canon.getBalle().setMasse(mas);
 	}
-		public void stopperAnim() {
-			if(enCoursDAnimation==true) {
-		enCoursDAnimation=false;
-			}else {
-			demarrer();
-			}
-		}
+	
+	public Monstres getMonstre() {
+		return this.monstre;
+	}
 		
 }
+		
+
 		
 			
 

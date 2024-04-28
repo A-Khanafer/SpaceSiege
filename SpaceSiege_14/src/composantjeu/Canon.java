@@ -218,8 +218,10 @@ if(!balleTiree) {
 		        
 		    }
 		g2dPrive.fill(aireRect);
-	
-	balleDessiner=true;
+
+		g2d.drawImage(image,(int)( 3+hauteur/2), (int)y, (int)largeur,(int) hauteur,null);
+	    balleDessiner=true;
+
 	}
     public  Color combine(Color c1, Color c2, double alpha) {
         int r = (int) (alpha * c1.getRed()   + (1 - alpha) * c2.getRed());

@@ -100,12 +100,12 @@ public class Balle {
      * @param sommeForcesSurLaBalle La somme des forces appliquées sur la balle.
      */
 	  //Benakmoum Walid
-	public void setSommeDesForces(Vecteur2D sommeForcesSurLaBalle) {
+	public void setSommeDesForces(Vecteur2D sommeForcesSurMonstre) {
 
 		try {
 
 
-			 accel = MoteurPhysique.calculAcceleration(sommeForcesSurLaBalle, masse);
+			 accel = MoteurPhysique.calculAcceleration(sommeForcesSurMonstre, masse);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -229,27 +229,7 @@ public class Balle {
 	public Ellipse2D.Double getCercle() {
 		return cercle;
 	}
-	 public void gererCollisionsBordures(double posSol, double posMurDroit, double posMurHaut, double posMurGauche) {
-	    	if ( (position.getY() + diametre) >= ( posSol ) ) {
-	    		
-	    		vitesse.setY(-vitesse.getY());
-	    		position.setY(posSol-diametre);
-	    	}
-	    	if ( (position.getX() + diametre) >= ( posMurDroit ) ) {
-	    		vitesse.setX(-vitesse.getX());
-	    		position.setX(posMurDroit-diametre);
-	    	}
-	    	if ( (position.getY()) <= ( posMurHaut ) ) {
-	    		
-	    		vitesse.setY(-vitesse.getY());
-	    		position.setY(posMurHaut);
-	    	}
-	    	if ( (position.getX()) <= ( posMurGauche ) ) {
-	    		
-	    		vitesse.setX(-vitesse.getX());
-	    		position.setX(posMurGauche);
-	    	}
-	    }
+	
 	 /**
 	  * Méthode pour dessiner
 	  * @param g2dPrive Contexte graphique
@@ -266,15 +246,15 @@ public class Balle {
 		return diametre/2;
 	}
 
-public Vecteur2D getPositionEnMetre() {
-	return(position.multiplie(1/pixelsParMetre));
-}
-public void exploser() {
+    public Vecteur2D getPositionEnMetre() {
+	  return(position.multiplie(1/pixelsParMetre));
+    }
+    public void exploser() {
 
 }
-public void setMasse(int mas) {
-	this.masse=mas;
-}
+    public void setMasse(int mas) {
+	  this.masse=mas;
+    }
 
     public int quelleTypeBalle() {
 		return 0;
