@@ -99,7 +99,7 @@ public class FenetreDeJeu extends JFrame {
 		
 		fenetre.setLocationRelativeTo(null);
 		fenetre.setUndecorated(true);
-		fenetre.setExtendedState(JFrame.MAXIMIZED_BOTH);
+//		fenetre.setExtendedState(JFrame.MAXIMIZED_BOTH);
         fenetre.setVisible(true);
         app.setVisible(false);
         
@@ -136,7 +136,7 @@ public class FenetreDeJeu extends JFrame {
 		 
 	
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1920, 1200);
+		setBounds(100, 100, 1920, 1080);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(192, 192, 192));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

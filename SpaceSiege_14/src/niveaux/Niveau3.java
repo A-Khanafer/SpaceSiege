@@ -176,7 +176,7 @@ public class Niveau3 extends Niveaux {
 			pixelParMetres = getWidth()/150;
 			int espace=0;
 			
-			monstre = new Monstres(1000, 20, "images.jpg", pixelParMetres);
+			monstre = new Monstres(1000, 20, pixelParMetres);
 			  canon = new Canon(0, 10,pixelParMetres,"CANONSEXY.png");
 			 
 			 
@@ -391,7 +391,7 @@ public class Niveau3 extends Niveaux {
 
 		    balleTiree = false;
 		    canon.setPremiereFois(true);
-		    monstre = new Monstres(1000, 20, "images.jpg", pixelParMetres);
+		    monstre = new Monstres(1000, 20, pixelParMetres);
 		    monstre.setNombreDeVie(1);
 		    canon = new Canon(0, 10,pixelParMetres,"CANONSEXY.png");
 		    
@@ -578,7 +578,7 @@ public class Niveau3 extends Niveaux {
 
 		   
 		    if (canon.contient(e.getX(), e.getY())) {
-		        canon.move(e.getY());
+		        canon.moveY(e.getY());
 		    }
 		    repaint();
 		}
