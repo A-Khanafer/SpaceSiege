@@ -206,7 +206,7 @@ public class Niveau1 extends Niveaux {
 		
 			
 			
-		   	monstre = new Monstres(1200, 40, "images.jpg", pixelParMetres);
+		   	monstre = new Monstres(1200, 40, pixelParMetres);
 			canon = new Canon(0, 10,pixelParMetres,"CANONSEXY.png");
 			
 			System.out.println(monstre.getNombreDeVie()+"___");
@@ -243,7 +243,12 @@ public class Niveau1 extends Niveaux {
 
 		for (int i = 0; i < tableauRec.length; i++) {
 			tableauRec[i].dessiner(g2d);
+			
 		}
+
+		
+
+
 		boule= new CercleElectrique(398 ,200,pixelParMetres);
 		boule.dessiner(g2d);
           
@@ -316,6 +321,9 @@ public class Niveau1 extends Niveaux {
 	            
 	            reinitialiserApplication();
 	    	}
+			
+			System.out.println("________________________________"+Collisions.getNbRebond());
+			
 
 			if(Collisions.getNbRebond()>=3) {
 				enCoursDAnimation=false;
@@ -491,7 +499,7 @@ public class Niveau1 extends Niveaux {
 
 		    balleTiree = false;
 		    canon.setPremiereFois(true);
-		    monstre = new Monstres(1000, 20, "images.jpg", pixelParMetres);
+		    monstre = new Monstres(1000, 20, pixelParMetres);
 		    if(monstre.getNombreDeVie()==0) {
 		    monstre.setNombreDeVie(1);
 		    }
@@ -597,7 +605,7 @@ public class Niveau1 extends Niveaux {
 
 		   
 		    if (canon.contient(e.getX(), e.getY())) {
-		        canon.move(e.getY());
+		        canon.moveY(e.getY());
 		    }
 		    repaint();
 		}

@@ -10,15 +10,19 @@ import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
+import java.io.Serializable;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import interfaces.Obstacles;
 import outils.OutilsImage;
 import physique.MoteurPhysique;
 import physique.Vecteur2D;
 
-public class Monstres extends JPanel implements Runnable{
+public class Monstres extends JPanel implements Runnable, Obstacles, Serializable{
+	
+	private static final long serialVersionUID = -4198412908689199658L;
 	
 	/**
 	 * La classe Monstres représente un élément de jeu interactif qui peut être dessiné sur un JPanel.
@@ -26,7 +30,7 @@ public class Monstres extends JPanel implements Runnable{
 	 * @author zakaria soudaki
 	 */
 	
-	 private static final long serialVersionUID = 1L;
+	 
 	 
 	 	
 	 	private double pixelsParMetres;
@@ -58,12 +62,11 @@ public class Monstres extends JPanel implements Runnable{
 
 	    private static int nombreDeVie=1;
 	    
-	    private String nomImg;
+	    private String nomImg = "images.jpg";
 	    
 	    private int index = 1;
 	    
 	    private String imgActuel;
-	    
 	    
 	    
 	    
@@ -114,11 +117,11 @@ public class Monstres extends JPanel implements Runnable{
 		 * @param nomImage Le nom de l'image à utiliser pour représenter le monstre.
 		 **/
 	    //Zakaria Soudaki
-	    public Monstres(int posX, int posY, String nomImg, double pixelsParMetres) {
+	    public Monstres(int posX, int posY, double pixelsParMetres) {
 	    	setOpaque(false);
 	    	this.pixelsParMetres = pixelsParMetres;
 	        this.position = new Vecteur2D(posX,posY);
-	        this.nomImg = nomImg;
+	        
 	        longueurRectangle = 5*this.pixelsParMetres;
 	        hauteurRectangle = 5*this.pixelsParMetres;
 	        imgDecor = OutilsImage.lireImage(nomImg); 
@@ -305,7 +308,44 @@ public class Monstres extends JPanel implements Runnable{
 	public void setHauteurRectangle(double hauteurRectangle) {
 		this.hauteurRectangle = hauteurRectangle;
 	}
+
+	@Override
+	public void redimension(int index, int eX, int eY) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void rotate(int eX, int eY) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean contient(double xPix, double yPix) {
+		return air.contains(xPix, yPix);
+	}
+
+	@Override
+	public int getClickedResizeHandleIndex(double x, double y) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean isClickedOnIt() {
+		return false;
+	}
+
+	@Override
+	public void setClickedOnIt(boolean clickedOnIt) {
+		// TODO Auto-generated method stub
+		
+	}
 	
-	
-	
+	public void move(int eX, int eY) {
+        this.position.setX(eX - longueurRectangle / 2); 
+        this.position.setY(eY - hauteurRectangle / 2); 
+        creerLaGeometrie();
+	}
 }
