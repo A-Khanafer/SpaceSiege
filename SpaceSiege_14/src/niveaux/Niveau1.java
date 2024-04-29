@@ -153,7 +153,8 @@ public class Niveau1 extends Niveaux {
     private Vecteur2D forceHautBas = new Vecteur2D(0,0);
     
     private Vecteur2D forceDroiteGauche = new Vecteur2D(0,0);
-   
+    
+  
 
    
    
@@ -258,7 +259,9 @@ public class Niveau1 extends Niveaux {
 
         
 		canon.dessiner(g2d);
-
+		if(modeScience) {
+		afficherDonneesBalleActuelle(g2d);
+		}
 	    posMurSol = getHeight();
 	    posMurDroit = getWidth();
 	    posMurGauche = 0;
@@ -316,7 +319,7 @@ public class Niveau1 extends Niveaux {
 	            
 	            reinitialiserApplication();
 	    	}
-
+System.out.println(Collisions.getNbRebond()+"SUIIII____________________________________________");
 			if(Collisions.getNbRebond()>=3) {
 				enCoursDAnimation=false;
 		
@@ -451,7 +454,7 @@ public class Niveau1 extends Niveaux {
 	
 		 double distance = canon.getBalle().getPosCentral().distance(boule.getPositionCentre());
 		 Vecteur2D forceDeGravite=MoteurPhysique.calculForceGrav(canon.getBalle().getMasse(), Math.toRadians(90));
-	 Vecteur2D force=new Vecteur2D(0,0);
+	 forceElec=new Vecteur2D(0,0);
 	    double rayonElectrique = boule.getRayonElectrique();
 		Vecteur2D forceMonstre= forceHautBas.additionne(forceDroiteGauche);
 	    if (distance < rayonElectrique) {
@@ -465,7 +468,7 @@ public class Niveau1 extends Niveaux {
 	            double forceElectrique = K_CONST * (1 / distance);
                   System.out.println(forceElectrique+"____________________________---");
 	         
-	           force = vecteurUnitaire.multiplie(forceElectrique);
+	           forceElec = vecteurUnitaire.multiplie(forceElectrique);
 
 	          
 	           
@@ -474,8 +477,8 @@ public class Niveau1 extends Niveaux {
 	            System.err.println("Une erreur est survenue lors de la normalisation du vecteur unitaire : " + e.getMessage());
 	        }
 	    }
-	 
-	    canon.getBalle().setSommeDesForces(forceDeGravite.additionne(force));
+	 forceTotal=forceDeGravite.additionne(forceElec);
+	    canon.getBalle().setSommeDesForces(forceTotal);
 	    monstre.setSommeDesForces(forceMonstre);
 	}
 	/**
@@ -728,9 +731,48 @@ public class Niveau1 extends Niveaux {
 	public Monstres getMonstre() {
 		return this.monstre;
 	}
-		
+	public void afficherDonneesBalleActuelle(Graphics g) {
+	    if (balleTiree) {
+	        Balle balle = canon.getBalle();
+	        if (balle != null) {
+	           
+	            g.setColor(Color.white);
+	            g.drawString("Données de la Balle Actuelle :", 20, 20);
+	            g.drawString("Position (x, y)", 20, 40);
+	            g.drawString("Vitesse (vx, vy)", 250, 40);
+	            g.drawString("Accélération (ax, ay)", 400, 40);
+	            g.drawString("Masse", 20, 80);
+	            g.drawString("Force électrique (Fex, Fey)", 250, 80);
+	            g.drawString("Force appliquée (Fax, Fay)", 400, 80);
+	            
+	          
+	            int positionX = (int) balle.getPosition().getX();
+	            int positionY = (int) balle.getPosition().getY();
+	            int vitesseX = (int) balle.getVitesse().getX();
+	            int vitesseY = (int) balle.getVitesse().getY();
+	            int accelerationX = (int) balle.getAcceleration().getX();
+	            int accelerationY = (int) balle.getAcceleration().getY();
+	            int masse = balle.getMasse();
+	            int forceElectriqueX = (int) forceElec.getX();
+	            int forceElectriqueY = (int) forceElec.getY();
+	            int forceAppliqueeX = (int) forceTotal.getX();
+	            int forceAppliqueeY = (int) forceTotal.getY();
+	            
+	            g.drawString("(" + positionX + ", " + positionY + ")", 20, 60);
+	            g.drawString("(" + vitesseX + ", " + vitesseY + ")", 250, 60);
+	            g.drawString("(" + accelerationX + ", " + accelerationY + ")", 400, 60);
+	            g.drawString(Integer.toString(masse), 20, 100);
+	            g.drawString("(" + forceElectriqueX + ", " + forceElectriqueY + ")", 250, 100);
+	            g.drawString("(" + forceAppliqueeX + ", " + forceAppliqueeY + ")", 400, 100);
+	        }
+	    }
+	}
+	public void setModeScience(boolean sc) {
+		this.modeScience=sc;
+		repaint();
+	}
 }
-		
+
 
 		
 			

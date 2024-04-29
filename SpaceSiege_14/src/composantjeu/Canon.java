@@ -7,6 +7,7 @@ import java.awt.Image;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Iterator;
 
@@ -137,6 +138,8 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
     private boolean balleDessiner=false;
     
     Color couleur;
+    
+   
     /**
      * Constructeur de la classe Canon.
      * 
@@ -169,7 +172,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 		aireBase= new Area(base);
 		aireRect.add(aireCercle);
 		positionDeTir = new FlecheDeTir(cercle.getCenterX(), cercle.getCenterY(), dx,dy);
-		image =OutilsImage.lireImageEtRedimensionner(urlImage,(int)103,(int) 51);
+		
 
 
 		 if (!balleTiree && premiereFois) {
@@ -191,38 +194,43 @@ if(!balleTiree) {
      */
     @Override
   //Benakmoum Walid
-	public void dessiner(Graphics2D g2d) {
-    	Graphics2D g2dPrive = (Graphics2D) g2d.create();
-		g2dPrive.setColor(Color.BLUE);
-		
-		positionDeTir.dessiner(g2dPrive);
-		
-		g2dPrive.fill(aireBase);
-	if(balleTiree || prochaineImage) {
-		balleActuelle.dessiner(g2dPrive);
-	}
-	
-	  
-		//ROTATED
-		g2dPrive.rotate(rotation, cercle.getCenterX(), cercle.getCenterY());
-		 int hauteurCanon = (int) hauteur;
-		    for (int i = 0; i < hauteurCanon; i++) {
-		        // Calculer l'alpha en fonction de la position dans le canon
-		        double alpha = (double) i / hauteurCanon;
-		        // Combiner la couleur bleue avec la couleur noire en utilisant l'alpha
-		         couleur = combine(Color.BLUE, Color.BLACK, alpha);
-		        // Définir la couleur pour chaque ligne du canon
-		         g2dPrive.setColor(couleur);
-		         
-		         g2dPrive.drawLine((int) (3 + hauteur / 2), (int) (y + i), (int) (3 + hauteur / 2 + largeur), (int) (y + i));
-		        
-		    }
-		g2dPrive.fill(aireRect);
+    public void dessiner(Graphics2D g2d) {
+        Graphics2D g2dPrive = (Graphics2D) g2d.create();
 
-		g2d.drawImage(image,(int)( 3+hauteur/2), (int)y, (int)largeur,(int) hauteur,null);
-	    balleDessiner=true;
+     
+        positionDeTir.dessiner(g2dPrive);
 
-	}
+      
+        g2dPrive.setColor(Color.BLUE);
+        g2dPrive.fill(aireBase);
+
+      
+        if (balleTiree || prochaineImage) {
+            balleActuelle.dessiner(g2dPrive);
+        }
+
+     
+        g2dPrive.rotate(rotation, cercle.getCenterX(), cercle.getCenterY());
+
+     
+        Color startColor = Color.BLUE;
+        Color endColor = Color.BLACK;
+
+        
+        Point2D start = new Point2D.Float((float) rectangleCanon.getMinX(), (float) rectangleCanon.getMinY());
+        Point2D end = new Point2D.Float((float) rectangleCanon.getMaxX(), (float) rectangleCanon.getMaxY());
+        GradientPaint gradient = new GradientPaint(start, startColor, end, endColor);
+        g2dPrive.setPaint(gradient);
+
+     
+        g2dPrive.fill(aireRect);
+ 
+        balleDessiner = true;
+
+     
+        g2dPrive.dispose();
+    }
+
     public  Color combine(Color c1, Color c2, double alpha) {
         int r = (int) (alpha * c1.getRed()   + (1 - alpha) * c2.getRed());
         int g = (int) (alpha * c1.getGreen() + (1 - alpha) * c2.getGreen());

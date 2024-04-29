@@ -406,9 +406,14 @@ public class FenetreDeJeu extends JFrame {
 		spinnerVieMonstre.setBounds(167, 131, 109, 44);
 		panelFonctionnalites.add(spinnerVieMonstre);
 		
-		JCheckBox chckbxNewCheckBox = new JCheckBox("New check box");
-		chckbxNewCheckBox.setBounds(689, 0, 97, 23);
-		panelFonctionnalites.add(chckbxNewCheckBox);
+		JCheckBox chckbxModeScienti = new JCheckBox("Mode scientifique");
+		chckbxModeScienti.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				nivActuel.setModeScience(chckbxModeScienti.isSelected());
+			}
+		});
+		chckbxModeScienti.setBounds(649, 0, 137, 23);
+		panelFonctionnalites.add(chckbxModeScienti);
 		
 		rdbBalleNormal = new JRadioButton("Balles Normales");
 		rdbBalleNormal.setSelected(true);
@@ -445,14 +450,14 @@ public class FenetreDeJeu extends JFrame {
 		comboBoxTypeGrav.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String typeGravite = (String) comboBoxTypeGrav.getSelectedItem();
-			
+			nivActuel.changerTypeGravite(typeGravite);
 				changerFondEtGrav(typeGravite);
 		     
 		     
 			}
 		});
 		comboBoxTypeGrav.setModel(new DefaultComboBoxModel(new String[] {"ESPACE", "TERRE", "MARS"}));
-		comboBoxTypeGrav.setBounds(167, 235, 109, 37);
+		comboBoxTypeGrav.setBounds(296, 128, 109, 37);
 		panelFonctionnalites.add(comboBoxTypeGrav);
 		
 		JButton btnNewButton = new JButton("MODES EXTRA");

@@ -103,7 +103,9 @@ public class Niveaux extends JPanel implements Runnable {
      */
     protected Canon canon ;
     protected boolean monstreMort=false;
-    
+  protected  Vecteur2D forceElec;
+  protected  Vecteur2D forceTotal;
+  protected boolean modeScience=false;
 //    protected String fondActuel = "/fondjeu4.png";
 //    private PlanCartesien planCartesion= new PlanCartesien();
 //    protected JLabel lbl;
@@ -271,7 +273,9 @@ public class Niveaux extends JPanel implements Runnable {
 	public void setMasseBalle(int mas) {
 	
 	}
+	public void setModeScience(boolean sc) {
 	
+	}
 	
 	
 	
