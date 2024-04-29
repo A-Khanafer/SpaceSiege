@@ -14,6 +14,7 @@ import java.io.Serializable;
  * 
  * @author Simon Vézina
  * @author Caroline Houle
+ * @author Benakmoum Walid
  */
 public class Vecteur2D implements Serializable {
 	
@@ -277,6 +278,27 @@ public class Vecteur2D implements Serializable {
 	public static double prodScalaire(Vecteur2D v1, Vecteur2D v2){
 		return (v1.prodScalaire(v2));
 	}
+	/**
+	 * Méthode pour calculer la distance entre le vecteur courant et un autre vecteur.
+	 * @param v L'autre vecteur.
+	 * @return La distance entre les deux vecteurs.
+	 */
+	//Benakmoum Walid
+	public double distance(Vecteur2D v){
+	    double deltaX = this.x - v.x;
+	    double deltaY = this.y - v.y;
+	    return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+	}
 
+	/**
+	 * Méthode de classe pour calculer la distance entre deux vecteurs quelconques.
+	 * @param v1 Le premier vecteur
+	 * @param v2 Le deuxième vecteur
+	 * @return La distance entre les deux vecteurs.
+	 */
+	//Benakmoum Walid
+	public static double distance(Vecteur2D v1, Vecteur2D v2){
+	    return v1.distance(v2);
+	}
  
 }//fin classe Vecteur

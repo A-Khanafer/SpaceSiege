@@ -167,10 +167,13 @@ public class Collisions {
 		} 	    
  	    double produitScalaire = balle.getVitesse().prodScalaire(normale);
  	    Vecteur2D vitesseApresCollision = balle.getVitesse().soustrait((normale.multiplie(produitScalaire)).multiplie(2));
- 	    
- 	    
- 	    
+
+ 	    if(balle.quelleTypeBalle()==2) {
+ 	    	  balle.setVitesse(vitesseApresCollision.additionne(new Vecteur2D(50,50)));	
+ 	    }else {
+
  	    balle.setVitesse(vitesseApresCollision);
+ 	    }
     }
 
      //calcul rebond sur un coin rectangle
@@ -241,21 +244,25 @@ public class Collisions {
 		    if (seg[0] == true) {
 		    	compteurRebonds++;
 		        calculRebondPhysique(segmentRec[0], balle);
+		   
 		        seg[0] = false;
-		    } 
+		    }  
 		    if (seg[1] == true) {
 		    	compteurRebonds++;
 		        calculRebondPhysique(segmentRec[1], balle);
+		    
 		        seg[1] = false;
 		    } 
 		    if (seg[2] == true) {
 		    	compteurRebonds++;
 		        calculRebondPhysique(segmentRec[2], balle);
+		     
 		        seg[2] = false;
 		    } 
 		    if (seg[3] == true) {
 		    	compteurRebonds++;
 		        calculRebondPhysique(segmentRec[3], balle);
+		       
 		        seg[3] = false;
 		        
 		    } 

@@ -32,6 +32,7 @@ import physique.Vecteur2D;
 
 import java.awt.Color;
 
+import obstacles.CercleElectrique;
 import obstacles.Rectangle;
 
 import obstacles.Triangle;
@@ -53,7 +54,8 @@ public class Niveau1 extends Niveaux {
 	private boolean enCoursDAnimation=false;
 
 	private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
-
+	
+	  private static final double K_CONST = 9.0e4;
 	/**
      * L'intervalle de temps (en secondes) utilisé pour chaque itération du calcul physique.
      */
@@ -61,7 +63,7 @@ public class Niveau1 extends Niveaux {
 	/**
      * Le temps de pause (en millisecondes) entre chaque itération de l'animation.
      */
-	private int tempsDuSleep = 1;
+	private int tempsDuSleep = 10;
 	/**
      * Un rectangle servant d'obstacle dans la zone d'animation.
      */
@@ -136,6 +138,7 @@ public class Niveau1 extends Niveaux {
     
     
   
+    private CercleElectrique boule;
     /**
      * Le canon utilisé pour tirer des balles.
      */
@@ -241,8 +244,9 @@ public class Niveau1 extends Niveaux {
 		for (int i = 0; i < tableauRec.length; i++) {
 			tableauRec[i].dessiner(g2d);
 		}
-		
-
+		boule= new CercleElectrique(398 ,200,pixelParMetres);
+		boule.dessiner(g2d);
+          
 
 		
 
@@ -277,6 +281,7 @@ public class Niveau1 extends Niveaux {
 
 			ecouteurClavier();
 			
+
 			Vecteur2D anciennePosition = canon.getBalle().getPositionEnMetre();
 			
 			calculerUneIterationPhysique(deltaT);
@@ -284,9 +289,25 @@ public class Niveau1 extends Niveaux {
 			testerCollisionsEtAjusterVitesses();
 			
 			this.pcs.firePropertyChange("position", anciennePosition, canon.getBalle().getPositionEnMetre());	
-		
-			System.out.println(monstre.getNombreDeVie()+"AVANT");
+
 			
+			for(int i =0 ; i < tableauRec.length ; i++) {
+				Collisions.collisionRectangle(canon.getBalle(),tableauRec[i]);
+			}
+			
+
+			Area areaBalle = new Area(canon.getBalle().getCercle()); 
+	        Area areaMonstre = monstre.getAir();
+	        areaBalle.intersect(areaMonstre);
+
+	        if (!areaBalle.isEmpty()) {
+	        	monstre.perdUneVie();
+	        	reinitialiserPosition();
+	        }
+
+
+
+
 			if(monstre.getNombreDeVie()==0) {
 	    	    monstreMort=true;
 	            enCoursDAnimation = false; 
@@ -295,7 +316,14 @@ public class Niveau1 extends Niveaux {
 	            
 	            reinitialiserApplication();
 	    	}
-			
+
+			if(Collisions.getNbRebond()>=3) {
+				enCoursDAnimation=false;
+		
+				reinitialiserPosition();
+				
+			}
+
 			repaint();
 			try {
 				Thread.sleep(tempsDuSleep);
@@ -316,6 +344,7 @@ public class Niveau1 extends Niveaux {
 			enCoursDAnimation = true;
 			balleTiree=true;
 			canon.setBalleTiree();
+			requestFocus();
 		}
 	}//fin methode
 	/**
@@ -376,7 +405,12 @@ public class Niveau1 extends Niveaux {
      */
 	public void calculerUneIterationPhysique(double deltaT) {
 		tempsTotalEcoule += deltaT;
+	try {
 		calculerLesForces();
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
 		canon.avancerUnPas(deltaT);
 		monstre.avancerUnPas(deltaT);
 	}
@@ -409,18 +443,40 @@ public class Niveau1 extends Niveaux {
 
 	 /**
      * Calcule les forces agissant sur les objets de la zone d'animation, telles que la gravité.
+
      */
-	private void calculerLesForces() {
-		
-		Vecteur2D forceDeGravite=MoteurPhysique.calculForceGrav(canon.getBalle().getMasse(), Math.toRadians(90));
-		
+
+// Benakmoum Walid
+	private void calculerLesForces() throws Exception {
+	
+		 double distance = canon.getBalle().getPosCentral().distance(boule.getPositionCentre());
+		 Vecteur2D forceDeGravite=MoteurPhysique.calculForceGrav(canon.getBalle().getMasse(), Math.toRadians(90));
+	 Vecteur2D force=new Vecteur2D(0,0);
+	    double rayonElectrique = boule.getRayonElectrique();
 		Vecteur2D forceMonstre= forceHautBas.additionne(forceDroiteGauche);
+	    if (distance < rayonElectrique) {
+	        try {
+	        	boule.setAnimation(true);
+	           
+	            Vecteur2D vecteurUnitaire = boule.getPositionCentre().soustrait(canon.getBalle().getPosCentral()).normalise();
 
-        monstre.setSommeDesForces(forceMonstre);
-        
-	    canon.getBalle().setSommeDesForces(forceDeGravite);
 
+	    // Pour le bien de l'appli K est reduit
+	            double forceElectrique = K_CONST * (1 / distance);
+                  System.out.println(forceElectrique+"____________________________---");
+	         
+	           force = vecteurUnitaire.multiplie(forceElectrique);
 
+	          
+	           
+	        } catch (Exception e) {
+	            
+	            System.err.println("Une erreur est survenue lors de la normalisation du vecteur unitaire : " + e.getMessage());
+	        }
+	    }
+	 
+	    canon.getBalle().setSommeDesForces(forceDeGravite.additionne(force));
+	    monstre.setSommeDesForces(forceMonstre);
 	}
 	/**
 	 * Réinitialise l'application à son état initial, incluant la remise à zéro de tous les composants d'animation et des variables d'état.
@@ -440,7 +496,7 @@ public class Niveau1 extends Niveaux {
 		    monstre.setNombreDeVie(1);
 		    }
 		    canon = new Canon(0, 10,pixelParMetres,"CANONSEXY.png");
-		    
+		    Collisions.setNbrebond(0);
 		   monstreMort=false;
 
 
@@ -451,6 +507,7 @@ public class Niveau1 extends Niveaux {
 		balleTiree = false;
 	    canon.setPremiereFois(true);
 	    canon = new Canon(0, 10,pixelParMetres,"CANONSEXY.png");
+	    Collisions.setNbrebond(0);
 	    repaint();
 	}
 	/**
@@ -460,7 +517,6 @@ public class Niveau1 extends Niveaux {
 		balleTiree=true;
 		canon.setBalleTiree();
 		repaint();
-		
 		
 	}
 	/**
@@ -485,7 +541,13 @@ public class Niveau1 extends Niveaux {
 	    }
 	    repaint();
 	}
-
+	public void stopperAnim() {
+		if(enCoursDAnimation==true) {
+	enCoursDAnimation=false;
+		}else {
+		demarrer();
+		}
+	}
 
 	/**
      * Initialise l'écouteur de clavier pour interagir avec l'animation via le clavier.
@@ -542,6 +604,25 @@ public class Niveau1 extends Niveaux {
 
 	public int getVie() {
 		return this.nombreDeVie;
+		/*
+	      public void keyPressed(KeyEvent e) {
+	        	
+	            switch (e.getKeyCode()) {
+	                case KeyEvent.VK_SPACE:
+	                	  if(canon.getBalle().quelleTypeBalle()==3) {
+	               for (int i = 0; i < 10; i++) {
+				
+	                       canon.getBalle().exploser();
+	               }
+	                     
+	                     repaint();
+	                	  }
+	                	
+	            }
+
+	         
+	        }
+	        */
 	}
 	public void ecouteurClavier() {
 
@@ -549,16 +630,18 @@ public class Niveau1 extends Niveaux {
 	        @Override
 	        public void keyPressed(KeyEvent e) {
 	        	
-	            switch (e.getKeyCode()) {
-	                case KeyEvent.VK_SPACE:
-	                 
-	                    Thread explosionThread = new Thread(() -> {
-	                       canon.getBalle().exploser();
-	                     
-	                    });
-	                    explosionThread.start();
-	                    break;
-	            }
+	        	switch (e.getKeyCode()) {
+                case KeyEvent.VK_SPACE:
+                	  if(canon.getBalle().quelleTypeBalle()==3) {
+               for (int i = 0; i < 10; i++) {
+			
+                       canon.getBalle().exploser();
+               }
+                     
+                     repaint();
+                	  }
+                	
+            }
 
 	            if(enCoursDAnimation) {
 	            keyCode = e.getKeyCode();
@@ -647,6 +730,8 @@ public class Niveau1 extends Niveaux {
 	}
 		
 }
+		
+
 		
 			
 
