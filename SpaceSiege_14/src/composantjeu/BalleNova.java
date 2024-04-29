@@ -2,16 +2,19 @@ package composantjeu;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.GradientPaint;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.util.Random;
 
 import physique.MoteurPhysique;
 import physique.Vecteur2D;
 
-public class BalleNova extends Balle implements Runnable  {
+public class BalleNova extends Balle   {
 	 Color couleur;
+	
     /**
      * Constructeur de BalleBasique initialisant la balle avec des propriétés spécifiques.
      *
@@ -51,7 +54,13 @@ public class BalleNova extends Balle implements Runnable  {
         synchronized (trainees) {
 			float alpha = 1.0f, facteurDecroissance = 0.1f;
 			for (Ellipse2D.Double trace : trainees) {
-				g2dPrive.setColor(new Color(50, 50, 50, (int)(alpha * 255)));
+				 Point2D start = new Point2D.Float((float) trace.getMinX(), (float) trace.getMinY());
+		            Point2D end = new Point2D.Float((float) trace.getMaxX(), (float) trace.getMaxY());
+		            Color startColor = new Color(0, 0, 0, (int) (alpha * 255));
+		            Color endColor = new Color(0, 0, 0, 0);
+		            GradientPaint gradient = new GradientPaint(start, startColor, end, endColor);
+		            g2dPrive.setPaint(gradient);
+			
 				g2dPrive.fill(trace);
 				alpha -= facteurDecroissance;
 				if (alpha < 0) break;
@@ -65,31 +74,19 @@ public class BalleNova extends Balle implements Runnable  {
     }
     
     public void exploser() {
-    	
+        running = false;
+
         int incrementRayon = 5;
         int maxExpansion = 30;
         int steps = 10;
-        Color couleurInitiale = Color.BLACK;
-     
-    
-        for (int i = 0; i <= steps; i++) {
-        
-            diametre += incrementRayon;
-            int r = (int) (Math.random() * 256);
-            int g = (int) (Math.random() * 256);
-            int b = (int) (Math.random() * 256);
-            couleur = new Color(r, g, b);
-            creerLaGeometrie();
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        int tailleMaximale = 200; 
+   
 
-        // Réinitialiser la balle après l'explosion
-        diametre -= maxExpansion;
-        couleur = couleurInitiale;
+     if(diametre<tailleMaximale) {
+     diametre+= incrementRayon;
+     }
+       
+        vitesse.setComposantes(0, 0); 
         creerLaGeometrie();
     }
     private void creerEffetVent(Graphics2D g2d) {
@@ -149,19 +146,11 @@ public class BalleNova extends Balle implements Runnable  {
         position = MoteurPhysique.calculPosition(deltaT, position, vitesse);
         creerLaGeometrie();
     }
-    @Override
-	public void run() {
-        while (running) {
-            avancerUnPas(0.016);
-            try {
-                Thread.sleep(16);
-            } catch (InterruptedException e) {
-                running = false;
-            }
-        }
-    }
+
 	 public void stop() {
 	        running = false;
 	    }
-   
+	 public int quelleTypeBalle() {
+	    	return 3;
+	    }
 }

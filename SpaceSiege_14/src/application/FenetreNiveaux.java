@@ -14,6 +14,7 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 import outils.OutilsImage;
+import systeme.Son;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -28,6 +29,7 @@ public class FenetreNiveaux extends JFrame {
 	private JPanel contentPane;
 	private static FenetreModeDeJeu appli;
 	private static FenetreNiveaux fenetre;
+	Son bouttonClicker = new Son();
 	
 	
 	public static void afficherFenetre(FenetreModeDeJeu app) {
@@ -69,6 +71,7 @@ public class FenetreNiveaux extends JFrame {
 	 * Create the frame.
 	 */
 	public FenetreNiveaux() {
+		bouttonClicker.setFile(2);
 		
 		Border emptyBorder = BorderFactory.createEmptyBorder();
 		
@@ -103,6 +106,8 @@ public class FenetreNiveaux extends JFrame {
 		});
 		btnNiv1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				bouttonClicker.play();
+				bouttonClicker.reset();
 				FenetreDeJeu.afficherFenetre(fenetre, 0);
 				
 			}
@@ -132,6 +137,8 @@ public class FenetreNiveaux extends JFrame {
 		});
 		btnNiv2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				bouttonClicker.play();
+				bouttonClicker.reset();
 				FenetreDeJeu.afficherFenetre(fenetre, 1);
 			}
 		});
@@ -158,6 +165,8 @@ public class FenetreNiveaux extends JFrame {
 		});
 		btnNiv3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				bouttonClicker.play();
+				bouttonClicker.reset();
 				FenetreDeJeu.afficherFenetre(fenetre, 2);
 			}
 		});
@@ -184,6 +193,8 @@ public class FenetreNiveaux extends JFrame {
 		});
 		btnRetour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				bouttonClicker.play();
+				bouttonClicker.reset();
 				FenetreModeDeJeu.retour(appli);
 				setVisible(false);
 			}

@@ -76,14 +76,14 @@ public class CercleElectrique implements Obstacles, Serializable {
 	private double diametre;
 	private double rayon;
 	
-	private double rayonElectrique;
+	private double rayonElectrique=300;
 	private double charge;
 	 /**
     * Position actuelle de la balle dans l'espace de simulation, exprimée par un vecteur.
     */
     private Vecteur2D positionCentre;
 	
-	
+	private boolean animation=false;
 	
 	
 	
@@ -196,8 +196,9 @@ public class CercleElectrique implements Obstacles, Serializable {
         g2dCopy.setColor(Color.black);
         g2dCopy.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2dCopy.rotate(angleRotation, centreX, centreY);
+        if(animation==false) {
         g2dCopy.fill(cercle);
-        
+        }
         if (estClique) {
             BasicStroke pointille = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
                     new float[]{4}, 0); // Création de la ligne pointillée
@@ -210,8 +211,16 @@ public class CercleElectrique implements Obstacles, Serializable {
             	g2dCopy2.fill(handle);
             }
         }
-		
-	}
+        if (animation) {
+            
+            g2dCopy.setColor(Color.RED);
+            g2dCopy.fill(cercle);
+   
+        }
+
+       
+        g2dCopy.dispose();
+    }
 
 	@Override
 	public void redimension(int index, int eX, int eY) {
@@ -369,6 +378,13 @@ public class CercleElectrique implements Obstacles, Serializable {
 		this.positionCentre = positionCentre;
 	}
 
+    public double getRayonElectrique() {
+     return this.rayonElectrique;
+    }
+	public void setAnimation(boolean anim) {
+		this.animation=anim;
+	}
+
 	public String toString() {
     	
 	    String cerE;
@@ -391,6 +407,7 @@ public class CercleElectrique implements Obstacles, Serializable {
 	@Override
 	public Vecteur2D getPosition() {
 		return new Vecteur2D(coinXGauche, coinYGauche);
+
 	}
 	
 

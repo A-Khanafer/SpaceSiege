@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import application.AppPrincipal14;
 import application.FenetreModeDeJeu;
 import outils.OutilsImage;
+import systeme.Son;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -25,7 +26,7 @@ public class BoutonsIntro extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+	Son bouttonClicker = new Son();
     private Image imgFond = null;
     private int longueurPanel  = 200;
     private int hauteurPanel  = 155 ;
@@ -36,7 +37,7 @@ public class BoutonsIntro extends JPanel {
 	 * Create the panel.
 	 */
 	public BoutonsIntro( int longueur,  int hauteur , AppPrincipal14 app) {
-		
+		bouttonClicker.setFile(2);
 		this.setBounds(longueur/2 - longueurPanel/2 , hauteur/2 +60 ,longueurPanel, hauteurPanel);
 		setBackground(new Color(0, 0, 0,0));
 		setLayout(null);
@@ -64,7 +65,7 @@ public class BoutonsIntro extends JPanel {
 		JButton btnJouer = new JButton("JOUER");
 		btnJouer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				bouttonClicker.play();
 				OutilsImage.lireImageEtPlacerSurBouton("q2.png", btnJouer);
 			
 				FenetreModeDeJeu.afficherFenetre(app);

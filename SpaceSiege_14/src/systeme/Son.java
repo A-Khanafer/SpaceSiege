@@ -15,6 +15,8 @@ public class Son {
     public Son() {
         soundURL[0] = getClass().getResource("/son/musiqueApp.wav");
         soundURL[1] = getClass().getResource("/son/gameover.wav");
+        soundURL[2] = getClass().getResource("/son/bouttonClicker.wav");
+        
     }
 
     public void setFile (int i) {
@@ -38,6 +40,10 @@ public class Son {
 
     public void stop() {
         clip.stop();
+    }
+    
+    public void reset() {
+    	clip.setFramePosition(0);
     }
 
 

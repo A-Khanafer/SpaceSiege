@@ -1,4 +1,4 @@
-package sandbox;
+package bacasable;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -27,15 +27,15 @@ public class SauvegardeNiveau {
 		        String data = myReader.nextLine();//data prend les caractere de la prochaine ligne 
 		        
 		        
-		        if(data.startsWith("*")) { // Lorsque la ligne commence avec un * cela signifie categorie
+		        if(data.startsWith("*")) { 
 		        	data = data.replace("*", "");
 		        	System.out.println("Forme : " + data);
 		        }
-		        else if(data.startsWith("//")) { // Lorsque la ligne commence avec un // cela signifie que le fichier est fini
+		        else if(data.startsWith("//")) { 
 		        	break;
 		        }
-		        else { // Sinon signifie des inventions
-		        	System.out.println("( "+ data +" : CoinXgauche , " + myReader.nextLine() + " : CoinYgauche , " + myReader.nextLine() + " : largeur " + myReader.nextLine() + " : longueur " + myReader.nextLine() + " : angle)");
+		        else { 
+		        	System.out.println("( "+ data +" : CoinXgauche , " + Double.parseDouble(myReader.nextLine()) + " : CoinYgauche , " + myReader.nextLine() + " : largeur " + myReader.nextLine() + " : longueur " + Double.parseDouble(myReader.nextLine()) + " : angle)");
 		        }
 		      }	
 		      myReader.close();
@@ -55,7 +55,7 @@ public class SauvegardeNiveau {
 		      ObstacleHolder obstacleHolder = new ObstacleHolder();
 			while (myReader.hasNextLine()) {//Repete le processus tant qu'il y a une autre ligne
 		        String data = myReader.nextLine();//data prend les caractere de la prochaine ligne
-		        if(data.startsWith("*")) {// Lorsque la ligne commence avec un * cela signifie categorie
+		        if(data.startsWith("*")) {// Lorsque la ligne commence avec un * cela signifie une forme
 		        	data = data.replace("*","");
 		        	if(data.equalsIgnoreCase("rec")) {
 		        		obstacleHolder.addObstacle(new Rectangle(	Double.parseDouble(myReader.nextLine()),
