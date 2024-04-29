@@ -8,6 +8,7 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.ImageIcon;
@@ -32,6 +33,8 @@ public class Monstres extends JPanel implements Runnable{
 	    /** Le rectangle représentant le monstre **/
 
 	    private Rectangle2D rec ;
+	    
+	    private Path2D.Double aireMonstre;
 
 	    
 	    /** L'image du monstre **/
@@ -130,7 +133,7 @@ public class Monstres extends JPanel implements Runnable{
 	    //Zakaria Soudaki
 	    private void creerLaGeometrie() {
 	        rec = new Rectangle2D.Double(position.getX(),position.getY(),longueurRectangle,hauteurRectangle);
-	        air = new Area(rec);
+	        aireMonstre = new Path2D.Double(rec);
 	        
 	    }
 
@@ -151,8 +154,9 @@ public class Monstres extends JPanel implements Runnable{
 		 * @return La zone d'air du monstre.
 		 **/
 	    //zakaria soudaki
-	    public Area getAir() {
-	    	return this.air;
+	    public Area toAire() {
+	    	Area aire = new Area(aireMonstre);
+			return aire;
 	    }
 	    
 	    /**

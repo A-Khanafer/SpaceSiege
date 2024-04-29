@@ -38,7 +38,7 @@ public class Epines implements Obstacles, Serializable{
 	/**
      * La zone délimitée par le rectangle.
      */
-	private transient Area aireEpines;
+	private Path2D.Double aireEpines;
 	 /**
      * L'angle de rotation du rectangle.
      */
@@ -62,7 +62,7 @@ public class Epines implements Obstacles, Serializable{
     /**
      * Aire de la poignée de rotation du triangle.
      */
-	private transient Area airePoigne, aireRecPointille;
+	private transient Area airePoigne;
 	/**
      * Les segments du triangles.
      */
@@ -126,15 +126,15 @@ public class Epines implements Obstacles, Serializable{
 		}
 		epines.closePath();
 		
-		aireEpines = new Area(epines);
-		aireRecPointille = new Area(rectanglePointille);
+		aireEpines = new Path2D.Double(rectanglePointille);
+		
 		poigneRotation = new Ellipse2D.Double((coinXGauche+largeur/2) - 15, coinYGauche - 50, 30, 30);
         airePoigne = new Area(poigneRotation);
         AffineTransform transformation = new AffineTransform();
         transformation.rotate(angleRotation, centreX, centreY);
         airePoigne.transform(transformation);
         aireEpines.transform(transformation);
-        aireRecPointille.transform(transformation);
+        
 		creationResizeHandles();
 		calculerCoins();
 		
@@ -343,7 +343,7 @@ public class Epines implements Obstacles, Serializable{
 	@Override
 	public boolean contient(double xPix, double yPix) {
 		// TODO Auto-generated method stub
-		return aireRecPointille.contains(xPix, yPix);
+		return aireEpines.contains(xPix, yPix);
 	}
 	
 	@Override
@@ -381,14 +381,16 @@ public class Epines implements Obstacles, Serializable{
 		    	
 		}
 
-	@Override
-	public Area getAir() {
-		return this.aireEpines;
-	}
 
 	@Override
 	public Vecteur2D getPosition() {
 		return new Vecteur2D(coinXGauche, coinYGauche);
+	}
+
+	@Override
+	public Area toAire() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

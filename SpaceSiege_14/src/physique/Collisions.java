@@ -372,7 +372,7 @@ public class Collisions {
 	 public static boolean collisionMonstreBalle(Monstres monstre , Balle balle) {
 		 
 		 Area areaBalle = new Area(balle.getCercle()); 
-	        Area areaMonstre = monstre.getAir();
+		 Area areaMonstre = monstre.toAire();
 	        areaBalle.intersect(areaMonstre);
 
 	        if (!areaBalle.isEmpty()) {
@@ -386,19 +386,18 @@ public class Collisions {
 	 
 	 public static void collisionMonstreRec (Monstres monstre,  Rectangle rec ) {
 		 
-		 Area areaRec = rec.getAir();
-		 Area areaMonstre = monstre.getAir();
+		 Area areaRec = rec.toAire();
+		 Area areaMonstre = monstre.toAire();
 	        areaMonstre.intersect(areaRec);
 
 	        if (!areaMonstre.isEmpty()) {
 	        	monstre.setVitesse(new Vecteur2D(-monstre.getVitesse().getX(),-monstre.getVitesse().getY()));
-	        	System.out.println("TOUCHEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
 	        }
 	 }
 	 
      public static void collisionMonstreTri (Monstres monstre, Triangle tri) {
-    	 Area areaRec = tri.getAir();
-		 Area areaMonstre = monstre.getAir();
+    	 Area areaRec = tri.toAire();
+    	 Area areaMonstre = monstre.toAire();
 	        areaMonstre.intersect(areaRec);
 
 	        if (!areaMonstre.isEmpty()) {
@@ -408,8 +407,8 @@ public class Collisions {
 	 }
      
      public static void collisionMonstreCercle (Monstres monstre, Cercle cercle) {
-    	 Area areaRec = cercle.getAir();
-		 Area areaMonstre = monstre.getAir();
+    	 Area areaRec = cercle.toAire();
+    	 Area areaMonstre = monstre.toAire();
 	        areaMonstre.intersect(areaRec);
 
 	        if (!areaMonstre.isEmpty()) {
