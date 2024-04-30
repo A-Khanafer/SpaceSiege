@@ -184,7 +184,7 @@ public class Niveau2 extends Niveaux {
 			pixelParMetres = getWidth()/150;
 			int espace=0;
 			monstre = new Monstres(1000, 20, pixelParMetres);
-			  canon = new Canon(0, 10,pixelParMetres,"CANONSEXY.png");
+			  canon = new Canon(0, 10,pixelParMetres);
 				for(int i = 0 ; i < tableauRec.length ; i++) {
 					tableauRec[i] = new Rectangle(50 + espace, 50 + espace, pixelParMetres);
 					espace = espace + 80;
@@ -375,7 +375,7 @@ public class Niveau2 extends Niveaux {
 	
 
 	    monstre = new Monstres(1000, 20,  pixelParMetres);
-	    canon = new Canon(0, 10,pixelParMetres,"CANONSEXY.png");
+	    canon = new Canon(0, 10,pixelParMetres);
 	    
 	   monstreMort=false;
 

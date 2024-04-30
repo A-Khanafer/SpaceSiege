@@ -7,9 +7,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.geom.Point2D;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Iterator;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -23,6 +25,8 @@ import obstacles.Epines;
 import obstacles.ObstacleHolder;
 import obstacles.Rectangle;
 import obstacles.Triangle;
+import physique.Collisions;
+import physique.Vecteur2D;
 
 /**
  * PanelBacASable est un JPanel personnalisé qui représente un bac à sable pour dessiner des rectangles et des triangles.
@@ -36,9 +40,8 @@ public class PanelBacASable extends JPanel {
 	/**
 	 * Le ratio utilisé pour convertir les mètres en pixels.
 	 */
-	private double pixelParMetres;
+	private double pixelParMetres = 10;
 	
-	private Canon canon;
 
 	/**
 	 * Indique si c'est la première fois que le panneau est peint.
@@ -64,13 +67,32 @@ public class PanelBacASable extends JPanel {
 	private int nbrMonstre = 0;
 	
 	private int nbrCanon = 0;
-	/**
-	 * Indique si le mode éditeur est activé ou désactivé.
-	 */
+	
 	private boolean editeurModeOn = true;
 
 	private ObstacleHolder obHolder = new ObstacleHolder();
+	
+	private boolean canonClick = false;
 
+	private Canon canon;
+	
+	private Monstres monstre;
+	
+	private boolean monstredessin = false;
+	
+	boolean monstreCreer = false;
+	
+	private Point2D.Double[] coinsCercle;
+	
+	private Point2D.Double[] coinsCercleE;
+	
+	private Point2D.Double[] coinsEpines;
+	
+	private Point2D.Double[] coinsRec;
+	
+	private Point2D.Double[] coinsTri;
+	
+	private Point2D.Double valPlusHaute = new Point2D.Double(0,0);
 
     /**
      * Constructeur par défaut de PanelBacASable.
@@ -79,6 +101,7 @@ public class PanelBacASable extends JPanel {
 	//Ahmnad Khanafer
     public PanelBacASable() {
         setBackground(new Color(255, 255, 255));
+        canon = new Canon(0, 10,pixelParMetres);
         ecouteurSouris();
     }
 
@@ -95,6 +118,11 @@ public class PanelBacASable extends JPanel {
         if(obHolder!=null) {
         	obHolder.drawContient(g2d);
         }
+        canon.dessiner(g2d);
+        
+        if (monstredessin) {
+        	monstre.dessiner(g2d);
+        }
     }
 
     /**
@@ -108,6 +136,9 @@ public class PanelBacASable extends JPanel {
             obHolder.addObstacle(rec);
             espace = espace + 20;
             nbrRec += 1;
+            
+            coinsRec = rec.getCoins();
+            
             repaint();
         } else {
             JOptionPane.showMessageDialog(null,"Nombre Maximale de Rectangle Atteint");
@@ -125,6 +156,9 @@ public class PanelBacASable extends JPanel {
             obHolder.addObstacle(tri);
             espace = espace + 20;
             nbrTri += 1;
+            
+            coinsTri = tri.getCoins();
+            
             repaint();
         } else {
             JOptionPane.showMessageDialog(null,"Nombre Maximale de Triangle Atteint");
@@ -140,6 +174,9 @@ public class PanelBacASable extends JPanel {
         	Cercle cer = new Cercle(50 + espace, 50 + espace, pixelParMetres);
             obHolder.addObstacle(cer);
             nbrCercle += 1;
+            
+            coinsCercle = cer.getCoins();
+            
             repaint();
         } else {
             JOptionPane.showMessageDialog(null,"Nombre Maximale de Cercle Atteint");
@@ -152,6 +189,9 @@ public class PanelBacASable extends JPanel {
         	CercleElectrique cer = new CercleElectrique(50 + espace, 50 + espace, pixelParMetres);
             obHolder.addObstacle(cer);
             nbrCercleElectrique += 1;
+            
+            coinsCercleE = cer.getCoins();
+            
             repaint();
         } else {
             JOptionPane.showMessageDialog(null,"Nombre Maximale de Cercle Atteint");
@@ -164,6 +204,9 @@ public class PanelBacASable extends JPanel {
         	Epines epi = new Epines(50 + espace, 50 + espace, pixelParMetres);
             obHolder.addObstacle(epi);
             nbrEpines += 1;
+            
+            coinsEpines = epi.getCoins();
+            
             repaint();
         } else {
             JOptionPane.showMessageDialog(null,"Nombre Maximale de Cercle Atteint");
@@ -192,6 +235,18 @@ public class PanelBacASable extends JPanel {
     }
 
 	private void gestionSourisFormeDragged(MouseEvent e) {
+		
+		if(canon.contient(e.getX(), e.getY())) {
+			canon.moveY(e.getY());
+			repaint();
+		}
+		
+		if(monstreCreer) {
+		if(monstre.contient(e.getX(), e.getY())) {
+			monstre.move(e.getX(), e.getY());
+			repaint();
+		}
+		}
 			
 		for(Obstacles ob : obHolder.getObstacleHolder()) {
 			int index = ob.getClickedResizeHandleIndex(e.getX(), e.getY());
@@ -203,8 +258,49 @@ public class PanelBacASable extends JPanel {
 					repaint();	
 				}
 				if(ob.contient(e.getX(), e.getY()) && ob.isClickedOnIt() == false) {
-					ob.move( e.getX(), e.getY());
+
+					
+					
+					if(ob.getPosition().getY() < getHeight()-20) {
+						ob.move( e.getX(), e.getY());
+					}
+					
+				    
+					    posPlusHaute(ob.getCoins());
+						
+						
+						if (valPlusHaute.getY() >= getHeight()-20 ) {
+							
+							Point2D.Double pos = calculHauteurEq(ob.getPosition(), valPlusHaute,  (double) getHeight());
+							ob.move( e.getX(), (int) (  getHeight()-pos.getY()));
+							
+
+							
+						} 
+//						else if (ob.getPosition().getY() + ob.getLargeur() >= getHeight()-20){
+//						    ob.move(e.getX(), (int)( getHeight()- ob.getLargeur()/2 ));
+//					}  
+//					
+				
+					
+//						
+//						if (ob.getPosition().getY() + ob.getLongueur() >= getHeight()-20 ) {
+//						ob.move(e.getX(), (int)( getHeight() ));
+//						
+//					}else if (ob.getPosition().getY() + ob.getLargeur() >= getHeight()-20){
+//						ob.move(e.getX(), (int)( getHeight() ));
+//					}
+						
+					
+					
+					
+					
+					
+					
 					repaint();
+					
+						
+					
 					break;
 				}		
 		}
@@ -223,6 +319,7 @@ public class PanelBacASable extends JPanel {
 	}
 	
 	public void sauvegardeNiveau() {
+
 		String filePath = System.getProperty("user.home") + "/Documents/obstacles.txt";
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
 			for (Obstacles obstacle : obHolder.getObstacleHolder()) {
@@ -253,22 +350,54 @@ public class PanelBacASable extends JPanel {
     public void ajouterMonstre() {
     	
 		if (nbrMonstre < 1) {
-    		Monstres monstre = new Monstres(200,200, pixelParMetres);
-    		obHolder.addObstacle(monstre);
+    		monstre = new Monstres(200,200, pixelParMetres);
     		nbrMonstre++;
+    		monstredessin = true;
+    		monstreCreer = true;
     		repaint();
     	}else {
             JOptionPane.showMessageDialog(null,"Nombre Maximale de Cercle Atteint");
     	}
     }
     
-    private void ajouterCanon() {
+    
+    public void calculLimitesFormes(Point2D.Double[] tab) {
     	
-		if( nbrCanon < 1) {
+    	for (int i = 0; i < tab.length; i++) {
     		
-    	}
+			if (tab[i].getX() >= getHeight()) {
+				
+				
+				
+			}
+		}
+    
+    }
+    public void posPlusHaute(Point2D.Double[] tab) {
+    	
+    	
+    	for (int i = 0; i < tab.length; i++) {
+    		
+    		if(tab[i].getY() > valPlusHaute.getY()) {
+    			valPlusHaute.setLocation(0, tab[i].getY()); 
+    			}
+		}
+    }
+    public Point2D.Double calculHauteurEq ( Vecteur2D centre ,Point2D.Double point, double hauteur) {
+    	
+    	double dist1 = Collisions.distanceEntreDeuxPoints( point.getX(),point.getX(), point.getY(), hauteur);
+    	double dist2 = Collisions.distanceEntreDeuxPoints( centre.getX() , centre.getX() , centre.getY(), hauteur);
+    	
+    	double posY = dist2 - dist1;
+    	
+    	return new Point2D.Double(centre.getX(), posY);
     	
     }
+    
+    
+   }
 
+ 
 	
-	}
+    
+	

@@ -4,6 +4,7 @@ package obstacles;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
@@ -408,6 +409,29 @@ public class CercleElectrique implements Obstacles, Serializable {
 	public Vecteur2D getPosition() {
 		return new Vecteur2D(coinXGauche, coinYGauche);
 
+	}
+
+	@Override
+	public Point2D.Double[] getCoins() {
+		Point2D.Double[] tab = new Point2D.Double[4];
+		tab[0] = new Point2D.Double(coinXGauche,coinYGauche); 
+		tab[1] = new Point2D.Double(coinXDroite,coinYDroite); 
+		tab[2] = new Point2D.Double(coinXBasDroit,coinYBasDroit); 
+		tab[3] = new Point2D.Double(coinXBasGauche,coinYBasGauche); 
+
+		return tab;
+	}
+
+	@Override
+	public double getLongueur() {
+		// TODO Auto-generated method stub
+		return this.longueur;
+	}
+
+	@Override
+	public double getLargeur() {
+		// TODO Auto-generated method stub
+		return this.largeur;
 	}
 	
 

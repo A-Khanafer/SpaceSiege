@@ -23,7 +23,7 @@ import physique.Vecteur2D;
  * de contrôler l'angle et la force de tir en ajustant la position de la souris par rapport au canon.
  * @author Benakmoum Walid
  * */
-public class Canon extends JPanel implements Selectionnable, Dessinable, Obstacles {
+public class Canon extends JPanel implements Selectionnable, Dessinable {
 
     private static final long serialVersionUID = 1L;
 
@@ -131,7 +131,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable, Obstacl
      */
     private static int balleChoisie = 1;
     
-    private String urlImage;
+    private String urlImage = "CANONSEXY.png";
     
     private Image image = null;
     
@@ -146,11 +146,11 @@ public class Canon extends JPanel implements Selectionnable, Dessinable, Obstacl
      * @param pixelsParMetre Facteur de conversion de pixels en mètres.
      */
     //Benakmoum Walid
-	public Canon(double x,double y,double pixelsParMetre,String urlImage) {
+	public Canon(double x,double y,double pixelsParMetre) {
 		this.pixelsParMetre=pixelsParMetre;
 		this.x=x*this.pixelsParMetre;
 		this.y=y*this.pixelsParMetre;
-		this.urlImage=urlImage;
+		
 		hauteur = 6*this.pixelsParMetre;
 		largeur = 12*this.pixelsParMetre;
 
@@ -451,43 +451,12 @@ public class Canon extends JPanel implements Selectionnable, Dessinable, Obstacl
     public void setBalleDessiner(boolean des) {
     	balleDessiner=des;
     }
-	@Override
-	public void redimension(int index, int eX, int eY) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public int getClickedResizeHandleIndex(double x, double y) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	@Override
-	public boolean isClickedOnIt() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public void setClickedOnIt(boolean clickedOnIt) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public Area getAir() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
+
 	public Vecteur2D getPosition() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	
-	
-	public void moveX(int eX ) {
-        this.x = (eX - largeur/ 2); 
-        creerLaGeometrie();
-	}
-
 	 /**
      * Déplace verticalement le canon.
      * 
