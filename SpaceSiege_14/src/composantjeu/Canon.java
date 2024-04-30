@@ -273,12 +273,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable  {
 	   
 		
 	    rotation = positionDeTir.getAngle();
-	 //   AffineTransform transform = AffineTransform.getRotateInstance(rotation, x + hauteur / 2, y + hauteur / 2);
-	  
-	  // = new Area(transform.createTransformedShape(new Rectangle2D.Double(3+hauteur/2, y, largeur, hauteur)));
-	//    aireCercle = new Area(transform.createTransformedShape(new Ellipse2D.Double(3,y,hauteur,hauteur)));	 
 
-	    
 	    if(ey < cercle.getCenterY()) {
 	    	vitesse.setX(Math.cos(rotation)*positionDeTir.calculerModulus()/4);
 	    	vitesse.setY(Math.sin(rotation)*positionDeTir.calculerModulus()/4);
@@ -453,15 +448,35 @@ public class Canon extends JPanel implements Selectionnable, Dessinable  {
         this.pixelsParMetre = pixel;
         creerLaGeometrie();
     }
+    /**
+     * Retourne l'angle de rotation actuel du canon en degrés.
+     * 
+     * @return L'angle de rotation actuel du canon en degrés.
+     */
     public double getRotation() {
     	return Math.toDegrees(rotation);
     }
+    /**
+     * Définit la masse de la balle associée au canon.
+     * 
+     * @param mas La masse à définir pour la balle.
+     */
     public void setMasseBalle(int mas) {
     	balleActuelle.setMasse(mas);
     }
+    /**
+     * Indique si la balle associée au canon est en train d'être dessinée.
+     * 
+     * @return true si la balle est en train d'être dessinée, false sinon.
+     */
     public boolean getBalleDessiner() {
     	return this.balleDessiner;
     }
+    /**
+     * Définit si la balle associée au canon est en train d'être dessinée.
+     * 
+     * @param des true pour indiquer que la balle est en train d'être dessinée, false sinon.
+     */
     public void setBalleDessiner(boolean des) {
     	balleDessiner=des;
     }

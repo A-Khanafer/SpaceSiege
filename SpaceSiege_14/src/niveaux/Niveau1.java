@@ -154,7 +154,7 @@ public class Niveau1 extends Niveaux {
     
     private Vecteur2D forceDroiteGauche = new Vecteur2D(0,0);
     
-  
+  private boolean ancienneValeur;
 
    
    
@@ -297,6 +297,8 @@ public class Niveau1 extends Niveaux {
 			testerCollisionsEtAjusterVitesses();
 			
 			this.pcs.firePropertyChange("position", anciennePosition, canon.getBalle().getPositionEnMetre());	
+			
+			this.pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
 
 			
 			for(int i =0 ; i < tableauRec.length ; i++) {
@@ -318,7 +320,9 @@ public class Niveau1 extends Niveaux {
 
 			if(monstre.getNombreDeVie()==0) {
 	    	    monstreMort=true;
-	            enCoursDAnimation = false; 
+	    	    ancienneValeur = enCoursDAnimation;
+	    	    enCoursDAnimation = false;
+	    	    pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
 	            
 	            JOptionPane.showMessageDialog(null,"VOUS AVEZ GAGNE");
 	            
@@ -333,7 +337,9 @@ public class Niveau1 extends Niveaux {
 
 
 			if(Collisions.getNbRebond()>=3) {
-				enCoursDAnimation=false;
+				ancienneValeur = enCoursDAnimation;
+			    enCoursDAnimation = false;
+			    pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
 		
 				reinitialiserPosition();
 				
@@ -356,7 +362,9 @@ public class Niveau1 extends Niveaux {
 		if (!enCoursDAnimation) {
 			Thread proc = new Thread(this);
 			proc.start();
-			enCoursDAnimation = true;
+		 ancienneValeur = enCoursDAnimation;
+		    enCoursDAnimation = true;
+		    pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
 			balleTiree=true;
 			canon.setBalleTiree();
 			requestFocus();
@@ -366,7 +374,9 @@ public class Niveau1 extends Niveaux {
 	 * Méthode qui arrête l'animation en cours.
 	 */
 	public void arreter() {
-		enCoursDAnimation=false;
+		ancienneValeur = enCoursDAnimation;
+	    enCoursDAnimation = false;
+	    pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
 	}
 	/**
 	 * Méthode qui change le type de gravité utilisé dans la simulation.
@@ -448,7 +458,7 @@ public class Niveau1 extends Niveaux {
 		for(int i =0 ; i < tableauRec.length ; i++) {
 		    Collisions.collisionMonstreRec(monstre, tableauRec[1]);	
 		    Collisions.collisionMonstreRec(monstre, tableauRec[2]);	
-            Collisions.collisionRectangle(canon.getBalle(),tableauRec[i]);
+        
 		}
 		
 		

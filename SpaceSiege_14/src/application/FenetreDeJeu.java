@@ -140,6 +140,9 @@ public class FenetreDeJeu extends JFrame {
 		 		if (evt.getPropertyName().equals("position") ) {
 					planCartesien.setPosition((Vecteur2D) evt.getNewValue());
 			 }
+		 		 if (evt.getPropertyName().equals("enCoursDAnimation")) {	                   
+	                   desactiverLesRadios();
+	                }
 		 	}
 		 });
 
@@ -199,68 +202,6 @@ public class FenetreDeJeu extends JFrame {
 		OutilsImage.lireImageEtPlacerSurBouton("retour1.png", btnRetour);
 
 		
-//		btnNiveauPrecedent = new JButton("NIVEAU PRECEDENT");
-//		btnNiveauPrecedent.setBorder(emptyBorder);
-//		btnNiveauPrecedent.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseEntered(MouseEvent e) {
-//				OutilsImage.lireImageEtPlacerSurBouton("nivPrecedent2.png", btnNiveauPrecedent);
-//
-//			}
-//			@Override
-//			public void mouseExited(MouseEvent e) {
-//				OutilsImage.lireImageEtPlacerSurBouton("nivPrecedent1.png", btnNiveauPrecedent);
-//
-//			}
-//		});
-//		btnNiveauPrecedent.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
-//		btnNiveauPrecedent.setBounds(640, 52, 68, 68);
-//		panelFonctionnalites.add(btnNiveauPrecedent);
-//		OutilsImage.lireImageEtPlacerSurBouton("nivPrecedent1.png", btnNiveauPrecedent);
-
-		
-//		btnNiveauSuivant = new JButton("NIVEAU SUIVANT");
-//		btnNiveauSuivant.setBorder(emptyBorder);
-//		btnNiveauSuivant.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseEntered(MouseEvent e) {
-//				OutilsImage.lireImageEtPlacerSurBouton("nivsuivant2.png", btnNiveauSuivant);
-//
-//			}
-//			@Override
-//			public void mouseExited(MouseEvent e) {
-//				OutilsImage.lireImageEtPlacerSurBouton("nivsuivant1.png", btnNiveauSuivant);
-//
-//			}
-//		});
-//		btnNiveauSuivant.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				 
-//				
-//        if (index >1 ) {
-//	       JOptionPane.showMessageDialog(null, "FIN DES NIVEAUX __________");
-//          }
-//           else {
-//	
-//
-//				nivActuel.arreter();
-//				getContentPane().remove(nivActuel);
-//				
-//				nivSuivant.setBounds(0, 0, 1920, 864);
-//				
-//				contentPane.add(nivSuivant);
-//				refreshLabel();
-//			
-////				changerNiveau();
-//				repaint();
-//}
-//			}
-//		});
-//		btnNiveauSuivant.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
-//		btnNiveauSuivant.setBounds(718, 52, 68, 68);
-//		panelFonctionnalites.add(btnNiveauSuivant);
-//		OutilsImage.lireImageEtPlacerSurBouton("nivsuivant1.png", btnNiveauSuivant);
-
 		
 		btnPause = new JButton("PAUSE");
 		btnPause.setBorder(emptyBorder);
@@ -530,17 +471,7 @@ public class FenetreDeJeu extends JFrame {
 			
 
 	}
-	private void refreshLabel() {
-		getContentPane().remove(lbl);
 
-		comboBoxTypeGrav.setSelectedItem("ESPACE"); 
-	    niv1.changerTypeGravite("ESPACE"); 
-
-		contentPane.add(lbl);
-
-		
-	}
-	
 	private void desactiverLesRadios() {
 		if(nivActuel.getEnCoursAnimation()==true) {
 		rdbBalleNormal.setEnabled(false);
@@ -594,7 +525,6 @@ public class FenetreDeJeu extends JFrame {
 		    img = gifIcon.getImage();
 			Image resizedImg = img.getScaledInstance(nivActuel.getWidth(),nivActuel.getHeight(), Image.SCALE_DEFAULT);
 			lbl.setIcon(new ImageIcon(resizedImg));
-//			lbl.setBounds(nivActuel.getX(),nivActuel.getY(), nivActuel.getWidth(), nivActuel.getHeight());
 
 		repaint();
 	}

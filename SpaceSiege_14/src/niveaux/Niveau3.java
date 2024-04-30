@@ -2,7 +2,7 @@ package niveaux;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-
+import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -13,8 +13,12 @@ import java.awt.event.MouseMotionAdapter;
 
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.Arrays;
 
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -28,6 +32,7 @@ import physique.Vecteur2D;
 
 import java.awt.Color;
 
+import obstacles.CercleElectrique;
 import obstacles.Rectangle;
 
 import obstacles.Triangle;
@@ -48,11 +53,13 @@ public class Niveau3 extends Niveaux {
      */
 	private boolean enCoursDAnimation=false;
 
-	private double rotation=20;
+	private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+	
+	  private static final double K_CONST = 9.0e4;
 	/**
      * L'intervalle de temps (en secondes) utilisé pour chaque itération du calcul physique.
      */
-	private double deltaT=0.10;
+	private final double deltaT=0.05;
 	/**
      * Le temps de pause (en millisecondes) entre chaque itération de l'animation.
      */
@@ -93,11 +100,11 @@ public class Niveau3 extends Niveaux {
     /**
      * Hauteur du composant d'animation, utilisée pour ajuster les interactions et le rendu en fonction de la taille de la zone d'animation.
      */
-    double hauteurComposant;
+    int hauteurComposant;
     /**
      * Largeur du composant d'animation, influençant le placement des éléments et la détection des collisions.
      */
-    double largeurComposant;
+    int longueurComposant;
     
     /**
      * Index utilisé pour identifier les manipulations spécifiques des éléments de l'interface, telles que le redimensionnement ou la rotation d'obstacles.
@@ -106,16 +113,13 @@ public class Niveau3 extends Niveaux {
     /**
      * Le nombre de vie du joueur.
      */
-    private int nombreDeVie=1;
+    private int nombreDeVie=2;
     /**
      * L'instance du monstre présent dans le niveau.
      */
     private Monstres monstre;
 
-    /**
-     * Le facteur de conversion de pixels en mètres, utilisé pour ajuster les dimensions des objets par rapport à la taille de l'écran.
-     */
-    private double pixelParMetres;
+    
     /**
      * Indique si c'est la première fois que le niveau est affiché, utilisé pour initialiser les objets une seule fois.
      */
@@ -129,147 +133,219 @@ public class Niveau3 extends Niveaux {
      * Un tableau de triangles servant d'obstacles dans la zone d'animation (commenté pour le moment).
      */
     private Triangle[] tableauTri;
+    
+    private int keyCode = 0;
+    
+    
   
+    private CercleElectrique boule;
     /**
      * Le canon utilisé pour tirer des balles.
      */
-	private Canon canon;
+	
 	/**
     * Indique si le monstre est mort.
     */
     private boolean monstreMort=false;
-    /**
-     * Le plan cartésien utilisé pour le rendu graphique.
-     */
     
+    private boolean first =true;
+    
+    private Vecteur2D forceHautBas = new Vecteur2D(0,0);
+    
+    private Vecteur2D forceDroiteGauche = new Vecteur2D(0,0);
+    
+  private boolean oldValue;
+
+   
+   
 
     
     
 	/**
 	 * Constructeur de la classe. Permet de crée l'interface
 	 */
-    //Benakmoum Walid
 	public Niveau3() {
-		setBackground(new Color(192, 192, 192));
-		setLayout(null);
-		tableauRec = new Rectangle[5];
-//		tableauTri = new Triangle[3];
+		
+		
+		 setFocusable(true);
+
+        
+		
+		if(first) {
+			
+		
+	    setLayout(null);
+	    first =false;
+		}
+		
+		
+		
+		tableauRec = new Rectangle[11];
 		ecouteurSouris();
 		ecouteurClavier();
 		
+		
+		
+			
 		
 	}
 	/**
      * Dessine les composants graphiques de la zone d'animation, y compris le canon et les obstacles.
      * @param g L'objet Graphics utilisé pour dessiner.
      */
-	// Benakmoum Walid 
 	public void paintComponent(Graphics g ) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
 
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		
-		System.out.println(pixelParMetres);
-       
-		if(premiereFois) {
-			pixelParMetres = getWidth()/150;
-			int espace=0;
-			
-			monstre = new Monstres(1000, 20, pixelParMetres);
-			  canon = new Canon(0, 10,pixelParMetres);
-			 
-			 
 
+		   if(premiereFois) {
+			
+			
+			pixelParMetres = (double) getWidth()/150;
+		
+			
+			
+		   	monstre = new Monstres(1200, 40, pixelParMetres);
+			canon = new Canon(0, 10,pixelParMetres);
+			
+			System.out.println(monstre.getNombreDeVie()+"___");
+		
 			 
 			 tableauRec[0] = new Rectangle(  143,  354, 330, 53,0);
-			 tableauRec[1] = new Rectangle(  644,  120, 186, 48,0);
 			 
-			 tableauRec[2] = new Rectangle(  224,  0, 229, 57,0);
+			 tableauRec[1] = new Rectangle(  1200,  120, 186, 48,0);
 			 
-			 tableauRec[3] = new Rectangle(  246,  393, 280, 56,0);
+			 tableauRec[2] = new Rectangle(  1000,  0, 229, 57,0);
 			 
-			 tableauRec[4] = new Rectangle( 344, 0, 258, 57,0);
+			 tableauRec[3] = new Rectangle(  1100,  393, 280, 56,0);
 			 
-			
+			 tableauRec[4] = new Rectangle( 1300, 0, 258, 57,0);
+			 
+			 tableauRec[5] = new Rectangle(  398, 377, 290, 52,0);
+			 
+			 tableauRec[6] = new Rectangle( 1050, 0, 238, 47,0);
+			 
+			 tableauRec[7] = new Rectangle(  1100,458, 210, 60,0);
+			 
+			 tableauRec[8] = new Rectangle( 1000, 20, 162, 36,45);
+			 
+			 tableauRec[9] = new Rectangle(  1080, 464, 140, 124,45);
+			 
+			 tableauRec[10] = new Rectangle(  1172, 238, 113, 92,0);
 
 			
-			espace = 0;
-			 
-//				for(int i = 0 ; i < tableauTri.length ; i++) {
-//					tableauTri[i] = new Triangle(50, 50, 10, 15, pixelParMetres);
-//					espace = espace + 80;
-//				}
-			premiereFois = false;
+			 premiereFois = false;
+			
 		}
 
 		
+
 		for (int i = 0; i < tableauRec.length; i++) {
 			tableauRec[i].dessiner(g2d);
+			
 		}
-		
-
-//		tableauTri[0].dessiner(g2d);
-//		tableauTri[1].dessiner(g2d);
 
 		
 
+
+		boule= new CercleElectrique(398 ,200,pixelParMetres);
+		boule.dessiner(g2d);
+          
+
 		
+
 		
+		 
 		if(monstreMort==false) {
 			monstre.dessiner(g2d);
 		}
 
-
+        
 		canon.dessiner(g2d);
-
-
+		if(modeScience) {
+		afficherDonneesBalleActuelle(g2d);
+		}
 	    posMurSol = getHeight();
 	    posMurDroit = getWidth();
 	    posMurGauche = 0;
 	    posMurHaut = 0;
 
 	    hauteurComposant = getHeight();
-	    largeurComposant = getWidth();
+	    longueurComposant = getWidth();
+	     
 	    
-	    g2d.setColor(Color.red);
-	    g2d.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
-
+	   
+	    
+	   
 	}
 	/**
      * Exécute l'animation en boucle tant que enCoursDAnimation est vrai. Gère le calcul physique et les collisions.
      */
-	//Benakmoum Walid
 	public void run() {
+		requestFocusInWindow(); 
 		while (enCoursDAnimation) {
 
-
-			calculerUneIterationPhysique(deltaT);
-			testerCollisionsEtAjusterVitesses();
+			ecouteurClavier();
 			
 
+			Vecteur2D anciennePosition = canon.getBalle().getPositionEnMetre();
+			
+			calculerUneIterationPhysique(deltaT);
+			
+			testerCollisionsEtAjusterVitesses();
+			
+			this.pcs.firePropertyChange("position", anciennePosition, canon.getBalle().getPositionEnMetre());	
+			
+			this.pcs.firePropertyChange("enCoursDAnimation", oldValue, enCoursDAnimation);
+
+			
 			for(int i =0 ; i < tableauRec.length ; i++) {
 				Collisions.collisionRectangle(canon.getBalle(),tableauRec[i]);
-				
 			}
+			
 
 			Area areaBalle = new Area(canon.getBalle().getCercle()); 
-			Area areaMonstre = monstre.toAire();
+	        Area areaMonstre = monstre.toAire();
 	        areaBalle.intersect(areaMonstre);
 
 	        if (!areaBalle.isEmpty()) {
 	        	monstre.perdUneVie();
-	        	reinitialiserApplication();
-	        	System.out.println(monstre.getNombreDeVie());
+	        	reinitialiserPosition();
 	        }
 
 
-			repaint();
+
+
 			if(monstre.getNombreDeVie()==0) {
 	    	    monstreMort=true;
-	            enCoursDAnimation = false; 
+	    	    oldValue = enCoursDAnimation;
+	    	    enCoursDAnimation = false;
+	    	    pcs.firePropertyChange("enCoursDAnimation", oldValue, enCoursDAnimation);
+	            
 	            JOptionPane.showMessageDialog(null,"VOUS AVEZ GAGNE");
+	            
+	            reinitialiserApplication();
 	    	}
+
+
+
+			
+			System.out.println("________________________________"+Collisions.getNbRebond());
+			
+
+
+			if(Collisions.getNbRebond()>=3) {
+				oldValue = enCoursDAnimation;
+			    enCoursDAnimation = false;
+			    pcs.firePropertyChange("enCoursDAnimation", oldValue, enCoursDAnimation);
+		
+				reinitialiserPosition();
+				
+			}
+
+			repaint();
 			try {
 				Thread.sleep(tempsDuSleep);
 			} catch (InterruptedException e) {
@@ -282,46 +358,46 @@ public class Niveau3 extends Niveaux {
 	/**
      * Démarre le thread d'animation si ce n'est pas déjà fait.
      */
-	// Benakmoum Walid
 	public void demarrer() {
-		System.out.println("NIV1111111111111111111111111111111111111");
 		if (!enCoursDAnimation) {
-			System.out.println("NIGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-
 			Thread proc = new Thread(this);
 			proc.start();
-			enCoursDAnimation = true;
+		 oldValue = enCoursDAnimation;
+		    enCoursDAnimation = true;
+		    pcs.firePropertyChange("enCoursDAnimation", oldValue, enCoursDAnimation);
 			balleTiree=true;
 			canon.setBalleTiree();
+			requestFocus();
 		}
 	}//fin methode
-	
-	
 	/**
 	 * Méthode qui arrête l'animation en cours.
 	 */
-	// Benakmoum Walid
 	public void arreter() {
-		enCoursDAnimation=false;
+		oldValue = enCoursDAnimation;
+	    enCoursDAnimation = false;
+	    pcs.firePropertyChange("enCoursDAnimation", oldValue, enCoursDAnimation);
 	}
 	/**
 	 * Méthode qui change le type de gravité utilisé dans la simulation.
 	 * @param typeGravite Le type de gravité à utiliser : "TERRE", "MARS" ou "ESPACE".
 	 */
-	 //Benakmoum Walid
 
 	public void changerTypeGravite(String typeGravite) {
 	    double gravite;
 	    switch (typeGravite) {
 	        case "TERRE":
-	            gravite = 9.81/2;  // Diviser par deux car sinon la force est trop forte 
+	            gravite = 9.81/2;
 	            break;
 	        case "MARS":
-	            gravite = 3.711/2; 
+	            gravite = 3.711/2;
 	            break;
 	        case "ESPACE":
-	            gravite = 0; 
+	            gravite = 0;
 	            break;
+	        case "LUNE":
+	        	gravite = 0;
+	        	break;
 	        default:
 	            gravite = 0; 
 	            break;
@@ -332,25 +408,36 @@ public class Niveau3 extends Niveaux {
 	/**
 	 * Méthode qui avance l'animation d'une itération.
 	 */
-	 //Benakmoum Walid
 
 	  public void prochaineImage() {
+		  
 		  if(canon.getBalle().getVitesse()!=new Vecteur2D(0,0)) {
-			  System.out.println("Prochaine image...on avance de " + deltaT + " secondes");
 			  canon.setProchaineImage(true);
-				calculerUneIterationPhysique(deltaT);
+			  calculerUneIterationPhysique(deltaT);
 				repaint();
-			  }
+		  }
+		  
 	  }
+	  public boolean getEnCoursAnimation() {
+			return enCoursDAnimation;
+			
+		}
+
+	  
 	/**
      * Calcule une itération physique en fonction du deltaT.
      * @param deltaT Le temps écoulé depuis la dernière itération.
      */
-	//Benakmoum Walid
 	public void calculerUneIterationPhysique(double deltaT) {
 		tempsTotalEcoule += deltaT;
+	try {
 		calculerLesForces();
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
 		canon.avancerUnPas(deltaT);
+		monstre.avancerUnPas(deltaT);
 	}
 	
 
@@ -359,63 +446,108 @@ public class Niveau3 extends Niveaux {
      */
 	//ZAKARIA SOUDAKI
 	public void testerCollisionsEtAjusterVitesses() {	
+		
+        boolean state = Collisions.collisionMonstreBalle(monstre, canon.getBalle());
+		
+		if (state) {
+			reinitialiserPosition();
+		}
+		
+	
+		
+		for(int i =0 ; i < tableauRec.length ; i++) {
+		    Collisions.collisionMonstreRec(monstre, tableauRec[1]);	
+		    Collisions.collisionMonstreRec(monstre, tableauRec[2]);	
+        
+		}
+		
+		
 		Collisions.gererCollisionsBordures(posMurSol, posMurDroit , posMurHaut, posMurGauche, canon.getBalle());
+		Collisions.collisionMonstreMur(monstre, longueurComposant, hauteurComposant);
 	}
 
 	 /**
      * Calcule les forces agissant sur les objets de la zone d'animation, telles que la gravité.
+
      */
+
 // Benakmoum Walid
-	private void calculerLesForces() {
+	private void calculerLesForces() throws Exception {
+	
+		 double distance = canon.getBalle().getPosCentral().distance(boule.getPositionCentre());
+		 Vecteur2D forceDeGravite=MoteurPhysique.calculForceGrav(canon.getBalle().getMasse(), Math.toRadians(90));
+	 forceElec=new Vecteur2D(0,0);
+	    double rayonElectrique = boule.getRayonElectrique();
+		Vecteur2D forceMonstre= forceHautBas.additionne(forceDroiteGauche);
+	    if (distance < rayonElectrique) {
+	        try {
+	        	boule.setAnimation(true);
+	           
+	            Vecteur2D vecteurUnitaire = boule.getPositionCentre().soustrait(canon.getBalle().getPosCentral()).normalise();
 
-		Vecteur2D forceDeGravite=MoteurPhysique.calculForceGrav(canon.getBalle().getMasse(), Math.toRadians(90));
-       
-        
-	canon.getBalle().setSommeDesForces(forceDeGravite);
 
+	    // Pour le bien de l'appli K est reduit
+	            double forceElectrique = K_CONST * (1 / distance);
+                  System.out.println(forceElectrique+"____________________________---");
+	         
+	           forceElec = vecteurUnitaire.multiplie(forceElectrique);
 
+	          
+	           
+	        } catch (Exception e) {
+	            
+	            System.err.println("Une erreur est survenue lors de la normalisation du vecteur unitaire : " + e.getMessage());
+	        }
+	    }
+	 forceTotal=forceDeGravite.additionne(forceElec);
+	    canon.getBalle().setSommeDesForces(forceTotal);
+	    monstre.setSommeDesForces(forceMonstre);
 	}
 	/**
 	 * Réinitialise l'application à son état initial, incluant la remise à zéro de tous les composants d'animation et des variables d'état.
 	 * Cette méthode stoppe l'animation en cours si elle est active, réinitialise la rotation, le temps total écoulé, l'état de tir de la balle,
 	 */
-	  //Benakmoum Walid
 	public void reinitialiserApplication() {
 	
-		  enCoursDAnimation = false;
+		    enCoursDAnimation = false;
 
-
-		    rotation = 0;
 		    tempsTotalEcoule = 0;
 
 
 		    balleTiree = false;
 		    canon.setPremiereFois(true);
 		    monstre = new Monstres(1000, 20, pixelParMetres);
+		    if(monstre.getNombreDeVie()==0) {
 		    monstre.setNombreDeVie(1);
+		    }
 		    canon = new Canon(0, 10,pixelParMetres);
-		    
+		    Collisions.setNbrebond(0);
 		   monstreMort=false;
 
 
 		   repaint();
 	}
+	public void reinitialiserPosition() {
+		enCoursDAnimation=false;
+		balleTiree = false;
+	    canon.setPremiereFois(true);
+	    canon = new Canon(0, 10,pixelParMetres);
+	    Collisions.setNbrebond(0);
+	    repaint();
+	}
 	/**
      * Méthode qui permet de tirer la balle.
      */
-	  //Benakmoum Walid
-//	public  void TirerBalle() {
-//		balleTiree=true;
-//		canon.setBalleTiree();
-//		repaint();
-//		
-//		
-//	}
+	public  void TirerBalle() {
+		balleTiree=true;
+		canon.setBalleTiree();
+		repaint();
+		
+	}
 	/**
 	 * Méthode qui permet de choisir le type de balle à tirer.
 	 * @param nb Le numéro de la balle à choisir.
 	 */
-	 //Benakmoum Walid
 
 	public void choisirBalle(int nb) {
 
@@ -427,31 +559,29 @@ public class Niveau3 extends Niveaux {
 	 * Méthode qui définit le nombre de vie du joueur.
 	 * @param nb Le nombre de vie à définir.
 	 */
-	//Benakmoum Walid
 	public void setNombreDeVie(int nb) {
-	   super.setNombreDeVie(nb);
+	    this.nombreDeVie = nb;
+	    if (this.monstre != null) {
+	        this.monstre.setNombreDeVie(nombreDeVie);
+	    }
+	    repaint();
+	}
+	public void stopperAnim() {
+		if(enCoursDAnimation==true) {
+	enCoursDAnimation=false;
+		}else {
+		demarrer();
+		}
 	}
 
-	
 	/**
      * Initialise l'écouteur de clavier pour interagir avec l'animation via le clavier.
      */
 	  //Benakmoum Walid
-	private void ecouteurClavier() {
-	    addKeyListener(new KeyAdapter() {
-	        @Override
-	        public void keyPressed(KeyEvent e) {
-	            switch (e.getKeyCode()) {
-	                case KeyEvent.VK_W: 
-//	                	 System.out.println("SALUT JE ne VAIS pas ICI");
-	                    break;
-	                case KeyEvent.VK_S: 
-//	                   System.out.println("SALUT JE VAIS ICI");
-	                    break;
-	            }
-	            repaint();
-	        }
-	    });
+
+	
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
+		this.pcs.addPropertyChangeListener(listener);
 	}
 
 
@@ -460,120 +590,34 @@ public class Niveau3 extends Niveaux {
      */
 	//Ahmad Khanafer
 	private void ecouteurSouris() {
-//		addMouseListener((MouseListener) new MouseAdapter() {
-//			@Override
-//
-//			public void mouseClicked(MouseEvent e) {
-//			
-//				gestionSourisRecClick(e);
-//				gestionSourisTriClick(e);
-//				repaint();
-//			}
-//			 
-//		});
 	
 		addMouseMotionListener(new MouseMotionAdapter() {
-			@Override
+			
 				
 			public void mouseDragged(MouseEvent e) {
-//				gestionSourisRecDragged(e);
-//				gestionSourisTriDragged(e);
 				gestionSourisCanon(e);
 				repaint();
 			}
 			
 		});
 	}
-	//Méthode qui gère les click de la souris pour le rectangle
-		//Ahmad Khanafer
-//		private void gestionSourisRecDragged(MouseEvent e) {
-//			for(int i =0 ; i < tableauRec.length; i++) {
-//				int index = tableauRec[i].getClickedResizeHandleIndex(e.getX(), e.getY());
-//					if (tableauRec[i].isClickedOnIt() == true && index != -1) {
-//						tableauRec[i].redimension(index, e.getX(), e.getY());
-//						repaint();
-//					}else if(tableauRec[i].contient(e.getX(), e.getY()) && tableauRec[i].isClickedOnIt() == true && index == -1 ) {
-//						tableauRec[i].rotate( e.getX(), e.getY());
-//						repaint();
-//					}
-//					if(tableauRec[i].contient(e.getX(), e.getY()) && tableauRec[i].isClickedOnIt() == false) {
-//						tableauRec[i].move( e.getX(), e.getY());
-//						repaint();
-//					}
-//			}	
-//		}
-//		
-//		private void gestionSourisTriDragged(MouseEvent e) {
-//			for(int i =0 ; i < tableauTri.length; i++) {
-//				int index = tableauTri[i].getClickedResizeHandleIndex(e.getX(), e.getY());
-//					if (tableauTri[i].isClickedOnIt() == true && index != -1) {
-//						tableauTri[i].redimension(index, e.getX(), e.getY());
-//						repaint();
-//					}else if(tableauTri[i].contient(e.getX(), e.getY()) && tableauTri[i].isClickedOnIt() == true && index == -1 ) {
-//						tableauTri[i].rotate( e.getX(), e.getY());
-//						repaint();
-//					}
-//					if(tableauTri[i].contient(e.getX(), e.getY()) && tableauTri[i].isClickedOnIt() == false) {
-//						tableauTri[i].move( e.getX(), e.getY());
-//						repaint();
-//					}
-//			}
-//		}
-//		
-//		private void gestionSourisRecClick(MouseEvent e) {
-//			for(int i =0 ; i < tableauRec.length; i++) {
-//				if(tableauRec[i].contient(e.getX(), e.getY())) {
-//					System.out.println("CLICKEEEZZZZZZZZZ on");
-//					tableauRec[i].setClickedOnIt(true);
-//					repaint();
-//				}else {
-//					System.out.println("CLICKEEEZZZZZZZZZ off");
-//					tableauRec[i].setClickedOnIt(false);
-//					repaint();
-//				}
-//			}
-//			
-//		}
-//		
-//		private void gestionSourisTriClick(MouseEvent e) {
-//			for(int i =0 ; i < tableauTri.length; i++) {
-//				if(tableauTri[i].contient(e.getX(), e.getY())) {
-//					tableauTri[i].setClickedOnIt(true);
-//					repaint();
-//				}else {
-//					tableauTri[i].setClickedOnIt(false);
-//					repaint();
-//				}
-//			}
-//		}
+	
 	/**
 	 * Méthode qui permet de gérer le canon selon les mouvements de la souris
 	 * @param e Événement de la souris
 	 */
-	  //Benakmoum Walid
 		private void gestionSourisCanon(MouseEvent e) {
-		    boolean toucheObjet = false;
+		boolean toucheObjet = false;
 
-//		    for (Rectangle rec : tableauRec) {
-//		        if (rec.contient(e.getX(), e.getY())) {
-//		            toucheObjet = true;
-//		            break; 
-//		        }
-//		    }
-//
-//		    
-//		    if (!toucheObjet) {
-//		        for (Triangle tri : tableauTri) {
-//		            if (tri.contient(e.getX(), e.getY())) {
-//		                toucheObjet = true;
-//		                break;
-//		            }
-//		        }
-//		    }
 
 		    if (!balleTiree && !toucheObjet) {
+		 
+		    	if(e.getX()>30) {
 		        canon.rotate(e.getX(), e.getY());
+		    
+		    	
 		        canon.changerTaille(e.getX(), e.getY());
+		    	}
 		    }
 
 		   
@@ -582,8 +626,176 @@ public class Niveau3 extends Niveaux {
 		    }
 		    repaint();
 		}
+
+	public int getVie() {
+		return this.nombreDeVie;
+		/*
+	      public void keyPressed(KeyEvent e) {
+	        	
+	            switch (e.getKeyCode()) {
+	                case KeyEvent.VK_SPACE:
+	                	  if(canon.getBalle().quelleTypeBalle()==3) {
+	               for (int i = 0; i < 10; i++) {
+				
+	                       canon.getBalle().exploser();
+	               }
+	                     
+	                     repaint();
+	                	  }
+	                	
+	            }
+
+	         
+	        }
+	        */
+	}
+	public void ecouteurClavier() {
+
+	    addKeyListener(new KeyAdapter() {
+	        @Override
+	        public void keyPressed(KeyEvent e) {
+	        	
+	        	switch (e.getKeyCode()) {
+                case KeyEvent.VK_SPACE:
+                	  if(canon.getBalle().quelleTypeBalle()==3) {
+               for (int i = 0; i < 10; i++) {
+			
+                       canon.getBalle().exploser();
+               }
+                     
+                     repaint();
+                	  }
+                	
+            }
+
+	            if(enCoursDAnimation) {
+	            keyCode = e.getKeyCode();
+	            
+
+	            switch (keyCode) {
+	                case KeyEvent.VK_UP:
+	                    // Action à effectuer lors de l'appui sur la flèche vers le haut
+//	                		monstre.setPosY(-2);
+	                	forceHautBas.setY(-50);
+	                    break;
+	                case KeyEvent.VK_DOWN:
+	                    // Action à effectuer lors de l'appui sur la flèche vers le bas
+//	                		monstre.setPosY(2);
+	                	forceHautBas.setY(50);
+	                	
+	                	
+	                    break;
+	                case KeyEvent.VK_LEFT:
+	                    // Action à effectuer lors de l'appui sur la flèche vers la gauche
+//	                		monstre.setPosX(-2);
+	                	forceDroiteGauche.setX(-50);
+	                	
+	                	
+	                    break;
+	                case KeyEvent.VK_RIGHT:
+	                    // Action à effectuer lors de l'appui sur la flèche vers la droite
+//	                		monstre.setPosX(2);
+	                	forceDroiteGauche.setX(50);
+	                		
+	                	
+	                    break;
+	                default:
+	                	keyCode = 0;
+	                    // Action à effectuer pour d'autres touches, si nécessaire
+	                    break;
+	            }
+	          
+	        }
+	        }
+	    	
+	    	@Override
+	    	public void keyReleased(KeyEvent e) {
+	    		  keyCode = e.getKeyCode();
+		            switch (keyCode) {
+		                case KeyEvent.VK_UP:
+		                    // Action à effectuer lors de l'appui sur la flèche vers le haut
+//		                		monstre.setPosY(-2);
+		                	forceHautBas.setY(0);
+		                    break;
+		                case KeyEvent.VK_DOWN:
+		                    // Action à effectuer lors de l'appui sur la flèche vers le bas
+//		                		monstre.setPosY(2);
+		                	forceHautBas.setY(0);
+		                	
+		                	
+		                    break;
+		                case KeyEvent.VK_LEFT:
+		                    // Action à effectuer lors de l'appui sur la flèche vers la gauche
+//		                		monstre.setPosX(-2);
+		                	forceDroiteGauche.setX(0);
+		                	
+		                	
+		                    break;
+		                case KeyEvent.VK_RIGHT:
+		                    // Action à effectuer lors de l'appui sur la flèche vers la droite
+//		                		monstre.setPosX(2);
+		                	forceDroiteGauche.setX(0);
+		                		
+		                	
+		                    break;
+		                default:
+		                	keyCode = 0;
+		                    // Action à effectuer pour d'autres touches, si nécessaire
+		                    break;
+		            }
+	    	}
+	    });
+	}
+	public void setMasseBalle(int mas) {
+		canon.getBalle().setMasse(mas);
+	}
 	
+	public Monstres getMonstre() {
+		return this.monstre;
+	}
+	public void afficherDonneesBalleActuelle(Graphics g) {
+	    if (balleTiree) {
+	        Balle balle = canon.getBalle();
+	        if (balle != null) {
+	           
+	            g.setColor(Color.white);
+	            g.drawString("Données de la Balle Actuelle :", 20, 20);
+	            g.drawString("Position (x, y)", 20, 40);
+	            g.drawString("Vitesse (vx, vy)", 250, 40);
+	            g.drawString("Accélération (ax, ay)", 400, 40);
+	            g.drawString("Masse", 20, 80);
+	            g.drawString("Force électrique (Fex, Fey)", 250, 80);
+	            g.drawString("Force appliquée (Fax, Fay)", 400, 80);
+	            
+	          
+	            int positionX = (int) balle.getPosition().getX();
+	            int positionY = (int) balle.getPosition().getY();
+	            int vitesseX = (int) balle.getVitesse().getX();
+	            int vitesseY = (int) balle.getVitesse().getY();
+	            int accelerationX = (int) balle.getAcceleration().getX();
+	            int accelerationY = (int) balle.getAcceleration().getY();
+	            int masse = balle.getMasse();
+	            int forceElectriqueX = (int) forceElec.getX();
+	            int forceElectriqueY = (int) forceElec.getY();
+	            int forceAppliqueeX = (int) forceTotal.getX();
+	            int forceAppliqueeY = (int) forceTotal.getY();
+	            
+	            g.drawString("(" + positionX + ", " + positionY + ")", 20, 60);
+	            g.drawString("(" + vitesseX + ", " + vitesseY + ")", 250, 60);
+	            g.drawString("(" + accelerationX + ", " + accelerationY + ")", 400, 60);
+	            g.drawString(Integer.toString(masse), 20, 100);
+	            g.drawString("(" + forceElectriqueX + ", " + forceElectriqueY + ")", 250, 100);
+	            g.drawString("(" + forceAppliqueeX + ", " + forceAppliqueeY + ")", 400, 100);
+	        }
+	    }
+	}
+	public void setModeScience(boolean sc) {
+		this.modeScience=sc;
+		repaint();
+	}
 }
+
+
 		
 			
 
