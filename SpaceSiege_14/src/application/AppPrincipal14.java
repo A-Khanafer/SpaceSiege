@@ -55,10 +55,10 @@ public class AppPrincipal14 extends JFrame{
 	
 	
 	
-	Son musique = new Son();		
+	Son musique = new Son();
+	
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	
 	private int longueur = 1920;
 	private int hauteur = 1200;
 	private BoutonsIntro boutonsIntro;
@@ -73,12 +73,6 @@ public class AppPrincipal14 extends JFrame{
 		
 		app.setVisible(true);
 		
-		
-		
-//		AppPrincipal14 fenetre = new AppPrincipal14();
-//		fenetre.setLocationRelativeTo(null);
-//		fenetre.setUndecorated(true); 
-//        fenetre.setVisible(true);
     }
 	public void fermer() {
 		setVisible(false);
@@ -218,7 +212,7 @@ public class AppPrincipal14 extends JFrame{
 		contentPane.add(btnApropos);
 		OutilsImage.lireImageEtPlacerSurBouton("apropo1.png", btnApropos);
 		
-		JButton btnInfo = new JButton("New button");
+		JButton btnInfo = new JButton();
 		btnInfo.setBorder(emptyBorder);
 		btnInfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -274,9 +268,9 @@ public class AppPrincipal14 extends JFrame{
 		JLabel lbl  = new JLabel("");
 		ImageIcon gifIcon = new ImageIcon(this.getClass().getResource("/fondanime4.gif"));
 		Image img = gifIcon.getImage();
-		Image resizedImg = img.getScaledInstance(1920,1200, Image.SCALE_DEFAULT);
+		Image resizedImg = img.getScaledInstance(1920,1080, Image.SCALE_DEFAULT);
 		lbl.setIcon(new ImageIcon(resizedImg));
-		lbl.setBounds(0, 0, 1920, 1200);
+		lbl.setBounds(0, 0, 1920, 1080);
 		contentPane.add(lbl);
 		
 		

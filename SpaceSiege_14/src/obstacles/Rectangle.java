@@ -9,6 +9,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
+import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -19,6 +20,7 @@ import interfaces.Dessinable;
 import interfaces.Obstacles;
 import interfaces.Selectionnable;
 import outils.OutilsImage;
+import physique.Vecteur2D;
 
 /**
  * La classe Rectangle représente un obstacle rectangulaire dans un environnement graphique.
@@ -56,8 +58,7 @@ public class Rectangle implements Obstacles,  Serializable {
     /**
      * La zone délimitée par le rectangle.
      */
-    private transient Area aireRec;
-
+    private Path2D.Double aireRec;
     /**
      * Les coordonnées du centre du rectangle.
      */
@@ -99,6 +100,8 @@ public class Rectangle implements Obstacles,  Serializable {
 	private Point2D.Double[] coins;
 	
 	private transient BufferedImage texture;
+	
+	
     /**
      * Constructeur de la classe Rectangle.
      *
@@ -117,7 +120,7 @@ public class Rectangle implements Obstacles,  Serializable {
         creerLaGeometrie();
     }
 
-    public Rectangle(double posX, double posY, double longueur, double largeur , double rotation) {
+    public Rectangle(double posX, double posY, double largeur, double longueur , double rotation) {
     	
     	coinXGauche = posX;
         coinYGauche = posY;
@@ -145,8 +148,7 @@ public class Rectangle implements Obstacles,  Serializable {
         centreX = rectangle.getCenterX();
         centreY = rectangle.getCenterY();
 
-        
-        aireRec = new Area(rectangle);
+        aireRec = new Path2D.Double(rectangle);
         poigneRotation = new Ellipse2D.Double((coinXGauche+largeurRec/2) - 15, coinYGauche - 50, 30, 30);
         airePoigne = new Area(poigneRotation);
         AffineTransform transformation = new AffineTransform();
@@ -526,9 +528,22 @@ public class Rectangle implements Obstacles,  Serializable {
     			Integer.toString((int) coinYGauche) + "\n" +
     			Integer.toString((int) largeurRec) + "\n" +
     			Integer.toString((int) longueurRec) + "\n" +
-    			Integer.toString((int) angleRotation) + "\n";
+    			Double.toString((int) angleRotation) + "\n";
 		return rec;
     	
     }
+
+
+	@Override
+	public Vecteur2D getPosition() {
+		
+		return new Vecteur2D(coinXGauche,coinYGauche);
+	}
+
+	@Override
+	public Area toAire() {
+		Area aire = new Area(aireRec);
+		return aire;
+	}
 
 }

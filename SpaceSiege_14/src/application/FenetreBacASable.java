@@ -7,9 +7,9 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import bacasable.PanelBacASable;
+import bacasable.SauvegardeNiveau;
 import outils.OutilsImage;
-import sandbox.PanelBacASable;
-import sandbox.SauvegardeNiveau;
 
 import java.awt.Color;
 import javax.swing.JTextField;
@@ -22,6 +22,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.JSlider;
 import javax.swing.JFileChooser;
+import javax.swing.JRadioButton;
+import javax.swing.ButtonGroup;
 
 public class FenetreBacASable extends JFrame {
 
@@ -48,6 +50,7 @@ public class FenetreBacASable extends JFrame {
 	private JButton btnLoad;
 	private String selectedFilePath;
 	private static FenetreBacASable fenetre;
+	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private JButton btnSauvegarder;
 	
 	
@@ -84,7 +87,7 @@ public class FenetreBacASable extends JFrame {
 	//ZAKARIA SOUDAKI
 	public FenetreBacASable() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(0, 0, 1920, 1200);
+		setBounds(0, 0, 1920, 1080);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(0, 0, 0));
@@ -202,16 +205,38 @@ public class FenetreBacASable extends JFrame {
 		        
 			}
 		});
-		btnLoad.setBounds(741, 155, 91, 57);
+		btnLoad.setBounds(736, 155, 96, 57);
 		panel_1.add(btnLoad);
 		
+
+		JRadioButton btnRadioHaut = new JRadioButton("HAUT");
+		buttonGroup.add(btnRadioHaut);
+		btnRadioHaut.setBounds(288, 163, 109, 23);
+		panel_1.add(btnRadioHaut);
+		
+		JRadioButton btnRadioDroite = new JRadioButton("DROITE");
+		buttonGroup.add(btnRadioDroite);
+		btnRadioDroite.setBounds(288, 121, 109, 23);
+		panel_1.add(btnRadioDroite);
+		
+		JRadioButton btnRadioBas = new JRadioButton("BAS");
+		buttonGroup.add(btnRadioBas);
+		btnRadioBas.setBounds(288, 77, 109, 23);
+		panel_1.add(btnRadioBas);
+		
+		JRadioButton btnRadioGauche = new JRadioButton("GAUCHE");
+		btnRadioGauche.setSelected(true);
+		buttonGroup.add(btnRadioGauche);
+		btnRadioGauche.setBounds(288, 36, 109, 23);
+		panel_1.add(btnRadioGauche);
+
 		btnSauvegarder = new JButton("Sauvegarder");
 		btnSauvegarder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panelBacASable.sauvegardeNiveau();
 			}
 		});
-		btnSauvegarder.setBounds(256, 40, 89, 23);
+		btnSauvegarder.setBounds(635, 155, 96, 57);
 		panel_1.add(btnSauvegarder);
 		
 		btnCarre = new JButton("Carre");
@@ -275,6 +300,11 @@ public class FenetreBacASable extends JFrame {
 		OutilsImage.lireImageEtPlacerSurBouton("canon.png", btnCanon);
 		
 		btnMonstre = new JButton("Monstres");
+		btnMonstre.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelBacASable.ajouterMonstre();
+			}
+		});
 		btnMonstre.setBounds(912, 1019, 115, 105);
 		contentPane.add(btnMonstre);
 		OutilsImage.lireImageEtPlacerSurBouton("images.jpg", btnMonstre);

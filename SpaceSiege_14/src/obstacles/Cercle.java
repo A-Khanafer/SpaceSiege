@@ -9,6 +9,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
+import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
@@ -71,15 +72,16 @@ public class Cercle implements Obstacles, Serializable {
     /**
      * Aire de la poignée de rotation du cercle.
      */
-	private transient Area  aireCercle;
 	
 	private double diametre;
 	private double rayon;
+	
 	 /**
     * Position actuelle de la balle dans l'espace de simulation, exprimée par un vecteur.
     */
     private Vecteur2D positionCentre;
 	
+    private Path2D.Double aireCercle;
 	
 	/**
      * Constructeur de la classe Rectangle.
@@ -127,7 +129,7 @@ public class Cercle implements Obstacles, Serializable {
         cercle= new Ellipse2D.Double(coinXGauche , coinYGauche , largeur, longueur);
         centreX = cercle.getCenterX();
         centreY = cercle.getCenterY();
-        aireCercle = new Area(cercle);
+        aireCercle = new Path2D.Double(cercle);
         
         positionCentre = new Vecteur2D(centreX, centreY);
         creationResizeHandles();
@@ -369,6 +371,18 @@ public class Cercle implements Obstacles, Serializable {
 	    		Integer.toString((int) angleRotation) + "\n";
 		return cer;
 	    	
+	}
+
+
+	@Override
+	public Vecteur2D getPosition() {
+		return new Vecteur2D(coinXGauche, coinYGauche);
+	}
+
+	@Override
+	public Area toAire() {
+		Area aire = new Area(aireCercle);
+		return aire;
 	}
 	
 

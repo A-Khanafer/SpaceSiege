@@ -14,6 +14,8 @@ import java.io.IOException;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import composantjeu.Canon;
+import composantjeu.Monstres;
 import interfaces.Obstacles;
 import obstacles.Cercle;
 import obstacles.CercleElectrique;
@@ -29,11 +31,28 @@ import obstacles.Triangle;
  */
 public class PanelBacASable extends JPanel {
 
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * Le ratio utilisé pour convertir les mètres en pixels.
 	 */
 	private double pixelParMetres;
 
+	/**
+	 * Le tableau contenant les objets Rectangle.
+	 */
+	private Rectangle[] tableauRec;
+
+	/**
+	 * Le tableau contenant les objets Triangle.
+	 */
+	private Triangle[] tableauTri;
+	/**
+	 * Le tableau contenant les objets Cercle.
+	 */
+	private Cercle[] tableauCercle;
+	
+	private Canon canon;
 
 	/**
 	 * Indique si c'est la première fois que le panneau est peint.
@@ -55,6 +74,10 @@ public class PanelBacASable extends JPanel {
 	private int nbrCercleElectrique = 0;
 	
 	private int nbrEpines = 0;
+	
+	private int nbrMonstre = 0;
+	
+	private int nbrCanon = 0;
 	/**
 	 * Indique si le mode éditeur est activé ou désactivé.
 	 */
@@ -70,6 +93,11 @@ public class PanelBacASable extends JPanel {
 	//Ahmnad Khanafer
     public PanelBacASable() {
         setBackground(new Color(255, 255, 255));
+        tableauRec = new Rectangle[3];
+        tableauTri = new Triangle[3];
+        tableauCercle = new Cercle[3];
+//        canon = new Canon()
+
         ecouteurSouris();
     }
 
@@ -160,6 +188,26 @@ public class PanelBacASable extends JPanel {
             JOptionPane.showMessageDialog(null,"Nombre Maximale de Cercle Atteint");
         }
     }
+    //ZAKARIA
+    public void ajouterMonstre() {
+    	
+		if (nbrMonstre < 1) {
+    		Monstres monstre = new Monstres(200,200, pixelParMetres);
+    		obHolder.addObstacle(monstre);
+    		nbrMonstre++;
+    		repaint();
+    	}else {
+            JOptionPane.showMessageDialog(null,"Nombre Maximale de Cercle Atteint");
+    	}
+    }
+    
+    private void ajouterCanon() {
+    	
+		if( nbrCanon < 1) {
+    		
+    	}
+    	
+    }
 
     
     //Ajoute des écouteurs de souris pour la gestion des actions de l'utilisateur.
@@ -196,6 +244,8 @@ public class PanelBacASable extends JPanel {
 				}
 				if(ob.contient(e.getX(), e.getY()) && ob.isClickedOnIt() == false) {
 					ob.move( e.getX(), e.getY());
+					
+					
 					repaint();
 					break;
 				}		

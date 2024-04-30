@@ -176,7 +176,7 @@ public class Niveau3 extends Niveaux {
 			pixelParMetres = getWidth()/150;
 			int espace=0;
 			
-			monstre = new Monstres(1000, 20, "images.jpg", pixelParMetres);
+			monstre = new Monstres(1000, 20, pixelParMetres);
 			  canon = new Canon(0, 10,pixelParMetres,"CANONSEXY.png");
 			 
 			 
@@ -254,7 +254,7 @@ public class Niveau3 extends Niveaux {
 			}
 
 			Area areaBalle = new Area(canon.getBalle().getCercle()); 
-	        Area areaMonstre = monstre.getArea();
+			Area areaMonstre = monstre.toAire();
 	        areaBalle.intersect(areaMonstre);
 
 	        if (!areaBalle.isEmpty()) {
@@ -359,7 +359,7 @@ public class Niveau3 extends Niveaux {
      */
 	//ZAKARIA SOUDAKI
 	public void testerCollisionsEtAjusterVitesses() {	
-		canon.getBalle().gererCollisionsBordures(posMurSol, posMurDroit , posMurHaut, posMurGauche);
+		Collisions.gererCollisionsBordures(posMurSol, posMurDroit , posMurHaut, posMurGauche, canon.getBalle());
 	}
 
 	 /**
@@ -391,7 +391,7 @@ public class Niveau3 extends Niveaux {
 
 		    balleTiree = false;
 		    canon.setPremiereFois(true);
-		    monstre = new Monstres(1000, 20, "images.jpg", pixelParMetres);
+		    monstre = new Monstres(1000, 20, pixelParMetres);
 		    monstre.setNombreDeVie(1);
 		    canon = new Canon(0, 10,pixelParMetres,"CANONSEXY.png");
 		    
@@ -578,7 +578,7 @@ public class Niveau3 extends Niveaux {
 
 		   
 		    if (canon.contient(e.getX(), e.getY())) {
-		        canon.move(e.getY());
+		        canon.moveY(e.getY());
 		    }
 		    repaint();
 		}

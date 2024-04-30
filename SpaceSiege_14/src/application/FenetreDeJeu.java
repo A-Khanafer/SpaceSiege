@@ -24,6 +24,7 @@ import java.awt.Image;
 import javax.swing.JSpinner;
 import javax.swing.JCheckBox;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -34,6 +35,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.event.ChangeListener;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.DefaultComboBoxModel;
@@ -59,8 +61,7 @@ public class FenetreDeJeu extends JFrame {
 	private JPanel panelTable;
 	private JButton btnRetour;
 	
-//	private JButton btnNiveauPrecedent;
-//	private JButton btnNiveauSuivant;
+
 	
 	private JButton btnPause;
 	private JButton btnReinitialiser;
@@ -88,6 +89,15 @@ public class FenetreDeJeu extends JFrame {
     
     private static FenetreNiveaux appli;
     private static FenetreDeJeu fenetre;
+    private JSpinner spinnerMasse;
+    private JSpinner spinnerVieMonstre;
+    private JPanel panelTableDonne;
+    private JTable table;
+    private Object[][] data = {
+            {"Niveau 1", "Donnée 1 Niveau 1", "Donnée 2 Niveau 1", "Donnée 3 Niveau 1"},
+            {"Niveau 2", "Donnée 1 Niveau 2", "Donnée 2 Niveau 2", "Donnée 3 Niveau 2"},
+            {"Niveau 3", "Donnée 1 Niveau 3", "Donnée 2 Niveau 3", "Donnée 3 Niveau 3"}
+    };
 	/**
      * Méthode statique pour afficher la fenêtre de jeu. Crée une instance de {@code FenetreDeJeu} et la rend visible.
      */
@@ -100,20 +110,12 @@ public class FenetreDeJeu extends JFrame {
 		
 		fenetre.setLocationRelativeTo(null);
 		fenetre.setUndecorated(true);
-		fenetre.setExtendedState(JFrame.MAXIMIZED_BOTH);
+//		fenetre.setExtendedState(JFrame.MAXIMIZED_BOTH);
         fenetre.setVisible(true);
         app.setVisible(false);
         
     }
-//	public void changerNiveau() {
-//	   	 index++;
-//		 niveaux[0] = niv1;
-//		 niveaux[1] = niv2;
-//		 niveaux[2] = niv3;
-//		 nivActuel = niveaux[index];
-//		 
-//		 nivSuivant = niveaux[index +1];
-//	}
+
 	
 	/**
      * Constructeur qui initialise la fenêtre de jeu, y compris la zone d'animation et les panneaux de contrôle.
@@ -132,7 +134,6 @@ public class FenetreDeJeu extends JFrame {
 		 niveaux[1] = niv2;
 		 niveaux[2] = niv3;
 		 nivActuel = niveaux[index];
-		 nivActuel.setFocusable(true);
 
 		 nivActuel.addPropertyChangeListener(new PropertyChangeListener() {
 		 	public void propertyChange(PropertyChangeEvent evt) {
@@ -146,7 +147,7 @@ public class FenetreDeJeu extends JFrame {
 		 
 	
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1920, 1200);
+		setBounds(100, 100, 1920, 1080);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(192, 192, 192));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -185,10 +186,11 @@ public class FenetreDeJeu extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				FenetreNiveaux.retour(appli);
+				
 				setVisible(false);
-				contentPane.remove(nivActuel);
+				
 				nivActuel.arreter();
-
+                contentPane.remove(nivActuel);
 			}
 		});
 		btnRetour.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
@@ -306,6 +308,10 @@ public class FenetreDeJeu extends JFrame {
 				
 				
               nivActuel.reinitialiserApplication();
+              rdbBalleNormal.setSelected(true);
+            
+              rdbBalleElastique.setSelected(false);
+              rdbBalleNova.setSelected(false);
               planCartesien.reset();
               desactiverLesRadios();
               
@@ -336,9 +342,9 @@ public class FenetreDeJeu extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			
 
+			
 				nivActuel.demarrer();
 				desactiverLesRadios();
-				
 				
 			}
 		});
@@ -377,19 +383,19 @@ public class FenetreDeJeu extends JFrame {
 		slider.setBounds(325, 246, 440, 26);
 		panelFonctionnalites.add(slider);
 		
-		JSpinner spinner = new JSpinner();
-		spinner.setModel(new SpinnerNumberModel(50, 10, 80, 1));
-		spinner.addChangeListener(new ChangeListener() {
+		spinnerMasse = new JSpinner();
+		spinnerMasse.setModel(new SpinnerNumberModel(50, 10, 80, 1));
+		spinnerMasse.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-            int masse= (int)spinner.getValue();
+            int masse= (int)spinnerMasse.getValue();
             nivActuel.setMasseBalle(masse);
             						
 			}
 		});
-		spinner.setBounds(167, 52, 109, 46);
-		panelFonctionnalites.add(spinner);
+		spinnerMasse.setBounds(167, 52, 109, 46);
+		panelFonctionnalites.add(spinnerMasse);
 		
-		JSpinner spinnerVieMonstre = new JSpinner();
+		spinnerVieMonstre = new JSpinner();
 		spinnerVieMonstre.setModel(new SpinnerNumberModel(Integer.valueOf(1), null, null, Integer.valueOf(1)));
 		spinnerVieMonstre.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
@@ -515,10 +521,9 @@ public class FenetreDeJeu extends JFrame {
 			JPanel panel_1 = new JPanel();
 			panel_1.setBounds(1125, 875, 310, 286);
 			contentPane.add(panel_1);
-		
-		
-	
-	    
+			
+			
+
 	}
 	private void refreshLabel() {
 		getContentPane().remove(lbl);
@@ -537,12 +542,17 @@ public class FenetreDeJeu extends JFrame {
 		rdbBalleElastique.setEnabled(false);
 		rdbBalleNova.setEnabled(false);
 		comboBoxTypeGrav.setEnabled(false);
+		spinnerMasse.setEnabled(false);
+		spinnerVieMonstre.setEnabled(false);
+		
 	}
 	if(nivActuel.getEnCoursAnimation()==false) {
 		rdbBalleNormal.setEnabled(true);
 		rdbBalleElastique.setEnabled(true);
 		rdbBalleNova.setEnabled(true);
 		comboBoxTypeGrav.setEnabled(true);
+		spinnerMasse.setEnabled(true);
+		spinnerVieMonstre.setEnabled(true);
 	}
 	}
 	public void changerFondEtGrav(String fond) {

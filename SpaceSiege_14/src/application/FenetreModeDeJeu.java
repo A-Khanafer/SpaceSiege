@@ -19,6 +19,7 @@ import javax.swing.border.EmptyBorder;
 
 import composantdessin.Titre;
 import outils.OutilsImage;
+import systeme.Son;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -34,6 +35,7 @@ public class FenetreModeDeJeu extends JFrame {
 	private JPanel contentPane;
 	private static AppPrincipal14 appli;
 	private static FenetreModeDeJeu fenetre;
+	Son bouttonClicker = new Son();
 	 /**
      * Méthode statique pour afficher la fenêtre de sélection de mode de jeu.
      * Cette méthode crée une instance de {@code FenetreModeDeJeu} et la rend visible.
@@ -80,12 +82,13 @@ public class FenetreModeDeJeu extends JFrame {
      * Initialise et affiche la fenêtre de sélection de mode de jeu.
      */
 	public FenetreModeDeJeu() {
+		bouttonClicker.setFile(2);
 		
 		Border emptyBorder = BorderFactory.createEmptyBorder();
 		setLocationRelativeTo(null);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(0, 0, 1920, 1200);
+		setBounds(0, 0, 1920, 1080);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 	
@@ -119,7 +122,8 @@ public class FenetreModeDeJeu extends JFrame {
 						contentPane.add(btnClassic);
 						btnClassic.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
-								
+								bouttonClicker.play();
+								bouttonClicker.reset();
 								FenetreNiveaux.afficherFenetre(fenetre);
 //								FenetreDeJeu.afficherFenetre(fenetre);
 
@@ -148,7 +152,8 @@ public class FenetreModeDeJeu extends JFrame {
 								btnSandBox.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent e) {
 										
-										
+										bouttonClicker.play();
+										bouttonClicker.reset();
 										FenetreBacASable.afficherFenetre(fenetre);
 										
 
@@ -177,7 +182,8 @@ public class FenetreModeDeJeu extends JFrame {
 								contentPane.add(btnMenu);
 								btnMenu.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent e) {
-										
+										bouttonClicker.play();
+										bouttonClicker.reset();
 										AppPrincipal14.retour(appli);
 										setVisible(false);
 
@@ -213,9 +219,9 @@ public class FenetreModeDeJeu extends JFrame {
 								JLabel lbl  = new JLabel("");
 								ImageIcon gifIcon = new ImageIcon(this.getClass().getResource("/fondmodedejeu3.gif"));
 								Image img = gifIcon.getImage();
-								Image resizedImg = img.getScaledInstance(1920,1200, Image.SCALE_DEFAULT);
+								Image resizedImg = img.getScaledInstance(1920,1080, Image.SCALE_DEFAULT);
 								lbl.setIcon(new ImageIcon(resizedImg));
-								lbl.setBounds(0, 0, 1920, 1200);
+								lbl.setBounds(0, 0, 1920, 1080);
 								contentPane.add(lbl);
 //								
 	}

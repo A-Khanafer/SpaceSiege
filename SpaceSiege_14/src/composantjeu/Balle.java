@@ -63,7 +63,7 @@ public class Balle {
      */
     protected Ellipse2D.Double cercle;
     protected LinkedList<Ellipse2D.Double> trainees = new LinkedList<>();
-    protected final int MAX_TRAÎNÉES = 8;
+    protected final int MAX_TRAÎNÉES = 3;
     protected volatile boolean running = true;
 
     /**
@@ -83,7 +83,6 @@ public class Balle {
 		diametre = diametreDonne;
 		this.vitesse = vitesse;
 		this.position = position;
-		System.out.println(pixelsParMetre+"QUESSSPASSSSSS");
 		this.position = this.position.multiplie(1/pixelsParMetre);
 		initialiserCercle();
 	}
@@ -101,12 +100,12 @@ public class Balle {
      * @param sommeForcesSurLaBalle La somme des forces appliquées sur la balle.
      */
 	  //Benakmoum Walid
-	public void setSommeDesForces(Vecteur2D sommeForcesSurLaBalle) {
+	public void setSommeDesForces(Vecteur2D sommeForcesSurMonstre) {
 
 		try {
 
 
-			 accel = MoteurPhysique.calculAcceleration(sommeForcesSurLaBalle, masse);
+			 accel = MoteurPhysique.calculAcceleration(sommeForcesSurMonstre, masse);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -208,6 +207,10 @@ public class Balle {
 	public double getPosYCentre() {
 	    return this.position.getY() + diametre / 2;
 	}
+	
+	public Vecteur2D getPosCentral() {
+		return new Vecteur2D(position.getX() + diametre / 2,position.getY() + diametre / 2);
+	}
 
 	/**
 	 * Définit la position de la balle.
@@ -226,27 +229,7 @@ public class Balle {
 	public Ellipse2D.Double getCercle() {
 		return cercle;
 	}
-	 public void gererCollisionsBordures(double posSol, double posMurDroit, double posMurHaut, double posMurGauche) {
-	    	if ( (position.getY() + diametre) >= ( posSol ) ) {
-	    		
-	    		vitesse.setY(-vitesse.getY());
-	    		position.setY(posSol-diametre);
-	    	}
-	    	if ( (position.getX() + diametre) >= ( posMurDroit ) ) {
-	    		vitesse.setX(-vitesse.getX());
-	    		position.setX(posMurDroit-diametre);
-	    	}
-	    	if ( (position.getY()) <= ( posMurHaut ) ) {
-	    		
-	    		vitesse.setY(-vitesse.getY());
-	    		position.setY(posMurHaut);
-	    	}
-	    	if ( (position.getX()) <= ( posMurGauche ) ) {
-	    		
-	    		vitesse.setX(-vitesse.getX());
-	    		position.setX(posMurGauche);
-	    	}
-	    }
+	
 	 /**
 	  * Méthode pour dessiner
 	  * @param g2dPrive Contexte graphique
@@ -263,17 +246,22 @@ public class Balle {
 		return diametre/2;
 	}
 
-public Vecteur2D getPositionEnMetre() {
-	return(position.multiplie(1/pixelsParMetre));
-}
-public void exploser() {
+    public Vecteur2D getPositionEnMetre() {
+	  return(position.multiplie(1/pixelsParMetre));
+    }
+    public void exploser() {
 
 }
-public void setMasse(int mas) {
-	this.masse=mas;
-}
+    public void setMasse(int mas) {
+	  this.masse=mas;
+    }
 
-	
+    public int quelleTypeBalle() {
+		return 0;
+	}
+	public void boostVitesse() {
+		this.vitesse.additionne(new Vecteur2D(1000,1000));
+	}
 	
 	
 	
