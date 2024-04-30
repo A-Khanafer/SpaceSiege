@@ -9,6 +9,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
+import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
@@ -71,7 +72,7 @@ public class CercleElectrique implements Obstacles, Serializable {
     /**
      * Aire de la poignée de rotation du cercle.
      */
-	private transient Area  aireCercle;
+    private Path2D.Double aireCercle;
 	
 	private double diametre;
 	private double rayon;
@@ -139,7 +140,7 @@ public class CercleElectrique implements Obstacles, Serializable {
         cercle= new Ellipse2D.Double(coinXGauche , coinYGauche , largeur, longueur);
         centreX = cercle.getCenterX();
         centreY = cercle.getCenterY();
-        aireCercle = new Area(cercle);
+        aireCercle = new Path2D.Double(cercle);
         
         positionCentre = new Vecteur2D(centreX, centreY);
         creationResizeHandles();
@@ -399,15 +400,17 @@ public class CercleElectrique implements Obstacles, Serializable {
 	    	
 	}
 
-	@Override
-	public Area getAir() {
-		return this.aireCercle;
-	}
 
 	@Override
 	public Vecteur2D getPosition() {
 		return new Vecteur2D(coinXGauche, coinYGauche);
 
+	}
+
+	@Override
+	public Area toAire() {
+		Area aire = new Area(aireCercle);
+		return aire;
 	}
 	
 
