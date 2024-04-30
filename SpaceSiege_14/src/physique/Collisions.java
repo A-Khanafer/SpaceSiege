@@ -173,6 +173,7 @@ public class Collisions {
  	    }else {
 
  	    balle.setVitesse(vitesseApresCollision);
+ 	    compteurRebonds++;
  	    }
     }
 
@@ -184,6 +185,7 @@ public class Collisions {
      public static void calculRebondCoin (Balle balle) {
 
 	    balle.setVitesse( new Vecteur2D ( -balle.getVitesse().getX(), -balle.getVitesse().getY() ));
+	    compteurRebonds++;
 }
     /**
      * Méthode principale qui detecte la collision entre la balle et le rectangle et ajuste la vitesse de la balle après la collision
@@ -242,26 +244,22 @@ public class Collisions {
 		        }
 		    }
 		    if (seg[0] == true) {
-		    	compteurRebonds++;
 		        calculRebondPhysique(segmentRec[0], balle);
 		        System.out.println("SEG 0;");
 		        seg[0] = false;
 		       
 		    }  
 		    if (seg[1] == true) {
-		    	compteurRebonds++;
 		        calculRebondPhysique(segmentRec[1], balle);
 		        System.out.println("SEG 1;");
 		        seg[1] = false;
 		    } 
 		    if (seg[2] == true) {
-		    	compteurRebonds++;
 		        calculRebondPhysique(segmentRec[2], balle);
 		        System.out.println("SEG 2;");
 		        seg[2] = false;
 		    } 
 		    if (seg[3] == true) {
-		    	compteurRebonds++;
 		        calculRebondPhysique(segmentRec[3], balle);
 		        System.out.println("SEG 3;");
 		        seg[3] = false;
@@ -319,17 +317,14 @@ public class Collisions {
 		        }
 		    }
 		    if (seg[0] == true) {
-		    	compteurRebonds++;
 		        calculRebondPhysique(segmentTri[0], balle);
 		        seg[0] = false;
 		    } 
 		    if (seg[1] == true) {
-		        compteurRebonds++;
 		        calculRebondPhysique(segmentTri[1], balle);
 		        seg[1] = false;
 		    } 
 		    if (seg[2] == true) {
-		    	compteurRebonds++;
 		        calculRebondPhysique(segmentTri[2], balle);
 		        seg[2] = false;
 		    } 
@@ -393,7 +388,6 @@ public class Collisions {
 
 	        if (!areaMonstre.isEmpty()) {
 	        	monstre.setVitesse(new Vecteur2D(-monstre.getVitesse().getX(),-monstre.getVitesse().getY()));
-	        	System.out.println("TOUCHEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
 	        }
 	 }
 	 

@@ -14,6 +14,7 @@ import java.util.Iterator;
 import javax.swing.JPanel;
 
 import interfaces.Dessinable;
+import interfaces.Obstacles;
 import interfaces.Selectionnable;
 import outils.OutilsImage;
 import physique.Vecteur2D;
@@ -23,7 +24,7 @@ import physique.Vecteur2D;
  * de contrôler l'angle et la force de tir en ajustant la position de la souris par rapport au canon.
  * @author Benakmoum Walid
  * */
-public class Canon extends JPanel implements Selectionnable, Dessinable {
+public class Canon extends JPanel implements Selectionnable, Dessinable, Obstacles {
 
     private static final long serialVersionUID = 1L;
 
@@ -181,11 +182,11 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
 
 			 premiereFois = false;
 		    }
-if(!balleTiree) {
-	balleActuelle.setPosition(new Vecteur2D(3*pixelsParMetre,y*pixelsParMetre));
+     if(!balleTiree) {
+	    balleActuelle.setPosition(new Vecteur2D(3*pixelsParMetre,y*pixelsParMetre));
 }
 
-	}
+    	}
 
 	/**
      * Dessine le canon sur un composant graphique.
@@ -194,10 +195,19 @@ if(!balleTiree) {
      */
     @Override
   //Benakmoum Walid
-    public void dessiner(Graphics2D g2d) {
-        Graphics2D g2dPrive = (Graphics2D) g2d.create();
 
-     
+	public void dessiner(Graphics2D g2d) {
+    	Graphics2D g2dPrive = (Graphics2D) g2d.create();
+		g2dPrive.setColor(Color.BLUE);
+		
+		positionDeTir.dessiner(g2dPrive);
+		
+		g2dPrive.fill(aireBase);
+	if(balleTiree || prochaineImage) {
+		balleActuelle.dessiner(g2dPrive);
+		
+	}
+	    
         positionDeTir.dessiner(g2dPrive);
 
       
@@ -231,12 +241,6 @@ if(!balleTiree) {
         g2dPrive.dispose();
     }
 
-    public  Color combine(Color c1, Color c2, double alpha) {
-        int r = (int) (alpha * c1.getRed()   + (1 - alpha) * c2.getRed());
-        int g = (int) (alpha * c1.getGreen() + (1 - alpha) * c2.getGreen());
-        int b = (int) (alpha * c1.getBlue()  + (1 - alpha) * c2.getBlue());
-        return new Color(r, g, b);
-    }
 
     /**
      * Vérifie si un point donné est contenu dans la zone du canon ou de sa base.
@@ -286,17 +290,7 @@ if(!balleTiree) {
 	    }
 	    
 	}
-	 /**
-     * Déplace verticalement le canon.
-     * 
-     * @param eY Nouvelle position verticale du canon.
-     */
-	//Benakmoum Walid
-	public void move( int eY) {
-		this.y = eY - hauteur/2;
-		creerLaGeometrie();
-	;
-	}
+	
 	/**
      * Retourne la coordonnée x de la pointe du canon. Utile pour positionner la balle lors du tir.
      * 
@@ -467,5 +461,52 @@ if(!balleTiree) {
     public void setBalleDessiner(boolean des) {
     	balleDessiner=des;
     }
+	@Override
+	public void redimension(int index, int eX, int eY) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public int getClickedResizeHandleIndex(double x, double y) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public boolean isClickedOnIt() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public void setClickedOnIt(boolean clickedOnIt) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public Area getAir() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Vecteur2D getPosition() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+	public void moveX(int eX ) {
+        this.x = (eX - largeur/ 2); 
+        creerLaGeometrie();
+	}
 
+	 /**
+     * Déplace verticalement le canon.
+     * 
+     * @param eY Nouvelle position verticale du canon.
+     */
+	//Benakmoum Walid
+	
+	public void moveY(int eY) {
+		this.y = eY - hauteur/2;
+		creerLaGeometrie();		
+	}
 }

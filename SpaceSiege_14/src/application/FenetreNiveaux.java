@@ -79,7 +79,7 @@ public class FenetreNiveaux extends JFrame {
 		setUndecorated(true);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(0, 0, 1920, 1200);
+		setBounds(0, 0, 1920, 1080);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -230,9 +230,9 @@ public class FenetreNiveaux extends JFrame {
 		JLabel lbl  = new JLabel("");
 		ImageIcon gifIcon = new ImageIcon(this.getClass().getResource("/fondmodedejeu2.gif"));
 		Image img = gifIcon.getImage();
-		Image resizedImg = img.getScaledInstance(1920,1200, Image.SCALE_DEFAULT);
+		Image resizedImg = img.getScaledInstance(1920,1080, Image.SCALE_DEFAULT);
 		lbl.setIcon(new ImageIcon(resizedImg));
-		lbl.setBounds(0, 0, 1920, 1200);
+		lbl.setBounds(0, 0, 1920, 1080);
 		contentPane.add(lbl);
 	}
 }

@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import composantjeu.Canon;
+import composantjeu.Monstres;
 import interfaces.Obstacles;
 import obstacles.Cercle;
 import obstacles.CercleElectrique;
@@ -59,6 +60,10 @@ public class PanelBacASable extends JPanel {
 	private int nbrCercleElectrique = 0;
 	
 	private int nbrEpines = 0;
+	
+	private int nbrMonstre = 0;
+	
+	private int nbrCanon = 0;
 	/**
 	 * Indique si le mode éditeur est activé ou désactivé.
 	 */
@@ -243,6 +248,27 @@ public class PanelBacASable extends JPanel {
 		this.obHolder = obHolder;
 		repaint();
 	}
+
+	 //ZAKARIA
+    public void ajouterMonstre() {
+    	
+		if (nbrMonstre < 1) {
+    		Monstres monstre = new Monstres(200,200, pixelParMetres);
+    		obHolder.addObstacle(monstre);
+    		nbrMonstre++;
+    		repaint();
+    	}else {
+            JOptionPane.showMessageDialog(null,"Nombre Maximale de Cercle Atteint");
+    	}
+    }
+    
+    private void ajouterCanon() {
+    	
+		if( nbrCanon < 1) {
+    		
+    	}
+    	
+    }
 
 	
 	}
