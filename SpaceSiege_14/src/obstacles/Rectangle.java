@@ -144,7 +144,7 @@ public class Rectangle implements Obstacles,  Serializable {
         rectanglePointille = rectangle;
         centreX = rectangle.getCenterX();
         centreY = rectangle.getCenterY();
-        System.out.println("Nouvelle aire creeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+
         
         aireRec = new Area(rectangle);
         poigneRotation = new Ellipse2D.Double((coinXGauche+largeurRec/2) - 15, coinYGauche - 50, 30, 30);
@@ -367,7 +367,7 @@ public class Rectangle implements Obstacles,  Serializable {
     //Ahmad Khanafer
     @Override
     public boolean contient(double xPix, double yPix) {
-        return aireRec.contains(xPix, yPix);
+        return rectangle.contains(xPix, yPix);
     }
     
     /**
