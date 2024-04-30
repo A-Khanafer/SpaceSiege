@@ -401,6 +401,7 @@ public class Cercle implements Obstacles, Serializable {
 	public double getLargeur() {
 		// TODO Auto-generated method stub
 		return this.largeur;
+	}
 	public Area toAire() {
 		Area aire = new Area(aireCercle);
 		return aire;
