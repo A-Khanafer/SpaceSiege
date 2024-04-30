@@ -20,7 +20,7 @@ import outils.OutilsImage;
 import physique.MoteurPhysique;
 import physique.Vecteur2D;
 
-public class Monstres extends JPanel implements Runnable, Obstacles, Serializable{
+public class Monstres extends JPanel implements Runnable, Serializable{
 	
 	private static final long serialVersionUID = -4198412908689199658L;
 	
@@ -201,8 +201,8 @@ public class Monstres extends JPanel implements Runnable, Obstacles, Serializabl
 			
 			repaint();
 		}
-			
-		}
+				
+	}
 		
 	
 	  
@@ -303,43 +303,18 @@ public class Monstres extends JPanel implements Runnable, Obstacles, Serializabl
 		this.hauteurRectangle = hauteurRectangle;
 	}
 
-	@Override
-	public void redimension(int index, int eX, int eY) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void rotate(int eX, int eY) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean contient(double xPix, double yPix) {
-		return air.contains(xPix, yPix);
-	}
-
-	@Override
-	public int getClickedResizeHandleIndex(double x, double y) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public boolean isClickedOnIt() {
-		return false;
-	}
-
-	@Override
-	public void setClickedOnIt(boolean clickedOnIt) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	public void move(int eX, int eY) {
         this.position.setX(eX - longueurRectangle / 2); 
         this.position.setY(eY - hauteurRectangle / 2); 
         creerLaGeometrie();
+	}
+	
+	public boolean contient(double xPix, double yPix) {
+		// TODO Auto-generated method stub
+		if(air.contains(xPix, yPix)|| air.contains(xPix, yPix)) {
+			return true;
+		}
+		return false;
 	}
 }

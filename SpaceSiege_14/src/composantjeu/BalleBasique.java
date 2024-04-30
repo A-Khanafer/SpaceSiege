@@ -2,6 +2,7 @@ package composantjeu;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.GradientPaint;
 import java.awt.Graphics2D;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
@@ -59,16 +60,30 @@ public class BalleBasique extends Balle{
         synchronized (trainees) {
             float alpha = 1.0f, facteurDecroissance = 0.1f;
             for (Ellipse2D.Double trace : trainees) {
-                Color couleur = new Color(255, 0, 255, (int) (alpha * 255));
-                g2dPrive.setColor(couleur);
+            	Color couleurDebut = Color.MAGENTA;
+                Color couleurFin = Color.BLUE; 
+                GradientPaint gradient = new GradientPaint(
+                        (float) trace.x, (float) trace.y, couleurDebut,
+                        (float) (trace.x + trace.width), (float) (trace.y + trace.height), couleurFin);
+
+              
+                g2dPrive.setPaint(gradient);
                 g2dPrive.fill(trace);
                 alpha -= facteurDecroissance;
                 if (alpha < 0) break;
             }
         }
+        Color couleurDebut = Color.MAGENTA; 
+        Color couleurFin = Color.BLUE; 
+        GradientPaint gradient = new GradientPaint(
+                (float) position.getX(), (float) position.getY(), couleurDebut,
+                (float) (position.getX() + diametre), (float) (position.getY() + diametre), couleurFin);
 
-        g2dPrive.setColor(Color.MAGENTA);
+        
+        g2dPrive.setPaint(gradient);
         g2dPrive.fill(cercle);
+
+        g2dPrive.dispose();
     }
     private void creerEffetVent(Graphics2D g2d) {
         double angle = Math.atan2(vitesse.getY(), vitesse.getX());

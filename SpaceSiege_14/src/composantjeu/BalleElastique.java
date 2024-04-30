@@ -46,29 +46,35 @@ public class BalleElastique extends Balle {
   //Benakmoum Walid
     public void dessiner(Graphics2D g2d) {
         Graphics2D g2dPrive = (Graphics2D) g2d.create();
-      
-        creerEffetVent(g2dPrive);
-
+creerEffetVent(g2dPrive);
+    
         synchronized (trainees) {
             float alpha = 1.0f, facteurDecroissance = 0.1f;
             for (Ellipse2D.Double trace : trainees) {
                 Point2D start = new Point2D.Float((float) trace.getMinX(), (float) trace.getMinY());
                 Point2D end = new Point2D.Float((float) trace.getMaxX(), (float) trace.getMaxY());
-                Color startColor = new Color(255, 0, 0, (int) (alpha * 255)); // Rouge
-                Color endColor = new Color(255, 0, 0, 0); // Rouge transparent
+                Color startColor = new Color(255, 0, 0, (int) (alpha * 255)); 
+                Color endColor = new Color(255, 0, 0, 0); 
                 GradientPaint gradient = new GradientPaint(start, startColor, end, endColor);
                 g2dPrive.setPaint(gradient);
-                
                 g2dPrive.fill(trace);
                 alpha -= facteurDecroissance;
                 if (alpha < 0) break;
             }
         }
 
-        g2dPrive.setColor(Color.red);
-        
+     
+        Point2D start = new Point2D.Float((float) cercle.getMinX(), (float) cercle.getMinY());
+        Point2D end = new Point2D.Float((float) cercle.getMaxX(), (float) cercle.getMaxY());
+        Color startColor = Color.RED; 
+        Color endColor = Color.YELLOW;
+        GradientPaint gradient = new GradientPaint(start, startColor, end, endColor);
+        g2dPrive.setPaint(gradient);
         g2dPrive.fill(cercle);
+
+        g2dPrive.dispose();
     }
+
 
     
     

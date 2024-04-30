@@ -7,6 +7,7 @@ import java.awt.Image;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Iterator;
 
@@ -23,7 +24,11 @@ import physique.Vecteur2D;
  * de contrôler l'angle et la force de tir en ajustant la position de la souris par rapport au canon.
  * @author Benakmoum Walid
  * */
-public class Canon extends JPanel implements Selectionnable, Dessinable, Obstacles {
+
+public class Canon extends JPanel implements Selectionnable, Dessinable  {
+
+
+
 
     private static final long serialVersionUID = 1L;
 
@@ -131,13 +136,15 @@ public class Canon extends JPanel implements Selectionnable, Dessinable, Obstacl
      */
     private static int balleChoisie = 1;
     
-    private String urlImage;
+    private String urlImage = "CANONSEXY.png";
     
     private Image image = null;
     
     private boolean balleDessiner=false;
     
     Color couleur;
+    
+   
     /**
      * Constructeur de la classe Canon.
      * 
@@ -146,11 +153,11 @@ public class Canon extends JPanel implements Selectionnable, Dessinable, Obstacl
      * @param pixelsParMetre Facteur de conversion de pixels en mètres.
      */
     //Benakmoum Walid
-	public Canon(double x,double y,double pixelsParMetre,String urlImage) {
+	public Canon(double x,double y,double pixelsParMetre) {
 		this.pixelsParMetre=pixelsParMetre;
 		this.x=x*this.pixelsParMetre;
 		this.y=y*this.pixelsParMetre;
-		this.urlImage=urlImage;
+		
 		hauteur = 6*this.pixelsParMetre;
 		largeur = 12*this.pixelsParMetre;
 
@@ -170,7 +177,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable, Obstacl
 		aireBase= new Area(base);
 		aireRect.add(aireCercle);
 		positionDeTir = new FlecheDeTir(cercle.getCenterX(), cercle.getCenterY(), dx,dy);
-		image =OutilsImage.lireImageEtRedimensionner(urlImage,(int)103,(int) 51);
+		
 
 
 		 if (!balleTiree && premiereFois) {
@@ -192,6 +199,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable, Obstacl
      */
     @Override
   //Benakmoum Walid
+
 	public void dessiner(Graphics2D g2d) {
     	Graphics2D g2dPrive = (Graphics2D) g2d.create();
 		g2dPrive.setColor(Color.BLUE);
@@ -203,34 +211,40 @@ public class Canon extends JPanel implements Selectionnable, Dessinable, Obstacl
 		balleActuelle.dessiner(g2dPrive);
 		
 	}
-	
-	  
-		//ROTATED
-		g2dPrive.rotate(rotation, cercle.getCenterX(), cercle.getCenterY());
-		 int hauteurCanon = (int) hauteur;
-		    for (int i = 0; i < hauteurCanon; i++) {
-		        // Calculer l'alpha en fonction de la position dans le canon
-		        double alpha = (double) i / hauteurCanon;
-		        // Combiner la couleur bleue avec la couleur noire en utilisant l'alpha
-		         couleur = combine(Color.BLUE, Color.BLACK, alpha);
-		        // Définir la couleur pour chaque ligne du canon
-		         g2dPrive.setColor(couleur);
-		         
-		         g2dPrive.drawLine((int) (3 + hauteur / 2), (int) (y + i), (int) (3 + hauteur / 2 + largeur), (int) (y + i));
-		        
-		    }
-		g2dPrive.fill(aireRect);
+	    
+        positionDeTir.dessiner(g2dPrive);
 
-		g2d.drawImage(image,(int)( 3+hauteur/2), (int)y, (int)largeur,(int) hauteur,null);
-	    balleDessiner=true;
+      
+        g2dPrive.setColor(Color.BLUE);
+        g2dPrive.fill(aireBase);
 
-	}
-    public  Color combine(Color c1, Color c2, double alpha) {
-        int r = (int) (alpha * c1.getRed()   + (1 - alpha) * c2.getRed());
-        int g = (int) (alpha * c1.getGreen() + (1 - alpha) * c2.getGreen());
-        int b = (int) (alpha * c1.getBlue()  + (1 - alpha) * c2.getBlue());
-        return new Color(r, g, b);
+      
+        if (balleTiree || prochaineImage) {
+            balleActuelle.dessiner(g2dPrive);
+        }
+
+     
+        g2dPrive.rotate(rotation, cercle.getCenterX(), cercle.getCenterY());
+
+     
+        Color startColor = Color.BLUE;
+        Color endColor = Color.BLACK;
+
+        
+        Point2D start = new Point2D.Float((float) rectangleCanon.getMinX(), (float) rectangleCanon.getMinY());
+        Point2D end = new Point2D.Float((float) rectangleCanon.getMaxX(), (float) rectangleCanon.getMaxY());
+        GradientPaint gradient = new GradientPaint(start, startColor, end, endColor);
+        g2dPrive.setPaint(gradient);
+
+     
+        g2dPrive.fill(aireRect);
+ 
+        balleDessiner = true;
+
+     
+        g2dPrive.dispose();
     }
+
 
     /**
      * Vérifie si un point donné est contenu dans la zone du canon ou de sa base.
@@ -259,12 +273,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable, Obstacl
 	   
 		
 	    rotation = positionDeTir.getAngle();
-	 //   AffineTransform transform = AffineTransform.getRotateInstance(rotation, x + hauteur / 2, y + hauteur / 2);
-	  
-	  // = new Area(transform.createTransformedShape(new Rectangle2D.Double(3+hauteur/2, y, largeur, hauteur)));
-	//    aireCercle = new Area(transform.createTransformedShape(new Ellipse2D.Double(3,y,hauteur,hauteur)));	 
 
-	    
 	    if(ey < cercle.getCenterY()) {
 	    	vitesse.setX(Math.cos(rotation)*positionDeTir.calculerModulus()/4);
 	    	vitesse.setY(Math.sin(rotation)*positionDeTir.calculerModulus()/4);
@@ -439,55 +448,41 @@ public class Canon extends JPanel implements Selectionnable, Dessinable, Obstacl
         this.pixelsParMetre = pixel;
         creerLaGeometrie();
     }
+    /**
+     * Retourne l'angle de rotation actuel du canon en degrés.
+     * 
+     * @return L'angle de rotation actuel du canon en degrés.
+     */
     public double getRotation() {
     	return Math.toDegrees(rotation);
     }
+    /**
+     * Définit la masse de la balle associée au canon.
+     * 
+     * @param mas La masse à définir pour la balle.
+     */
     public void setMasseBalle(int mas) {
     	balleActuelle.setMasse(mas);
     }
+    /**
+     * Indique si la balle associée au canon est en train d'être dessinée.
+     * 
+     * @return true si la balle est en train d'être dessinée, false sinon.
+     */
     public boolean getBalleDessiner() {
     	return this.balleDessiner;
     }
+    /**
+     * Définit si la balle associée au canon est en train d'être dessinée.
+     * 
+     * @param des true pour indiquer que la balle est en train d'être dessinée, false sinon.
+     */
     public void setBalleDessiner(boolean des) {
     	balleDessiner=des;
     }
-	@Override
-	public void redimension(int index, int eX, int eY) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public int getClickedResizeHandleIndex(double x, double y) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	@Override
-	public boolean isClickedOnIt() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public void setClickedOnIt(boolean clickedOnIt) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public Area getAir() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public Vecteur2D getPosition() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
-	public void moveX(int eX ) {
-        this.x = (eX - largeur/ 2); 
-        creerLaGeometrie();
-	}
 
+
+	
 	 /**
      * Déplace verticalement le canon.
      * 

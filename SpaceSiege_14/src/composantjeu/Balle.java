@@ -56,7 +56,7 @@ public class Balle {
     /**
      * Accélération de la balle, déterminée par les forces appliquées sur elle. Initialement définie à zéro.
      */
-    protected Vecteur2D accel = new Vecteur2D(0, 0);
+    protected Vecteur2D accel;
 
     /**
      * Représentation géométrique de la balle utilisée pour le dessin à l'écran.
@@ -262,7 +262,9 @@ public class Balle {
 	public void boostVitesse() {
 		this.vitesse.additionne(new Vecteur2D(1000,1000));
 	}
-	
+	public Vecteur2D  getAcceleration() {
+		return accel;
+	}
 	
 	
 	
