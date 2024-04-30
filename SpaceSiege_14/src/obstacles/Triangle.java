@@ -35,6 +35,9 @@ public class Triangle implements Obstacles, Serializable {
      */
 	private double pixelsParMetres;
 	private double coinXGauche, coinYGauche;
+	
+	
+	
 	/**
      * La largeur et hauteur du triangle en mètre.
      */
@@ -46,7 +49,7 @@ public class Triangle implements Obstacles, Serializable {
 	/**
      * La zone délimitée par le rectangle.
      */
-	private transient Area aireTri;
+	private Path2D.Double aireTri;
 	 /**
      * L'angle de rotation du rectangle.
      */
@@ -135,7 +138,7 @@ public class Triangle implements Obstacles, Serializable {
 		triangle.lineTo(coinXGauche+largeur, coinYGauche + longueur);
 		triangle.lineTo(sommetX, sommetY );
 		triangle.closePath();
-		aireTri = new Area(triangle);
+		aireTri =  new Path2D.Double(triangle);
 		poigneRotation = new Ellipse2D.Double((coinXGauche+largeur/2) - 15, coinYGauche - 50, 30, 30);
         airePoigne = new Area(poigneRotation);
         AffineTransform transformation = new AffineTransform();
@@ -470,10 +473,6 @@ public class Triangle implements Obstacles, Serializable {
 	    	
 	}
 
-	@Override
-	public Area getAir() {
-		return this.aireTri;
-	}
 
 	@Override
 	public Vecteur2D getPosition() {
@@ -504,5 +503,9 @@ public class Triangle implements Obstacles, Serializable {
 	}
 
 	
+	public Area toAire() {
+		Area aire = new Area(aireTri);
+		return aire;
+	}
 	
 }

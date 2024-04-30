@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
+import java.awt.geom.Path2D;
 
 import physique.Vecteur2D;
 
@@ -85,7 +86,7 @@ public interface Obstacles {
     //Ahmad Khanafer
     public void setClickedOnIt(boolean clickedOnIt);
     
-    public Area getAir();
+    public Area toAire();
     
     public Vecteur2D getPosition();
     

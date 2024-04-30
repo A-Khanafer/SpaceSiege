@@ -302,7 +302,7 @@ public class Niveau1 extends Niveaux {
 			
 
 			Area areaBalle = new Area(canon.getBalle().getCercle()); 
-	        Area areaMonstre = monstre.getAir();
+	        Area areaMonstre = monstre.toAire();
 	        areaBalle.intersect(areaMonstre);
 
 	        if (!areaBalle.isEmpty()) {

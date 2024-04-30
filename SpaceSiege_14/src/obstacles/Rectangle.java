@@ -10,6 +10,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
+import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -58,8 +59,7 @@ public class Rectangle implements Obstacles,  Serializable {
     /**
      * La zone délimitée par le rectangle.
      */
-    private transient Area aireRec;
-
+    private Path2D.Double aireRec;
     /**
      * Les coordonnées du centre du rectangle.
      */
@@ -148,8 +148,7 @@ public class Rectangle implements Obstacles,  Serializable {
         rectanglePointille = rectangle;
         centreX = rectangle.getCenterX();
         centreY = rectangle.getCenterY();
-        
-        aireRec = new Area(rectangle);
+        aireRec = new Path2D.Double(rectangle);
         poigneRotation = new Ellipse2D.Double((coinXGauche+largeurRec/2) - 15, coinYGauche - 50, 30, 30);
         airePoigne = new Area(poigneRotation);
         AffineTransform transformation = new AffineTransform();
@@ -533,10 +532,7 @@ public class Rectangle implements Obstacles,  Serializable {
 		return rec;
     	
     }
-    
-    public Area getAir() {
-    	return this.aireRec;
-    }
+
 
 	@Override
 	public Vecteur2D getPosition() {
@@ -561,6 +557,10 @@ public class Rectangle implements Obstacles,  Serializable {
 	
 	public double getLargeur () {
 		return this.largeurRec;
+	}
+	public Area toAire() {
+		Area aire = new Area(aireRec);
+		return aire;
 	}
 
 }
