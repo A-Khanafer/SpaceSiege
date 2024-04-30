@@ -177,7 +177,7 @@ public class Niveau3 extends Niveaux {
 			int espace=0;
 			
 			monstre = new Monstres(1000, 20, pixelParMetres);
-			  canon = new Canon(0, 10,pixelParMetres,"CANONSEXY.png");
+			  canon = new Canon(0, 10,pixelParMetres);
 			 
 			 
 
@@ -393,7 +393,7 @@ public class Niveau3 extends Niveaux {
 		    canon.setPremiereFois(true);
 		    monstre = new Monstres(1000, 20, pixelParMetres);
 		    monstre.setNombreDeVie(1);
-		    canon = new Canon(0, 10,pixelParMetres,"CANONSEXY.png");
+		    canon = new Canon(0, 10,pixelParMetres);
 		    
 		   monstreMort=false;
 

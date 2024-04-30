@@ -54,6 +54,7 @@ public class FenetreBacASable extends JFrame {
 	private JButton btnSauvegarder;
 	
 	
+	
 	public static void afficherFenetre(FenetreModeDeJeu app) {
       
 		appli= app;
@@ -294,10 +295,6 @@ public class FenetreBacASable extends JFrame {
 		contentPane.add(btnCercleElectrique);
 		OutilsImage.lireImageEtPlacerSurBouton("balle.png", btnCercleElectrique);
 		
-		btnCanon = new JButton("Position Canon");
-		btnCanon.setBounds(787, 1019, 115, 105);
-		contentPane.add(btnCanon);
-		OutilsImage.lireImageEtPlacerSurBouton("canon.png", btnCanon);
 		
 		btnMonstre = new JButton("Monstres");
 		btnMonstre.addActionListener(new ActionListener() {

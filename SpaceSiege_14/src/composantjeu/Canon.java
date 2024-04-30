@@ -24,7 +24,11 @@ import physique.Vecteur2D;
  * de contrôler l'angle et la force de tir en ajustant la position de la souris par rapport au canon.
  * @author Benakmoum Walid
  * */
+
 public class Canon extends JPanel implements Selectionnable, Dessinable  {
+
+
+
 
     private static final long serialVersionUID = 1L;
 
@@ -132,7 +136,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable  {
      */
     private static int balleChoisie = 1;
     
-    private String urlImage;
+    private String urlImage = "CANONSEXY.png";
     
     private Image image = null;
     
@@ -149,11 +153,11 @@ public class Canon extends JPanel implements Selectionnable, Dessinable  {
      * @param pixelsParMetre Facteur de conversion de pixels en mètres.
      */
     //Benakmoum Walid
-	public Canon(double x,double y,double pixelsParMetre,String urlImage) {
+	public Canon(double x,double y,double pixelsParMetre) {
 		this.pixelsParMetre=pixelsParMetre;
 		this.x=x*this.pixelsParMetre;
 		this.y=y*this.pixelsParMetre;
-		this.urlImage=urlImage;
+		
 		hauteur = 6*this.pixelsParMetre;
 		largeur = 12*this.pixelsParMetre;
 
@@ -461,14 +465,9 @@ public class Canon extends JPanel implements Selectionnable, Dessinable  {
     public void setBalleDessiner(boolean des) {
     	balleDessiner=des;
     }
-	
-	
-	
-	public void moveX(int eX ) {
-        this.x = (eX - largeur/ 2); 
-        creerLaGeometrie();
-	}
 
+
+	
 	 /**
      * Déplace verticalement le canon.
      * 
