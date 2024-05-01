@@ -379,7 +379,7 @@ public class Epines implements Obstacles, Serializable{
 		    	Integer.toString((int) coinYGauche) + "\n" +
 		    	Integer.toString((int) largeur) + "\n" +
 		    	Integer.toString((int) longueur) + "\n" +
-		    	Integer.toString((int) angleRotation) + "\n";
+		    	Double.toString(angleRotation) + "\n";
 		return epi;
 		    	
 		}

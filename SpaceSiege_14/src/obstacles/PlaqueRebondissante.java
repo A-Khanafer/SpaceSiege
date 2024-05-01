@@ -366,7 +366,7 @@ public class PlaqueRebondissante implements Obstacles,  Serializable {
     //Ahmad Khanafer
     @Override
     public boolean contient(double xPix, double yPix) {
-        return rectangle.contains(xPix, yPix);
+        return aireRec.contains(xPix, yPix);
     }
     
     /**
@@ -525,7 +525,7 @@ public class PlaqueRebondissante implements Obstacles,  Serializable {
     			Integer.toString((int) coinYGauche) + "\n" +
     			Integer.toString((int) largeurRec) + "\n" +
     			Integer.toString((int) longueurRec) + "\n" +
-    			Double.toString((int) angleRotation) + "\n";
+    			Double.toString(angleRotation) + "\n";
 		return pla;
     	
     }

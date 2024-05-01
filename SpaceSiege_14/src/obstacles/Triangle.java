@@ -144,6 +144,7 @@ public class Triangle implements Obstacles, Serializable {
         AffineTransform transformation = new AffineTransform();
         transformation.rotate(angleRotation, centreX, centreY);
         airePoigne.transform(transformation);
+        aireTri.transform(transformation);
 		creationResizeHandles();
 		calculerCoins();
 		
@@ -468,7 +469,7 @@ public class Triangle implements Obstacles, Serializable {
 	    		Integer.toString((int) coinYGauche) + "\n" +
 	    		Integer.toString((int) largeur) + "\n" +
 	    		Integer.toString((int) longueur) + "\n" +
-	    		Integer.toString((int) angleRotation) + "\n";
+	    		Double.toString( angleRotation) + "\n";
 		return tri;
 	    	
 	}
