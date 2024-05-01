@@ -175,6 +175,7 @@ public class NiveauCustomiser extends Niveaux {
      * Dessine les composants graphiques de la zone d'animation, y compris le canon et les obstacles.
      * @param g L'objet Graphics utilisé pour dessiner.
      */
+	//Ahmad Khanafer
 	public void paintComponent(Graphics g ) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
@@ -223,6 +224,7 @@ public class NiveauCustomiser extends Niveaux {
 	/**
      * Exécute l'animation en boucle tant que enCoursDAnimation est vrai. Gère le calcul physique et les collisions.
      */
+	//Ahmad Khanafer
 	public void run() {
 		requestFocusInWindow(); 
 		while (enCoursDAnimation) {
@@ -399,7 +401,7 @@ public class NiveauCustomiser extends Niveaux {
 	/**
      * Teste les collisions entre les éléments graphiques et ajuste leurs vitesses en conséquence.
      */
-	//ZAKARIA SOUDAKI
+	//Ahmad Khanafer
 	public void testerCollisionsEtAjusterVitesses() {	
 		
         boolean state = Collisions.collisionMonstreBalle(monstre, canon.getBalle());

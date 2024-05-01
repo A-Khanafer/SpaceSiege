@@ -274,6 +274,7 @@ public class FenetreNiveaux extends JFrame {
 		
 		btnCustom = new JButton("Custom");
 		btnCustom.addActionListener(new ActionListener() {
+			//Ahmad Khanafer
 			public void actionPerformed(ActionEvent e) {
 
 				JFrame frame = new JFrame();

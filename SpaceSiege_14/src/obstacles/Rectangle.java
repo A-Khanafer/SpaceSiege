@@ -3,8 +3,6 @@ package obstacles;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
@@ -17,9 +15,7 @@ import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.Random;
 
-import interfaces.Dessinable;
 import interfaces.Obstacles;
-import interfaces.Selectionnable;
 import outils.OutilsImage;
 import physique.Vecteur2D;
 
@@ -494,24 +490,9 @@ public class Rectangle implements Obstacles,  Serializable {
         }
         return seg;
     }
-//    /**
-//     * Cette méthode retourne les coordonnées des deux points définissant un segment de ligne.
-//     *
-//     * @param segment Le segment de ligne dont vous souhaitez obtenir les coordonnées des points.
-//     * @return Un tableau de double de longueur 4 contenant les coordonnées des deux points du segment.
-//     *         Les deux premiers éléments du tableau représentent les coordonnées (x, y) du premier point
-//     *         et les deux derniers éléments du tableau représentent les coordonnées (x, y) du deuxième point.
-//     */
-//    //Zakaria Soudaki
-//    public double[] getPointsSegment(Line2D.Double segment) {
-//        double[] points = new double[4];
-//        points[0] = segment.getX1();
-//        points[1] = segment.getY1();
-//        points[2] = segment.getX2();
-//        points[3] = segment.getY2();
-//        return points;
-//    }
-    
+
+    //Donne une texture Aleatoire au rectangle;
+    //Ahmad Khanafer
     private void textureAleatoire() {
     	 Random rand = new Random();
          int i = rand.nextInt(3) + 1;
@@ -529,44 +510,75 @@ public class Rectangle implements Obstacles,  Serializable {
          }
     }
     
+
+    /**
+     * Retourne une représentation sous forme de chaîne de caractères du rectangle.
+     *
+     * @return une chaîne de caractères représentant le rectangle
+     */
     public String toString() {
-    	
-    	String rec;
-    	
-    	rec= "rec\n" + 
-    			Integer.toString((int) coinXGauche) + "\n" +
-    			Integer.toString((int) coinYGauche) + "\n" +
-    			Integer.toString((int) largeurRec) + "\n" +
-    			Integer.toString((int) longueurRec) + "\n" +
-    			Double.toString(angleRotation) + "\n";
-		return rec;
-    	
+        String rec;
+
+        rec = "Rectangle\n" +
+              "Coin supérieur gauche : (" + (int) coinXGauche + ", " + (int) coinYGauche + ")\n" +
+              "Largeur : " + (int) largeurRec + "\n" +
+              "Longueur : " + (int) longueurRec + "\n" +
+              "Angle de rotation : " + angleRotation + "\n";
+        return rec;
+    }
+
+    /**
+     * Retourne la position du rectangle.
+     *
+     * @return un vecteur 2D représentant la position du rectangle
+     */
+    public Vecteur2D getPosition() {
+        return new Vecteur2D(coinXGauche, coinYGauche);
     }
 
 
+    /**
+     * Retourne les coins du rectangle.
+     *
+     * @return un tableau de points représentant les coins du rectangle
+     */
+    public Point2D.Double[] getCoins() {
+        Point2D.Double[] tab = new Point2D.Double[4];
+        tab[0] = new Point2D.Double(coinXGauche, coinYGauche);
+        tab[1] = new Point2D.Double(coinXGauche + largeurRec, coinYGauche);
+        tab[2] = new Point2D.Double(coinXGauche + largeurRec, coinYGauche + longueurRec);
+        tab[3] = new Point2D.Double(coinXGauche, coinYGauche + longueurRec);
+        return tab;
+    }
+    
+    
 	@Override
 	public Vecteur2D getPositionCentre() {
 		return positionCentre;
 	}
+    /**
+     * Retourne la longueur du rectangle.
+     *
+     * @return la longueur du rectangle
+     */
+    public double getLongueur() {
+        return this.longueurRec;
+    }
 
-	@Override
-	public Point2D.Double[] getCoins() {
-		Point2D.Double[] tab = new Point2D.Double[4];
-		tab[0] = new Point2D.Double(coinXGauche,coinYGauche); 
-		tab[1] = new Point2D.Double(coinXDroite,coinYDroite); 
-		tab[2] = new Point2D.Double(coinXBasDroit,coinYBasDroit); 
-		tab[3] = new Point2D.Double(coinXBasGauche,coinYBasGauche); 
-
-		return tab;
-	}
-	
-	public double getLongueur () {
-		return this.longueurRec;
-	}
-	
-	public double getLargeur () {
-		return this.largeurRec;
-	}
+    /**
+     * Retourne la largeur du rectangle.
+     *
+     * @return la largeur du rectangle
+     */
+    public double getLargeur() {
+        return this.largeurRec;
+    }
+    
+	/**
+     * Convertit le rectangle Path2D en une zone (Area).
+     *
+     * @return une zone (Area) représentant le rectangle
+     */
 	public Area toAire() {
 		Area aire = new Area(aireRec);
 		return aire;
