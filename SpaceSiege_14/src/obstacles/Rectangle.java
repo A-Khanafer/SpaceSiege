@@ -102,6 +102,7 @@ public class Rectangle implements Obstacles,  Serializable {
 	
 	private transient BufferedImage texture;
 	
+	private boolean premiereFois = true;
 	
     /**
      * Constructeur de la classe Rectangle.
@@ -129,12 +130,17 @@ public class Rectangle implements Obstacles,  Serializable {
         longueurRec = longueur;
         largeurRec = largeur;
     	poigneRedimensionnement = new Ellipse2D.Double[8];
-    	textureRandom();
+    	
     	creerLaGeometrie();
     }
     // Méthode privée pour initialiser la géométrie du rectangle
     //Ahmad Khanafer
     private void creerLaGeometrie() {
+    	
+    	if(premiereFois) {
+    		textureRandom();
+    		premiereFois = false;
+    	}
     	coinXDroite = coinXGauche + largeurRec;
         coinYDroite = coinYGauche;
 

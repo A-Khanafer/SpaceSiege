@@ -9,6 +9,7 @@ import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.io.Serializable;
 import java.util.Iterator;
 
 import javax.swing.JPanel;
@@ -25,12 +26,10 @@ import physique.Vecteur2D;
  * @author Benakmoum Walid
  * */
 
-public class Canon extends JPanel implements Selectionnable, Dessinable  {
+public class Canon extends JPanel implements Selectionnable, Dessinable, Serializable  {
 
+	private static final long serialVersionUID = -6348955882676053044L;
 
-
-
-    private static final long serialVersionUID = 1L;
 
 	/**
      * Position horizontale du canon sur le panneau de dessin.

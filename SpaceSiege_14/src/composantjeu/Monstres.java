@@ -24,6 +24,7 @@ public class Monstres extends JPanel implements Runnable, Serializable{
 	
 	private static final long serialVersionUID = -4198412908689199658L;
 	
+	
 	/**
 	 * La classe Monstres représente un élément de jeu interactif qui peut être dessiné sur un JPanel.
 	 * Elle est utilisée pour créer des monstres qui peuvent être éliminés dans le jeu.
@@ -75,34 +76,37 @@ public class Monstres extends JPanel implements Runnable, Serializable{
 	    /**
 	     * Masse de la balle, affectant son comportement dans les calculs physiques.
 	     */
-	    protected int masse = 5;
+	    private int masse = 5;
 
 
 	    /**
 	     * Ratio de conversion des unités physiques en pixels pour l'affichage à l'écran. Non initialisé ici.
 	     */
-	    protected double pixelsParMetre;
+	    private double pixelsParMetre;
 
 	    /**
 	     * Zone graphique représentant la balle, utile pour le dessin et les détections de collision.
 	     */
-	    protected Area air;
+	    private Area air;
 
 
 	    /**
 	     * Position actuelle de la balle dans l'espace de simulation, exprimée par un vecteur.
 	     */
-	    protected Vecteur2D position = new Vecteur2D();
+	    private Vecteur2D position = new Vecteur2D();
 
 	    /**
 	     * Vitesse actuelle de la balle, représentée par un vecteur.
 	     */
-	    protected Vecteur2D vitesse= new Vecteur2D(0,0);
+	    private Vecteur2D vitesse= new Vecteur2D(0,0);
 
 	    /**
 	     * Accélération de la balle, déterminée par les forces appliquées sur elle. Initialement définie à zéro.
 	     */
-	    protected Vecteur2D accel = new Vecteur2D(0, 0);
+	    private Vecteur2D accel = new Vecteur2D(0, 0);
+
+
+		private boolean premiereFois = true;
 
 	    /**
 		 * Constructeur de la classe Monstres.
@@ -123,12 +127,29 @@ public class Monstres extends JPanel implements Runnable, Serializable{
 	       creerLaGeometrie();
 //	       demarrer();
 	    }
+	    public Monstres(double posX, double posY,double largeur, double longueur, double angleRotation) {
+	    	setOpaque(false);
+	    	
+	    	this.position = new Vecteur2D(posX,posY);
+	    	longueurRectangle = largeur;
+	    	hauteurRectangle = longueur;
+	    	
+	       
+	       creerLaGeometrie();
+
+	    }
 
 	    /**
 		 * Initialise la géométrie du monstre.
 		 **/
 	    //Zakaria Soudaki
 	    private void creerLaGeometrie() {
+	    	
+	    	if(premiereFois) {
+	    		imgDecor = OutilsImage.lireImage(nomImg); 
+	    		premiereFois = false;
+	    	}
+	    	
 	        rec = new Rectangle2D.Double(position.getX(),position.getY(),longueurRectangle,hauteurRectangle);
 	        aireMonstre = new Path2D.Double(rec);
 	        
@@ -312,9 +333,24 @@ public class Monstres extends JPanel implements Runnable, Serializable{
 	
 	public boolean contient(double xPix, double yPix) {
 		// TODO Auto-generated method stub
-		if(air.contains(xPix, yPix)|| air.contains(xPix, yPix)) {
+		if(aireMonstre.contains(xPix, yPix)) {
 			return true;
 		}
 		return false;
 	}
+	
+    //Ahmad Khanafer
+    public String toString() {
+    	
+    	String mons;
+    	
+    	mons= "mons\n" + 
+    			Integer.toString((int) position.getX()) + "\n" +
+    			Integer.toString((int) position.getY()) + "\n" +
+    			Integer.toString((int) longueurRectangle) + "\n" +
+    			Integer.toString((int) hauteurRectangle) + "\n" +
+    			Double.toString((int) 0.0) + "\n";
+		return mons;
+    	
+    }
 }

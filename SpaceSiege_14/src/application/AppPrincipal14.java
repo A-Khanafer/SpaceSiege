@@ -160,7 +160,6 @@ public class AppPrincipal14 extends JFrame{
 				}
 				if(son == false) {
 					OutilsImage.lireImageEtPlacerSurBouton("son2.png", btnSon);
-
 				}
 
 			}

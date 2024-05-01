@@ -33,6 +33,7 @@ import physique.Vecteur2D;
 import java.awt.Color;
 
 import obstacles.CercleElectrique;
+import obstacles.ObstacleHolder;
 import obstacles.Rectangle;
 
 import obstacles.Triangle;
@@ -154,7 +155,10 @@ public class Niveau3 extends Niveaux {
     
     private Vecteur2D forceDroiteGauche = new Vecteur2D(0,0);
     
-  private boolean oldValue;
+    private boolean oldValue;
+  
+    private ObstacleHolder obHolder;
+
 
    
    
@@ -212,7 +216,9 @@ public class Niveau3 extends Niveaux {
 			
 			System.out.println(monstre.getNombreDeVie()+"___");
 		
-			 
+			if(obHolder!=null) {
+	        	obHolder.drawContient(g2d);
+	        }else {
 			 tableauRec[0] = new Rectangle(  143,  354, 330, 53,0);
 			 
 			 tableauRec[1] = new Rectangle(  1200,  120, 186, 48,0);
@@ -237,7 +243,7 @@ public class Niveau3 extends Niveaux {
 
 			
 			 premiereFois = false;
-			
+	        }
 		}
 
 		
@@ -791,6 +797,11 @@ public class Niveau3 extends Niveaux {
 	}
 	public void setModeScience(boolean sc) {
 		this.modeScience=sc;
+		repaint();
+	}
+	
+	public void setObHolder(ObstacleHolder obHolder) {
+		this.obHolder = obHolder;
 		repaint();
 	}
 }

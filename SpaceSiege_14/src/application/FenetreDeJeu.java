@@ -9,7 +9,9 @@ import javax.swing.border.EmptyBorder;
 import niveaux.Niveau1;
 import niveaux.Niveau2;
 import niveaux.Niveau3;
+import niveaux.NiveauCustomiser;
 import niveaux.Niveaux;
+import obstacles.ObstacleHolder;
 import outils.OutilsImage;
 import composantdessin.PlanCartesien;
 import java.awt.Color;
@@ -77,6 +79,7 @@ public class FenetreDeJeu extends JFrame {
 	private Niveau1 niv1;
 	private Niveau2 niv2;
 	private Niveau3 niv3;
+	private NiveauCustomiser nivCustom;
 	private static Niveaux nivActuel;
 	private JRadioButton rdbBalleNormal;
 	private JRadioButton rdbBalleElastique;
@@ -98,6 +101,8 @@ public class FenetreDeJeu extends JFrame {
             {"Niveau 2", "Donnée 1 Niveau 2", "Donnée 2 Niveau 2", "Donnée 3 Niveau 2"},
             {"Niveau 3", "Donnée 1 Niveau 3", "Donnée 2 Niveau 3", "Donnée 3 Niveau 3"}
     };
+
+	
 	/**
      * Méthode statique pour afficher la fenêtre de jeu. Crée une instance de {@code FenetreDeJeu} et la rend visible.
      */
@@ -130,11 +135,13 @@ public class FenetreDeJeu extends JFrame {
 		 niv1 = new Niveau1();
 	   	 niv2 = new Niveau2();
 		 niv3 = new Niveau3();
+		 nivCustom = new NiveauCustomiser();
 		 niveaux[0] = niv1;
 		 niveaux[1] = niv2;
 		 niveaux[2] = niv3;
+		 niveaux[3] = nivCustom;
 		 nivActuel = niveaux[index];
-
+		 
 		 nivActuel.addPropertyChangeListener(new PropertyChangeListener() {
 		 	public void propertyChange(PropertyChangeEvent evt) {
 		 		if (evt.getPropertyName().equals("position") ) {
@@ -528,5 +535,11 @@ public class FenetreDeJeu extends JFrame {
 
 		repaint();
 	}
+	
+	
+	public static void  setNiveauCustom(ObstacleHolder obHolder) {
+		nivActuel.setObHolder(obHolder);
+	}
+	
 }
 
