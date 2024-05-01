@@ -416,7 +416,8 @@ public class Epines implements Obstacles, Serializable{
 	
 	
 	public Area toAire() {
-		return null;
+		Area aire = new Area(aireEpines);
+        return aire;
 	}
 
 	@Override
