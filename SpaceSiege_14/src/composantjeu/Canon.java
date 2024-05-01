@@ -452,10 +452,6 @@ public class Canon extends JPanel implements Selectionnable, Dessinable {
     	balleDessiner=des;
     }
 
-	public Vecteur2D getPosition() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	 /**
      * Déplace verticalement le canon.

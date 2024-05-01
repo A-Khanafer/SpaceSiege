@@ -139,7 +139,7 @@ public class Niveau2 extends Niveaux {
     /**
      * Le canon utilisé pour tirer des balles.
      */
-	private Canon canon;
+//	private Canon canon;
 	/**
     * Indique si le monstre est mort.
     */
@@ -157,7 +157,7 @@ public class Niveau2 extends Niveaux {
 	 */
     //Benakmoum Walid
 	public Niveau2() {
-		setBackground(new Color(192, 192, 192));
+		
 		setLayout(null);
 		tableauRec = new Rectangle[3];
 		tableauTri = new Triangle[1];
@@ -263,6 +263,17 @@ public class Niveau2 extends Niveaux {
 				Collisions.collisionCercle(canon.getBalle(), tableauCercle[i]);
 			}
 
+			System.out.println("________________________________"+Collisions.getNbRebond());
+
+			
+			if(Collisions.getNbRebond()>=3) {
+				enCoursDAnimation=false;
+		
+				reinitialiserPosition();
+				
+			}
+			
+			
 			Area areaBalle = new Area(canon.getBalle().getCercle()); 
 			Area areaMonstre = monstre.toAire();
 			areaBalle.intersect(areaMonstre);
@@ -295,12 +306,12 @@ public class Niveau2 extends Niveaux {
 	// Benakmoum Walid
 	public void demarrer() {
 		if (!enCoursDAnimation) {
-
 			Thread proc = new Thread(this);
 			proc.start();
 			enCoursDAnimation = true;
 			balleTiree=true;
 			canon.setBalleTiree();
+			requestFocus();
 		}
 	}//fin methode
 	/**
@@ -627,6 +638,15 @@ public class Niveau2 extends Niveaux {
 								repaint();
 							}
 					}	
+				}
+				
+				public void reinitialiserPosition() {
+					enCoursDAnimation=false;
+					balleTiree = false;
+				    canon.setPremiereFois(true);
+				    canon = new Canon(0, 10,pixelParMetres);
+				    Collisions.setNbrebond(0);
+				    repaint();
 				}
 }
 		

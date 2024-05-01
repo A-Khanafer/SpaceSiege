@@ -41,6 +41,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 
+import physique.ForcesMonstre;
 import physique.Vecteur2D;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
@@ -58,7 +59,6 @@ public class FenetreDeJeu extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
 	private JPanel contentPane;
-	private JPanel panelTable;
 	private JButton btnRetour;
 	
 
@@ -164,7 +164,7 @@ public class FenetreDeJeu extends JFrame {
 		//
 		JPanel panelFonctionnalites = new JPanel();
 		panelFonctionnalites.setBackground(new Color(255, 255, 255));
-		panelFonctionnalites.setBounds(0, 875, 795, 316);
+		panelFonctionnalites.setBounds(0, 866, 795, 224);
 		contentPane.add(panelFonctionnalites);
 		panelFonctionnalites.setLayout(null);
 		
@@ -194,7 +194,7 @@ public class FenetreDeJeu extends JFrame {
 			}
 		});
 		btnRetour.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
-		btnRetour.setBounds(521, 128, 68, 68);
+		btnRetour.setBounds(617, 14, 68, 68);
 		panelFonctionnalites.add(btnRetour);
 		OutilsImage.lireImageEtPlacerSurBouton("retour1.png", btnRetour);
 
@@ -282,7 +282,7 @@ public class FenetreDeJeu extends JFrame {
 			}
 		});
 		btnPause.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
-		btnPause.setBounds(403, 52, 68, 68);
+		btnPause.setBounds(380, 14, 68, 68);
 		panelFonctionnalites.add(btnPause);
 		OutilsImage.lireImageEtPlacerSurBouton("pause1.png", btnPause);
 
@@ -319,7 +319,7 @@ public class FenetreDeJeu extends JFrame {
 			}
 		});
 		btnReinitialiser.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
-		btnReinitialiser.setBounds(481, 52, 68, 68);
+		btnReinitialiser.setBounds(458, 14, 68, 68);
 		panelFonctionnalites.add(btnReinitialiser);
 		OutilsImage.lireImageEtPlacerSurBouton("recommencer1.png",btnReinitialiser);
 
@@ -349,7 +349,7 @@ public class FenetreDeJeu extends JFrame {
 			}
 		});
 		btnDemarrer.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
-		btnDemarrer.setBounds(325, 52, 68, 68);
+		btnDemarrer.setBounds(302, 14, 68, 68);
 		panelFonctionnalites.add(btnDemarrer);
 		OutilsImage.lireImageEtPlacerSurBouton("demarrer1.png",btnDemarrer);
 
@@ -374,13 +374,13 @@ public class FenetreDeJeu extends JFrame {
 			}
 		});
 		btn1Image.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
-		btn1Image.setBounds(562, 52, 68, 68);
+		btn1Image.setBounds(539, 14, 68, 68);
 		panelFonctionnalites.add(btn1Image);
 		OutilsImage.lireImageEtPlacerSurBouton("plusimg1.png",btn1Image);
 
 		
 		JSlider slider = new JSlider();
-		slider.setBounds(325, 246, 440, 26);
+		slider.setBounds(312, 94, 440, 26);
 		panelFonctionnalites.add(slider);
 		
 		spinnerMasse = new JSpinner();
@@ -452,12 +452,12 @@ public class FenetreDeJeu extends JFrame {
 			}
 		});
 		comboBoxTypeGrav.setModel(new DefaultComboBoxModel(new String[] {"ESPACE", "TERRE", "MARS"}));
-		comboBoxTypeGrav.setBounds(167, 235, 109, 37);
+		comboBoxTypeGrav.setBounds(643, 135, 109, 37);
 		panelFonctionnalites.add(comboBoxTypeGrav);
 		
 		JButton btnNewButton = new JButton("MODES EXTRA");
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 8));
-		btnNewButton.setBounds(16, 189, 109, 37);
+		btnNewButton.setBounds(302, 136, 109, 37);
 		panelFonctionnalites.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("QUITTER");
@@ -467,7 +467,7 @@ public class FenetreDeJeu extends JFrame {
 			}
 		});
 		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 8));
-		btnNewButton_1.setBounds(16, 235, 109, 37);
+		btnNewButton_1.setBounds(421, 136, 109, 37);
 		panelFonctionnalites.add(btnNewButton_1);
 		
 		JLabel lblNewLabel = new JLabel("CHOIX DE BALLES :");
@@ -483,14 +483,8 @@ public class FenetreDeJeu extends JFrame {
 		panelFonctionnalites.add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_3 = new JLabel("TYPE DE GRAVITÉ :");
-		lblNewLabel_3.setBounds(167, 214, 109, 23);
+		lblNewLabel_3.setBounds(539, 142, 109, 23);
 		panelFonctionnalites.add(lblNewLabel_3);
-		
-		panelTable = new JPanel();
-		panelTable.setBackground(new Color(255, 255, 255));
-		panelTable.setBounds(805, 875, 310, 286);
-		contentPane.add(panelTable);
-		panelTable.setLayout(null);
 		
 		
 		
@@ -498,7 +492,7 @@ public class FenetreDeJeu extends JFrame {
 	    niv1.changerTypeGravite("ESPACE"); 
 	    
 		planCartesien = new PlanCartesien(nivActuel.getBalle().getPositionEnMetre());
-		planCartesien.setBounds(1445, 875, 449, 316);
+		planCartesien.setBounds(1075, 866, 819, 218);
 		contentPane.add(planCartesien);
 		
 		
@@ -515,14 +509,10 @@ public class FenetreDeJeu extends JFrame {
 			contentPane.add(lbl);
 			
 			JPanel panel = new JPanel();
-			panel.setBounds(0, 0, 1920, 864);
+			panel.setBounds(0, 0, 1920, 666);
 			contentPane.add(panel);
 			
-			JPanel panel_1 = new JPanel();
-			panel_1.setBounds(1125, 875, 310, 286);
-			contentPane.add(panel_1);
-			
-			
+//			ForcesMonstre vecMonstre = new ForcesMonstre(nivActuel.getMonstre(), null, null);
 
 	}
 	private void refreshLabel() {

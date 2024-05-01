@@ -173,7 +173,9 @@ public class Collisions {
  	    }else {
 
  	    balle.setVitesse(vitesseApresCollision);
- 	    compteurRebonds++;
+        compteurRebonds++;
+
+ 	    
  	    }
     }
 
@@ -186,7 +188,7 @@ public class Collisions {
 
 	    balle.setVitesse( new Vecteur2D ( -balle.getVitesse().getX(), -balle.getVitesse().getY() ));
 	    compteurRebonds++;
-}
+     }
     /**
      * Méthode principale qui detecte la collision entre la balle et le rectangle et ajuste la vitesse de la balle après la collision
      * @param balle la géometrie ( la balle)
@@ -244,21 +246,25 @@ public class Collisions {
 		        }
 		    }
 		    if (seg[0] == true) {
+		    	
 		        calculRebondPhysique(segmentRec[0], balle);
 		   
 		        seg[0] = false;
 		    }  
 		    if (seg[1] == true) {
+
 		        calculRebondPhysique(segmentRec[1], balle);
 		    
 		        seg[1] = false;
 		    } 
 		    if (seg[2] == true) {
+
 		        calculRebondPhysique(segmentRec[2], balle);
 		     
 		        seg[2] = false;
 		    } 
 		    if (seg[3] == true) {
+
 		        calculRebondPhysique(segmentRec[3], balle);
 		       
 		        seg[3] = false;

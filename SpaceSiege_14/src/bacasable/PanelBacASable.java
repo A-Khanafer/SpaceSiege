@@ -93,6 +93,8 @@ public class PanelBacASable extends JPanel {
 	private Point2D.Double[] coinsTri;
 	
 	private Point2D.Double valPlusHaute = new Point2D.Double(0,0);
+	
+	private double val = 0;
 
     /**
      * Constructeur par défaut de PanelBacASable.
@@ -263,18 +265,21 @@ public class PanelBacASable extends JPanel {
 					
 					if(ob.getPosition().getY() < getHeight()-20) {
 						ob.move( e.getX(), e.getY());
+						  posPlusHaute(ob.getCoins());
+						  Point2D.Double[] tab = ob.getCoins();
+						  System.out.println("______"+tab[0]+"______"+tab[1]+"______"+tab[2]+"______"+tab[3]);
 					}
 					
 				    
 					    posPlusHaute(ob.getCoins());
 						
 						
-						if (valPlusHaute.getY() >= getHeight()-20 ) {
+						if (ob.getPosition().getY()+ ob.getLongueur() >= getHeight()-20 ) {
 							
 							Point2D.Double pos = calculHauteurEq(ob.getPosition(), valPlusHaute,  (double) getHeight());
-							ob.move( e.getX(), (int) (  getHeight()-pos.getY()));
+							ob.move( e.getX() , (int) (getHeight() - ob.getLargeur()/2));
 							
-
+                        System.out.println("_______________________________"+valPlusHaute.getY());
 							
 						} 
 //						else if (ob.getPosition().getY() + ob.getLargeur() >= getHeight()-20){
@@ -378,14 +383,14 @@ public class PanelBacASable extends JPanel {
     	
     	for (int i = 0; i < tab.length; i++) {
     		
-    		if(tab[i].getY() > valPlusHaute.getY()) {
-    			valPlusHaute.setLocation(0, tab[i].getY()); 
+    		if(tab[i].getY() > val) {
+    			val = tab[i].getY(); 
     			}
 		}
     }
     public Point2D.Double calculHauteurEq ( Vecteur2D centre ,Point2D.Double point, double hauteur) {
     	
-    	double dist1 = Collisions.distanceEntreDeuxPoints( point.getX(),point.getX(), point.getY(), hauteur);
+    	double dist1 = Collisions.distanceEntreDeuxPoints( point.getX(), point.getX() , point.getY() , hauteur);
     	double dist2 = Collisions.distanceEntreDeuxPoints( centre.getX() , centre.getX() , centre.getY(), hauteur);
     	
     	double posY = dist2 - dist1;

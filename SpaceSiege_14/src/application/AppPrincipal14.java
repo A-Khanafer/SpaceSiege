@@ -239,30 +239,6 @@ public class AppPrincipal14 extends JFrame{
 		OutilsImage.lireImageEtPlacerSurBouton("auteurs1.png", btnInfo);
 
 		
-		JButton btnX = new JButton("New button");
-		btnX.setBorder(emptyBorder);
-		btnX.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
-		btnX.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				OutilsImage.lireImageEtPlacerSurBouton("xRouge.png", btnX);
-
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				OutilsImage.lireImageEtPlacerSurBouton("xBlanc.png", btnX);
-
-			}
-		});
-		btnX.setBounds( 1920-80, 10, 75, 65);
-		contentPane.add(btnX);
-		OutilsImage.lireImageEtPlacerSurBouton("xBlanc.png", btnX);
-		
-		
 		
 		
 		JLabel lbl  = new JLabel("");

@@ -102,6 +102,9 @@ public class Niveaux extends JPanel implements Runnable {
      * Le canon utilisé pour tirer des balles.
      */
     protected Canon canon ;
+    
+    private Monstres monstre;
+    
     protected boolean monstreMort=false;
     
 //    protected String fondActuel = "/fondjeu4.png";
@@ -124,12 +127,8 @@ public class Niveaux extends JPanel implements Runnable {
 		
 
 		pixelParMetres = 8.64;
-		  canon = new Canon(0, 10,pixelParMetres);
-		
-		
-		
-		
-		
+		canon = new Canon(0, 10,pixelParMetres);
+		monstre = new Monstres(1200, 40, pixelParMetres);
 		
 		
 	}
@@ -270,6 +269,9 @@ public class Niveaux extends JPanel implements Runnable {
 	}
 	public void setMasseBalle(int mas) {
 	
+	}
+	public Monstres getMonstre() {
+		return this.monstre;
 	}
 	
 	

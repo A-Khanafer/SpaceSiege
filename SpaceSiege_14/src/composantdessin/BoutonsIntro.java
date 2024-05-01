@@ -45,6 +45,11 @@ public class BoutonsIntro extends JPanel {
 		imgFond = OutilsImage.lireImage("fond.png");
 		
 		JButton btnQuitter = new JButton("QUITTER");
+		btnQuitter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
 		
 		btnQuitter.addMouseListener(new MouseAdapter() {
 			@Override

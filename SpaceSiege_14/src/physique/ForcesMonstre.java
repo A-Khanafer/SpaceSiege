@@ -25,6 +25,7 @@ public class ForcesMonstre extends JPanel {
 	        this.vitesse = vitesse;
 	        this.acceleration = acceleration;
 	        this.sommeDesForces = sommeDesForces;
+	        
 	    }
 
 	    @Override
