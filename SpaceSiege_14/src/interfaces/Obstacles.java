@@ -1,10 +1,8 @@
 package interfaces;
 
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
-import java.awt.geom.Path2D;
 
 import physique.Vecteur2D;
 
@@ -71,7 +69,7 @@ public interface Obstacles {
     public int getClickedResizeHandleIndex(double x, double y);
     
     /**
-     * Méthode pour déterminer si le rectangle est sélectionné.
+     * Méthode pour déterminer si l'obstacle est sélectionné.
      *
      * @return true si le rectangle est sélectionné, sinon false.
      */
@@ -79,23 +77,25 @@ public interface Obstacles {
     public boolean isClickedOnIt();
     
     /**
-     * Méthode pour définir l'état de sélection du rectangle.
+     * Méthode pour définir l'état de sélection de l'obstacle.
      *
      * @param clickedOnIt true pour sélectionner le rectangle, sinon false.
      */
     //Ahmad Khanafer
     public void setClickedOnIt(boolean clickedOnIt);
-    
+    /**
+     * Convertit un Path2D en une zone (Area).
+     *
+     * @return une zone (Area) représentant le rectangle
+     */
+    //Ahmad Khanafer
     public Area toAire();
     
     public Vecteur2D getPosition();
     
     public Point2D.Double[] getCoins();
     
-    public double getLongueur () ;
-	
-	
-	public double getLargeur () ;
+
 	
 
 }

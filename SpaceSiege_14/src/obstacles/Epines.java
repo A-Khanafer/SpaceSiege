@@ -401,19 +401,16 @@ public class Epines implements Obstacles, Serializable{
 		return tab;
 	}
 
-	@Override
 	public double getLongueur() {
-		// TODO Auto-generated method stub
 		return this.longueur;
 	}
 
-	@Override
 	public double getLargeur() {
-		// TODO Auto-generated method stub
 		return this.largeur;
 	}
+	
+	
 	public Area toAire() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	
