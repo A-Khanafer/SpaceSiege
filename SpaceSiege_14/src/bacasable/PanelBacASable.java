@@ -283,11 +283,12 @@ public class PanelBacASable extends JPanel {
 				}
 				if(ob.contient(e.getX(), e.getY()) && ob.isClickedOnIt() == false) {
 
-					if(ob.getPosition().getY() < getHeight()-20) {
+					if(ob.getPositionCentre().getY() < getHeight()-20) {
 						ob.move( e.getX(), e.getY());
 						 
-					}else if (ob.getPosition().getY()+ ob.getLongueur() >= getHeight()-20 ) {
-							ob.move( e.getX() , (int) (getHeight() - ob.getLargeur()/2));
+					}else if (ob.getPositionCentre().getY() + ob.getLongueur()/2 >= getHeight()-20 ) {
+						ob.setPositionCentre(new Vecteur2D(e.getX(),(864)));
+							ob.move( e.getX() , (int) (getHeight() - ob.getLongueur()));
 							
 							
 						} 

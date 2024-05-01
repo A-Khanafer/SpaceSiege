@@ -421,5 +421,11 @@ public class Epines implements Obstacles, Serializable{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void setPositionCentre(Vecteur2D positionCentre) {
+		this.positionCentre = positionCentre;
+		
+	}
 	
 }

@@ -90,6 +90,8 @@ public interface Obstacles {
     
     public Vecteur2D getPositionCentre();
     
+    public void setPositionCentre(Vecteur2D positionCentre);
+    
     public Point2D.Double[] getCoins();
     
     public double getLongueur () ;

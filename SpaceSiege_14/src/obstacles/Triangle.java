@@ -515,5 +515,10 @@ public class Triangle implements Obstacles, Serializable {
 		Area aire = new Area(aireTri);
 		return aire;
 	}
+
+	@Override
+	public void setPositionCentre(Vecteur2D positionCentre) {
+		this.positionCentre = positionCentre;		
+	}
 	
 }

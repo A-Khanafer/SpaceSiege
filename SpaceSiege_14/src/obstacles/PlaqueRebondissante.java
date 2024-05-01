@@ -565,4 +565,10 @@ public class PlaqueRebondissante implements Obstacles,  Serializable {
 		return aire;
 	}
 
+	@Override
+	public void setPositionCentre(Vecteur2D positionCentre) {
+		this.positionCentre = positionCentre;
+		
+	}
+
 }
