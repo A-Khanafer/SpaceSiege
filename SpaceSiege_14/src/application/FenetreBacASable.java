@@ -182,15 +182,15 @@ public class FenetreBacASable extends JFrame {
 		
 		        if (result == JFileChooser.APPROVE_OPTION) {
 		            File selectedFile = fileChooser.getSelectedFile();
-		            // Vérifier si le fichier a l'extension correcte
+		            
 		            if (selectedFile != null && selectedFile.getName().endsWith(".txt")) {
-		            	  // Sauvegarder le chemin du fichier
+		            	  
 		            	selectedFilePath = selectedFile.getAbsolutePath();
 		                JOptionPane.showMessageDialog(frame, "Fichier sélectionné: " + selectedFile.getAbsolutePath());
 		                SauvegardeNiveau.lireFichierTexte(selectedFilePath);
 		                SauvegardeNiveau.creationFichierBinaire(selectedFilePath);
 				        
-				        //Donne le Holder d'obstacle au panel
+				        
 				        panelBacASable.setObHolder(SauvegardeNiveau.lectureFichierBinaireObjet());
 				        
 				        
@@ -281,6 +281,11 @@ public class FenetreBacASable extends JFrame {
 		OutilsImage.lireImageEtPlacerSurBouton("spikes.png", btnEpines);
 		
 		btnPlaqueRebondissante = new JButton("Plaque Rebondissante");
+		btnPlaqueRebondissante.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelBacASable.ajouterPlaqueRebondissante();
+			}
+		});
 		btnPlaqueRebondissante.setBounds(527, 1019, 115, 105);
 		contentPane.add(btnPlaqueRebondissante);
 		OutilsImage.lireImageEtPlacerSurBouton("bouncePad.png", btnPlaqueRebondissante);

@@ -79,6 +79,9 @@ public class Epines implements Obstacles, Serializable{
 	
 	private final int NB_EPINE = 10;
 	
+	 private Vecteur2D positionCentre;
+
+	
 	
 	
 	public Epines(double x, double y, double pixelsParMetres) {
@@ -119,6 +122,8 @@ public class Epines implements Obstacles, Serializable{
 		centreY = rectanglePointille.getCenterY();
 		sommetX = coinXGauche + largeur/2;
 		sommetY = coinYGauche;
+		
+		positionCentre = new Vecteur2D(centreX, centreY);
 		
 		epines = new Path2D.Double();
 		epines.moveTo(coinXGauche, coinYGauche + longueur);
@@ -379,15 +384,15 @@ public class Epines implements Obstacles, Serializable{
 		    	Integer.toString((int) coinYGauche) + "\n" +
 		    	Integer.toString((int) largeur) + "\n" +
 		    	Integer.toString((int) longueur) + "\n" +
-		    	Integer.toString((int) angleRotation) + "\n";
+		    	Double.toString(angleRotation) + "\n";
 		return epi;
 		    	
 		}
 
 
 	@Override
-	public Vecteur2D getPosition() {
-		return new Vecteur2D(coinXGauche, coinYGauche);
+	public Vecteur2D getPositionCentre() {
+		return positionCentre;
 	}
 
 	@Override

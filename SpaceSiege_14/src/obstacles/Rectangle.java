@@ -102,6 +102,9 @@ public class Rectangle implements Obstacles,  Serializable {
 	
 	private transient BufferedImage texture;
 	
+	private boolean premiereFois = true;
+	
+	 private Vecteur2D positionCentre;
 	
     /**
      * Constructeur de la classe Rectangle.
@@ -117,7 +120,7 @@ public class Rectangle implements Obstacles,  Serializable {
         largeurRec = 10 * this.pixelsParMetre;
         longueurRec = 10 * this.pixelsParMetre;
         poigneRedimensionnement = new Ellipse2D.Double[8];
-        textureRandom();
+        textureAleatoire();
         creerLaGeometrie();
     }
 
@@ -129,12 +132,16 @@ public class Rectangle implements Obstacles,  Serializable {
         longueurRec = longueur;
         largeurRec = largeur;
     	poigneRedimensionnement = new Ellipse2D.Double[8];
-    	textureRandom();
     	creerLaGeometrie();
     }
     // Méthode privée pour initialiser la géométrie du rectangle
     //Ahmad Khanafer
     private void creerLaGeometrie() {
+    	
+    	if(premiereFois) {
+    		textureAleatoire();
+    		premiereFois = false;
+    	}
     	coinXDroite = coinXGauche + largeurRec;
         coinYDroite = coinYGauche;
 
@@ -148,6 +155,9 @@ public class Rectangle implements Obstacles,  Serializable {
         rectanglePointille = rectangle;
         centreX = rectangle.getCenterX();
         centreY = rectangle.getCenterY();
+        
+        positionCentre = new Vecteur2D(centreX, centreY);
+
         aireRec = new Path2D.Double(rectangle);
         poigneRotation = new Ellipse2D.Double((coinXGauche+largeurRec/2) - 15, coinYGauche - 50, 30, 30);
         airePoigne = new Area(poigneRotation);
@@ -502,7 +512,7 @@ public class Rectangle implements Obstacles,  Serializable {
 //        return points;
 //    }
     
-    private void textureRandom() {
+    private void textureAleatoire() {
     	 Random rand = new Random();
          int i = rand.nextInt(3) + 1;
          
@@ -528,16 +538,15 @@ public class Rectangle implements Obstacles,  Serializable {
     			Integer.toString((int) coinYGauche) + "\n" +
     			Integer.toString((int) largeurRec) + "\n" +
     			Integer.toString((int) longueurRec) + "\n" +
-    			Double.toString((int) angleRotation) + "\n";
+    			Double.toString(angleRotation) + "\n";
 		return rec;
     	
     }
 
 
 	@Override
-	public Vecteur2D getPosition() {
-		
-		return new Vecteur2D(coinXGauche,coinYGauche);
+	public Vecteur2D getPositionCentre() {
+		return positionCentre;
 	}
 
 	@Override

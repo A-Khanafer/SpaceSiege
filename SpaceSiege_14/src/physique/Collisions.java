@@ -248,25 +248,26 @@ public class Collisions {
 		    if (seg[0] == true) {
 		    	
 		        calculRebondPhysique(segmentRec[0], balle);
-		   
+		        System.out.println("SEG 0;");
 		        seg[0] = false;
+		       
 		    }  
 		    if (seg[1] == true) {
 
 		        calculRebondPhysique(segmentRec[1], balle);
-		    
+		        System.out.println("SEG 1;");
 		        seg[1] = false;
 		    } 
 		    if (seg[2] == true) {
 
 		        calculRebondPhysique(segmentRec[2], balle);
-		     
+		        System.out.println("SEG 2;");
 		        seg[2] = false;
 		    } 
 		    if (seg[3] == true) {
 
 		        calculRebondPhysique(segmentRec[3], balle);
-		       
+		        System.out.println("SEG 3;");
 		        seg[3] = false;
 		        
 		    } 
@@ -431,6 +432,7 @@ public class Collisions {
 	    		balle.getVitesse().setY(-balle.getVitesse().getY());
 	    		balle.getPosition().setY(posSol-balle.getDiametre());
 	    		 compteurRebonds++;
+	    		 
 	    	}
 	    	if ( (balle.getPosition().getX() + balle.getDiametre()) >= ( posMurDroit ) ) {
 	    		balle.getVitesse().setX(-balle.getVitesse().getX());

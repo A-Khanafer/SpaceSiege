@@ -23,6 +23,7 @@ import obstacles.Cercle;
 import obstacles.CercleElectrique;
 import obstacles.Epines;
 import obstacles.ObstacleHolder;
+import obstacles.PlaqueRebondissante;
 import obstacles.Rectangle;
 import obstacles.Triangle;
 import physique.Collisions;
@@ -68,6 +69,8 @@ public class PanelBacASable extends JPanel {
 	
 	private int nbrCanon = 0;
 	
+	private int nbrPlaqueRebondissante = 0;
+	
 	private boolean editeurModeOn = true;
 
 	private ObstacleHolder obHolder = new ObstacleHolder();
@@ -95,6 +98,8 @@ public class PanelBacASable extends JPanel {
 	private Point2D.Double valPlusHaute = new Point2D.Double(0,0);
 	
 	private double val = 0;
+
+	
 
     /**
      * Constructeur par défaut de PanelBacASable.
@@ -196,7 +201,7 @@ public class PanelBacASable extends JPanel {
             
             repaint();
         } else {
-            JOptionPane.showMessageDialog(null,"Nombre Maximale de Cercle Atteint");
+            JOptionPane.showMessageDialog(null,"Nombre Maximale de Cercle Electrique Atteint");
         }
     }
     
@@ -211,7 +216,22 @@ public class PanelBacASable extends JPanel {
             
             repaint();
         } else {
-            JOptionPane.showMessageDialog(null,"Nombre Maximale de Cercle Atteint");
+            JOptionPane.showMessageDialog(null,"Nombre Maximale d'Epines Atteint");
+        }
+    }
+    
+    public void ajouterPlaqueRebondissante() {
+        if(nbrPlaqueRebondissante < 3) {
+        	double espace=0;
+        	PlaqueRebondissante epi = new PlaqueRebondissante(50 + espace, 50 + espace, pixelParMetres);
+            obHolder.addObstacle(epi);
+            nbrPlaqueRebondissante += 1;
+            
+            coinsEpines = epi.getCoins();
+            
+            repaint();
+        } else {
+            JOptionPane.showMessageDialog(null,"Nombre Maximale de Plaque Rebondissante Atteint");
         }
     }
 
@@ -249,37 +269,26 @@ public class PanelBacASable extends JPanel {
 			repaint();
 		}
 		}
+		
 			
 		for(Obstacles ob : obHolder.getObstacleHolder()) {
 			int index = ob.getClickedResizeHandleIndex(e.getX(), e.getY());
 				if (ob.isClickedOnIt() == true && index != -1) {
 					ob.redimension(index, e.getX(), e.getY());
 					repaint();
+					
 				}else if(ob.isClickedOnIt() == true && index == -1 ) {
 					ob.rotate( e.getX(), e.getY());
 					repaint();	
 				}
 				if(ob.contient(e.getX(), e.getY()) && ob.isClickedOnIt() == false) {
 
-					
-					
 					if(ob.getPosition().getY() < getHeight()-20) {
 						ob.move( e.getX(), e.getY());
-						  posPlusHaute(ob.getCoins());
-						  Point2D.Double[] tab = ob.getCoins();
-						  System.out.println("______"+tab[0]+"______"+tab[1]+"______"+tab[2]+"______"+tab[3]);
-					}
-					
-				    
-					    posPlusHaute(ob.getCoins());
-						
-						
-						if (ob.getPosition().getY()+ ob.getLongueur() >= getHeight()-20 ) {
-							
-							Point2D.Double pos = calculHauteurEq(ob.getPosition(), valPlusHaute,  (double) getHeight());
+						 
+					}else if (ob.getPosition().getY()+ ob.getLongueur() >= getHeight()-20 ) {
 							ob.move( e.getX() , (int) (getHeight() - ob.getLargeur()/2));
 							
-                        System.out.println("_______________________________"+valPlusHaute.getY());
 							
 						} 
 //						else if (ob.getPosition().getY() + ob.getLargeur() >= getHeight()-20){
@@ -372,12 +381,12 @@ public class PanelBacASable extends JPanel {
     		
 			if (tab[i].getX() >= getHeight()) {
 				
-				
-				
 			}
 		}
     
     }
+    
+    
     public void posPlusHaute(Point2D.Double[] tab) {
     	
     	
@@ -398,7 +407,6 @@ public class PanelBacASable extends JPanel {
     	return new Point2D.Double(centre.getX(), posY);
     	
     }
-    
     
    }
 

@@ -13,6 +13,7 @@ import obstacles.Cercle;
 import obstacles.CercleElectrique;
 import obstacles.Epines;
 import obstacles.ObstacleHolder;
+import obstacles.PlaqueRebondissante;
 import obstacles.Rectangle;
 import obstacles.Triangle;
 
@@ -90,6 +91,12 @@ public class SauvegardeNiveau {
 															Double.parseDouble(myReader.nextLine()),
 															Double.parseDouble(myReader.nextLine()),
 															Double.parseDouble(myReader.nextLine())));
+		        	}else if(data.equalsIgnoreCase("pla")) {
+		        		obstacleHolder.addObstacle(new PlaqueRebondissante(	Double.parseDouble(myReader.nextLine()),
+								Double.parseDouble(myReader.nextLine()),
+								Double.parseDouble(myReader.nextLine()),
+								Double.parseDouble(myReader.nextLine()),
+								Double.parseDouble(myReader.nextLine())));
 		        	}else{
 		        		
 		        	}

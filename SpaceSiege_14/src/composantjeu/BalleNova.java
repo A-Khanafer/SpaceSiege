@@ -23,6 +23,7 @@ public class BalleNova extends Balle   {
      * @param diametreDonne Le diamètre de la balle.
      * @param position La position initiale de la balle.
      * @param vitesse La vitesse initiale de la balle.
+     * @author Benakmoum Walid
      */
 	//Benakmoum Walid
     public BalleNova(int masseDonne, int chargeDonne, double diametreDonne, Vecteur2D position, Vecteur2D vitesse,double pixelsParMetre) {
@@ -48,31 +49,39 @@ public class BalleNova extends Balle   {
   //Benakmoum Walid
     public void dessiner(Graphics2D g2d) {
         Graphics2D g2dPrive = (Graphics2D) g2d.create();
-      
-        creerEffetVent(g2dPrive);
-
+creerEffetVent(g2dPrive);
+     
         synchronized (trainees) {
-			float alpha = 1.0f, facteurDecroissance = 0.1f;
-			for (Ellipse2D.Double trace : trainees) {
-				 Point2D start = new Point2D.Float((float) trace.getMinX(), (float) trace.getMinY());
-		            Point2D end = new Point2D.Float((float) trace.getMaxX(), (float) trace.getMaxY());
-		            Color startColor = new Color(0, 0, 0, (int) (alpha * 255));
-		            Color endColor = new Color(0, 0, 0, 0);
-		            GradientPaint gradient = new GradientPaint(start, startColor, end, endColor);
-		            g2dPrive.setPaint(gradient);
-			
-				g2dPrive.fill(trace);
-				alpha -= facteurDecroissance;
-				if (alpha < 0) break;
-			}
-		}
+            float alpha = 1.0f, facteurDecroissance = 0.1f;
+            for (Ellipse2D.Double trace : trainees) {
+                Point2D start = new Point2D.Float((float) trace.getMinX(), (float) trace.getMinY());
+                Point2D end = new Point2D.Float((float) trace.getMaxX(), (float) trace.getMaxY());
+                Color startColor = new Color(0, 0, 0, (int) (alpha * 255)); 
+                Color endColor = new Color(0, 0, 0, 0);
+                GradientPaint gradient = new GradientPaint(start, startColor, end, endColor);
+                g2dPrive.setPaint(gradient);
+                g2dPrive.fill(trace);
+                alpha -= facteurDecroissance;
+                if (alpha < 0) break;
+            }
+        }
 
       
-        g2dPrive.setColor(Color.black);
-        
+        Point2D start = new Point2D.Float((float) cercle.getMinX(), (float) cercle.getMinY());
+        Point2D end = new Point2D.Float((float) cercle.getMaxX(), (float) cercle.getMaxY());
+        Color startColor = Color.BLACK;
+        Color endColor = Color.WHITE;
+        GradientPaint gradient = new GradientPaint(start, startColor, end, endColor);
+        g2dPrive.setPaint(gradient);
         g2dPrive.fill(cercle);
+
+        g2dPrive.dispose();
     }
-    
+
+    /**
+     * Methode qui permet de faire exploser la balle
+     */
+//Benakmoum Walid
     public void exploser() {
         running = false;
 
@@ -89,6 +98,12 @@ public class BalleNova extends Balle   {
         vitesse.setComposantes(0, 0); 
         creerLaGeometrie();
     }
+    /**
+     * Crée un effet visuel de vent autour de la balle, simulant la traînée.
+     * 
+     * @param g2d Le contexte graphique dans lequel dessiner l'effet de vent.
+     */
+	//Benakmoum Walid
     private void creerEffetVent(Graphics2D g2d) {
         double angle = Math.atan2(vitesse.getY(), vitesse.getX());
         double magnitudeVitesse = vitesse.module() / 3;
@@ -146,10 +161,19 @@ public class BalleNova extends Balle   {
         position = MoteurPhysique.calculPosition(deltaT, position, vitesse);
         creerLaGeometrie();
     }
-
+    /**
+     * Arrête l'exécution du processus de la balle en mettant la variable d'état de fonctionnement (running) à false.
+     */
+	//Benakmoum Walid
 	 public void stop() {
 	        running = false;
 	    }
+	  /**
+	     * Méthode permettant de déterminer le type de la balle actuelle.
+	     * 
+	     * @return Le type de balle actuelle.
+	     */
+		//Benakmoum Walid
 	 public int quelleTypeBalle() {
 	    	return 3;
 	    }

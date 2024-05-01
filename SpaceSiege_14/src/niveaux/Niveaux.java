@@ -30,6 +30,7 @@ import physique.Vecteur2D;
 
 import java.awt.Color;
 
+import obstacles.ObstacleHolder;
 import obstacles.Rectangle;
 
 import obstacles.Triangle;
@@ -106,7 +107,11 @@ public class Niveaux extends JPanel implements Runnable {
     private Monstres monstre;
     
     protected boolean monstreMort=false;
-    
+    protected  Vecteur2D forceElec;
+	protected  Vecteur2D forceTotal;
+	protected boolean modeScience=false;
+	
+
 //    protected String fondActuel = "/fondjeu4.png";
 //    private PlanCartesien planCartesion= new PlanCartesien();
 //    protected JLabel lbl;
@@ -120,14 +125,12 @@ public class Niveaux extends JPanel implements Runnable {
 		
 		setOpaque(false);
 		
-		
 		setBounds(0, 0, 1296, 672);
 		setLayout(null);
-		
-		
 
 		pixelParMetres = 8.64;
 		canon = new Canon(0, 10,pixelParMetres);
+
 		monstre = new Monstres(1200, 40, pixelParMetres);
 		
 		
@@ -146,6 +149,8 @@ public class Niveaux extends JPanel implements Runnable {
 	    posMurGauche = 0;
 	    posMurHaut = 0;
 
+	   
+	    
 	    hauteurComposant = getHeight();
 	    largeurComposant = getWidth();
 
@@ -246,34 +251,28 @@ public class Niveaux extends JPanel implements Runnable {
 	 }
 	
 	 
+	 
 	/**
      * Initialise l'écouteur de clavier pour interagir avec l'animation via le clavier.
      */
 	  
-
 	
-	private void gestionSourisRecDragged(MouseEvent e) {
-		
-	}
-	private void gestionSourisTriDragged(MouseEvent e) {
-		
-	}
-	private void gestionSourisRecClick(MouseEvent e) {
-		
-	}
-	private void gestionSourisTriClick(MouseEvent e) {
-		
-	}
-	private void gestionSourisCanon(MouseEvent e) {
-		
-	}
+	
 	public void setMasseBalle(int mas) {
 	
 	}
+
 	public Monstres getMonstre() {
 		return this.monstre;
 	}
+
+	public void setModeScience(boolean sc) {
 	
+	}
+	public void setObHolder(ObstacleHolder obHolder) {
+		
+		
+	}
 	
 	
 	

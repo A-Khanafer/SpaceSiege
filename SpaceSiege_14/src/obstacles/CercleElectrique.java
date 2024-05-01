@@ -373,9 +373,7 @@ public class CercleElectrique implements Obstacles, Serializable {
     public double getRayon() {
 		return rayon;
 	}
-	public Vecteur2D getPositionCentre() {
-		return positionCentre;
-	}
+	
 	public void setPositionCentre(Vecteur2D positionCentre) {
 		this.positionCentre = positionCentre;
 	}
@@ -403,8 +401,8 @@ public class CercleElectrique implements Obstacles, Serializable {
 
 
 	@Override
-	public Vecteur2D getPosition() {
-		return new Vecteur2D(coinXGauche, coinYGauche);
+	public Vecteur2D getPositionCentre() {
+		return positionCentre;
 
 	}
 

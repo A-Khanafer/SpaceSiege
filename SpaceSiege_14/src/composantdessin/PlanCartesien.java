@@ -23,40 +23,68 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
 /**
- * Composant permettant de tracer une fonction en segments avec une forme Path2D
+ * Composant permettant de tracer une fonction en segments avec une forme Path2D.
  * Il est possible de recadrer la portion visible de la fonction.
+ * Ce composant représente un plan cartésien avec des axes X et Y ainsi qu'une grille.
+ * Il permet également de dessiner des lignes et des repères en fonction de coordonnées spécifiées.
  * 
  * @author Benakmoum Walid
  */
 
 
 public class PlanCartesien extends JPanel {
-	private  double xMin =0;
-	/** Valeur par dde l'abscisse maximale. */
-	private  double xMax ;
-	/** Valeur par dde l'ordonnminimale. */
-	private  double yMin=0;
-	/** Valeur par dde l'ordonnmaximale. */
-	private  double yMax;
-	private int nmbreLig = 12;
-	private double pixelParMetreX;
-	private Vecteur2D position;
-	private Ellipse2D.Double cercle;
-	private Line2D.Double axeX, axeY;
-	private boolean premiereFois = true;
-	private Path2D.Double grille;
-private double deltaX;
-private double deltaY;
-private double pixelParMetreY;
-private Path2D.Double taquets;
-private Path2D.Double ligne=new Path2D.Double();
+	/** Valeur minimale de l'abscisse. */
+    private double xMin = 0;
+    /** Valeur maximale de l'abscisse. */
+    private double xMax;
+    /** Valeur minimale de l'ordonnée. */
+    private double yMin = 0;
+    /** Valeur maximale de l'ordonnée. */
+    private double yMax;
+    /** Nombre de lignes de la grille. */
+    private int nmbreLig = 12;
+    /** Nombre de pixels par mètre sur l'axe des X. */
+    private double pixelParMetreX;
+    /** Nombre de pixels par mètre sur l'axe des Y. */
+    private double pixelParMetreY;
+    /** Position du composant sur le plan cartésien. */
+    private Vecteur2D position;
+    /** Forme représentant un cercle. */
+    private Ellipse2D.Double cercle;
+    /** Ligne représentant l'axe des X. */
+    private Line2D.Double axeX;
+    /** Ligne représentant l'axe des Y. */
+    private Line2D.Double axeY;
+    /** Indique si c'est la première fois que le composant est dessiné. */
+    private boolean premiereFois = true;
+    /** Forme représentant la grille du plan cartésien. */
+    private Path2D.Double grille;
+    /** Pas entre deux lignes de la grille sur l'axe des X. */
+    private double deltaX;
+    /** Pas entre deux lignes de la grille sur l'axe des Y. */
+    private double deltaY;
+    /** Forme représentant les lignes dessinées sur le plan cartésien. */
+    private Path2D.Double ligne=new Path2D.Double();;
+    /** Forme représentant les repères dessinés sur le plan cartésien. */
+    private Path2D.Double taquets;
+    /**
+     * Constructeur de la classe PlanCartesien.
+     * 
+     * @param posInitial Position initiale du composant sur le plan cartésien.
+     */
+  //Benakmoum Walid
 	public PlanCartesien(Vecteur2D posInitial) {
 		setBackground(Color.white);
 		this.position = posInitial;
 	
 		cercle = new Ellipse2D.Double(position.getX(), position.getY(), 5, 5);
 	}
-	
+	 /**
+     * Méthode appelée pour dessiner les composants graphiques du plan cartésien.
+     * 
+     * @param g Objet Graphics utilisé pour dessiner.
+     */
+	//Benakmoum Walid
 	public void paintComponent(Graphics g ) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
@@ -90,13 +118,7 @@ private Path2D.Double ligne=new Path2D.Double();
 		g2d.setStroke(new BasicStroke(2.0f));
 		g2d.draw(axeX);
 		g2d.draw(axeY);
-		/*
-		System.out.println(getWidth()+"PANELLLLLLLLGRAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-		System.out.println(position.getX()+"VOIRRRRRRRRRRRRRRRRRRRRRRRRR");
-		System.out.println(position.getY()+"malskdmaskl");
-		*/
-
-		//cercle = new Ellipse2D.Double((position.getX()*pixelParMetre)+deltaX,( position.getY()*pixelParMetreY), 5, 5);
+		
 		ligne.moveTo((position.getX()*pixelParMetreX)+deltaX, ( position.getY()*pixelParMetreY));
 		ligne.lineTo((position.getX()*pixelParMetreX)+deltaX, ( position.getY()*pixelParMetreY));
 		
@@ -104,15 +126,24 @@ private Path2D.Double ligne=new Path2D.Double();
 		g2d.draw(ligne);
 		
 		g2d.setColor(Color.black);
-creerTaquetsSui(g2d);
+creerTaquets(g2d);
 		
 		
 	}
-	
+	/**
+     * Méthode permettant de définir la position du composant sur le plan cartésien.
+     * 
+     * @param pos Nouvelle position du composant.
+     */
+	 //Benakmoum Walid
 	public void setPosition(Vecteur2D pos) {
 		this.position = pos;
 		repaint();
 	}
+	/**
+     * Méthode privée appelée pour créer la grille du plan cartésien.
+     */
+	//Benakmoum Walid
 	private void creerGrille() {
 		grille = new Path2D.Double();
 
@@ -135,11 +166,21 @@ creerTaquetsSui(g2d);
 
 		repaint();
 	}
+	/**
+     * Méthode permettant de réinitialiser les lignes dessinées sur le plan cartésien.
+     */
+	//Benakmoum Walid
 	public void reset() {
 		ligne.reset();
 		repaint();
 	}
-	private void creerTaquetsSui(Graphics2D g2d) {
+	/**
+     * Méthode privée appelée pour créer les repères (taquets) sur le plan cartésien.
+     * 
+     * @param g2d Objet Graphics2D utilisé pour dessiner.
+     */
+	//Benakmoum Walid
+	private void creerTaquets(Graphics2D g2d) {
 	    g2d.setColor(Color.black);
 	    int taquetSize = 5; 
 	    Font smallFont = new Font("SansSerif", Font.PLAIN, 8); 

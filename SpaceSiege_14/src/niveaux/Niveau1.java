@@ -47,113 +47,151 @@ public class Niveau1 extends Niveaux {
 	 * @author Khanafer Ahmad
 	 * @author Soudaki Zakaria
 	 */
-	private static final long serialVersionUID = 1L;
+	
 	/**
-     * Indique si une animation est actuellement en cours.
-     */
-	private boolean enCoursDAnimation=false;
-
+	 * serialVersionUID pour la sérialisation.
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * Indique si une animation est actuellement en cours.
+	 */
+	private boolean enCoursDAnimation = false;
+	
+	/**
+	 * Support pour les changements de propriété.
+	 */
 	private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 	
-	  private static final double K_CONST = 9.0e4;
 	/**
-     * L'intervalle de temps (en secondes) utilisé pour chaque itération du calcul physique.
-     */
-	private final double deltaT=0.05;
+	 * Constante pour la constante électrique K.
+	 */
+	private static final double K_CONST = 9.0e4;
+	
 	/**
      * Le temps de pause (en millisecondes) entre chaque itération de l'animation.
      */
 	private int tempsDuSleep = 5;
+	/*
+	 * L'intervalle de temps (en secondes) utilisé pour chaque itération du calcul physique.
+	 */
+	private final double deltaT = 0.05;
+	
+	
 	/**
-     * Un rectangle servant d'obstacle dans la zone d'animation.
-     */
-
+	 * Un tableau de rectangles servant d'obstacles dans la zone d'animation.
+	 */
 	private Rectangle[] tableauRec;
 	
 	/**
-     * Indique si une balle a été tirée par le canon.
-     */
+	 * Indique si une balle a été tirée par le canon.
+	 */
 	private boolean balleTiree = false;
 	
 	/**
-     * Utilisé pour effectuer des opérations lors du premier appel de certaines méthodes ou conditions.
-     */
-	private double tempsTotalEcoule =0;
+	 * Utilisé pour effectuer des opérations lors du premier appel de certaines méthodes ou conditions.
+	 */
+	private double tempsTotalEcoule = 0;
 	
 	/**
-     * Position du mur du sol, utilisée pour détecter les collisions et gérer les rebonds ou arrêts des objets animés.
-     */
-    double posMurSol;
-    /**
-     * Position du mur droit, utilisée pour détecter les collisions latérales.
-     */
-    double posMurDroit;
-    /**
-     * Position du mur haut, utilisée pour détecter les collisions et gérer les interactions en haut de la zone d'animation.
-     */
-    double posMurHaut;
-    /**
-     * Position du mur gauche, permettant de gérer les collisions sur le côté gauche de la zone d'animation.
-     */
-    double posMurGauche;
-    
-    /**
-     * Hauteur du composant d'animation, utilisée pour ajuster les interactions et le rendu en fonction de la taille de la zone d'animation.
-     */
-    int hauteurComposant;
-    /**
-     * Largeur du composant d'animation, influençant le placement des éléments et la détection des collisions.
-     */
-    int longueurComposant;
-    
-    /**
-     * Index utilisé pour identifier les manipulations spécifiques des éléments de l'interface, telles que le redimensionnement ou la rotation d'obstacles.
-     */
-    private int index = -1;
-    /**
-     * Le nombre de vie du joueur.
-     */
-    private int nombreDeVie=2;
-    /**
-     * L'instance du monstre présent dans le niveau.
-     */
-    private Monstres monstre;
-
-    
-    /**
-     * Indique si c'est la première fois que le niveau est affiché, utilisé pour initialiser les objets une seule fois.
-     */
+	 * Position du mur du sol, utilisée pour détecter les collisions et gérer les rebonds ou arrêts des objets animés.
+	 */
+	private double posMurSol;
+	
+	/**
+	 * Position du mur droit, utilisée pour détecter les collisions latérales.
+	 */
+	private double posMurDroit;
+	
+	/**
+	 * Position du mur haut, utilisée pour détecter les collisions et gérer les interactions en haut de la zone d'animation.
+	 */
+	private double posMurHaut;
+	
+	/**
+	 * Position du mur gauche, permettant de gérer les collisions sur le côté gauche de la zone d'animation.
+	 */
+	private double posMurGauche;
+	
+	/**
+	 * Hauteur du composant d'animation, utilisée pour ajuster les interactions et le rendu en fonction de la taille de la zone d'animation.
+	 */
+	private int hauteurComposant;
+	
+	/**
+	 * Largeur du composant d'animation, influençant le placement des éléments et la détection des collisions.
+	 */
+	private int longueurComposant;
+	
+	/**
+	 * Index utilisé pour identifier les manipulations spécifiques des éléments de l'interface, telles que le redimensionnement ou la rotation d'obstacles.
+	 */
+	private int index = -1;
+	
+	/**
+	 * Le nombre de vie du joueur.
+	 */
+	private int nombreDeVie = 2;
+	
+	/**
+	 * L'instance du monstre présent dans le niveau.
+	 */
+	private Monstres monstre;
+	
+	/**
+	 * Indique si c'est la première fois que le niveau est affiché, utilisé pour initialiser les objets une seule fois.
+	 */
 	private boolean premiereFois = true;
-
-	/**
-     * L'index de la balle choisie par le joueur.
-     */
-    private  int balleChoisie;
-    /**
-     * Un tableau de triangles servant d'obstacles dans la zone d'animation (commenté pour le moment).
-     */
-    private Triangle[] tableauTri;
-    
-    private int keyCode = 0;
-    
-    
-  
-    private CercleElectrique boule;
-    /**
-     * Le canon utilisé pour tirer des balles.
-     */
 	
 	/**
-    * Indique si le monstre est mort.
-    */
-    private boolean monstreMort=false;
-    
-    private boolean first =true;
-    
-    private Vecteur2D forceHautBas = new Vecteur2D(0,0);
-    
-    private Vecteur2D forceDroiteGauche = new Vecteur2D(0,0);
-   
+	 * L'index de la balle choisie par le joueur.
+	 */
+	private int balleChoisie;
+	
+	/**
+	 * Un tableau de triangles servant d'obstacles dans la zone d'animation (commenté pour le moment).
+	 */
+	private Triangle[] tableauTri;
+	
+	/**
+	 * Code de la touche enfoncée.
+	 */
+	private int keyCode = 0;
+	
+	/**
+	 * Objet représentant la boule électrique.
+	 */
+	private CercleElectrique boule;
+	
+	/**
+	 * Le canon utilisé pour tirer des balles.
+	 */
+	private Canon canon;
+	
+	/**
+	 * Indique si le monstre est mort.
+	 */
+	private boolean monstreMort = false;
+	
+	/**
+	 * Utilisé pour détecter le premier appel lors du lancement de l'animation.
+	 */
+	private boolean first = true;
+	
+	/**
+	 * Vecteur représentant la force haut/bas appliquée sur les objets.
+	 */
+	private Vecteur2D forceHautBas = new Vecteur2D(0, 0);
+	
+	/**
+	 * Vecteur représentant la force droite/gauche appliquée sur les objets.
+	 */
+	private Vecteur2D forceDroiteGauche = new Vecteur2D(0, 0);
+	
+	/**
+	 * Ancienne valeur de l'état d'animation.
+	 */
+	private boolean ancienneValeur;
 
    
    
@@ -163,6 +201,7 @@ public class Niveau1 extends Niveaux {
 	/**
 	 * Constructeur de la classe. Permet de crée l'interface
 	 */
+	//Benakmoum Walid
 	public Niveau1() {
 		
 		
@@ -192,6 +231,7 @@ public class Niveau1 extends Niveaux {
      * Dessine les composants graphiques de la zone d'animation, y compris le canon et les obstacles.
      * @param g L'objet Graphics utilisé pour dessiner.
      */
+	//Benakmoum Walid
 	public void paintComponent(Graphics g ) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
@@ -263,7 +303,9 @@ public class Niveau1 extends Niveaux {
 
         
 		canon.dessiner(g2d);
-
+		if(modeScience) {
+		afficherDonneesBalleActuelle(g2d);
+		}
 	    posMurSol = getHeight();
 	    posMurDroit = getWidth();
 	    posMurGauche = 0;
@@ -280,6 +322,7 @@ public class Niveau1 extends Niveaux {
 	/**
      * Exécute l'animation en boucle tant que enCoursDAnimation est vrai. Gère le calcul physique et les collisions.
      */
+	//Benakmoum Walid
 	public void run() {
 		
 		requestFocusInWindow(); 
@@ -293,6 +336,8 @@ public class Niveau1 extends Niveaux {
 			testerCollisionsEtAjusterVitesses();
 			
 			this.pcs.firePropertyChange("position", anciennePosition, canon.getBalle().getPositionEnMetre());	
+			
+			this.pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
 
 			
 			for(int i =0 ; i < tableauRec.length ; i++) {
@@ -320,36 +365,53 @@ public class Niveau1 extends Niveaux {
 	        
 			if(monstre.getNombreDeVie()==0) {
 	    	    monstreMort=true;
-	            enCoursDAnimation = false; 
+	    	    ancienneValeur = enCoursDAnimation;
+	    	    enCoursDAnimation = false;
+	    	    pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
 	            
 	            JOptionPane.showMessageDialog(null,"VOUS AVEZ GAGNE");
 	            
 	            reinitialiserApplication();
 	    	}
+
+
+
 			
-			System.out.println("________________________________"+Collisions.getNbRebond());
+		
 			
             repaint();
 			
 
-		
+
+
+			if(Collisions.getNbRebond()>=3) {
+				ancienneValeur = enCoursDAnimation;
+			    enCoursDAnimation = false;
+			    pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
+			}
 			try {
 				Thread.sleep(tempsDuSleep);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			
 		}//fin while
+			
 		System.out.println("Le thread est mort...!");	
+		
      }
 
 	/**
      * Démarre le thread d'animation si ce n'est pas déjà fait.
      */
+	//Benakmoum Walid
 	public void demarrer() {
 		if (!enCoursDAnimation) {
 			Thread proc = new Thread(this);
 			proc.start();
-			enCoursDAnimation = true;
+		 ancienneValeur = enCoursDAnimation;
+		    enCoursDAnimation = true;
+		    pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
 			balleTiree=true;
 			canon.setBalleTiree();
 			requestFocus();
@@ -358,14 +420,17 @@ public class Niveau1 extends Niveaux {
 	/**
 	 * Méthode qui arrête l'animation en cours.
 	 */
+	//Benakmoum Walid
 	public void arreter() {
-		enCoursDAnimation=false;
+		ancienneValeur = enCoursDAnimation;
+	    enCoursDAnimation = false;
+	    pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
 	}
 	/**
 	 * Méthode qui change le type de gravité utilisé dans la simulation.
 	 * @param typeGravite Le type de gravité à utiliser : "TERRE", "MARS" ou "ESPACE".
 	 */
-
+	//Benakmoum Walid
 	public void changerTypeGravite(String typeGravite) {
 	    double gravite;
 	    switch (typeGravite) {
@@ -391,7 +456,7 @@ public class Niveau1 extends Niveaux {
 	/**
 	 * Méthode qui avance l'animation d'une itération.
 	 */
-
+	//Benakmoum Walid
 	  public void prochaineImage() {
 		  
 		  if(canon.getBalle().getVitesse()!=new Vecteur2D(0,0)) {
@@ -401,6 +466,12 @@ public class Niveau1 extends Niveaux {
 		  }
 		  
 	  }
+	  /**
+	   * Méthode qui retourne l'état de l'animation en cours.
+	   *
+	   * @return true si une animation est en cours, sinon false.
+	   */
+	//Benakmoum Walid
 	  public boolean getEnCoursAnimation() {
 			return enCoursDAnimation;
 			
@@ -411,6 +482,7 @@ public class Niveau1 extends Niveaux {
      * Calcule une itération physique en fonction du deltaT.
      * @param deltaT Le temps écoulé depuis la dernière itération.
      */
+	//Benakmoum Walid
 	public void calculerUneIterationPhysique(double deltaT) {
 		tempsTotalEcoule += deltaT;
 	try {
@@ -440,6 +512,8 @@ public class Niveau1 extends Niveaux {
 		
 		for(int i =0 ; i < tableauRec.length ; i++) {
 		    Collisions.collisionMonstreRec(monstre, tableauRec[i]);	
+
+        
 		}
 		
 		
@@ -457,7 +531,7 @@ public class Niveau1 extends Niveaux {
 	
 		 double distance = canon.getBalle().getPosCentral().distance(boule.getPositionCentre());
 		 Vecteur2D forceDeGravite=MoteurPhysique.calculForceGrav(canon.getBalle().getMasse(), Math.toRadians(90));
-	 Vecteur2D force=new Vecteur2D(0,0);
+	 forceElec=new Vecteur2D(0,0);
 	    double rayonElectrique = boule.getRayonElectrique();
 		Vecteur2D forceMonstre= forceHautBas.additionne(forceDroiteGauche);
 	    if (distance < rayonElectrique) {
@@ -471,7 +545,7 @@ public class Niveau1 extends Niveaux {
 	            double forceElectrique = K_CONST * (1 / distance);
                   System.out.println(forceElectrique+"____________________________---");
 	         
-	           force = vecteurUnitaire.multiplie(forceElectrique);
+	           forceElec = vecteurUnitaire.multiplie(forceElectrique);
 
 	          
 	           
@@ -480,14 +554,15 @@ public class Niveau1 extends Niveaux {
 	            System.err.println("Une erreur est survenue lors de la normalisation du vecteur unitaire : " + e.getMessage());
 	        }
 	    }
-	 
-	    canon.getBalle().setSommeDesForces(forceDeGravite.additionne(force));
+	 forceTotal=forceDeGravite.additionne(forceElec);
+	    canon.getBalle().setSommeDesForces(forceTotal);
 	    monstre.setSommeDesForces(forceMonstre);
 	}
 	/**
 	 * Réinitialise l'application à son état initial, incluant la remise à zéro de tous les composants d'animation et des variables d'état.
 	 * Cette méthode stoppe l'animation en cours si elle est active, réinitialise la rotation, le temps total écoulé, l'état de tir de la balle,
 	 */
+	//Benakmoum Walid
 	public void reinitialiserApplication() {
 	
 		    enCoursDAnimation = false;
@@ -508,6 +583,10 @@ public class Niveau1 extends Niveaux {
 
 		   repaint();
 	}
+	/**
+	 * Méthode qui arrête ou démarre l'animation en fonction de son état actuel.
+	 */
+	//Benakmoum Walid
 	public void reinitialiserPosition() {
 		enCoursDAnimation=false;
 		balleTiree = false;
@@ -519,6 +598,7 @@ public class Niveau1 extends Niveaux {
 	/**
      * Méthode qui permet de tirer la balle.
      */
+	//Benakmoum Walid
 	public  void TirerBalle() {
 		balleTiree=true;
 		canon.setBalleTiree();
@@ -529,7 +609,7 @@ public class Niveau1 extends Niveaux {
 	 * Méthode qui permet de choisir le type de balle à tirer.
 	 * @param nb Le numéro de la balle à choisir.
 	 */
-
+	//Benakmoum Walid
 	public void choisirBalle(int nb) {
 
 		canon.setBalleActuelle(nb);
@@ -540,6 +620,7 @@ public class Niveau1 extends Niveaux {
 	 * Méthode qui définit le nombre de vie du joueur.
 	 * @param nb Le nombre de vie à définir.
 	 */
+	//Benakmoum Walid
 	public void setNombreDeVie(int nb) {
 	    this.nombreDeVie = nb;
 	    if (this.monstre != null) {
@@ -547,6 +628,9 @@ public class Niveau1 extends Niveaux {
 	    }
 	    repaint();
 	}
+	/**
+	 * Méthode qui arrête ou démarre l'animation en fonction de son état actuel.
+	 */
 	public void stopperAnim() {
 		if(enCoursDAnimation==true) {
 	enCoursDAnimation=false;
@@ -587,6 +671,7 @@ public class Niveau1 extends Niveaux {
 	 * Méthode qui permet de gérer le canon selon les mouvements de la souris
 	 * @param e Événement de la souris
 	 */
+	//Benakmoum Walid
 		private void gestionSourisCanon(MouseEvent e) {
 		boolean toucheObjet = false;
 
@@ -607,29 +692,20 @@ public class Niveau1 extends Niveaux {
 		    }
 		    repaint();
 		}
-
+		/**
+		 * Méthode qui retourne le nombre de vies restantes du joueur.
+		 *
+		 * @return Le nombre de vies restantes.
+		 */
+		//Benakmoum Walid
 	public int getVie() {
 		return this.nombreDeVie;
-		/*
-	      public void keyPressed(KeyEvent e) {
-	        	
-	            switch (e.getKeyCode()) {
-	                case KeyEvent.VK_SPACE:
-	                	  if(canon.getBalle().quelleTypeBalle()==3) {
-	               for (int i = 0; i < 10; i++) {
-				
-	                       canon.getBalle().exploser();
-	               }
-	                     
-	                     repaint();
-	                	  }
-	                	
-	            }
-
-	         
-	        }
-	        */
+		
 	}
+	/**
+	 * Méthode qui gère les événements du clavier.
+	 */
+	//Benakmoum Walid
 	public void ecouteurClavier() {
 
 	    addKeyListener(new KeyAdapter() {
@@ -638,14 +714,7 @@ public class Niveau1 extends Niveaux {
 	        	
 	        	switch (e.getKeyCode()) {
                 case KeyEvent.VK_SPACE:
-                	  if(canon.getBalle().quelleTypeBalle()==3) {
-               for (int i = 0; i < 10; i++) {
-			
-                       canon.getBalle().exploser();
-               }
-                     
-                     repaint();
-                	  }
+               exploserBalle();
                 	
             }
 
@@ -727,16 +796,95 @@ public class Niveau1 extends Niveaux {
 	    	}
 	    });
 	}
+
+/**
+ * Méthode qui modifie la masse de la balle actuelle.
+ *
+ * @param mas La nouvelle masse de la balle.
+ */
+	//Benakmoum Walid
 	public void setMasseBalle(int mas) {
 		canon.getBalle().setMasse(mas);
 	}
-	
+	/**
+	 * Méthode qui retourne l'instance du monstre dans le niveau.
+	 *
+	 * @return L'instance du monstre.
+	 */
 	public Monstres getMonstre() {
 		return this.monstre;
 	}
-		
+	/**
+	 * Méthode qui affiche les données de la balle actuellement tirée.
+	 *
+	 * @param g L'objet Graphics utilisé pour le dessin.
+	 */
+	//Benakmoum Walid
+	public void afficherDonneesBalleActuelle(Graphics g) {
+	    if (balleTiree) {
+	        Balle balle = canon.getBalle();
+	        if (balle != null) {
+	           
+	            g.setColor(Color.white);
+	            g.drawString("Données de la Balle Actuelle :", 20, 20);
+	            g.drawString("Position (x, y)", 20, 40);
+	            g.drawString("Vitesse (vx, vy)", 250, 40);
+	            g.drawString("Accélération (ax, ay)", 400, 40);
+	            g.drawString("Masse", 20, 80);
+	            g.drawString("Force électrique (Fex, Fey)", 250, 80);
+	            g.drawString("Force appliquée (Fax, Fay)", 400, 80);
+	            
+	          
+	            int positionX = (int) balle.getPosition().getX();
+	            int positionY = (int) balle.getPosition().getY();
+	            int vitesseX = (int) balle.getVitesse().getX();
+	            int vitesseY = -(int) balle.getVitesse().getY();
+	            int accelerationX = (int) balle.getAcceleration().getX();
+	            int accelerationY = (int) balle.getAcceleration().getY();
+	            int masse = balle.getMasse();
+	            int forceElectriqueX = (int) forceElec.getX();
+	            int forceElectriqueY = (int) forceElec.getY();
+	            int forceAppliqueeX = (int) forceTotal.getX();
+	            int forceAppliqueeY = (int) forceTotal.getY();
+	            
+	            g.drawString("(" + positionX + ", " + positionY + ")", 20, 60);
+	            g.drawString("(" + vitesseX + ", " + vitesseY + ")", 250, 60);
+	            g.drawString("(" + accelerationX + ", " + accelerationY + ")", 400, 60);
+	            g.drawString(Integer.toString(masse), 20, 100);
+	            g.drawString("(" + forceElectriqueX + ", " + forceElectriqueY + ")", 250, 100);
+	            g.drawString("(" + forceAppliqueeX + ", " + forceAppliqueeY + ")", 400, 100);
+	        }
+	    }
+	}
+	/**
+	 * Méthode qui active ou désactive le mode scientifique.
+	 *
+	 * @param sc true pour activer le mode scientifique, false pour le désactiver.
+	 */
+	//Benakmoum Walid
+	public void setModeScience(boolean sc) {
+		this.modeScience=sc;
+		repaint();
+	}
+	/**
+	 * Méthode qui permet de exploser la balle
+	 */
+	//Benakmoum Walid
+	public void exploserBalle() {
+		  if(canon.getBalle().quelleTypeBalle()==3) {
+              for (int i = 0; i < 10; i++) {
+			
+                      canon.getBalle().exploser();
+                   ancienneValeur = enCoursDAnimation;
+              	    enCoursDAnimation = false;
+              	    pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
+              }
+                    
+                    repaint();
+               	  }
+	}
 }
-		
+
 
 		
 			

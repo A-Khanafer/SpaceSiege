@@ -56,14 +56,29 @@ public class Balle {
     /**
      * Accélération de la balle, déterminée par les forces appliquées sur elle. Initialement définie à zéro.
      */
-    protected Vecteur2D accel = new Vecteur2D(0, 0);
+    protected Vecteur2D accel;
 
     /**
      * Représentation géométrique de la balle utilisée pour le dessin à l'écran.
      */
+    /**
+     * Représente un cercle qui définit la forme géométrique de la balle.
+     */
     protected Ellipse2D.Double cercle;
+
+    /**
+     * Liste des traînées laissées par la balle lors de son déplacement.
+     */
     protected LinkedList<Ellipse2D.Double> trainees = new LinkedList<>();
+
+    /**
+     * Nombre maximal de traînées autorisées.
+     */
     protected final int MAX_TRAÎNÉES = 3;
+
+    /**
+     * Indique si la balle est en cours d'exécution.
+     */
     protected volatile boolean running = true;
 
     /**
@@ -207,7 +222,12 @@ public class Balle {
 	public double getPosYCentre() {
 	    return this.position.getY() + diametre / 2;
 	}
-	
+	/**
+	 * Retourne la position centrale de la balle.
+	 * 
+	 * @return La position centrale de la balle sous forme de vecteur.
+	 */
+	//Benakmoum Walid
 	public Vecteur2D getPosCentral() {
 		return new Vecteur2D(position.getX() + diametre / 2,position.getY() + diametre / 2);
 	}
@@ -236,7 +256,6 @@ public class Balle {
 	  */
 	 //Benakmoum Walid
 	public void dessiner(Graphics2D g2dPrive) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -245,24 +264,59 @@ public class Balle {
 	public double getRayon() {
 		return diametre/2;
 	}
-
+	/**
+	 * Retourne la position actuelle de la balle en mètres.
+	 * 
+	 * @return La position de la balle sous forme de vecteur en mètres.
+	 */
+	//Benakmoum Walid
     public Vecteur2D getPositionEnMetre() {
 	  return(position.multiplie(1/pixelsParMetre));
     }
+    /**
+     * Méthode pour déclencher l'explosion de la balle.
+     */
+	//Benakmoum Walid
     public void exploser() {
 
 }
+    /**
+     * Définit la masse de la balle.
+     * 
+     * @param mas La nouvelle masse de la balle.
+     */
+	//Benakmoum Walid
     public void setMasse(int mas) {
-	  this.masse=mas;
+        this.masse = mas;
     }
 
+    /**
+     * Méthode permettant de déterminer le type de la balle actuelle.
+     * 
+     * @return Le type de balle actuelle.
+     */
+	//Benakmoum Walid
     public int quelleTypeBalle() {
-		return 0;
-	}
-	public void boostVitesse() {
-		this.vitesse.additionne(new Vecteur2D(1000,1000));
-	}
-	
+        return 0; // À remplir avec la logique appropriée
+    }
+
+    /**
+     * Méthode pour augmenter la vitesse de la balle.
+     */
+	//Benakmoum Walid
+    public void boostVitesse() {
+        this.vitesse.additionne(new Vecteur2D(1000, 1000)); // Valeurs arbitraires pour l'exemple
+    }
+
+    /**
+     * Retourne l'accélération actuelle de la balle.
+     * 
+     * @return L'accélération de la balle.
+     */
+	//Benakmoum Walid
+    public Vecteur2D getAcceleration() {
+        return accel;
+    }
 	
 	
 	

@@ -88,7 +88,7 @@ public interface Obstacles {
     
     public Area toAire();
     
-    public Vecteur2D getPosition();
+    public Vecteur2D getPositionCentre();
     
     public Point2D.Double[] getCoins();
     

@@ -6,19 +6,24 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
+import bacasable.SauvegardeNiveau;
 import outils.OutilsImage;
 import systeme.Son;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 
 public class FenetreNiveaux extends JFrame {
 
@@ -29,7 +34,10 @@ public class FenetreNiveaux extends JFrame {
 	private JPanel contentPane;
 	private static FenetreModeDeJeu appli;
 	private static FenetreNiveaux fenetre;
+	private JFileChooser fileChooser;
+	private String selectedFilePath;
 	Son bouttonClicker = new Son();
+	private JButton btnCustom;
 	
 	
 	public static void afficherFenetre(FenetreModeDeJeu app) {
@@ -234,5 +242,52 @@ public class FenetreNiveaux extends JFrame {
 		lbl.setIcon(new ImageIcon(resizedImg));
 		lbl.setBounds(0, 0, 1920, 1080);
 		contentPane.add(lbl);
+		
+		btnCustom = new JButton("Custom");
+		btnCustom.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				JFrame frame = new JFrame();
+			    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			    frame.setSize(400, 300);
+			    frame.setLocationRelativeTo(null);
+				
+				fileChooser = new JFileChooser();
+				fileChooser.setBounds(1076, 11, 576, 453);
+				contentPane.add(fileChooser);
+				fileChooser.setAcceptAllFileFilterUsed(false); // Désactive le filtre "Tous les fichiers"
+		        FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files", "txt");
+		        fileChooser.setFileFilter(filter);
+		        
+		        // Afficher le dialogue et obtenir la réponse de l'utilisateur
+		        int result = fileChooser.showOpenDialog(frame);
+		
+		        if (result == JFileChooser.APPROVE_OPTION) {
+		            File selectedFile = fileChooser.getSelectedFile();
+		            
+		            if (selectedFile != null && selectedFile.getName().endsWith(".txt")) {
+		            	  
+		            	selectedFilePath = selectedFile.getAbsolutePath();
+		                JOptionPane.showMessageDialog(frame, "Fichier sélectionné: " + selectedFile.getAbsolutePath());
+		                SauvegardeNiveau.lireFichierTexte(selectedFilePath);
+		                SauvegardeNiveau.creationFichierBinaire(selectedFilePath);
+				        
+		                FenetreDeJeu.afficherFenetre(fenetre, 3);
+				        FenetreDeJeu.setNiveauCustom(SauvegardeNiveau.lectureFichierBinaireObjet());
+				        
+				        
+				        } else {
+		            	JOptionPane.showMessageDialog(frame, "Erreur: Veuillez sélectionner un fichier .txt!", "Erreur de fichier", JOptionPane.ERROR_MESSAGE);
+		                
+		            }
+		        }  else if (JFileChooser.CANCEL_SELECTION.equals(e.getActionCommand())) {
+	                JOptionPane.showMessageDialog(frame, "Sélection annulée.");
+	            }
+				
+		        System.out.println(selectedFilePath);
+			}
+		});
+		btnCustom.setBounds(916, 961, 89, 23);
+		contentPane.add(btnCustom);
 	}
 }
