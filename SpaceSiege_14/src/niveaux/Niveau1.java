@@ -201,7 +201,7 @@ public class Niveau1 extends Niveaux {
 	/**
 	 * Constructeur de la classe. Permet de crée l'interface
 	 */
-	//Benakmoum Walid
+	//ZAKARIA SOUDAKI
 	public Niveau1() {
 		
 		
@@ -231,7 +231,7 @@ public class Niveau1 extends Niveaux {
      * Dessine les composants graphiques de la zone d'animation, y compris le canon et les obstacles.
      * @param g L'objet Graphics utilisé pour dessiner.
      */
-	//Benakmoum Walid
+	//ZAKARIA SOUDAKI
 	public void paintComponent(Graphics g ) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
@@ -434,7 +434,7 @@ public class Niveau1 extends Niveaux {
 	            gravite = 0;
 	            break;
 	        case "LUNE":
-	        	gravite = 0;
+	        	gravite = 2.837;
 	        	break;
 	        default:
 	            gravite = 0; 
@@ -472,7 +472,7 @@ public class Niveau1 extends Niveaux {
      * Calcule une itération physique en fonction du deltaT.
      * @param deltaT Le temps écoulé depuis la dernière itération.
      */
-	//Benakmoum Walid
+	//Benakmoum Walid & ZAKARIA SOUDAKI
 	public void calculerUneIterationPhysique(double deltaT) {
 		tempsTotalEcoule += deltaT;
 	try {
@@ -621,6 +621,7 @@ public class Niveau1 extends Niveaux {
 	/**
 	 * Méthode qui arrête ou démarre l'animation en fonction de son état actuel.
 	 */
+	//walid benakmoum
 	public void stopperAnim() {
 		if(enCoursDAnimation==true) {
 	enCoursDAnimation=false;
@@ -695,7 +696,7 @@ public class Niveau1 extends Niveaux {
 	/**
 	 * Méthode qui gère les événements du clavier.
 	 */
-	//Benakmoum Walid
+	//ZAKARIA SOUDAKI
 	public void ecouteurClavier() {
 
 	    addKeyListener(new KeyAdapter() {
@@ -753,34 +754,28 @@ public class Niveau1 extends Niveaux {
 	    		  keyCode = e.getKeyCode();
 		            switch (keyCode) {
 		                case KeyEvent.VK_UP:
-		                    // Action à effectuer lors de l'appui sur la flèche vers le haut
-//		                		monstre.setPosY(-2);
+		                 
 		                	forceHautBas.setY(0);
 		                    break;
 		                case KeyEvent.VK_DOWN:
-		                    // Action à effectuer lors de l'appui sur la flèche vers le bas
-//		                		monstre.setPosY(2);
+		               
 		                	forceHautBas.setY(0);
 		                	
 		                	
 		                    break;
 		                case KeyEvent.VK_LEFT:
-		                    // Action à effectuer lors de l'appui sur la flèche vers la gauche
-//		                		monstre.setPosX(-2);
+		              
 		                	forceDroiteGauche.setX(0);
 		                	
 		                	
 		                    break;
 		                case KeyEvent.VK_RIGHT:
-		                    // Action à effectuer lors de l'appui sur la flèche vers la droite
-//		                		monstre.setPosX(2);
 		                	forceDroiteGauche.setX(0);
 		                		
 		                	
 		                    break;
 		                default:
 		                	keyCode = 0;
-		                    // Action à effectuer pour d'autres touches, si nécessaire
 		                    break;
 		            }
 	    	}

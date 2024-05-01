@@ -55,26 +55,52 @@ import java.util.Timer;
 public class AppPrincipal14 extends JFrame{
 	
 	
-	
+	/**
+	 * son pour la musique de l'application
+	 */
 	Son musique = new Son();
 	
 	private static final long serialVersionUID = 1L;
+	/**
+	 * panel du fond
+	 */
 	private JPanel contentPane;
+	
+	/**
+	 * longueur fenetre
+	 */
 	private int longueur = 1920;
+	/**
+	 * largeur fenetre
+	 */
 	private int hauteur = 1200;
+	/**
+	 * boutons jouer et quitter
+	 */
 	private BoutonsIntro boutonsIntro;
+	/**
+	 * boolean pour faire jouer le son
+	 */
 	private boolean son = true;
+	/**
+	 * la fenetre principale elle même
+	 */
 	private AppPrincipal14 actuel = this;
 	
 	 /**
      * Lance l'interface utilisateur principale de l'application.
      * Cette méthode statique crée une instance de {@code AppPrincipal14} et rend la fenêtre visible.
      */
+	//ZAKARIA SOUDAKI
 	public static void retour(AppPrincipal14 app) {
 		
 		app.setVisible(true);
 		
     }
+	/**
+	 * méthode pour fermer la fenetre actuelle
+	 */
+	//ZAKARIA SOUDAKI
 	public void fermer() {
 		setVisible(false);
 		dispose();

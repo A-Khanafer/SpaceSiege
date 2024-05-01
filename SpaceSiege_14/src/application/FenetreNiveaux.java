@@ -24,22 +24,53 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-
+/**
+ * Fenêtre dotée d'un fond animé qui permet à l'utilisateur de choisir le niveau qu'il souhaite jouer
+ * il a le choix entre 3 niveaux différents, cette fenetre offre aussi la possibilité de choisir un niveau créer
+ * depuis le mode bac a sable
+ * @author ZAKARIA SOUDAKI
+ *
+ */
 public class FenetreNiveaux extends JFrame {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	/**
+	 * panel fond
+	 */
 	private JPanel contentPane;
+	/**
+	 * fenetre précédente
+	 */
 	private static FenetreModeDeJeu appli;
+	/**
+	 * fenetre actuelle
+	 */
 	private static FenetreNiveaux fenetre;
+	/**
+	 * choisisseur de fichier
+	 */
 	private JFileChooser fileChooser;
+	/**
+	 * chemin de données
+	 */
 	private String selectedFilePath;
+	/**
+	 * son de l'application
+	 */
 	Son bouttonClicker = new Son();
+	/**
+	 * bouton pour charger un niveau customisé
+	 */
 	private JButton btnCustom;
 	
-	
+	/**
+	 * méthode pour l'ouverture de la fenetre actuelle et la fermeture de la précédente
+	 * @param app fenêtre précédente
+	 */
+	//ZAKARIA SOUDAKI
 	public static void afficherFenetre(FenetreModeDeJeu app) {
 	       
 		appli = app;
@@ -52,6 +83,11 @@ public class FenetreNiveaux extends JFrame {
         app.setVisible(false);
         
     }
+	/**
+	 * méthode pour rentre visible la fenetre précédente
+	 * @param app la fenetre précédente
+	 */
+	//ZAKARIA SOUDAKI
     public static void retour(FenetreNiveaux app) {
 		
 		app.setVisible(true);
@@ -78,6 +114,7 @@ public class FenetreNiveaux extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	//ZAKARIA SOUDAKI
 	public FenetreNiveaux() {
 		bouttonClicker.setFile(2);
 		

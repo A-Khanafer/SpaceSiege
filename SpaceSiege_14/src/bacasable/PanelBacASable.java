@@ -48,56 +48,100 @@ public class PanelBacASable extends JPanel {
     /** Le nombre actuel de rectangles dans le panneau. */
     private int nbrRec = 0;
 
-    /** Le nombre actuel de triangles dans le panneau. */
-    private int nbrTri = 0;
-
-    private int nbrCercle = 0;
-    private int nbrCercleElectrique = 0;
-    private int nbrEpines = 0;
-    private int nbrMonstre = 0;
-    private int nbrCanon = 0;
-    private int nbrPlaqueRebondissante = 0;
-
-    /** Indique si le mode éditeur est activé. */
-    private boolean editeurModeOn = true;
-
-    /** Le conteneur d'obstacles */
-    private ObstacleHolder obHolder = new ObstacleHolder();
+	/**
+	 * Le nombre actuel de triangles dans le panneau.
+	 */
+	private int nbrTri = 0;
+	/**
+	 * Le nombre actuel de cercles dans le panneau.
+	 */
+	private int nbrCercle = 0;
+	/**
+	 * Le nombre actuel de cercles electriques dans le panneau.
+	 */
+	private int nbrCercleElectrique = 0;
+	/**
+	 * Le nombre actuel d'epines dans le panneau.
+	 */
+	private int nbrEpines = 0;
+	/**
+	 * Le nombre actuel de monstres dans le panneau.
+	 */
+	private int nbrMonstre = 0;
+	/**
+	 * Le nombre actuel de canon dans le panneau.
+	 */
+	private int nbrCanon = 0;
+	/**
+	 * Le nombre actuel de plaque rebondissante dans le panneau.
+	 */
+	private int nbrPlaqueRebondissante = 0;
 	
-	private double val = 0;
+	/**
+	 * boolean activer désactiver mode éditeur
+	 */
+	private boolean editeurModeOn = true;
+	
+/**
+ * porteur d'obstacles
+ */
+	private ObstacleHolder obHolder = new ObstacleHolder();
+	
+	/**
+	 * boolean canon cliqué
+	 */
+	private boolean canonClick = false;
 
-    /** Indique si le canon est sélectionné */
-    private boolean canonClick = false;
+	/**
+	 * canon lui-même
+	 */
+	private Canon canon;
+	
+	/**
+	 * monstre lui-même
+	 */
+	private Monstres monstre;
+	
+	/**
+	 * boolean pour dessiner le monstre ou non
+	 */
+	private boolean monstredessin = false;
+	
+	/**
+	 * boolean monstre créer ou non
+	 */
+	boolean monstreCreer = false;
+	
+	/**
+	 * les coins du cercle
+	 */
+	private Point2D.Double[] coinsCercle;
+	
+	/**
+	 * les coins du cercle éléctrique
+	 */
+	private Point2D.Double[] coinsCercleE;
+	
+	/**
+	 * les coins des épines
+	 */
+	private Point2D.Double[] coinsEpines;
+	/**
+	 * les coins du rectangle
+	 */
+	private Point2D.Double[] coinsRec;
+	/**
+	 * les coins du triangle
+	 */
+	private Point2D.Double[] coinsTri;
+	
+	
 
-    /** Le canon */
-    private Canon canon;
+   
 
-    /** Le monstre */
-    private Monstres monstre;
-
-    /** Indique si le monstre est en cours de dessin */
-    private boolean monstredessin = false;
-
-    /** Indique si le monstre est créé */
-    boolean monstreCreer = false;
-
-    /** Les coins du cercle */
-    private Point2D.Double[] coinsCercle;
-
-    /** Les coins du cercle électrique */
-    private Point2D.Double[] coinsCercleE;
-
-    /** Les coins des épines */
-    private Point2D.Double[] coinsEpines;
-
-    /** Les coins du rectangle */
-    private Point2D.Double[] coinsRec;
-
-    /** Les coins du triangle */
-    private Point2D.Double[] coinsTri;
-
-    /** La valeur la plus haute du panneau */
-    private Point2D.Double valPlusHaute = new Point2D.Double(0,0);
+   
+    
+   
 
     /**
      * Constructeur par défaut de PanelBacASable.
@@ -301,11 +345,10 @@ public class PanelBacASable extends JPanel {
                     ob.move(e.getX(), e.getY());
                 }
                 
-                posPlusHaute(ob.getCoins());
+               
                 
-                if (valPlusHaute.getY() >= getHeight()-20 ) {
-                    Point2D.Double pos = calculHauteurEq(ob.getPositionCentre(), valPlusHaute,  (double) getHeight());
-                    ob.move(e.getX(), (int) (  getHeight()-pos.getY()));
+                if (ob.getPositionCentre().getY() >= getHeight()-20) {
+                    ob.move(e.getX(), (int) (  getHeight()/2));
                 } 
                 
                 repaint();
@@ -400,32 +443,28 @@ public class PanelBacASable extends JPanel {
         }
     }
 
-    /**
-     * Calcul la position en hauteur équivalente pour la forme.
-     * @param centre Le centre de la forme.
-     * @param point Le point à comparer.
-     * @param hauteur La hauteur à calculer.
-     * @return La position en hauteur équivalente.
-     */
-    public Point2D.Double calculHauteurEq(Vecteur2D centre, Point2D.Double point, double hauteur) {
-        double dist1 = Collisions.distanceEntreDeuxPoints(point.getX(), point.getX(), point.getY(), hauteur);
-        double dist2 = Collisions.distanceEntreDeuxPoints(centre.getX(), centre.getX(), centre.getY(), hauteur);
-        double posY = dist2 - dist1;
-        return new Point2D.Double(centre.getX(), posY);
-    }
-
-    public void posPlusHaute(Point2D.Double[] tab) {
-    	
-    	
-    	for (int i = 0; i < tab.length; i++) {
-    		
-    		if(tab[i].getY() > val) {
-    			val = tab[i].getY(); 
-    			}
-		}
-    }
-
     
+    
+  
+		
+/**
+ * Calcul la position en hauteur équivalente pour la forme.
+ * @param centre Le centre de la forme.
+ * @param point Le point à comparer.
+ * @param hauteur La hauteur à calculer.
+ * @return La position en hauteur équivalente.
+ */
+    public Point2D.Double calculHauteurEq ( Vecteur2D centre ,Point2D.Double point, double hauteur) {
+    	
+    	double dist1 = Collisions.distanceEntreDeuxPoints( point.getX(), point.getX() , point.getY() , hauteur);
+    	double dist2 = Collisions.distanceEntreDeuxPoints( centre.getX() , centre.getX() , centre.getY(), hauteur);
+    	
+    	double posY = dist2 - dist1;
+    	
+    	return new Point2D.Double(centre.getX(), posY);
+    	
+    }
+
    }
 
  

@@ -37,14 +37,15 @@ import obstacles.Triangle;
 
 import physique.MoteurPhysique;
 
+/**
+ * La classe Niveaux étend JPanel et implémente Runnable pour fournir une zone d'animation interactive. Cette zone permet de simuler des animations basées sur la physique, telles que le mouvement d'un canon tirant des balles, et de gérer des interactions avec des obstacles.
+ * @author Benakmoum Walid
+ * @author Khanafer Ahmad
+ * @author Soudaki Zakaria
+ */
 public class Niveaux extends JPanel implements Runnable {
 
-	/**
-	 * La classe Niveaux étend JPanel et implémente Runnable pour fournir une zone d'animation interactive. Cette zone permet de simuler des animations basées sur la physique, telles que le mouvement d'un canon tirant des balles, et de gérer des interactions avec des obstacles.
-	 * @author Benakmoum Walid
-	 * @author Khanafer Ahmad
-	 * @author Soudaki Zakaria
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	/**
      * Indique si une animation est actuellement en cours.
@@ -103,24 +104,36 @@ public class Niveaux extends JPanel implements Runnable {
      * Le canon utilisé pour tirer des balles.
      */
     protected Canon canon ;
-    
+    /**
+     * le monstre 
+     */
     private Monstres monstre;
     
+    /**
+     * boolean savoir si le monstre est toucher ou non
+     */
     protected boolean monstreMort=false;
+    /**
+     * compossantes force éléctrique
+     */
     protected  Vecteur2D forceElec;
+    
+    /**
+     * composantes somme des forces
+     */
 	protected  Vecteur2D forceTotal;
+	/**
+	 * mode scientifique activé ou non
+	 */
 	protected boolean modeScience=false;
 	
 
-//    protected String fondActuel = "/fondjeu4.png";
-//    private PlanCartesien planCartesion= new PlanCartesien();
-//    protected JLabel lbl;
-//    protected Image img;
-    
+
     
 	/**
 	 * Constructeur de la classe. Permet de crée l'interface
 	 */
+    //ZAKARIA SOUDAKI
 	public Niveaux() {
 		
 		setOpaque(false);
@@ -139,6 +152,7 @@ public class Niveaux extends JPanel implements Runnable {
      * Dessine les composants graphiques de la zone d'animation, y compris le canon et les obstacles.
      * @param g L'objet Graphics utilisé pour dessiner.
      */
+	//ZAKARIA SOUDAKI 
 	public void paintComponent(Graphics g ) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
@@ -158,6 +172,7 @@ public class Niveaux extends JPanel implements Runnable {
 	/**
      * Exécute l'animation en boucle tant que enCoursDAnimation est vrai. Gère le calcul physique et les collisions.
      */
+	//ZAKARIA SOUDAKI
 	public void run() {
 		
 	}
@@ -165,12 +180,14 @@ public class Niveaux extends JPanel implements Runnable {
 	/**
      * Démarre le thread d'animation si ce n'est pas déjà fait.
      */
+	//ZAKARIA SOUDAKI
 	public void demarrer() {
 		
 		
 			
 		}
 	//fin methode
+	//ZAKARIA SOUDAKI
 	  public void prochaineImage() {
 		  
 	  }
@@ -178,6 +195,7 @@ public class Niveaux extends JPanel implements Runnable {
      * Calcule une itération physique en fonction du deltaT.
      * @param deltaT Le temps écoulé depuis la dernière itération.
      */
+	//ZAKARIA SOUDAKI
 		public void calculerUneIterationPhysique(double deltaT) {
 		
 	}
@@ -194,12 +212,10 @@ public class Niveaux extends JPanel implements Runnable {
 	 /**
      * Calcule les forces agissant sur les objets de la zone d'animation, telles que la gravité.
      */
+	//ZAKARIA SOUDAKI
 	private void calculerLesForces() {
 
-//		Vecteur2D forceDeGravite=MoteurPhysique.calculForceGrav(canon.getBalle().getMasse(), Math.toRadians(90));
-//       
-//        
-//		canon.getBalle().setSommeDesForces(forceDeGravite);
+
 
 
 	}
@@ -207,7 +223,7 @@ public class Niveaux extends JPanel implements Runnable {
 	 * Réinitialise l'application à son état initial, incluant la remise à zéro de tous les composants d'animation et des variables d'état.
 	 * Cette méthode stoppe l'animation en cours si elle est active, réinitialise la rotation, le temps total écoulé, l'état de tir de la balle,
 	 */
-	  
+	//ZAKARIA SOUDAKI
 	public void reinitialiserApplication() {
 	
 	  
@@ -216,26 +232,24 @@ public class Niveaux extends JPanel implements Runnable {
 	/**
      * Méthode qui permet de tirer la balle.
      */
-	 
-	public  void TirerBalle() {
+		public  void TirerBalle() {
 		
 	}
-	public void arreter() {
+   public void arreter() {
 		
 	}
+	//ZAKARIA SOUDAKI
 	public void choisirBalle(int nb) {
 
 	}
-	public void setNombreDeVie(int nb) {
+		public void setNombreDeVie(int nb) {
 	    
 	}
-	
 	public void changerTypeGravite(String typeGravite) {
 	
 	}
-	
 	public boolean getEnCoursAnimation() {
-		return enCoursDAnimation;
+	return enCoursDAnimation;
 		
 	}
 	 public void stopperAnim(){
@@ -252,23 +266,22 @@ public class Niveaux extends JPanel implements Runnable {
 	
 	 
 	 
-	/**
-     * Initialise l'écouteur de clavier pour interagir avec l'animation via le clavier.
-     */
+	
 	  
 	
-	
+	//ZAKARIA SOUDAKI
 	public void setMasseBalle(int mas) {
 	
 	}
-
+	//ZAKARIA SOUDAKI
 	public Monstres getMonstre() {
 		return this.monstre;
 	}
-
+	//WALID BENAKMOUM
 	public void setModeScience(boolean sc) {
 	
 	}
+	// AHMAD KHANAFER
 	public void setObHolder(ObstacleHolder obHolder) {
 		
 		

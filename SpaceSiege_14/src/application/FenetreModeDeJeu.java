@@ -32,9 +32,21 @@ import java.awt.event.MouseEvent;
 public class FenetreModeDeJeu extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	/**
+	 * panel fond
+	 */
 	private JPanel contentPane;
+	/**
+	 * fenetre précédente
+	 */
 	private static AppPrincipal14 appli;
+	/**
+	 * fenetre actuelle
+	 */
 	private static FenetreModeDeJeu fenetre;
+	/**
+	 * son de l'application
+	 */
 	Son bouttonClicker = new Son();
 	 /**
      * Méthode statique pour afficher la fenêtre de sélection de mode de jeu.
@@ -52,6 +64,11 @@ public class FenetreModeDeJeu extends JFrame {
         app.setVisible(false);
         
     }
+	/**
+	 * méthode pour rentre visible la fenetre précédente
+	 * @param app la fenetre précédente
+	 */
+	//ZAKARIA SOUDAKI
 	public static void retour(FenetreModeDeJeu app) {
 		
 		app.setVisible(true);
@@ -81,6 +98,7 @@ public class FenetreModeDeJeu extends JFrame {
 	/**
      * Initialise et affiche la fenêtre de sélection de mode de jeu.
      */
+	//ZAKARIA SOUDAKI
 	public FenetreModeDeJeu() {
 		bouttonClicker.setFile(2);
 		
@@ -125,7 +143,6 @@ public class FenetreModeDeJeu extends JFrame {
 								bouttonClicker.play();
 								bouttonClicker.reset();
 								FenetreNiveaux.afficherFenetre(fenetre);
-//								FenetreDeJeu.afficherFenetre(fenetre);
 
 							}
 						});
