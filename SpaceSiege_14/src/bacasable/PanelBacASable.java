@@ -58,47 +58,89 @@ public class PanelBacASable extends JPanel {
 	 * Le nombre actuel de triangles dans le panneau.
 	 */
 	private int nbrTri = 0;
-
+	/**
+	 * Le nombre actuel de cercles dans le panneau.
+	 */
 	private int nbrCercle = 0;
-	
+	/**
+	 * Le nombre actuel de cercles electriques dans le panneau.
+	 */
 	private int nbrCercleElectrique = 0;
-	
+	/**
+	 * Le nombre actuel d'epines dans le panneau.
+	 */
 	private int nbrEpines = 0;
-	
+	/**
+	 * Le nombre actuel de monstres dans le panneau.
+	 */
 	private int nbrMonstre = 0;
-	
+	/**
+	 * Le nombre actuel de canon dans le panneau.
+	 */
 	private int nbrCanon = 0;
-	
+	/**
+	 * Le nombre actuel de plaque rebondissante dans le panneau.
+	 */
 	private int nbrPlaqueRebondissante = 0;
 	
+	/**
+	 * boolean activer désactiver mode éditeur
+	 */
 	private boolean editeurModeOn = true;
-
+	
+/**
+ * porteur d'obstacles
+ */
 	private ObstacleHolder obHolder = new ObstacleHolder();
 	
+	/**
+	 * boolean canon cliqué
+	 */
 	private boolean canonClick = false;
 
+	/**
+	 * canon lui-même
+	 */
 	private Canon canon;
 	
+	/**
+	 * monstre lui-même
+	 */
 	private Monstres monstre;
 	
+	/**
+	 * boolean pour dessiner le monstre ou non
+	 */
 	private boolean monstredessin = false;
 	
+	/**
+	 * boolean monstre créer ou non
+	 */
 	boolean monstreCreer = false;
 	
+	/**
+	 * les coins du cercle
+	 */
 	private Point2D.Double[] coinsCercle;
 	
+	/**
+	 * les coins du cercle éléctrique
+	 */
 	private Point2D.Double[] coinsCercleE;
 	
+	/**
+	 * les coins des épines
+	 */
 	private Point2D.Double[] coinsEpines;
-	
+	/**
+	 * les coins du rectangle
+	 */
 	private Point2D.Double[] coinsRec;
-	
+	/**
+	 * les coins du triangle
+	 */
 	private Point2D.Double[] coinsTri;
 	
-	private Point2D.Double valPlusHaute = new Point2D.Double(0,0);
-	
-	private double val = 0;
-
 	
 
     /**
@@ -388,16 +430,9 @@ public class PanelBacASable extends JPanel {
     }
     
     
-    public void posPlusHaute(Point2D.Double[] tab) {
-    	
-    	
-    	for (int i = 0; i < tab.length; i++) {
-    		
-    		if(tab[i].getY() > val) {
-    			val = tab[i].getY(); 
-    			}
-		}
-    }
+  
+		
+    
     public Point2D.Double calculHauteurEq ( Vecteur2D centre ,Point2D.Double point, double hauteur) {
     	
     	double dist1 = Collisions.distanceEntreDeuxPoints( point.getX(), point.getX() , point.getY() , hauteur);

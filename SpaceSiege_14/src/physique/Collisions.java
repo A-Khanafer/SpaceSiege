@@ -14,15 +14,29 @@ import obstacles.Rectangle;
 import obstacles.Triangle;
 
 /**
- * 
+ * Classe qui calcule toutes les collisions de l'application ainsi que le rebond de façon physique ( sauf pour
+ * la collision monstre contre les objet sinon le mode deux joueur serai tro facile)
  * @author Soudaki Zakaria
  *
  */
 public class Collisions {
 	
+	
+	/**
+	 * segments de tout rectangles
+	 */
 	private static  Line2D.Double [] segmentRec = new Line2D.Double[4];
+	/**
+	 * segments de tout triangle
+	 */
 	private static Line2D.Double [] segmentTri = new Line2D.Double[3];
+	/**
+	 * correcteur de rebond
+	 */
 	private static int buffer = 2;
+	/**
+	 * compteur de rebond de la balle
+	 */
 	private static int compteurRebonds =0;
 	/**
 	 * Méthode qui calcul la distance entre deux point
@@ -33,6 +47,7 @@ public class Collisions {
 	 * @return distance entre les deux point
 	 * 
 	 */
+	//ZAKARIA SOUDAKI
 	public static double distanceEntreDeuxPoints( double x1,double x2,double y1,double y2 ) {
 		double distX = x2 - x1;
 		double distY = y2 - y1;
@@ -51,6 +66,7 @@ public class Collisions {
 	 * @param rayon rayon du cercle
 	 * @return true ou false (true = il y a collision) (false = il n'y a pas de collision)
 	 */
+	//ZAKARIA SOUDAKI
 	public static boolean detectionPointCercle (double cx, double x1 ,double cy ,double y1, double rayon) {
 		
 		double distance = distanceEntreDeuxPoints(cx,x1, cy,y1);
@@ -74,6 +90,7 @@ public class Collisions {
 	 * @param longueur longueur du segment 
 	 * @return true le point est sur le segment , false il ne l'est pas
 	 */
+	//ZAKARIA SOUDAKI
 	public static boolean detectionLigne( double procheX, double procheY, double segX1, double segY1, double segX2, double segY2,double longueur) {
 		
 		double d1 = distanceEntreDeuxPoints(segX1, procheX,segY1, procheY );
@@ -91,6 +108,7 @@ public class Collisions {
 	 * @param balle la deuxième géometrie ( la balle)
 	 * @return true si la balle touche un des coins, false si elle n'en touche aucun
 	 */
+	//ZAKARIA SOUDAKI
 	public static boolean detectionToucherCoinLigne(Line2D.Double [] segments , Balle balle) {
 		
 		boolean dansSeg1p1 = detectionPointCercle( balle.getPosXCentre() , segments[0].getX1() ,balle.getPosYCentre() ,segments[0].getY1() , balle.getDiametre()/2 +0.5);
@@ -112,6 +130,7 @@ public class Collisions {
 	 * @param rec la géometrie ( le rectangle )
 	 * @return tableau contenant les longueurs [0]= segment1  [1]= segment2  [2]= segment3  [3]= segment4
 	 */
+	//ZAKARIA SOUDAKI
     public static double [] longueurDesSegments(Line2D.Double [] segments ){
     
     	double[] longueursSegments = new double[4];
@@ -129,6 +148,7 @@ public class Collisions {
      * @param longueurs Segments tableau des longueurs des segments du rectangle
      * @return tableau contenant le facteur dot de chaque segment   [0]= dotsegment1  [1]= dotsegment2  [2]= dotsegment3  [3]= dotsegment4
      */
+  //ZAKARIA SOUDAKI
     public static double [] calculDot( Line2D.Double [] segments, Balle balle, double [] longueursSegments) {
 		
     	double[] dot = new double[segments.length];
@@ -150,7 +170,7 @@ public class Collisions {
      * @param balle la géometrie ( la balle)
      * @param etat tableau de boolean pour connaitre l'état de tout les segments
 **/
-
+  //ZAKARIA SOUDAKI
     private static void calculRebondPhysique(Line2D.Double segment, Balle balle) {
    
     	double dx = segment.getX2() - segment.getX1();
@@ -184,6 +204,7 @@ public class Collisions {
      * Méthode qui calcul la vitesse de la balle après la collision contre un des coins
      * @param balle la géometrie ( la balle)
      */
+  //ZAKARIA SOUDAKI
      public static void calculRebondCoin (Balle balle) {
 
 	    balle.setVitesse( new Vecteur2D ( -balle.getVitesse().getX(), -balle.getVitesse().getY() ));
@@ -194,6 +215,7 @@ public class Collisions {
      * @param balle la géometrie ( la balle)
      * @param rec rec la géometrie ( le rectangle )
      */
+   //ZAKARIA SOUDAKI
 
 	 public static void collisionRectangle(Balle balle, Rectangle rec) {
 		 
@@ -273,6 +295,11 @@ public class Collisions {
 		    } 
 		 }
 	}
+	 /**
+	  * méthode qui calcul la détection de la collision balle-triangle et calcul le rebond
+	  * @param balle la balle
+	  * @param tri le triangle
+	  */
 	 public static void collisionTriangle(Balle balle, Triangle tri) {
 		 
 		 for (int i = 0; i < segmentTri.length; i++) {
@@ -339,6 +366,12 @@ public class Collisions {
 		 
 	 }
 	 
+	 /**
+	  * méthode qui détecte et calcul le rebond de la collision balle - cercle et ajuste la vitesse de la balle en conséquence
+	  * @param balle la balle
+	  * @param cercle le cercle
+	  */
+	//ZAKARIA SOUDAKI
 	 public static void collisionCercle(Balle balle, Cercle cercle) {
 		 
 		double RayBalle = balle.getRayon();
@@ -371,6 +404,13 @@ public class Collisions {
 		
 
 	 }
+	 /**
+	  * méthode qui détecte quand le monstre est toucher par la balle
+	  * @param monstre le monstre
+	  * @param balle la balle
+	  * @return
+	  */
+	//ZAKARIA SOUDAKI
 	 public static boolean collisionMonstreBalle(Monstres monstre , Balle balle) {
 		 
 		 Area areaBalle = new Area(balle.getCercle()); 
@@ -385,7 +425,11 @@ public class Collisions {
 	        return false;
 		 
 	 }
-	 
+	 /**
+	  * méthode qui calcul la collision du monstre contre un obstacle de type rectangle
+	  * @param monstre le monstre
+	  * @param rec le rectangle
+	  */
 	 public static void collisionMonstreRec (Monstres monstre,  Rectangle rec ) {
 		 
 		 Area areaRec = rec.toAire();
@@ -397,6 +441,12 @@ public class Collisions {
 	        }
 	 }
 	 
+	 /**
+	  * 	  méthode qui calcul la collision du monstre contre un obstacle de type triangle
+
+	  * @param monstre le monstre
+	  * @param tri le triangle
+	  */
      public static void collisionMonstreTri (Monstres monstre, Triangle tri) {
     	 Area areaRec = tri.toAire();
     	 Area areaMonstre = monstre.toAire();
@@ -407,6 +457,13 @@ public class Collisions {
 	        }
 		 
 	 }
+     /**
+      * méthode qui calcul la collision du monstre contre un obstacle de type cerlce
+
+      * @param monstre le monstre
+      * @param cercle le cercle
+      */
+     //ZAKARIA SOUDAKI
      
      public static void collisionMonstreCercle (Monstres monstre, Cercle cercle) {
     	 Area areaRec = cercle.toAire();
@@ -418,14 +475,32 @@ public class Collisions {
 	        }
 	 }
 	 
-	 
+	 /**
+	  * méthode pour obtenir le nombre de rebond de la balle
+	  * @return nombre de rebonds
+	  */
+     //ZAKARIA SOUDAKI
 	 public static int getNbRebond() {
 		 return compteurRebonds;
 	 }
+	 /**
+	  * méthode pour changer le nombre de rebonds
+	  * @param nb nombre de rebonds désirer
+	  */
+// ZAKARIA SOUDAKI
 	 public  static void setNbrebond(int nb) {
          compteurRebonds = nb;
 	 }
 	 
+	 /**
+	  * Méthode qui calcul la collision de la balle contre une des paroies de son interface et qui ajuste sa vitesse
+	  * @param posSol position sol
+	  * @param posMurDroit position mur droit
+	  * @param posMurHaut position mur haut
+	  * @param posMurGauche position mur de gauche
+	  * @param balle la balle
+	  */
+	 //ZAKARIA SOUDAKI 
 	  public static void gererCollisionsBordures(double posSol, double posMurDroit, double posMurHaut, double posMurGauche, Balle balle) {
 	    	if ( (balle.getPosition().getY() + balle.getDiametre()) >= ( posSol ) ) {
 	    		
@@ -452,6 +527,13 @@ public class Collisions {
 	    	}
 	    }
 	  
+	  /**
+	   * méthode pour empêcher le monstre de sortir de son interface et annuler sa vitesse lorsqu'il s'apprète a sortir
+	   * @param monstre le monstre
+	   * @param longueur la longueur de l'interface de jeu
+	   * @param hauteur La hauteur de l'interface de jeu
+	   */
+	  //ZAKARIA SOUDAKI
 	  public static void collisionMonstreMur(Monstres monstre ,int longueur, int hauteur) {
 			if (  monstre.getPosition().getX() + monstre.getLongueurRectangle() >= longueur ) {
 				monstre.setVitesse(new Vecteur2D(0,0));

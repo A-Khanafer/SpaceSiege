@@ -43,7 +43,6 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 
-import physique.ForcesMonstre;
 import physique.Vecteur2D;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
@@ -60,42 +59,125 @@ public class FenetreDeJeu extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
 	
+	/**
+	 * panel de fond
+	 */
+	
 	private JPanel contentPane;
+	/**
+	 * bouton de fond
+	 */
 	private JButton btnRetour;
 	
 
-	
+	/**
+	 * bouton de pause
+	 */
 	private JButton btnPause;
+	/**
+	 * bouton réinitialiser
+	 */
 	private JButton btnReinitialiser;
+	/**
+	 * bouton demarrer
+	 */
 	private JButton btnDemarrer;
+	/**
+	 * bouton 1 image
+	 */
 	private JButton btn1Image;
+	
+	/**
+	 * boutons radios
+	 */
 	private final ButtonGroup buttonGroup = new ButtonGroup();
+	/**
+	 * tableau contenant tout les niveaux pré-construits
+	 */
 	private static Niveaux niveaux [] = new Niveaux[10]; 
+	/**
+	 * index pour choisi le niveau
+	 */
 	private static int index = 0;
+	/**
+	 * boolean demarrer arreter l'animation
+	 */
 	private boolean enCoursDAnimation=false;
 
+	/**
+	 * JComboBox choix de gravité
+	 */
 	private JComboBox comboBoxTypeGrav;
 
+	/**
+	 * niveau 1
+	 */
 	private Niveau1 niv1;
+	/**
+	 * niveau 2
+	 */
 	private Niveau2 niv2;
+	/**
+	 * niveau 3
+	 */
 	private Niveau3 niv3;
+	/**
+	 * niveau custom
+	 */
 	private NiveauCustomiser nivCustom;
+	/**
+	 * niveau actuel
+	 */
 	private static Niveaux nivActuel;
+	/**
+	 * bouton balle normale
+	 */
 	private JRadioButton rdbBalleNormal;
+	/**
+	 * bouton balle élastique
+	 */
 	private JRadioButton rdbBalleElastique;
+	/**
+	 * bouton Balle nova
+	 */
 	private JRadioButton rdbBalleNova;
+	/**
+	 *le plan cartésien
+	 */
 	private PlanCartesien planCartesien;
    
+	/**
+	 * label pour le fond
+	 */
     private JLabel lbl = new JLabel();
+    /**
+     * image de fond
+     */
     private Image  img;
+    /**
+     * image redimentionnée
+     */
     private ImageIcon gifIcon;
     
+    /**
+     * fenetre choix de niveaux
+     */
+
     private static FenetreNiveaux appli;
+    /**
+     * fenetre actuelle
+     */
     private static FenetreDeJeu fenetre;
+    /**
+     * spinner changer masse pour la balle 
+     */
     private JSpinner spinnerMasse;
+    /**
+     * spinner choix nombre vie du monstre
+     */
     private JSpinner spinnerVieMonstre;
-    private JPanel panelTableDonne;
-    private JTable table;
+   
+    
     private Object[][] data = {
             {"Niveau 1", "Donnée 1 Niveau 1", "Donnée 2 Niveau 1", "Donnée 3 Niveau 1"},
             {"Niveau 2", "Donnée 1 Niveau 2", "Donnée 2 Niveau 2", "Donnée 3 Niveau 2"},
@@ -466,10 +548,12 @@ public class FenetreDeJeu extends JFrame {
 			panel.setBounds(0, 0, 1920, 666);
 			contentPane.add(panel);
 			
-//			ForcesMonstre vecMonstre = new ForcesMonstre(nivActuel.getMonstre(), null, null);
 
 	}
-
+/**
+ * méthode pour désactiver les bouton radios
+ */
+	//walid benakmoum
 	private void desactiverLesRadios() {
 		if(nivActuel.getEnCoursAnimation()==true) {
 		rdbBalleNormal.setEnabled(false);
@@ -489,6 +573,11 @@ public class FenetreDeJeu extends JFrame {
 		spinnerVieMonstre.setEnabled(true);
 	}
 	}
+	/**
+	 * méthode pour changer le fond du niveau selon la graviter choisie
+	 * @param fond le nom du fond en question
+	 */
+	//ZAKARIA SOUDAKI
 	public void changerFondEtGrav(String fond) {
 		
 		
@@ -527,7 +616,11 @@ public class FenetreDeJeu extends JFrame {
 		repaint();
 	}
 	
-	
+	/**
+	 * méthode pour mettre le niveau dans le JFrame
+	 * @param obHolder le niveau custom
+	 */
+	//ahmad khanafer
 	public static void  setNiveauCustom(ObstacleHolder obHolder) {
 		nivActuel.setObHolder(obHolder);
 	}

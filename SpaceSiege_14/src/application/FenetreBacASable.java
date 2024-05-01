@@ -34,27 +34,81 @@ public class FenetreBacASable extends JFrame {
 	 */
 	 
 	private static final long serialVersionUID = 1L;
+	/**
+	 * panel fond
+	 */
 	private JPanel contentPane;
+	/**
+	 * bouton du carre
+	 */
 	private JButton btnCarre;
+	/**
+	 * bouton du cercle
+	 */
 	private JButton btnCercle;
+	/**
+	 * bouton du triangle
+	 */
 	private JButton btnTriangle;
+	/**
+	 *  bouton des épines
+	 */
 	private JButton btnEpines;
+	/**
+	 *  bouton de la paque rebondissante
+	 */
 	private JButton btnPlaqueRebondissante;
+	/**
+	 *  bouton du cercle élèctrique
+	 */
 	private JButton btnCercleElectrique;
+	/**
+	 *  bouton du canon
+	 */
 	private JButton btnCanon;
+	/**
+	 *  bouton du monstre
+	 */
 	private JButton btnMonstre;
+	/**
+	 * bouton retour
+	 */
 	private JButton btnRetour;
+	/**
+	 * panel de construction de niveau
+	 */
 	private PanelBacASable panelBacASable;
+	/**
+	 * fenetre précédente fermée
+	 */
 	private static FenetreModeDeJeu appli;
+	/**
+	 * selectionneur de fichier
+	 */
 	private JFileChooser fileChooser;
+	/**
+	 * bouton charger fichier
+	 */
 	private JButton btnLoad;
+	/**
+	 * chemin de données
+	 */
 	private String selectedFilePath;
+	/**
+	 * fenêtre actuelle
+	 */
 	private static FenetreBacASable fenetre;
-	private final ButtonGroup buttonGroup = new ButtonGroup();
+	/**
+	 * bouton sauvegarder
+	 */
 	private JButton btnSauvegarder;
 	
 	
-	
+	/**
+	 * méthode pour l'ouverture de la fenetre actuelle et la fermeture de la précédente
+	 * @param app fenêtre précédente
+	 */
+	//ZAKARIA SOUDAKI
 	public static void afficherFenetre(FenetreModeDeJeu app) {
       
 		appli= app;
@@ -210,26 +264,7 @@ public class FenetreBacASable extends JFrame {
 		panel_1.add(btnLoad);
 		
 
-		JRadioButton btnRadioHaut = new JRadioButton("HAUT");
-		buttonGroup.add(btnRadioHaut);
-		btnRadioHaut.setBounds(288, 163, 109, 23);
-		panel_1.add(btnRadioHaut);
 		
-		JRadioButton btnRadioDroite = new JRadioButton("DROITE");
-		buttonGroup.add(btnRadioDroite);
-		btnRadioDroite.setBounds(288, 121, 109, 23);
-		panel_1.add(btnRadioDroite);
-		
-		JRadioButton btnRadioBas = new JRadioButton("BAS");
-		buttonGroup.add(btnRadioBas);
-		btnRadioBas.setBounds(288, 77, 109, 23);
-		panel_1.add(btnRadioBas);
-		
-		JRadioButton btnRadioGauche = new JRadioButton("GAUCHE");
-		btnRadioGauche.setSelected(true);
-		buttonGroup.add(btnRadioGauche);
-		btnRadioGauche.setBounds(288, 36, 109, 23);
-		panel_1.add(btnRadioGauche);
 
 		btnSauvegarder = new JButton("Sauvegarder");
 		btnSauvegarder.addActionListener(new ActionListener() {
@@ -311,7 +346,11 @@ public class FenetreBacASable extends JFrame {
 		contentPane.add(btnMonstre);
 		OutilsImage.lireImageEtPlacerSurBouton("images.jpg", btnMonstre);
 	}
-	
+	/**
+	 * obetnir le chemin de données
+	 * @return chemin de données
+	 */
+	//ahmad khanafer
 	public String getSelectedFilePath() {
         return selectedFilePath;
     }
