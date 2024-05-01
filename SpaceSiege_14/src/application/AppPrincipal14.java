@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.TableUI;
 
 import composantdessin.Titre;
 import outils.OutilsImage;
@@ -193,7 +194,8 @@ public class AppPrincipal14 extends JFrame{
 						+ "\n"+ " vos amis à les conquérir. Êtes-vous prêt à relever le défi et à devenir le maître de la physique et de la stratégie"
 						+ "\n"+ " dans ce monde de tir et d'aventure ?\n"
 					
-						+ "");
+						+ "\"PROJET SCIENCE INFORMATIQUE ET MATHÉMATIQUE :\"+\"\\n\"+\n"
+						+ "						\"MEMBRES DE L'ÉQUIPE DE DÉVELOPPEMENT : AHMAD KHANAFER , WALID BENAKMOUM , ZAKARIA SOUDAKI\"");
 				
 			}
 		});
@@ -215,10 +217,7 @@ public class AppPrincipal14 extends JFrame{
 		btnInfo.setBorder(emptyBorder);
 		btnInfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				JOptionPane.showMessageDialog(null, "PROJET SCIENCE INFORMATIQUE ET MATHÉMATIQUE :"+"\n"+
-						"MEMBRES DE L'ÉQUIPE DE DÉVELOPPEMENT : AHMAD KHANAFER , WALID BENAKMOUM , ZAKARIA SOUDAKI"
-									);
+				Tutoriel.afficherFenetre(actuel);
 			}
 		});
 		btnInfo.addMouseListener(new MouseAdapter() {
