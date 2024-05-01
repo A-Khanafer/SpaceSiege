@@ -91,7 +91,9 @@ public interface Obstacles {
     //Ahmad Khanafer
     public Area toAire();
     
-    public Vecteur2D getPosition();
+    public Vecteur2D getPositionCentre();
+    
+    public void setPositionCentre(Vecteur2D positionCentre);
     
     public Point2D.Double[] getCoins();
     

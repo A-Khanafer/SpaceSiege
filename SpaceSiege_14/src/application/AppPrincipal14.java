@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.TableUI;
 
 import composantdessin.Titre;
 import outils.OutilsImage;
@@ -193,7 +194,8 @@ public class AppPrincipal14 extends JFrame{
 						+ "\n"+ " vos amis à les conquérir. Êtes-vous prêt à relever le défi et à devenir le maître de la physique et de la stratégie"
 						+ "\n"+ " dans ce monde de tir et d'aventure ?\n"
 					
-						+ "");
+						+ "\"PROJET SCIENCE INFORMATIQUE ET MATHÉMATIQUE :\"+\"\\n\"+\n"
+						+ "						\"MEMBRES DE L'ÉQUIPE DE DÉVELOPPEMENT : AHMAD KHANAFER , WALID BENAKMOUM , ZAKARIA SOUDAKI\"");
 				
 			}
 		});
@@ -215,10 +217,7 @@ public class AppPrincipal14 extends JFrame{
 		btnInfo.setBorder(emptyBorder);
 		btnInfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				JOptionPane.showMessageDialog(null, "PROJET SCIENCE INFORMATIQUE ET MATHÉMATIQUE :"+"\n"+
-						"MEMBRES DE L'ÉQUIPE DE DÉVELOPPEMENT : AHMAD KHANAFER , WALID BENAKMOUM , ZAKARIA SOUDAKI"
-									);
+				Tutoriel.afficherFenetre(actuel);
 			}
 		});
 		btnInfo.addMouseListener(new MouseAdapter() {
@@ -237,30 +236,6 @@ public class AppPrincipal14 extends JFrame{
 		contentPane.add(btnInfo);
 		OutilsImage.lireImageEtPlacerSurBouton("auteurs1.png", btnInfo);
 
-		
-		JButton btnX = new JButton("New button");
-		btnX.setBorder(emptyBorder);
-		btnX.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
-		btnX.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				OutilsImage.lireImageEtPlacerSurBouton("xRouge.png", btnX);
-
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				OutilsImage.lireImageEtPlacerSurBouton("xBlanc.png", btnX);
-
-			}
-		});
-		btnX.setBounds( 1920-80, 10, 75, 65);
-		contentPane.add(btnX);
-		OutilsImage.lireImageEtPlacerSurBouton("xBlanc.png", btnX);
-		
 		
 		
 		

@@ -235,14 +235,6 @@ public class FenetreNiveaux extends JFrame {
 		contentPane.add(btnX);
 		OutilsImage.lireImageEtPlacerSurBouton("xBlanc.png", btnX);
 		
-		JLabel lbl  = new JLabel("");
-		ImageIcon gifIcon = new ImageIcon(this.getClass().getResource("/fondmodedejeu2.gif"));
-		Image img = gifIcon.getImage();
-		Image resizedImg = img.getScaledInstance(1920,1080, Image.SCALE_DEFAULT);
-		lbl.setIcon(new ImageIcon(resizedImg));
-		lbl.setBounds(0, 0, 1920, 1080);
-		contentPane.add(lbl);
-		
 		btnCustom = new JButton("Custom");
 		btnCustom.addActionListener(new ActionListener() {
 			//Ahmad Khanafer
@@ -290,5 +282,15 @@ public class FenetreNiveaux extends JFrame {
 		});
 		btnCustom.setBounds(916, 961, 89, 23);
 		contentPane.add(btnCustom);
+		
+		JLabel lbl  = new JLabel("");
+		ImageIcon gifIcon = new ImageIcon(this.getClass().getResource("/fondmodedejeu2.gif"));
+		Image img = gifIcon.getImage();
+		Image resizedImg = img.getScaledInstance(1920,1080, Image.SCALE_DEFAULT);
+		lbl.setIcon(new ImageIcon(resizedImg));
+		lbl.setBounds(0, 0, 1920, 1080);
+		contentPane.add(lbl);
+		
+		
 	}
 }

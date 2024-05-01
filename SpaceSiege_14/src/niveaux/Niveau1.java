@@ -69,14 +69,14 @@ public class Niveau1 extends Niveaux {
 	private static final double K_CONST = 9.0e4;
 	
 	/**
+     * Le temps de pause (en millisecondes) entre chaque itération de l'animation.
+     */
+	private int tempsDuSleep = 5;
+	/*
 	 * L'intervalle de temps (en secondes) utilisé pour chaque itération du calcul physique.
 	 */
 	private final double deltaT = 0.05;
 	
-	/**
-	 * Le temps de pause (en millisecondes) entre chaque itération de l'animation.
-	 */
-	private int tempsDuSleep = 10;
 	
 	/**
 	 * Un tableau de rectangles servant d'obstacles dans la zone d'animation.
@@ -256,23 +256,23 @@ public class Niveau1 extends Niveaux {
 			 
 			 tableauRec[1] = new Rectangle(  1200,  120, 186, 48,0);
 			 
-			 tableauRec[2] = new Rectangle(  1000,  0, 229, 57,0);
+			 tableauRec[2] = new Rectangle(  1000,  500, 229, 57,0);
 			 
-			 tableauRec[3] = new Rectangle(  1100,  393, 280, 56,0);
+			 tableauRec[3] = new Rectangle(  1100,  493, 280, 56,0);
 			 
-			 tableauRec[4] = new Rectangle( 1300, 0, 258, 57,0);
+			 tableauRec[4] = new Rectangle( 1300, 100, 258, 57,0);
 			 
 			 tableauRec[5] = new Rectangle(  398, 377, 290, 52,0);
 			 
-			 tableauRec[6] = new Rectangle( 1050, 0, 238, 47,0);
+			 tableauRec[6] = new Rectangle( 1050, 200, 138, 47,0);
 			 
 			 tableauRec[7] = new Rectangle(  1100,458, 210, 60,0);
 			 
-			 tableauRec[8] = new Rectangle( 1000, 20, 162, 36,45);
+			 tableauRec[8] = new Rectangle( 1000, 800, 162, 36,45);
 			 
 			 tableauRec[9] = new Rectangle(  1080, 464, 140, 124,45);
 			 
-			 tableauRec[10] = new Rectangle(  1172, 238, 113, 92,0);
+			 tableauRec[10] = new Rectangle(  1172, 538, 113, 92,0);
 
 			
 			 premiereFois = false;
@@ -324,11 +324,10 @@ public class Niveau1 extends Niveaux {
      */
 	//Benakmoum Walid
 	public void run() {
+		
 		requestFocusInWindow(); 
-		while (enCoursDAnimation) {
-
-			ecouteurClavier();
-			
+		
+		while (enCoursDAnimation) {			
 
 			Vecteur2D anciennePosition = canon.getBalle().getPositionEnMetre();
 			
@@ -346,7 +345,14 @@ public class Niveau1 extends Niveaux {
 			}
 			
 
-			Area areaBalle = new Area(canon.getBalle().getCercle()); 
+            if(Collisions.getNbRebond()>=153) {
+				enCoursDAnimation=false;
+		
+				reinitialiserPosition();
+				
+			}
+            
+            Area areaBalle = new Area(canon.getBalle().getCercle()); 
 	        Area areaMonstre = monstre.toAire();
 	        areaBalle.intersect(areaMonstre);
 
@@ -355,9 +361,8 @@ public class Niveau1 extends Niveaux {
 	        	reinitialiserPosition();
 	        }
 
-
-
-
+	        
+	        
 			if(monstre.getNombreDeVie()==0) {
 	    	    monstreMort=true;
 	    	    ancienneValeur = enCoursDAnimation;
@@ -374,25 +379,26 @@ public class Niveau1 extends Niveaux {
 			
 		
 			
+            repaint();
+			
+
 
 
 			if(Collisions.getNbRebond()>=3) {
 				ancienneValeur = enCoursDAnimation;
 			    enCoursDAnimation = false;
 			    pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
-		
-				reinitialiserPosition();
-				
 			}
-
-			repaint();
 			try {
 				Thread.sleep(tempsDuSleep);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			
 		}//fin while
+			
 		System.out.println("Le thread est mort...!");	
+		
      }
 
 	/**
@@ -505,8 +511,8 @@ public class Niveau1 extends Niveaux {
 	
 		
 		for(int i =0 ; i < tableauRec.length ; i++) {
-		    Collisions.collisionMonstreRec(monstre, tableauRec[1]);	
-		    Collisions.collisionMonstreRec(monstre, tableauRec[2]);	
+		    Collisions.collisionMonstreRec(monstre, tableauRec[i]);	
+
         
 		}
 		

@@ -63,6 +63,8 @@ public class PanelBacASable extends JPanel {
 
     /** Le conteneur d'obstacles */
     private ObstacleHolder obHolder = new ObstacleHolder();
+	
+	private double val = 0;
 
     /** Indique si le canon est sélectionné */
     private boolean canonClick = false;
@@ -266,6 +268,7 @@ public class PanelBacASable extends JPanel {
         });
     }
 
+
     /**
      * Gère les actions de l'utilisateur lorsqu'il déplace la souris.
      * @param e L'événement souris.
@@ -294,14 +297,14 @@ public class PanelBacASable extends JPanel {
                 repaint();    
             }
             if(ob.contient(e.getX(), e.getY()) && !ob.isClickedOnIt()) {
-                if(ob.getPosition().getY() < getHeight()-20) {
+                if(ob.getPositionCentre().getY() < getHeight()-20) {
                     ob.move(e.getX(), e.getY());
                 }
                 
                 posPlusHaute(ob.getCoins());
                 
                 if (valPlusHaute.getY() >= getHeight()-20 ) {
-                    Point2D.Double pos = calculHauteurEq(ob.getPosition(), valPlusHaute,  (double) getHeight());
+                    Point2D.Double pos = calculHauteurEq(ob.getPositionCentre(), valPlusHaute,  (double) getHeight());
                     ob.move(e.getX(), (int) (  getHeight()-pos.getY()));
                 } 
                 
@@ -310,6 +313,7 @@ public class PanelBacASable extends JPanel {
             }       
         }
     }
+
 
     /**
      * Gère les actions de l'utilisateur lorsqu'il clique sur une forme.
@@ -328,14 +332,14 @@ public class PanelBacASable extends JPanel {
         }
     }
 
-    /**
-     * Sauvegarde les obstacles dessinés dans un fichier texte.
-     */
-  //Ahmad Khanafer
-    public void sauvegardeNiveau() {
-        String filePath = System.getProperty("user.home") + "/Documents/obstacles.txt";
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            for (Obstacles obstacle : obHolder.getObstacleHolder()) {
+
+	
+	public void sauvegardeNiveau() {
+
+		String filePath = System.getProperty("user.home") + "/Documents/obstacles.txt";
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+			for (Obstacles obstacle : obHolder.getObstacleHolder()) {
+
                 String[] lines = obstacle.toString().split("\\n");
                 writer.write("*" + lines[0]);
                 for (int i = 1; i < lines.length; i++) {
@@ -410,21 +414,17 @@ public class PanelBacASable extends JPanel {
         return new Point2D.Double(centre.getX(), posY);
     }
 
+    public void posPlusHaute(Point2D.Double[] tab) {
+    	
+    	
+    	for (int i = 0; i < tab.length; i++) {
+    		
+    		if(tab[i].getY() > val) {
+    			val = tab[i].getY(); 
+    			}
+		}
+    }
 
-
-    
-    
-    
-	public void posPlusHaute(Point2D.Double[] tab) {
-	    	
-	    	
-	    	for (int i = 0; i < tab.length; i++) {
-	    		
-	    		if(tab[i].getY() > valPlusHaute.getY()) {
-	    			valPlusHaute.setLocation(0, tab[i].getY()); 
-	    			}
-			}
-	    }
     
    }
 

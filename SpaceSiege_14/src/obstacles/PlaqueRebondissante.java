@@ -100,6 +100,9 @@ public class PlaqueRebondissante implements Obstacles,  Serializable {
 	
 	private boolean premiereFois = true;
 	
+	 private Vecteur2D positionCentre;
+
+	
     /**
      * Constructeur de la classe Rectangle.
      *
@@ -144,6 +147,9 @@ public class PlaqueRebondissante implements Obstacles,  Serializable {
         rectanglePointille = rectangle;
         centreX = rectangle.getCenterX();
         centreY = rectangle.getCenterY();
+        
+		positionCentre = new Vecteur2D(centreX, centreY);
+
 
         aireRec = new Path2D.Double(rectangle);
         poigneRotation = new Ellipse2D.Double((coinXGauche+largeurRec/2) - 15, coinYGauche - 50, 30, 30);
@@ -532,9 +538,8 @@ public class PlaqueRebondissante implements Obstacles,  Serializable {
 
 
 	@Override
-	public Vecteur2D getPosition() {
-		
-		return new Vecteur2D(coinXGauche,coinYGauche);
+	public Vecteur2D getPositionCentre() {
+		return positionCentre;
 	}
 
 	@Override
@@ -558,6 +563,12 @@ public class PlaqueRebondissante implements Obstacles,  Serializable {
 	public Area toAire() {
 		Area aire = new Area(aireRec);
 		return aire;
+	}
+
+	@Override
+	public void setPositionCentre(Vecteur2D positionCentre) {
+		this.positionCentre = positionCentre;
+		
 	}
 
 }

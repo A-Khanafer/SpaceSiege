@@ -103,6 +103,9 @@ public class Niveaux extends JPanel implements Runnable {
      * Le canon utilisé pour tirer des balles.
      */
     protected Canon canon ;
+    
+    private Monstres monstre;
+    
     protected boolean monstreMort=false;
     protected  Vecteur2D forceElec;
 	protected  Vecteur2D forceTotal;
@@ -127,6 +130,10 @@ public class Niveaux extends JPanel implements Runnable {
 
 		pixelParMetres = 8.64;
 		canon = new Canon(0, 10,pixelParMetres);
+
+		monstre = new Monstres(1200, 40, pixelParMetres);
+		
+		
 	}
 	/**
      * Dessine les composants graphiques de la zone d'animation, y compris le canon et les obstacles.
@@ -254,6 +261,11 @@ public class Niveaux extends JPanel implements Runnable {
 	public void setMasseBalle(int mas) {
 	
 	}
+
+	public Monstres getMonstre() {
+		return this.monstre;
+	}
+
 	public void setModeScience(boolean sc) {
 	
 	}

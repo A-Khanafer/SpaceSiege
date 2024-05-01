@@ -332,8 +332,8 @@ public class Monstres extends JPanel implements Runnable, Serializable{
 	}
 	
 	public boolean contient(double xPix, double yPix) {
-		// TODO Auto-generated method stub
-		if(aireMonstre.contains(xPix, yPix)) {
+		if(toAire().contains(xPix, yPix)) {
+
 			return true;
 		}
 		return false;

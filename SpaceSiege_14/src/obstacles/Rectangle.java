@@ -100,6 +100,8 @@ public class Rectangle implements Obstacles,  Serializable {
 	
 	private boolean premiereFois = true;
 	
+	 private Vecteur2D positionCentre;
+	
     /**
      * Constructeur de la classe Rectangle.
      *
@@ -149,6 +151,8 @@ public class Rectangle implements Obstacles,  Serializable {
         rectanglePointille = rectangle;
         centreX = rectangle.getCenterX();
         centreY = rectangle.getCenterY();
+        
+        positionCentre = new Vecteur2D(centreX, centreY);
 
         aireRec = new Path2D.Double(rectangle);
         poigneRotation = new Ellipse2D.Double((coinXGauche+largeurRec/2) - 15, coinYGauche - 50, 30, 30);
@@ -532,6 +536,7 @@ public class Rectangle implements Obstacles,  Serializable {
         return new Vecteur2D(coinXGauche, coinYGauche);
     }
 
+
     /**
      * Retourne les coins du rectangle.
      *
@@ -543,10 +548,14 @@ public class Rectangle implements Obstacles,  Serializable {
         tab[1] = new Point2D.Double(coinXGauche + largeurRec, coinYGauche);
         tab[2] = new Point2D.Double(coinXGauche + largeurRec, coinYGauche + longueurRec);
         tab[3] = new Point2D.Double(coinXGauche, coinYGauche + longueurRec);
-
         return tab;
     }
-
+    
+    
+	@Override
+	public Vecteur2D getPositionCentre() {
+		return positionCentre;
+	}
     /**
      * Retourne la longueur du rectangle.
      *
@@ -573,6 +582,12 @@ public class Rectangle implements Obstacles,  Serializable {
 	public Area toAire() {
 		Area aire = new Area(aireRec);
 		return aire;
+	}
+
+	@Override
+	public void setPositionCentre(Vecteur2D positionCentre) {
+		this.positionCentre = positionCentre;
+		
 	}
 
 }

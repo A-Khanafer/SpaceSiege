@@ -83,6 +83,10 @@ public class Triangle implements Obstacles, Serializable {
      * Indique si le rectangle est sélectionné.
      */
 	private boolean estClique = false;
+	
+	private Vecteur2D positionCentre;
+
+	
 	/**
 	 * Contruire un triangle en spécifiant les dimensions de son rectangle englobant imaginaire.
 	 *  
@@ -128,6 +132,9 @@ public class Triangle implements Obstacles, Serializable {
 		rectanglePointille = new Rectangle2D.Double(coinXGauche, coinYGauche, largeur, longueur);
 		centreX = rectanglePointille.getCenterX();
 		centreY = rectanglePointille.getCenterY();
+		
+		positionCentre = new Vecteur2D(centreX, centreY);
+		
 		sommetX = coinXGauche + largeur/2;
 		sommetY = coinYGauche;
 		triangle = new Path2D.Double();
@@ -473,9 +480,9 @@ public class Triangle implements Obstacles, Serializable {
 
 
 	@Override
-	public Vecteur2D getPosition() {
-		return new Vecteur2D(coinXGauche, coinYGauche);
-	}
+	public Vecteur2D getPositionCentre() {
+          return positionCentre;
+		}
 
 	@Override
 	public Point2D.Double[] getCoins() {
@@ -504,6 +511,11 @@ public class Triangle implements Obstacles, Serializable {
 	public Area toAire() {
 		Area aire = new Area(aireTri);
 		return aire;
+	}
+
+	@Override
+	public void setPositionCentre(Vecteur2D positionCentre) {
+		this.positionCentre = positionCentre;		
 	}
 	
 }
