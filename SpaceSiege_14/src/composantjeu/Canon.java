@@ -135,12 +135,14 @@ public class Canon extends JPanel implements Selectionnable, Dessinable, Seriali
      */
     private static int balleChoisie = 1;
     
-    private String urlImage = "CANONSEXY.png";
-    
-    private Image image = null;
-    
+ 
+    /**
+     * indique si la balle est dessiner ou pas
+     */
     private boolean balleDessiner=false;
-    
+    /**
+     * couleur du canon
+     */
     Color couleur;
     
    
@@ -452,6 +454,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable, Seriali
      * 
      * @return L'angle de rotation actuel du canon en degrés.
      */
+    //Benakmoum Walid
     public double getRotation() {
     	return Math.toDegrees(rotation);
     }
@@ -460,6 +463,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable, Seriali
      * 
      * @param mas La masse à définir pour la balle.
      */
+    //Benakmoum Walid
     public void setMasseBalle(int mas) {
     	balleActuelle.setMasse(mas);
     }
@@ -468,6 +472,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable, Seriali
      * 
      * @return true si la balle est en train d'être dessinée, false sinon.
      */
+    //Benakmoum Walid
     public boolean getBalleDessiner() {
     	return this.balleDessiner;
     }
@@ -476,6 +481,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable, Seriali
      * 
      * @param des true pour indiquer que la balle est en train d'être dessinée, false sinon.
      */
+    //Benakmoum Walid
     public void setBalleDessiner(boolean des) {
     	balleDessiner=des;
     }

@@ -23,6 +23,7 @@ public class BalleNova extends Balle   {
      * @param diametreDonne Le diamètre de la balle.
      * @param position La position initiale de la balle.
      * @param vitesse La vitesse initiale de la balle.
+     * @author Benakmoum Walid
      */
 	//Benakmoum Walid
     public BalleNova(int masseDonne, int chargeDonne, double diametreDonne, Vecteur2D position, Vecteur2D vitesse,double pixelsParMetre) {
@@ -77,7 +78,10 @@ creerEffetVent(g2dPrive);
         g2dPrive.dispose();
     }
 
-    
+    /**
+     * Methode qui permet de faire exploser la balle
+     */
+//Benakmoum Walid
     public void exploser() {
         running = false;
 
@@ -94,6 +98,12 @@ creerEffetVent(g2dPrive);
         vitesse.setComposantes(0, 0); 
         creerLaGeometrie();
     }
+    /**
+     * Crée un effet visuel de vent autour de la balle, simulant la traînée.
+     * 
+     * @param g2d Le contexte graphique dans lequel dessiner l'effet de vent.
+     */
+	//Benakmoum Walid
     private void creerEffetVent(Graphics2D g2d) {
         double angle = Math.atan2(vitesse.getY(), vitesse.getX());
         double magnitudeVitesse = vitesse.module() / 3;
@@ -151,10 +161,19 @@ creerEffetVent(g2dPrive);
         position = MoteurPhysique.calculPosition(deltaT, position, vitesse);
         creerLaGeometrie();
     }
-
+    /**
+     * Arrête l'exécution du processus de la balle en mettant la variable d'état de fonctionnement (running) à false.
+     */
+	//Benakmoum Walid
 	 public void stop() {
 	        running = false;
 	    }
+	  /**
+	     * Méthode permettant de déterminer le type de la balle actuelle.
+	     * 
+	     * @return Le type de balle actuelle.
+	     */
+		//Benakmoum Walid
 	 public int quelleTypeBalle() {
 	    	return 3;
 	    }

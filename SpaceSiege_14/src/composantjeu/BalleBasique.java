@@ -85,6 +85,12 @@ public class BalleBasique extends Balle{
 
         g2dPrive.dispose();
     }
+    /**
+     * Crée un effet visuel de vent autour de la balle, simulant la traînée.
+     * 
+     * @param g2d Le contexte graphique dans lequel dessiner l'effet de vent.
+     */
+	//Benakmoum Walid
     private void creerEffetVent(Graphics2D g2d) {
         double angle = Math.atan2(vitesse.getY(), vitesse.getX());
         double magnitudeVitesse = vitesse.module() / 3;
@@ -143,10 +149,19 @@ public class BalleBasique extends Balle{
         creerLaGeometrie();
     }
 
-
+    /**
+     * Arrête l'exécution du processus de la balle en mettant la variable d'état de fonctionnement (running) à false.
+     */
+	//Benakmoum Walid
 	 public void stop() {
 	        running = false;
 	    }
+	   /**
+	     * Méthode permettant de déterminer le type de la balle actuelle.
+	     * 
+	     * @return Le type de balle actuelle.
+	     */
+		//Benakmoum Walid
 	 public int quelleTypeBalle() {
 	    	return 1;
 	    }
