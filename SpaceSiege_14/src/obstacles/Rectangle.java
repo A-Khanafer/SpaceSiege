@@ -117,7 +117,7 @@ public class Rectangle implements Obstacles,  Serializable {
         largeurRec = 10 * this.pixelsParMetre;
         longueurRec = 10 * this.pixelsParMetre;
         poigneRedimensionnement = new Ellipse2D.Double[8];
-        textureRandom();
+        textureAleatoire();
         creerLaGeometrie();
     }
 
@@ -129,7 +129,7 @@ public class Rectangle implements Obstacles,  Serializable {
         longueurRec = longueur;
         largeurRec = largeur;
     	poigneRedimensionnement = new Ellipse2D.Double[8];
-    	textureRandom();
+    	textureAleatoire();
     	creerLaGeometrie();
     }
     // Méthode privée pour initialiser la géométrie du rectangle
@@ -502,7 +502,7 @@ public class Rectangle implements Obstacles,  Serializable {
 //        return points;
 //    }
     
-    private void textureRandom() {
+    private void textureAleatoire() {
     	 Random rand = new Random();
          int i = rand.nextInt(3) + 1;
          

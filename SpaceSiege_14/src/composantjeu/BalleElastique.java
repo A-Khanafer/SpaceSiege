@@ -21,6 +21,7 @@ public class BalleElastique extends Balle {
      * @param diametreDonne Le diamètre de la balle.
      * @param position La position initiale de la balle.
      * @param vitesse La vitesse initiale de la balle.
+     * @author Benakmoum Walid
      */
 	//Benakmoum Walid
     public BalleElastique(int masseDonne, int chargeDonne, double diametreDonne, Vecteur2D position, Vecteur2D vitesse,double pixelsParMetre) {
@@ -77,7 +78,12 @@ creerEffetVent(g2dPrive);
 
 
     
-    
+    /**
+     * Crée un effet visuel de vent autour de la balle, simulant la traînée.
+     * 
+     * @param g2d Le contexte graphique dans lequel dessiner l'effet de vent.
+     */
+	//Benakmoum Walid
     private void creerEffetVent(Graphics2D g2d) {
         double angle = Math.atan2(vitesse.getY(), vitesse.getX());
         double magnitudeVitesse = vitesse.module() / 3;
@@ -135,10 +141,19 @@ creerEffetVent(g2dPrive);
         position = MoteurPhysique.calculPosition(deltaT, position, vitesse);
         creerLaGeometrie();
     }
-
+    /**
+     * Méthode permettant de déterminer le type de la balle actuelle.
+     * 
+     * @return Le type de balle actuelle.
+     */
+	//Benakmoum Walid
     public int quelleTypeBalle() {
     	return 2;
     }
+    /**
+     * méthode qui permet de accelerer la vitesse
+     */
+    //Benakmoum Walid
 	public void boostVitesse() {
 		this.vitesse.multiplie(40);
 	}

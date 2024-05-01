@@ -118,13 +118,7 @@ public class PlanCartesien extends JPanel {
 		g2d.setStroke(new BasicStroke(2.0f));
 		g2d.draw(axeX);
 		g2d.draw(axeY);
-		/*
-		System.out.println(getWidth()+"PANELLLLLLLLGRAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-		System.out.println(position.getX()+"VOIRRRRRRRRRRRRRRRRRRRRRRRRR");
-		System.out.println(position.getY()+"malskdmaskl");
-		*/
-
-		//cercle = new Ellipse2D.Double((position.getX()*pixelParMetre)+deltaX,( position.getY()*pixelParMetreY), 5, 5);
+		
 		ligne.moveTo((position.getX()*pixelParMetreX)+deltaX, ( position.getY()*pixelParMetreY));
 		ligne.lineTo((position.getX()*pixelParMetreX)+deltaX, ( position.getY()*pixelParMetreY));
 		
@@ -132,7 +126,7 @@ public class PlanCartesien extends JPanel {
 		g2d.draw(ligne);
 		
 		g2d.setColor(Color.black);
-creerTaquetsSui(g2d);
+creerTaquets(g2d);
 		
 		
 	}
@@ -141,6 +135,7 @@ creerTaquetsSui(g2d);
      * 
      * @param pos Nouvelle position du composant.
      */
+	 //Benakmoum Walid
 	public void setPosition(Vecteur2D pos) {
 		this.position = pos;
 		repaint();
@@ -185,7 +180,7 @@ creerTaquetsSui(g2d);
      * @param g2d Objet Graphics2D utilisé pour dessiner.
      */
 	//Benakmoum Walid
-	private void creerTaquetsSui(Graphics2D g2d) {
+	private void creerTaquets(Graphics2D g2d) {
 	    g2d.setColor(Color.black);
 	    int taquetSize = 5; 
 	    Font smallFont = new Font("SansSerif", Font.PLAIN, 8); 
