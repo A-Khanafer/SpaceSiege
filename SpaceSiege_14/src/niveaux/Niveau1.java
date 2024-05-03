@@ -345,13 +345,13 @@ public class Niveau1 extends Niveaux {
 			}
 			
 
-            if(Collisions.getNbRebond()>=153) {
-				enCoursDAnimation=false;
-		
-				reinitialiserPosition();
-				
-			}
-            
+//            if(Collisions.getNbRebond()>=153) {
+//				enCoursDAnimation=false;
+//		
+//				reinitialiserPosition();
+//				
+//			}
+//            
             Area areaBalle = new Area(canon.getBalle().getCercle()); 
 	        Area areaMonstre = monstre.toAire();
 	        areaBalle.intersect(areaMonstre);
