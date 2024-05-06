@@ -9,12 +9,15 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import bacasable.PanelBacASable;
 import bacasable.SauvegardeNiveau;
+import interfaces.Obstacles;
 import outils.OutilsImage;
 
 import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
@@ -124,6 +127,7 @@ public class FenetreBacASable extends JFrame {
 		fenetre.setUndecorated(true); 
         fenetre.setVisible(true);
         app.setVisible(false);
+        
     }
 
 	/**
@@ -135,6 +139,7 @@ public class FenetreBacASable extends JFrame {
 				try {
 					FenetreBacASable frame = new FenetreBacASable();
 					frame.setVisible(true);
+					frame.panelBacASable.requestFocusInWindow();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -160,7 +165,7 @@ public class FenetreBacASable extends JFrame {
 		panelBacASable = new PanelBacASable();
 		panelBacASable.setBounds(0, 0, 1920, 864);
 		contentPane.add(panelBacASable);
-		
+
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(255, 255, 255));
 		panel_1.setBounds(1052, 901, 842, 223);

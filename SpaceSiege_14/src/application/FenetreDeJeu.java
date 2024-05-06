@@ -202,6 +202,7 @@ public class FenetreDeJeu extends JFrame {
 		fenetre.setLocationRelativeTo(null);
 		fenetre.setUndecorated(true);
         fenetre.setVisible(true);
+        
         app.setVisible(false);
         
     }
