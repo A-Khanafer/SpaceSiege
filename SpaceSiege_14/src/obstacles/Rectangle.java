@@ -517,14 +517,15 @@ public class Rectangle implements Obstacles,  Serializable {
      * @return une chaîne de caractères représentant le rectangle
      */
     public String toString() {
-        String rec;
-
-        rec = "Rectangle\n" +
-              "Coin supérieur gauche : (" + (int) coinXGauche + ", " + (int) coinYGauche + ")\n" +
-              "Largeur : " + (int) largeurRec + "\n" +
-              "Longueur : " + (int) longueurRec + "\n" +
-              "Angle de rotation : " + angleRotation + "\n";
-        return rec;
+    	String rec;
+    	
+    	rec= "rec\n" + 
+  		   		Integer.toString((int) coinXGauche) + "\n" +
+  		    	Integer.toString((int) coinYGauche) + "\n" +
+  		    	Integer.toString((int) largeurRec) + "\n" +
+  		    	Integer.toString((int) longueurRec) + "\n" +
+  		    	Double.toString(angleRotation) + "\n";
+  		return rec;
     }
 
     /**

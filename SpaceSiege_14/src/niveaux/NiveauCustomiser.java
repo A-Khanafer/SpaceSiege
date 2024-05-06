@@ -243,7 +243,7 @@ public class NiveauCustomiser extends Niveaux {
 			this.pcs.firePropertyChange("enCoursDAnimation", oldValue, enCoursDAnimation);
 
 
-			
+			Area areaBalle = new Area(canon.getBalle().getCercle());
 
 			//Traverse toutes les obstacles...
 			//tu dois ajouter les collisions pour chaque obstacles
@@ -256,14 +256,17 @@ public class NiveauCustomiser extends Niveaux {
 			    }else if(ob instanceof Triangle) {
 			    	Collisions.collisionTriangle(canon.getBalle(), (Triangle) ob);
 			    }else if(ob instanceof Epines) {
-			    	//FAIRE COLLISION AVEC EPINES
+			    	areaBalle.intersect(((Epines)ob).toAire());
+			    	if(!areaBalle.isEmpty()) {
+			    		enCoursDAnimation = false;
+			    	}
 			    }else if(ob instanceof PlaqueRebondissante) {
 			    	//FAIRE COLLISION AVEC PLAQUESREBONDISSANTE
 			    }
 
 	        
 			}
-			Area areaBalle = new Area(canon.getBalle().getCercle()); 
+			 
 	        Area areaMonstre = monstre.toAire();
 	        areaBalle.intersect(areaMonstre);
 

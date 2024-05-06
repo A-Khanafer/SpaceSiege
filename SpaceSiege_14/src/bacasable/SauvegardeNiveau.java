@@ -39,9 +39,9 @@ public class SauvegardeNiveau {
                 } else if (data.startsWith("//")) { 
                     break;
                 } else { 
-                    System.out.println("( " + data + " : CoinXgauche , " + Double.parseDouble(myReader.nextLine())
+                    System.out.println("( " + data + " : CoinXgauche , " + myReader.nextLine()
                             + " : CoinYgauche , " + myReader.nextLine() + " : largeur " + myReader.nextLine()
-                            + " : longueur " + Double.parseDouble(myReader.nextLine()) + " : angle)");
+                            + " : longueur " + myReader.nextLine() + " : angle)");
                 }
             }
             myReader.close();
