@@ -24,22 +24,62 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-
+/**
+ * Fenêtre dotée d'un fond animé qui permet à l'utilisateur de choisir le niveau qu'il souhaite jouer
+ * il a le choix entre 3 niveaux différents, cette fenetre offre aussi la possibilité de choisir un niveau créer
+ * depuis le mode bac a sable
+ * @author ZAKARIA SOUDAKI
+ *
+ */
 public class FenetreNiveaux extends JFrame {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	/**
+	 * panel fond
+	 */
 	private JPanel contentPane;
+	/**
+	 * fenetre précédente
+	 */
 	private static FenetreModeDeJeu appli;
+	/**
+	 * fenetre actuelle
+	 */
 	private static FenetreNiveaux fenetre;
+	/**
+	 * choisisseur de fichier
+	 */
 	private JFileChooser fileChooser;
+	/**
+	 * chemin de données
+	 */
 	private String selectedFilePath;
+	/**
+	 * son de l'application
+	 */
 	Son bouttonClicker = new Son();
+	/**
+	 * bouton pour charger un niveau customisé
+	 */
 	private JButton btnCustom;
 	
+	/**
+	 * longueur fenetre
+	 */
+	private int longueur = 1800;
+	/**
+	 * largeur fenetre
+	 */
+	private int hauteur = 950;
 	
+	/**
+	 * méthode pour l'ouverture de la fenetre actuelle et la fermeture de la précédente
+	 * @param app fenêtre précédente
+	 */
+	//ZAKARIA SOUDAKI
 	public static void afficherFenetre(FenetreModeDeJeu app) {
 	       
 		appli = app;
@@ -47,11 +87,15 @@ public class FenetreNiveaux extends JFrame {
 		fenetre = new FenetreNiveaux();
 		fenetre.setLocationRelativeTo(null);
 		fenetre.setUndecorated(true);
-		fenetre.setExtendedState(JFrame.MAXIMIZED_BOTH);
         fenetre.setVisible(true);
         app.setVisible(false);
         
     }
+	/**
+	 * méthode pour rentre visible la fenetre précédente
+	 * @param app la fenetre précédente
+	 */
+	//ZAKARIA SOUDAKI
     public static void retour(FenetreNiveaux app) {
 		
 		app.setVisible(true);
@@ -78,6 +122,7 @@ public class FenetreNiveaux extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	//ZAKARIA SOUDAKI
 	public FenetreNiveaux() {
 		bouttonClicker.setFile(2);
 		
@@ -85,9 +130,8 @@ public class FenetreNiveaux extends JFrame {
 		
 		setLocationRelativeTo(null);
 		setUndecorated(true);
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(0, 0, 1920, 1080);
+		setBounds(0, 0, longueur, hauteur);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -100,14 +144,14 @@ public class FenetreNiveaux extends JFrame {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				OutilsImage.lireImageEtPlacerSurBouton("lvl1p.png", btnNiv1);
-				btnNiv1.setBounds(1920/2-250, 190+70, 500, 100);
+				btnNiv1.setBounds(283, 258, 360, 70);
 
 
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
 				OutilsImage.lireImageEtPlacerSurBouton("lvl1.png", btnNiv1);
-				btnNiv1.setBounds(1920/2-250, 180+70, 500, 100);
+				btnNiv1.setBounds(283, 268, 360, 70);
 
 
 			}
@@ -120,7 +164,7 @@ public class FenetreNiveaux extends JFrame {
 				
 			}
 		});
-		btnNiv1.setBounds(1920/2-250, 180+70, 500, 100);
+		btnNiv1.setBounds(283, 268, 360, 70);
 		contentPane.add(btnNiv1);
 		OutilsImage.lireImageEtPlacerSurBouton("lvl1.png", btnNiv1);
 
@@ -131,14 +175,14 @@ public class FenetreNiveaux extends JFrame {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				OutilsImage.lireImageEtPlacerSurBouton("lvl2pt.png", btnNiv2);
-				btnNiv2.setBounds(1920/2-250, 1080/2-90, 500, 100);
+				btnNiv2.setBounds(longueur/2-180, 332, 360, 70);
 
 
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
 				OutilsImage.lireImageEtPlacerSurBouton("lvl2.png", btnNiv2);
-				btnNiv2.setBounds(1920/2-250, 1080/2-100, 500, 100);
+				btnNiv2.setBounds(longueur/2-180, 342, 360, 70);
 
 
 			}
@@ -150,7 +194,7 @@ public class FenetreNiveaux extends JFrame {
 				FenetreDeJeu.afficherFenetre(fenetre, 1);
 			}
 		});
-		btnNiv2.setBounds(1920/2-250, 1080/2-100, 500, 100);
+		btnNiv2.setBounds(longueur/2-180, 342, 360, 70);
 		contentPane.add(btnNiv2);
 		OutilsImage.lireImageEtPlacerSurBouton("lvl2.png", btnNiv2);
 
@@ -161,13 +205,13 @@ public class FenetreNiveaux extends JFrame {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				OutilsImage.lireImageEtPlacerSurBouton("lvl3pt.png", btnNiv3);
-				btnNiv3.setBounds(1920/2-250, 710-70, 500, 100);
+				btnNiv3.setBounds(1168, 258, 360, 70);
 
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
 				OutilsImage.lireImageEtPlacerSurBouton("lvl3.png", btnNiv3);
-				btnNiv3.setBounds(1920/2-250, 700-70, 500, 100);
+				btnNiv3.setBounds(1168, 268, 360, 70);
 
 			}
 		});
@@ -178,7 +222,7 @@ public class FenetreNiveaux extends JFrame {
 				FenetreDeJeu.afficherFenetre(fenetre, 2);
 			}
 		});
-		btnNiv3.setBounds(1920/2-250, 700-70, 500, 100);
+		btnNiv3.setBounds(1168, 268, 360, 70);
 		contentPane.add(btnNiv3);
 		OutilsImage.lireImageEtPlacerSurBouton("lvl3.png", btnNiv3);
 
@@ -189,13 +233,13 @@ public class FenetreNiveaux extends JFrame {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				OutilsImage.lireImageEtPlacerSurBouton("menu2.png", btnRetour);
-				btnRetour.setBounds(1920/2-150, 820, 300, 75);
+				btnRetour.setBounds(longueur/2-150, 528, 300, 62);
 
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
 				OutilsImage.lireImageEtPlacerSurBouton("menu.png", btnRetour);
-				btnRetour.setBounds(1920/2-150, 810, 300, 75);
+				btnRetour.setBounds(longueur/2-150, 538, 300, 62);
 
 			}
 		});
@@ -207,7 +251,7 @@ public class FenetreNiveaux extends JFrame {
 				setVisible(false);
 			}
 		});
-		btnRetour.setBounds(1920/2-150, 810, 300, 83);
+		btnRetour.setBounds(longueur/2-150, 538, 300, 67);
 		contentPane.add(btnRetour);
 		OutilsImage.lireImageEtPlacerSurBouton("menu.png", btnRetour);
 
@@ -231,7 +275,7 @@ public class FenetreNiveaux extends JFrame {
 
 			}
 		});
-		btnX.setBounds(1920 - 95, 11, 75, 65);
+		btnX.setBounds(longueur - 95, 11, 75, 65);
 		contentPane.add(btnX);
 		OutilsImage.lireImageEtPlacerSurBouton("xBlanc.png", btnX);
 		
@@ -280,15 +324,17 @@ public class FenetreNiveaux extends JFrame {
 		        System.out.println(selectedFilePath);
 			}
 		});
-		btnCustom.setBounds(916, 961, 89, 23);
+		btnCustom.setBounds(longueur/2-60, 688, 120, 120);
+		btnCustom.setBorder(emptyBorder);
 		contentPane.add(btnCustom);
+		OutilsImage.lireImageEtPlacerSurBouton("imgCrayon.png", btnCustom);
 		
 		JLabel lbl  = new JLabel("");
 		ImageIcon gifIcon = new ImageIcon(this.getClass().getResource("/fondmodedejeu2.gif"));
 		Image img = gifIcon.getImage();
-		Image resizedImg = img.getScaledInstance(1920,1080, Image.SCALE_DEFAULT);
+		Image resizedImg = img.getScaledInstance(longueur, hauteur+130, Image.SCALE_DEFAULT);
 		lbl.setIcon(new ImageIcon(resizedImg));
-		lbl.setBounds(0, 0, 1920, 1080);
+		lbl.setBounds(0, 0, longueur, hauteur);
 		contentPane.add(lbl);
 		
 		

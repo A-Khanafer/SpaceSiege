@@ -417,6 +417,7 @@ public class Epines implements Obstacles, Serializable{
 	
 	public Area toAire() {
 		Area aire = new Area(aireEpines);
+
 		return aire;
 	}
 

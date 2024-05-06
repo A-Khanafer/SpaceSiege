@@ -227,7 +227,7 @@ public class Balle {
 	 * 
 	 * @return La position centrale de la balle sous forme de vecteur.
 	 */
-	//Benakmoum Walid
+	
 	public Vecteur2D getPosCentral() {
 		return new Vecteur2D(position.getX() + diametre / 2,position.getY() + diametre / 2);
 	}

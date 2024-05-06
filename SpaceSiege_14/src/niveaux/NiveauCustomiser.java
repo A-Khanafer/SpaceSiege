@@ -64,11 +64,11 @@ public class NiveauCustomiser extends Niveaux {
 	/**
      * L'intervalle de temps (en secondes) utilisé pour chaque itération du calcul physique.
      */
-	private final double deltaT=0.05;
+	private final double deltaT=0.009;
 	/**
      * Le temps de pause (en millisecondes) entre chaque itération de l'animation.
      */
-	private int tempsDuSleep = 10;
+	private int tempsDuSleep = 1;
 
 	
 	/**
@@ -136,12 +136,12 @@ public class NiveauCustomiser extends Niveaux {
     
     private Vecteur2D forceDroiteGauche = new Vecteur2D(0,0);
     
-    private boolean oldValue;
+    private boolean ancienneValeur;
   
     private ObstacleHolder obHolder;
 
 
-   
+   private Vecteur2D forceTotal= new Vecteur2D(0,0);
    
 
     
@@ -188,7 +188,7 @@ public class NiveauCustomiser extends Niveaux {
 			
 			pixelParMetres = (double) getWidth()/150;
 
-		   	monstre = new Monstres(1200, 40, pixelParMetres);
+		   	monstre = new Monstres(1200, 40, pixelParMetres,2);
 			canon = new Canon(0, 10,pixelParMetres);
 			
 			System.out.println(monstre.getNombreDeVie()+"___");
@@ -240,10 +240,12 @@ public class NiveauCustomiser extends Niveaux {
 			
 			this.pcs.firePropertyChange("position", anciennePosition, canon.getBalle().getPositionEnMetre());	
 			
-			this.pcs.firePropertyChange("enCoursDAnimation", oldValue, enCoursDAnimation);
+			this.pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
+
 
 
 			Area areaBalle = new Area(canon.getBalle().getCercle());
+
 
 			//Traverse toutes les obstacles...
 			//tu dois ajouter les collisions pour chaque obstacles
@@ -251,22 +253,31 @@ public class NiveauCustomiser extends Niveaux {
 				
 				if (ob instanceof Rectangle) {
 					Collisions.collisionRectangle(canon.getBalle(),(Rectangle) ob);
+				    Collisions.collisionMonstreRec(monstre, (Rectangle) ob);	
+
 			    }else if(ob instanceof Cercle) {
 			    	Collisions.collisionCercle(canon.getBalle(), (Cercle) ob);
 			    }else if(ob instanceof Triangle) {
 			    	Collisions.collisionTriangle(canon.getBalle(), (Triangle) ob);
 			    }else if(ob instanceof Epines) {
 			    	areaBalle.intersect(((Epines)ob).toAire());
-			    	if(!areaBalle.isEmpty()) {
-			    		enCoursDAnimation = false;
-			    	}
+ 
+
+                    if(!areaBalle.isEmpty()) {
+                    	System.out.println("ENCOURS ANIM");
+                    	 ancienneValeur = enCoursDAnimation;
+         	    	    enCoursDAnimation = false;
+         	    	    pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
+                        reinitialiserPosition();
+                    }
+
 			    }else if(ob instanceof PlaqueRebondissante) {
-			    	//FAIRE COLLISION AVEC PLAQUESREBONDISSANTE
+			    	Collisions.collisionPlaqueRebondissante(canon.getBalle(), (PlaqueRebondissante)ob);
 			    }
 
 	        
 			}
-			 
+
 	        Area areaMonstre = monstre.toAire();
 	        areaBalle.intersect(areaMonstre);
 
@@ -280,9 +291,9 @@ public class NiveauCustomiser extends Niveaux {
 
 			if(monstre.getNombreDeVie()==0) {
 	    	    monstreMort=true;
-	    	    oldValue = enCoursDAnimation;
+	    	    ancienneValeur = enCoursDAnimation;
 	    	    enCoursDAnimation = false;
-	    	    pcs.firePropertyChange("enCoursDAnimation", oldValue, enCoursDAnimation);
+	    	    pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
 	            
 	            JOptionPane.showMessageDialog(null,"VOUS AVEZ GAGNE");
 	            
@@ -296,10 +307,10 @@ public class NiveauCustomiser extends Niveaux {
 			
 
 
-			if(Collisions.getNbRebond()>=100) {
-				oldValue = enCoursDAnimation;
+			if(Collisions.getNbRebond()>=5) {
+				ancienneValeur = enCoursDAnimation;
 			    enCoursDAnimation = false;
-			    pcs.firePropertyChange("enCoursDAnimation", oldValue, enCoursDAnimation);
+			    pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
 		
 				reinitialiserPosition();
 				
@@ -318,13 +329,14 @@ public class NiveauCustomiser extends Niveaux {
 	/**
      * Démarre le thread d'animation si ce n'est pas déjà fait.
      */
+	//Benakmoum Walid
 	public void demarrer() {
 		if (!enCoursDAnimation) {
 			Thread proc = new Thread(this);
 			proc.start();
-		 oldValue = enCoursDAnimation;
+		 ancienneValeur = enCoursDAnimation;
 		    enCoursDAnimation = true;
-		    pcs.firePropertyChange("enCoursDAnimation", oldValue, enCoursDAnimation);
+		    pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
 			balleTiree=true;
 			canon.setBalleTiree();
 			requestFocus();
@@ -333,16 +345,17 @@ public class NiveauCustomiser extends Niveaux {
 	/**
 	 * Méthode qui arrête l'animation en cours.
 	 */
+	//Benakmoum Walid
 	public void arreter() {
-		oldValue = enCoursDAnimation;
+		ancienneValeur = enCoursDAnimation;
 	    enCoursDAnimation = false;
-	    pcs.firePropertyChange("enCoursDAnimation", oldValue, enCoursDAnimation);
+	    pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
 	}
 	/**
 	 * Méthode qui change le type de gravité utilisé dans la simulation.
 	 * @param typeGravite Le type de gravité à utiliser : "TERRE", "MARS" ou "ESPACE".
 	 */
-
+	//Benakmoum Walid
 	public void changerTypeGravite(String typeGravite) {
 	    double gravite;
 	    switch (typeGravite) {
@@ -368,7 +381,7 @@ public class NiveauCustomiser extends Niveaux {
 	/**
 	 * Méthode qui avance l'animation d'une itération.
 	 */
-
+	//Benakmoum Walid
 	  public void prochaineImage() {
 		  
 		  if(canon.getBalle().getVitesse()!=new Vecteur2D(0,0)) {
@@ -378,16 +391,22 @@ public class NiveauCustomiser extends Niveaux {
 		  }
 		  
 	  }
+	  /**
+	   * Méthode qui retourne l'état de l'animation en cours.
+	   *
+	   * @return true si une animation est en cours, sinon false.
+	   */
+	//Benakmoum Walid
 	  public boolean getEnCoursAnimation() {
 			return enCoursDAnimation;
 			
 		}
-
 	  
 	/**
      * Calcule une itération physique en fonction du deltaT.
      * @param deltaT Le temps écoulé depuis la dernière itération.
      */
+	  //Benakmoum Walid
 	public void calculerUneIterationPhysique(double deltaT) {
 		tempsTotalEcoule += deltaT;
 	try {
@@ -421,11 +440,10 @@ public class NiveauCustomiser extends Niveaux {
 			if (ob instanceof Rectangle) {
 			    Collisions.collisionMonstreRec(monstre,(Rectangle) ob);
 		    }else if(ob instanceof Cercle) {
-		    	
-		    }
-	
-//		    Collisions.collisionMonstreRec(monstre, tableauRec[2]);	
-        
+		    	Collisions.collisionMonstreCercle(monstre, (Cercle) ob );
+		    }else if (ob instanceof Triangle){
+		    	Collisions.collisionMonstreTri(monstre, (Triangle) ob);
+		    }        
 		}
 		
 		
@@ -444,7 +462,7 @@ public class NiveauCustomiser extends Niveaux {
 		//WALID BENAKMOUM TU DOIS FAIRE CETTE METHODE POUR QU ELLE PRENNE EN COMPTE TOUT LES CERCLE ELECTRIQUE
 		Vecteur2D forceDeGravite=MoteurPhysique.calculForceGrav(canon.getBalle().getMasse(), Math.toRadians(90));
 		Vecteur2D forceMonstre= forceHautBas.additionne(forceDroiteGauche);
-		
+		 forceElec=new Vecteur2D(0,0);
 		
 		for(Obstacles ob : obHolder.getObstacleHolder()) {
 			
@@ -452,7 +470,7 @@ public class NiveauCustomiser extends Niveaux {
 				
 				double distance = canon.getBalle().getPosCentral().distance(((CercleElectrique) ob).getPositionCentre());
 				
-				 forceElec=new Vecteur2D(0,0);
+				
 				    double rayonElectrique =((CercleElectrique) ob).getRayonElectrique();
 				
 				    if (distance < rayonElectrique) {
@@ -481,6 +499,7 @@ public class NiveauCustomiser extends Niveaux {
 	 * Réinitialise l'application à son état initial, incluant la remise à zéro de tous les composants d'animation et des variables d'état.
 	 * Cette méthode stoppe l'animation en cours si elle est active, réinitialise la rotation, le temps total écoulé, l'état de tir de la balle,
 	 */
+	//Benakmoum Walid
 	public void reinitialiserApplication() {
 	
 		    enCoursDAnimation = false;
@@ -490,7 +509,7 @@ public class NiveauCustomiser extends Niveaux {
 
 		    balleTiree = false;
 		    canon.setPremiereFois(true);
-		    monstre = new Monstres(1000, 20, pixelParMetres);
+		    monstre = new Monstres(1000, 20, pixelParMetres,2);
 		    if(monstre.getNombreDeVie()==0) {
 		    monstre.setNombreDeVie(1);
 		    }
@@ -501,6 +520,10 @@ public class NiveauCustomiser extends Niveaux {
 
 		   repaint();
 	}
+	/**
+	 * Méthode qui arrête ou démarre l'animation en fonction de son état actuel.
+	 */
+	//Benakmoum Walid
 	public void reinitialiserPosition() {
 		enCoursDAnimation=false;
 		balleTiree = false;
@@ -512,6 +535,7 @@ public class NiveauCustomiser extends Niveaux {
 	/**
      * Méthode qui permet de tirer la balle.
      */
+	//Benakmoum Walid
 	public  void TirerBalle() {
 		balleTiree=true;
 		canon.setBalleTiree();
@@ -522,7 +546,7 @@ public class NiveauCustomiser extends Niveaux {
 	 * Méthode qui permet de choisir le type de balle à tirer.
 	 * @param nb Le numéro de la balle à choisir.
 	 */
-
+	//Benakmoum Walid
 	public void choisirBalle(int nb) {
 
 		canon.setBalleActuelle(nb);
@@ -533,6 +557,7 @@ public class NiveauCustomiser extends Niveaux {
 	 * Méthode qui définit le nombre de vie du joueur.
 	 * @param nb Le nombre de vie à définir.
 	 */
+	//Benakmoum Walid
 	public void setNombreDeVie(int nb) {
 	    this.nombreDeVie = nb;
 	    if (this.monstre != null) {
@@ -540,6 +565,9 @@ public class NiveauCustomiser extends Niveaux {
 	    }
 	    repaint();
 	}
+	/**
+	 * Méthode qui arrête ou démarre l'animation en fonction de son état actuel.
+	 */
 	public void stopperAnim() {
 		if(enCoursDAnimation==true) {
 	enCoursDAnimation=false;
@@ -720,54 +748,92 @@ public class NiveauCustomiser extends Niveaux {
 	    	}
 	    });
 	}
-	public void setMasseBalle(int mas) {
-		canon.getBalle().setMasse(mas);
-	}
-	
-	public Monstres getMonstre() {
-		return this.monstre;
-	}
-	public void afficherDonneesBalleActuelle(Graphics g) {
-	    if (balleTiree) {
-	        Balle balle = canon.getBalle();
-	        if (balle != null) {
-	           
-	            g.setColor(Color.white);
-	            g.drawString("Données de la Balle Actuelle :", 20, 20);
-	            g.drawString("Position (x, y)", 20, 40);
-	            g.drawString("Vitesse (vx, vy)", 250, 40);
-	            g.drawString("Accélération (ax, ay)", 400, 40);
-	            g.drawString("Masse", 20, 80);
-	            g.drawString("Force électrique (Fex, Fey)", 250, 80);
-	            g.drawString("Force appliquée (Fax, Fay)", 400, 80);
-	            
-	          
-	            int positionX = (int) balle.getPosition().getX();
-	            int positionY = (int) balle.getPosition().getY();
-	            int vitesseX = (int) balle.getVitesse().getX();
-	            int vitesseY = (int) balle.getVitesse().getY();
-	            int accelerationX = (int) balle.getAcceleration().getX();
-	            int accelerationY = (int) balle.getAcceleration().getY();
-	            int masse = balle.getMasse();
-	            int forceElectriqueX = (int) forceElec.getX();
-	            int forceElectriqueY = (int) forceElec.getY();
-	            int forceAppliqueeX = (int) forceTotal.getX();
-	            int forceAppliqueeY = (int) forceTotal.getY();
-	            
-	            g.drawString("(" + positionX + ", " + positionY + ")", 20, 60);
-	            g.drawString("(" + vitesseX + ", " + vitesseY + ")", 250, 60);
-	            g.drawString("(" + accelerationX + ", " + accelerationY + ")", 400, 60);
-	            g.drawString(Integer.toString(masse), 20, 100);
-	            g.drawString("(" + forceElectriqueX + ", " + forceElectriqueY + ")", 250, 100);
-	            g.drawString("(" + forceAppliqueeX + ", " + forceAppliqueeY + ")", 400, 100);
-	        }
-	    }
-	}
-	public void setModeScience(boolean sc) {
-		this.modeScience=sc;
-		repaint();
-	}
-	
+	/**
+	 * Méthode qui modifie la masse de la balle actuelle.
+	 *
+	 * @param mas La nouvelle masse de la balle.
+	 */
+		//Benakmoum Walid
+		public void setMasseBalle(int mas) {
+			canon.getBalle().setMasse(mas);
+		}
+		/**
+		 * Méthode qui retourne l'instance du monstre dans le niveau.
+		 *
+		 * @return L'instance du monstre.
+		 */
+		public Monstres getMonstre() {
+			return this.monstre;
+		}
+		/**
+		 * Méthode qui affiche les données de la balle actuellement tirée.
+		 *
+		 * @param g L'objet Graphics utilisé pour le dessin.
+		 */
+		//Benakmoum Walid
+		public void afficherDonneesBalleActuelle(Graphics g) {
+		    if (balleTiree) {
+		        Balle balle = canon.getBalle();
+		        if (balle != null) {
+		           
+		            g.setColor(Color.white);
+		            g.drawString("Données de la Balle Actuelle :", 20, 20);
+		            g.drawString("Position (x, y)", 20, 40);
+		            g.drawString("Vitesse (vx, vy)", 250, 40);
+		            g.drawString("Accélération (ax, ay)", 400, 40);
+		            g.drawString("Masse", 20, 80);
+		            g.drawString("Force électrique (Fex, Fey)", 250, 80);
+		            g.drawString("Force appliquée (Fax, Fay)", 400, 80);
+		            
+		          
+		            int positionX = (int) balle.getPosition().getX();
+		            int positionY = (int) balle.getPosition().getY();
+		            int vitesseX = (int) balle.getVitesse().getX();
+		            int vitesseY = -(int) balle.getVitesse().getY();
+		            int accelerationX = (int) balle.getAcceleration().getX();
+		            int accelerationY = (int) balle.getAcceleration().getY();
+		            int masse = balle.getMasse();
+		            int forceElectriqueX = (int) forceElec.getX();
+		            int forceElectriqueY = (int) forceElec.getY();
+		            int forceAppliqueeX = (int) forceTotal.getX();
+		            int forceAppliqueeY = (int) forceTotal.getY();
+		            
+		            g.drawString("(" + positionX + ", " + positionY + ")", 20, 60);
+		            g.drawString("(" + vitesseX + ", " + vitesseY + ")", 250, 60);
+		            g.drawString("(" + accelerationX + ", " + accelerationY + ")", 400, 60);
+		            g.drawString(Integer.toString(masse), 20, 100);
+		            g.drawString("(" + forceElectriqueX + ", " + forceElectriqueY + ")", 250, 100);
+		            g.drawString("(" + forceAppliqueeX + ", " + forceAppliqueeY + ")", 400, 100);
+		        }
+		    }
+		}
+		/**
+		 * Méthode qui active ou désactive le mode scientifique.
+		 *
+		 * @param sc true pour activer le mode scientifique, false pour le désactiver.
+		 */
+		//Benakmoum Walid
+		public void setModeScience(boolean sc) {
+			this.modeScience=sc;
+			repaint();
+		}
+		/**
+		 * Méthode qui permet de exploser la balle
+		 */
+		//Benakmoum Walid
+		public void exploserBalle() {
+			  if(canon.getBalle().quelleTypeBalle()==3) {
+	              for (int i = 0; i < 10; i++) {
+				
+	                      canon.getBalle().exploser();
+	                   ancienneValeur = enCoursDAnimation;
+	              	    enCoursDAnimation = false;
+	              	    pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
+	              }
+	                    
+	                    repaint();
+	               	  }
+		}
 	public void setObHolder(ObstacleHolder obHolder) {
 		this.obHolder = obHolder;
 		repaint();

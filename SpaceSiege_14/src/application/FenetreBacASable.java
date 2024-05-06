@@ -9,12 +9,15 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import bacasable.PanelBacASable;
 import bacasable.SauvegardeNiveau;
+import interfaces.Obstacles;
 import outils.OutilsImage;
 
 import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
@@ -34,27 +37,87 @@ public class FenetreBacASable extends JFrame {
 	 */
 	 
 	private static final long serialVersionUID = 1L;
+	/**
+	 * panel fond
+	 */
 	private JPanel contentPane;
+	/**
+	 * bouton du carre
+	 */
 	private JButton btnCarre;
+	/**
+	 * bouton du cercle
+	 */
 	private JButton btnCercle;
+	/**
+	 * bouton du triangle
+	 */
 	private JButton btnTriangle;
+	/**
+	 *  bouton des épines
+	 */
 	private JButton btnEpines;
+	/**
+	 *  bouton de la paque rebondissante
+	 */
 	private JButton btnPlaqueRebondissante;
+	/**
+	 *  bouton du cercle élèctrique
+	 */
 	private JButton btnCercleElectrique;
+	/**
+	 *  bouton du canon
+	 */
 	private JButton btnCanon;
-	private JButton btnMonstre;
+
+	/**
+	 * bouton retour
+	 */
 	private JButton btnRetour;
+	/**
+	 * panel de construction de niveau
+	 */
 	private PanelBacASable panelBacASable;
+	/**
+	 * fenetre précédente fermée
+	 */
 	private static FenetreModeDeJeu appli;
+	/**
+	 * selectionneur de fichier
+	 */
 	private JFileChooser fileChooser;
+	/**
+	 * bouton charger fichier
+	 */
 	private JButton btnLoad;
+	/**
+	 * chemin de données
+	 */
 	private String selectedFilePath;
+	/**
+	 * fenêtre actuelle
+	 */
 	private static FenetreBacASable fenetre;
-	private final ButtonGroup buttonGroup = new ButtonGroup();
+	/**
+	 * bouton sauvegarder
+	 */
 	private JButton btnSauvegarder;
 	
+	/**
+	 * longueur fenetre
+	 */
+	private int longueur = 1800;
+	/**
+	 * largeur fenetre
+	 */
+	private int hauteur = 950;
 	
 	
+	/**
+	 * méthode pour l'ouverture de la fenetre actuelle et la fermeture de la précédente
+	 * @param app fenêtre précédente
+	 */
+	//ZAKARIA SOUDAKI
 	public static void afficherFenetre(FenetreModeDeJeu app) {
       
 		appli= app;
@@ -64,6 +127,7 @@ public class FenetreBacASable extends JFrame {
 		fenetre.setUndecorated(true); 
         fenetre.setVisible(true);
         app.setVisible(false);
+        
     }
 
 	/**
@@ -75,6 +139,7 @@ public class FenetreBacASable extends JFrame {
 				try {
 					FenetreBacASable frame = new FenetreBacASable();
 					frame.setVisible(true);
+					frame.panelBacASable.requestFocusInWindow();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -100,7 +165,7 @@ public class FenetreBacASable extends JFrame {
 		panelBacASable = new PanelBacASable();
 		panelBacASable.setBounds(0, 0, 1920, 864);
 		contentPane.add(panelBacASable);
-		
+
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(255, 255, 255));
 		panel_1.setBounds(1052, 901, 842, 223);
@@ -211,26 +276,7 @@ public class FenetreBacASable extends JFrame {
 		panel_1.add(btnLoad);
 		
 
-		JRadioButton btnRadioHaut = new JRadioButton("HAUT");
-		buttonGroup.add(btnRadioHaut);
-		btnRadioHaut.setBounds(288, 163, 109, 23);
-		panel_1.add(btnRadioHaut);
 		
-		JRadioButton btnRadioDroite = new JRadioButton("DROITE");
-		buttonGroup.add(btnRadioDroite);
-		btnRadioDroite.setBounds(288, 121, 109, 23);
-		panel_1.add(btnRadioDroite);
-		
-		JRadioButton btnRadioBas = new JRadioButton("BAS");
-		buttonGroup.add(btnRadioBas);
-		btnRadioBas.setBounds(288, 77, 109, 23);
-		panel_1.add(btnRadioBas);
-		
-		JRadioButton btnRadioGauche = new JRadioButton("GAUCHE");
-		btnRadioGauche.setSelected(true);
-		buttonGroup.add(btnRadioGauche);
-		btnRadioGauche.setBounds(288, 36, 109, 23);
-		panel_1.add(btnRadioGauche);
 
 		btnSauvegarder = new JButton("Sauvegarder");
 		btnSauvegarder.addActionListener(new ActionListener() {
@@ -301,18 +347,13 @@ public class FenetreBacASable extends JFrame {
 		contentPane.add(btnCercleElectrique);
 		OutilsImage.lireImageEtPlacerSurBouton("balle.png", btnCercleElectrique);
 		
-		
-		btnMonstre = new JButton("Monstres");
-		btnMonstre.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				panelBacASable.ajouterMonstre();
-			}
-		});
-		btnMonstre.setBounds(912, 1019, 115, 105);
-		contentPane.add(btnMonstre);
-		OutilsImage.lireImageEtPlacerSurBouton("images.jpg", btnMonstre);
-	}
 	
+	}
+	/**
+	 * obetnir le chemin de données
+	 * @return chemin de données
+	 */
+	//ahmad khanafer
 	public String getSelectedFilePath() {
         return selectedFilePath;
     }

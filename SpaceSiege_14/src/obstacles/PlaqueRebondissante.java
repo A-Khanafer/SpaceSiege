@@ -115,7 +115,7 @@ public class PlaqueRebondissante implements Obstacles,  Serializable {
         this.coinXGauche = posX;
         this.coinYGauche = posY;
         largeurRec = 20 * this.pixelsParMetre;
-        longueurRec = 1 * this.pixelsParMetre;
+        longueurRec = 3 * this.pixelsParMetre;
         poigneRedimensionnement = new Ellipse2D.Double[8];
         creerLaGeometrie();
     }

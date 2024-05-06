@@ -15,58 +15,79 @@ import java.io.Serializable;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import application.FenetreDeJeu;
 import interfaces.Obstacles;
 import outils.OutilsImage;
 import physique.MoteurPhysique;
 import physique.Vecteur2D;
-
-public class Monstres extends JPanel implements Runnable, Serializable{
+/**
+ * La classe Monstres représente un élément de jeu interactif qui peut être dessiné sur un JPanel.
+ * Elle est utilisée pour créer des monstres qui peuvent être éliminés dans le jeu.
+ * @author ZAKARIA SOUDAKI, ahamd khanafer
+ */
+public class Monstres extends JPanel implements  Serializable{
 	
 	private static final long serialVersionUID = -4198412908689199658L;
 	
 	
-	/**
-	 * La classe Monstres représente un élément de jeu interactif qui peut être dessiné sur un JPanel.
-	 * Elle est utilisée pour créer des monstres qui peuvent être éliminés dans le jeu.
-	 * @author zakaria soudaki
-	 */
-	
-	 
-	 
-	 	
+	 	/**
+	 	 * pixels par mètre
+	 	 */
 	 	private double pixelsParMetres;
-	    /** Le rectangle représentant le monstre **/
+	    /** Le rectangle représentant le monstre
+	     *  **/
 
 	    private Rectangle2D rec ;
-	    
+	    /**
+	     * air du monstre
+	     */
 	    private Path2D.Double aireMonstre;
 
 	    
-	    /** L'image du monstre **/
+	    /** L'image du monstre 
+	     * **/
 	    private Image imgDecor = null;
 	    
-	    /** La position en X du monstre **/
 	
 	    
-	    /** La largeur du rectangle représentant le monstre **/
-
-	   
+	    /** La largeur du rectangle représentant le monstre 
+	     * **/
 	    private double longueurRectangle; // Exemple : largeur du rectangle
 
-	    
+	    /** La hauteur du rectangle représentant le monstre 
+	     * **/
 	    private double hauteurRectangle; // Exemple : hauteur du rectangle
 	    
 	  
-	    
+	    /**
+	     * en cour d'animation boolean
+	     */
 	    private boolean enCourDAnimation = false;
 
 
+	    /**
+	     * nombre de vie du monstre
+	     */
 	    private static int nombreDeVie=1;
 	    
-	    private String nomImg = "images.jpg";
+	    /**
+	     * nom image du monstre
+	     */
+	    private String nomImg1 = "monstre1.png";
 	    
+	    /**
+	     * nom image du monstre
+	     */
+	    private String nomImg2 = "monstre2.png";
+	    
+	    /**
+	     * index pour parcourir tableau d'objet
+	     */
 	    private int index = 1;
 	    
+	    /**
+	     * image du monstre actuelle
+	     */
 	    private String imgActuel;
 	    
 	    
@@ -104,8 +125,12 @@ public class Monstres extends JPanel implements Runnable, Serializable{
 	     * Accélération de la balle, déterminée par les forces appliquées sur elle. Initialement définie à zéro.
 	     */
 	    private Vecteur2D accel = new Vecteur2D(0, 0);
+	    
+	    private Vecteur2D sommeForcesSurLaBalle = new Vecteur2D(0,0);
 
-
+/**
+ * boolean effectuer une tache une seule fois
+ */
 		private boolean premiereFois = true;
 
 	    /**
@@ -114,20 +139,34 @@ public class Monstres extends JPanel implements Runnable, Serializable{
 		 * @param posY La position en Y du monstre.
 		 * @param nomImage Le nom de l'image à utiliser pour représenter le monstre.
 		 **/
-	    //Zakaria Soudaki
-	    public Monstres(int posX, int posY, double pixelsParMetres) {
+	    //ZAKARIA SOUDAKI
+	    public Monstres(int posX, int posY, double pixelsParMetres, int indexImg) {
 	    	setOpaque(false);
 	    	this.pixelsParMetres = pixelsParMetres;
 	        this.position = new Vecteur2D(posX,posY);
 	        
 	        longueurRectangle = 5*this.pixelsParMetres;
 	        hauteurRectangle = 5*this.pixelsParMetres;
-	        imgDecor = OutilsImage.lireImage(nomImg); 
-	       
+	        if (indexImg == 1) {
+		        imgDecor = OutilsImage.lireImage(nomImg1); 
+	        }
+	        if (indexImg == 2){
+		        imgDecor = OutilsImage.lireImage(nomImg2); 
+
+	        }
+	
 	       creerLaGeometrie();
-//	       demarrer();
+
 	    }
-	    public Monstres(double posX, double posY,double largeur, double longueur, double angleRotation) {
+	    /**
+	     * 2ème constructeur du monstre
+	     * @param posX position du monstre en x
+	     * @param posY position du monstre en y 
+	     * @param largeur largeur du monstre
+	     * @param longueur longueur du monstre
+	     */
+	    //ZAKARIA SOUDAKI
+	    public Monstres(double posX, double posY,double largeur, double longueur) {
 	    	setOpaque(false);
 	    	
 	    	this.position = new Vecteur2D(posX,posY);
@@ -142,13 +181,13 @@ public class Monstres extends JPanel implements Runnable, Serializable{
 	    /**
 		 * Initialise la géométrie du monstre.
 		 **/
-	    //Zakaria Soudaki
+	    //ZAKARIA SOUDAKI
 	    private void creerLaGeometrie() {
 	    	
-	    	if(premiereFois) {
-	    		imgDecor = OutilsImage.lireImage(nomImg); 
-	    		premiereFois = false;
-	    	}
+//	    	if(premiereFois) {
+//	    		imgDecor = OutilsImage.lireImage(nomImg); 
+//	    		premiereFois = false;
+//	    	}
 	    	
 	        rec = new Rectangle2D.Double(position.getX(),position.getY(),longueurRectangle,hauteurRectangle);
 	        aireMonstre = new Path2D.Double(rec);
@@ -159,7 +198,7 @@ public class Monstres extends JPanel implements Runnable, Serializable{
 		 * Dessine le monstre sur le composant graphique spécifié.
 		 * @param g2d Le contexte graphique dans lequel dessiner le monstre.
 		 **/
-	    //zakaria soudaki
+	    //ZAKARIA SOUDAKI
 	    public void dessiner(Graphics2D g2d) {
 	    	
 	        g2d.drawImage( imgDecor, (int) position.getX(), (int) position.getY(),  (int)longueurRectangle, (int) hauteurRectangle,  null);
@@ -171,7 +210,7 @@ public class Monstres extends JPanel implements Runnable, Serializable{
 		 * Récupère la zone d'air du monstre, utilisée pour les collisions.
 		 * @return La zone d'air du monstre.
 		 **/
-	    //zakaria soudaki
+	    //ZAKARIA SOUDAKI
 	    public Area toAire() {
 	    	Area aire = new Area(aireMonstre);
 			return aire;
@@ -181,49 +220,29 @@ public class Monstres extends JPanel implements Runnable, Serializable{
 		 * Récupère le rectangle représentant le monstre.
 		 * @return Le rectangle représentant le monstre.
 		 **/
-	    //zakaria soudaki
+	    //ZAKARIA SOUDAKI
 	    public Rectangle2D getRec() {
 	    	return this.rec;
 	    }
 	    
-	    
+	    //ZAKARIA SOUDAKI
+
 	    public void perdUneVie() {
 	    	nombreDeVie--;
 	    }
 	    
-	    
+	    //ZAKARIA SOUDAKI
+
 	    public int getNombreDeVie(){
 	    	return nombreDeVie;
 	    }
 	    
-	    
+	    //ZAKARIA SOUDAKI
 	    public void setNombreDeVie(int nb) {
 	    	nombreDeVie=nb;
 	    	
 	    }
-
-	    public void demarrer() {
-			if (!enCourDAnimation) {
-				Thread proc = new Thread(this);
-				proc.start();
-				enCourDAnimation = true;
-			}
-		}//fin
-	    
-		@Override
-		public void run() {
-		while(enCourDAnimation) {
-			
-			
-			imgActuel =  nomImg + index;
-			index++;
-			
-			
-			
-			repaint();
-		}
-				
-	}
+	   
 		
 	
 	  
@@ -232,11 +251,16 @@ public class Monstres extends JPanel implements Runnable, Serializable{
      * 
      * @param sommeForcesSurLaBalle La somme des forces appliquées sur la balle.
      */
+    //ZAKARIA SOUDAKI
 	public void setSommeDesForces(Vecteur2D sommeForcesSurLaBalle) {
 
+		
+		this.sommeForcesSurLaBalle = sommeForcesSurLaBalle;
+		
 		try {
 
-
+ 
+		
 			 accel = MoteurPhysique.calculAcceleration(sommeForcesSurLaBalle, masse);
 
 		} catch (Exception e) {
@@ -248,20 +272,24 @@ public class Monstres extends JPanel implements Runnable, Serializable{
      * 
      * @param deltaT Le temps écoulé depuis la dernière mise à jour, en secondes.
      */
+    //ZAKARIA SOUDAKI
+
 	public void avancerUnPas(double deltaT) {
 	
 		vitesse = MoteurPhysique.calculVitesse(deltaT, vitesse, accel);
 		position = MoteurPhysique.calculPosition(deltaT, position, vitesse);
-		System.out.println("________"+position.getX()+"_________"+position.getY());
+		FenetreDeJeu.setDonnees(vitesse,accel, sommeForcesSurLaBalle);
 	    creerLaGeometrie();
 		repaint();
 	}
 	
 	/**
-	 * Retourne la masse de la balle.
+	 * Retourne la masse du monstre.
 	 * 
-	 * @return La masse de la balle.
+	 * @return La masse du monstre.
 	 */
+    //ZAKARIA SOUDAKI
+
 	public int getMasse() {
 	    return this.masse;
 	}
@@ -270,67 +298,107 @@ public class Monstres extends JPanel implements Runnable, Serializable{
 	 * Génère une représentation textuelle de la balle, affichant sa position avec un nombre spécifié de décimales.
 	 * 
 	 * @param nbDecimales Le nombre de décimales à afficher pour les coordonnées de la position.
-	 * @return Une chaîne de caractères décrivant la position de la balle.
+	 * @return Une chaîne de caractères décrivant la position du monstre.
 	 */
+    //ZAKARIA SOUDAKI
+
 	public String toString(int nbDecimales) {
 	    String s = "Balle : position=[ " + String.format("%."+nbDecimales+"f", position.getX()) + ", " + String.format("%."+nbDecimales+"f", position.getY()) + "]" ;
 	    return s;
 	}
 
 	/**
-	 * Retourne la position actuelle de la balle.
+	 * Retourne la position actuelle du monstre.
 	 * 
-	 * @return La position de la balle sous forme de vecteur.
+	 * @return La position du monstre sous forme de vecteur.
 	 */
+    //ZAKARIA SOUDAKI
+
 	public Vecteur2D getPosition() {
 	    return this.position;
 	}
+    //ZAKARIA SOUDAKI
 
 	public void setPosition(Vecteur2D vec) {
 		this.position = vec;
 	}
 	
 	/**
-	 * Définit la vitesse de la balle.
+	 * Définit la vitesse du monstre.
 	 * 
-	 * @param vit La nouvelle vitesse de la balle sous forme de vecteur.
+	 * @param vit La nouvelle vitesse du monstre sous forme de vecteur.
 	 */
+    //ZAKARIA SOUDAKI
+
 	public void setVitesse(Vecteur2D vit) {
 	    this.vitesse = vit;
 	}
 
 	/**
-	 * Retourne la vitesse actuelle de la balle.
+	 * Retourne la vitesse actuelle du monstre.
 	 * 
-	 * @return La vitesse de la balle.
+	 * @return La vitesse du monstre.
 	 */
+    //ZAKARIA SOUDAKI
 	public Vecteur2D getVitesse() {
 	    return this.vitesse;
 	}
-
+	
+	/**
+	 * Retourne l'acceleration actuelle du monstre.
+	 * 
+	 * @return L'acceleration du monstre.
+	 */
+    //ZAKARIA SOUDAKI
+	public Vecteur2D getAcceleration() {
+		return this.accel;
+	}
+	/**
+	 * obtenir la longueur du rectangle
+	 * @return la longueur
+	 */
+    //ZAKARIA SOUDAKI
 	public double getLongueurRectangle() {
 		return longueurRectangle;
 	}
-
+	/**
+	 * définir longueur rectangle
+	 * @param longueurRectangle la longueur
+	 */
+    //ZAKARIA SOUDAKI
 	public void setLongueurRectangle(double longueurRectangle) {
 		this.longueurRectangle = longueurRectangle;
 	}
-
+	/**
+	 * obtenir la hauteur du rectangle
+	 * @return la hauteur
+	 */
+    //ZAKARIA SOUDAKI
 	public double getHauteurRectangle() {
 		return hauteurRectangle;
 	}
-
+	/**
+	 * définir hauteur du rectangle
+	 * @param hauteurRectangle la hauteur
+	 */
+    //ZAKARIA SOUDAKI
 	public void setHauteurRectangle(double hauteurRectangle) {
 		this.hauteurRectangle = hauteurRectangle;
 	}
 
-	
+    //ahmad khanafer
 	public void move(int eX, int eY) {
         this.position.setX(eX - longueurRectangle / 2); 
         this.position.setY(eY - hauteurRectangle / 2); 
         creerLaGeometrie();
 	}
-	
+	/**
+	 * verifier si un point est contenu dans le monstre
+	 * @param xPix donnée en x
+	 * @param yPix donnée en y
+	 * @return
+	 */
+    //ZAKARIA SOUDAKI
 	public boolean contient(double xPix, double yPix) {
 		if(toAire().contains(xPix, yPix)) {
 

@@ -14,10 +14,30 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+/**
+ * Fenêtre dont le rôle est d'expliquer comment utiliser l'application, elle explique en détail chaque
+ * élément important et guide l'utilisateur dans son aventure dans cette application de jeu à traver des consignes
+ * et des images pour tout visualiser.
+ * @author ZAKARIA SOUDAKI
+ *
+ */
 public class Tutoriel extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
+	 * panel fond
+	 */
 	private JPanel contentPane;
+	/**
+	 * fenetre précédente
+	 */
 	private static AppPrincipal14 appli;
+	/**
+	 * fenetre actuelle
+	 */
 	private static Tutoriel fenetre;
 
 	/**
@@ -36,13 +56,11 @@ public class Tutoriel extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 * 
-	 * 
-	 * 
-	 */
-	
+	 /**
+     * Méthode statique pour afficher la fenêtre de sélection de mode de jeu.
+     * Cette méthode crée une instance de {@code FenetreModeDeJeu} et la rend visible.
+     */
+	//ZAKARIA SOUDAKI
     public static void afficherFenetre(AppPrincipal14 app) {
 		
 	    appli =app;
@@ -53,11 +71,23 @@ public class Tutoriel extends JFrame {
         app.setVisible(false);
         
     }
+    
+    /**
+	 * méthode pour rentre visible la fenetre précédente
+	 * @param app la fenetre précédente
+	 */
+	//ZAKARIA SOUDAKI
     public static void retour(FenetreModeDeJeu app) {
 		
 		app.setVisible(true);
 		
 	}
+    
+
+	/**
+     * Initialise et affiche la fenêtre de sélection de mode de jeu.
+     */
+	//ZAKARIA SOUDAKI
 	public Tutoriel() {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

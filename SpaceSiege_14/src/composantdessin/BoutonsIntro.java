@@ -28,10 +28,10 @@ public class BoutonsIntro extends JPanel {
 	private static final long serialVersionUID = 1L;
 	Son bouttonClicker = new Son();
     private Image imgFond = null;
-    private int longueurPanel  = 200;
-    private int hauteurPanel  = 155 ;
-    private int longueurBtn = 120;
-    private int hauteurBtn = 46;
+    private int longueurPanel  = 170;
+    private int hauteurPanel  = 125 ;
+    private int longueurBtn = 110;
+    private int hauteurBtn = 36;
     
 	/**
 	 * Create the panel.
@@ -62,7 +62,7 @@ public class BoutonsIntro extends JPanel {
 
 			}
 		});
-		btnQuitter.setBounds(40, 84 , longueurBtn, hauteurBtn);
+		btnQuitter.setBounds(longueurPanel/2-longueurBtn/2, 67 , longueurBtn, hauteurBtn);
 		add(btnQuitter);
 		OutilsImage.lireImageEtPlacerSurBouton("q1.png", btnQuitter);
 		
@@ -89,7 +89,7 @@ public class BoutonsIntro extends JPanel {
 
 			}
 		});
-		btnJouer.setBounds(40, 21 , longueurBtn, hauteurBtn);
+		btnJouer.setBounds(longueurPanel/2-longueurBtn/2, 17 , longueurBtn, hauteurBtn);
 		add(btnJouer);
 		OutilsImage.lireImageEtPlacerSurBouton("p1.png", btnJouer);
 
