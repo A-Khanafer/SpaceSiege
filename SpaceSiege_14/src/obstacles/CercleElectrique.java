@@ -4,6 +4,7 @@ package obstacles;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.RadialGradientPaint;
 import java.awt.RenderingHints;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
@@ -187,37 +188,40 @@ public class CercleElectrique implements Obstacles, Serializable {
 
 	@Override
 	public void dessiner(Graphics2D g2d) {
-	   	
-        Graphics2D g2dCopy = (Graphics2D) g2d.create();
-        Graphics2D g2dCopy2 = (Graphics2D) g2d.create();
-        g2dCopy.setColor(Color.black);
-        g2dCopy.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2dCopy.rotate(angleRotation, centreX, centreY);
-        if(animation==false) {
-        g2dCopy.fill(cercle);
-        }
-        if (estClique) {
-            BasicStroke pointille = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
-                    new float[]{4}, 0); // Création de la ligne pointillée
-            g2dCopy.setStroke(pointille);
-            g2dCopy.setColor(Color.black);
-            g2dCopy.draw(rectanglePointille);
-            g2dCopy.setColor(Color.green);
-            g2dCopy2.setColor(Color.red);
-            for (Ellipse2D.Double handle : poigneRedimensionnement) {
-            	g2dCopy2.fill(handle);
-            }
-        }
-        if (animation) {
-            
-            g2dCopy.setColor(Color.RED);
-            g2dCopy.fill(cercle);
-   
-        }
+	    Graphics2D g2dCopy = (Graphics2D) g2d.create();
+	    Graphics2D g2dCopy2 = (Graphics2D) g2d.create();
 
-       
-        g2dCopy.dispose();
-    }
+	  
+	    Color[] colors = {Color.RED, Color.YELLOW, Color.WHITE}; 
+	    float[] fractions = {0.0f, 0.5f, 1.0f}; 
+	    RadialGradientPaint gradient = new RadialGradientPaint((int)centreX,(int) centreY,(int) rayon, fractions, colors);
+
+	    g2dCopy.setPaint(gradient);
+	    g2dCopy.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+	    g2dCopy.rotate(angleRotation, centreX, centreY);
+	    if (animation == false) {
+	        g2dCopy.fill(cercle);
+	    }
+
+	    if (estClique) {
+	        BasicStroke pointille = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
+	                new float[]{4}, 0); // Création de la ligne pointillée
+	        g2dCopy.setStroke(pointille);
+	        g2dCopy.setColor(Color.BLACK);
+	        g2dCopy.draw(rectanglePointille);
+	        g2dCopy.setColor(Color.GREEN);
+	        g2dCopy2.setColor(Color.RED);
+	        for (Ellipse2D.Double handle : poigneRedimensionnement) {
+	            g2dCopy2.fill(handle);
+	        }
+	    }
+
+	    if (animation) {
+	        g2dCopy.fill(cercle);
+	    }
+
+	    g2dCopy.dispose();
+	}
 
 	@Override
 	public void redimension(int index, int eX, int eY) {

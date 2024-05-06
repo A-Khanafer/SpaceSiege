@@ -16,6 +16,8 @@ import java.awt.geom.Area;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.Arrays;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -333,6 +335,7 @@ public class Niveau2 extends Niveaux {
 	    
 	   
 	}
+	
 	/**
      * Exécute l'animation en boucle tant que enCoursDAnimation est vrai. Gère le calcul physique et les collisions.
      */
@@ -341,7 +344,7 @@ public class Niveau2 extends Niveaux {
 		requestFocusInWindow(); 
 		while (enCoursDAnimation) {
 
-			ecouteurClavier();
+			
 			
 
 			Vecteur2D anciennePosition = canon.getBalle().getPositionEnMetre();
@@ -360,17 +363,6 @@ public class Niveau2 extends Niveaux {
 			}
 			
 
-			System.out.println("________________________________"+Collisions.getNbRebond());
-
-			
-			if(Collisions.getNbRebond()>=3) {
-				enCoursDAnimation=false;
-		
-				reinitialiserPosition();
-				
-			}
-			
-			
 			Area areaBalle = new Area(canon.getBalle().getCercle()); 
 	        Area areaMonstre = monstre.toAire();
 	        areaBalle.intersect(areaMonstre);
@@ -478,7 +470,7 @@ public class Niveau2 extends Niveaux {
 	//Benakmoum Walid
 	  public void prochaineImage() {
 		  
-		  if(canon.getBalle().getVitesse()!=new Vecteur2D(0,0)) {
+		  if(canon.getBalle().getVitesse()!=new Vecteur2D(0,0) && balleTiree) {
 			  canon.setProchaineImage(true);
 			  calculerUneIterationPhysique(deltaT);
 				repaint();
@@ -501,7 +493,7 @@ public class Niveau2 extends Niveaux {
      * Calcule une itération physique en fonction du deltaT.
      * @param deltaT Le temps écoulé depuis la dernière itération.
      */
-	//Benakmoum Walid
+	//Benakmoum Walid & ZAKARIA SOUDAKI
 	public void calculerUneIterationPhysique(double deltaT) {
 		tempsTotalEcoule += deltaT;
 	try {
@@ -584,7 +576,9 @@ public class Niveau2 extends Niveaux {
 	//Benakmoum Walid
 	public void reinitialiserApplication() {
 	
-		    enCoursDAnimation = false;
+		ancienneValeur = enCoursDAnimation;
+	    enCoursDAnimation = false;
+	    pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
 
 		    tempsTotalEcoule = 0;
 
@@ -607,7 +601,9 @@ public class Niveau2 extends Niveaux {
 	 */
 	//Benakmoum Walid
 	public void reinitialiserPosition() {
-		enCoursDAnimation=false;
+		ancienneValeur = enCoursDAnimation;
+	    enCoursDAnimation = false;
+	    pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
 		balleTiree = false;
 	    canon.setPremiereFois(true);
 	    canon = new Canon(0, 10,pixelParMetres);
@@ -650,6 +646,7 @@ public class Niveau2 extends Niveaux {
 	/**
 	 * Méthode qui arrête ou démarre l'animation en fonction de son état actuel.
 	 */
+	//walid benakmoum
 	public void stopperAnim() {
 		if(enCoursDAnimation==true) {
 	enCoursDAnimation=false;
@@ -719,42 +716,8 @@ public class Niveau2 extends Niveaux {
 		//Benakmoum Walid
 	public int getVie() {
 		return this.nombreDeVie;
+		
 	}
-	
-		//Méthode qui gère le mouvement de la souris pour les rectangles
-				//Ahmad Khanafer
-				private void gestionSourisCercleClick(MouseEvent e) {
-					for(int i =0 ; i < tableauCercle.length; i++) {
-						if(tableauCercle[i].contient(e.getX(), e.getY())) {
-							tableauCercle[i].setClickedOnIt(true);
-							repaint();
-						}else {
-							tableauCercle[i].setClickedOnIt(false);
-							repaint();
-						}
-					}
-				}
-				//Méthode qui gère les click de la souris pour les rectangles
-				//Ahmad Khanafer
-				private void gestionSourisCercleDragged(MouseEvent e) {
-					for(int i =0 ; i < tableauCercle.length; i++) {
-						int index = tableauCercle[i].getClickedResizeHandleIndex(e.getX(), e.getY());
-							if (tableauCercle[i].isClickedOnIt() == true && index != -1) {
-								tableauCercle[i].redimension(index, e.getX(), e.getY());
-								repaint();
-							}else if(tableauCercle[i].isClickedOnIt() == true && index == -1 ) {
-								tableauCercle[i].rotate( e.getX(), e.getY());
-								repaint();
-							}
-							if(tableauCercle[i].contient(e.getX(), e.getY()) && tableauCercle[i].isClickedOnIt() == false) {
-								tableauCercle[i].move( e.getX(), e.getY());
-								repaint();
-							}
-					}	
-				}
-					
-	
-	
 	/**
 	 * Méthode qui gère les événements du clavier.
 	 */
@@ -777,29 +740,34 @@ public class Niveau2 extends Niveaux {
 
 	            switch (keyCode) {
 	                case KeyEvent.VK_UP:
-	                   
+	                    // Action à effectuer lors de l'appui sur la flèche vers le haut
+//	                		monstre.setPosY(-2);
 	                	forceHautBas.setY(-50);
 	                    break;
 	                case KeyEvent.VK_DOWN:
-	                    
+	                    // Action à effectuer lors de l'appui sur la flèche vers le bas
+//	                		monstre.setPosY(2);
 	                	forceHautBas.setY(50);
 	                	
 	                	
 	                    break;
 	                case KeyEvent.VK_LEFT:
-	                  
+	                    // Action à effectuer lors de l'appui sur la flèche vers la gauche
+//	                		monstre.setPosX(-2);
 	                	forceDroiteGauche.setX(-50);
 	                	
 	                	
 	                    break;
 	                case KeyEvent.VK_RIGHT:
-	                   
+	                    // Action à effectuer lors de l'appui sur la flèche vers la droite
+//	                		monstre.setPosX(2);
 	                	forceDroiteGauche.setX(50);
 	                		
 	                	
 	                    break;
 	                default:
 	                	keyCode = 0;
+	                    // Action à effectuer pour d'autres touches, si nécessaire
 	                    break;
 	            }
 	          
@@ -811,23 +779,22 @@ public class Niveau2 extends Niveaux {
 	    		  keyCode = e.getKeyCode();
 		            switch (keyCode) {
 		                case KeyEvent.VK_UP:
-		                   
+		                 
 		                	forceHautBas.setY(0);
 		                    break;
 		                case KeyEvent.VK_DOWN:
-		                  
+		               
 		                	forceHautBas.setY(0);
 		                	
 		                	
 		                    break;
 		                case KeyEvent.VK_LEFT:
-		                  
+		              
 		                	forceDroiteGauche.setX(0);
 		                	
 		                	
 		                    break;
 		                case KeyEvent.VK_RIGHT:
-		                   
 		                	forceDroiteGauche.setX(0);
 		                		
 		                	
@@ -854,7 +821,6 @@ public class Niveau2 extends Niveaux {
 	 *
 	 * @return L'instance du monstre.
 	 */
-	//ZAKARIA SOUDAKI
 	public Monstres getMonstre() {
 		return this.monstre;
 	}
@@ -915,20 +881,33 @@ public class Niveau2 extends Niveaux {
 	 */
 	//Benakmoum Walid
 	public void exploserBalle() {
-		  if(canon.getBalle().quelleTypeBalle()==3) {
-              for (int i = 0; i < 10; i++) {
-			
-                      canon.getBalle().exploser();
-                   ancienneValeur = enCoursDAnimation;
-              	    enCoursDAnimation = false;
-              	    pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
-              }
-                    
-                    repaint();
-               	  }
-	}
-}
+		  int delai = 100; 
+	        
 
+	        
+	    if (canon.getBalle().quelleTypeBalle() == 3) {
+	        Timer timer = new Timer();
+	      
+
+	        timer.scheduleAtFixedRate(new TimerTask() {
+	            @Override
+	            public void run() {
+	            
+	                if (canon.getBalle().getDiametre() < 200) {
+	                    canon.getBalle().exploser();
+	                    repaint();
+	                  
+	                } else {
+	                    timer.cancel();
+	                }
+	            }
+	        }, 0, delai);
+	    }
+	}
+
+}
+		
+			
 
 		
 			

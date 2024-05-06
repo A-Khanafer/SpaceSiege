@@ -300,7 +300,7 @@ public class NiveauCustomiser extends Niveaux {
 			
 
 
-			if(Collisions.getNbRebond()>=5) {
+			if(Collisions.getNbRebond()>=3) {
 				ancienneValeur = enCoursDAnimation;
 			    enCoursDAnimation = false;
 			    pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
