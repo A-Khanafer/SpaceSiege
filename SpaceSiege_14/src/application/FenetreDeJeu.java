@@ -199,6 +199,7 @@ public class FenetreDeJeu extends JFrame {
 		fenetre.setUndecorated(true);
 //		fenetre.setExtendedState(JFrame.MAXIMIZED_BOTH);
         fenetre.setVisible(true);
+        
         app.setVisible(false);
         
     }
