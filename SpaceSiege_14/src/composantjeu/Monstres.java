@@ -15,6 +15,7 @@ import java.io.Serializable;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import application.FenetreDeJeu;
 import interfaces.Obstacles;
 import outils.OutilsImage;
 import physique.MoteurPhysique;
@@ -119,6 +120,8 @@ public class Monstres extends JPanel implements Runnable, Serializable{
 	     * Accélération de la balle, déterminée par les forces appliquées sur elle. Initialement définie à zéro.
 	     */
 	    private Vecteur2D accel = new Vecteur2D(0, 0);
+	    
+	    private Vecteur2D sommeForcesSurLaBalle = new Vecteur2D(0,0);
 
 /**
  * boolean effectuer une tache une seule fois
@@ -263,9 +266,13 @@ public class Monstres extends JPanel implements Runnable, Serializable{
     //ZAKARIA SOUDAKI
 	public void setSommeDesForces(Vecteur2D sommeForcesSurLaBalle) {
 
+		
+		this.sommeForcesSurLaBalle = sommeForcesSurLaBalle;
+		
 		try {
 
-
+ 
+		
 			 accel = MoteurPhysique.calculAcceleration(sommeForcesSurLaBalle, masse);
 
 		} catch (Exception e) {
@@ -283,7 +290,7 @@ public class Monstres extends JPanel implements Runnable, Serializable{
 	
 		vitesse = MoteurPhysique.calculVitesse(deltaT, vitesse, accel);
 		position = MoteurPhysique.calculPosition(deltaT, position, vitesse);
-		System.out.println("________"+position.getX()+"_________"+position.getY());
+		FenetreDeJeu.setDonnees(vitesse,accel, sommeForcesSurLaBalle);
 	    creerLaGeometrie();
 		repaint();
 	}
@@ -347,6 +354,16 @@ public class Monstres extends JPanel implements Runnable, Serializable{
     //ZAKARIA SOUDAKI
 	public Vecteur2D getVitesse() {
 	    return this.vitesse;
+	}
+	
+	/**
+	 * Retourne l'acceleration actuelle du monstre.
+	 * 
+	 * @return L'acceleration du monstre.
+	 */
+    //ZAKARIA SOUDAKI
+	public Vecteur2D getAcceleration() {
+		return this.accel;
 	}
 	/**
 	 * obtenir la longueur du rectangle

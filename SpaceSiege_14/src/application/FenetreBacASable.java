@@ -66,10 +66,7 @@ public class FenetreBacASable extends JFrame {
 	 *  bouton du canon
 	 */
 	private JButton btnCanon;
-	/**
-	 *  bouton du monstre
-	 */
-	private JButton btnMonstre;
+
 	/**
 	 * bouton retour
 	 */
@@ -102,6 +99,15 @@ public class FenetreBacASable extends JFrame {
 	 * bouton sauvegarder
 	 */
 	private JButton btnSauvegarder;
+	
+	/**
+	 * longueur fenetre
+	 */
+	private int longueur = 1800;
+	/**
+	 * largeur fenetre
+	 */
+	private int hauteur = 950;
 	
 	
 	/**
@@ -336,16 +342,7 @@ public class FenetreBacASable extends JFrame {
 		contentPane.add(btnCercleElectrique);
 		OutilsImage.lireImageEtPlacerSurBouton("balle.png", btnCercleElectrique);
 		
-		
-		btnMonstre = new JButton("Monstres");
-		btnMonstre.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				panelBacASable.ajouterMonstre();
-			}
-		});
-		btnMonstre.setBounds(912, 1019, 115, 105);
-		contentPane.add(btnMonstre);
-		OutilsImage.lireImageEtPlacerSurBouton("images.jpg", btnMonstre);
+	
 	}
 	/**
 	 * obetnir le chemin de données

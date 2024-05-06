@@ -10,6 +10,7 @@ import composantjeu.BalleBasique;
 import composantjeu.Monstres;
 import interfaces.Obstacles;
 import obstacles.Cercle;
+import obstacles.PlaqueRebondissante;
 import obstacles.Rectangle;
 import obstacles.Triangle;
 
@@ -17,7 +18,7 @@ import obstacles.Triangle;
  * Classe qui calcule toutes les collisions de l'application ainsi que le rebond de façon physique ( sauf pour
  * la collision monstre contre les objet sinon le mode deux joueur serai tro facile)
  * @author Soudaki Zakaria
- *
+ *@author Benakmoum Walid
  */
 public class Collisions {
 	
@@ -198,6 +199,37 @@ public class Collisions {
  	    
  	    }
     }
+    /**
+     * Méthode pour calculer la vitesse de la balle après la collision contre un des segments
+     * @param segment les segments de l'objets
+     * @param balle  La balle
+     */
+    //Benakmoum Walid
+    private static void calculRebondPhysiquePlaque(Line2D.Double segment, Balle balle) {
+    	   
+    	double dx = segment.getX2() - segment.getX1();
+ 	    double dy = segment.getY2() - segment.getY1();
+
+ 	    double nx = -dy; 
+ 	    double ny = dx;
+ 	    
+ 	    Vecteur2D normale = new Vecteur2D(nx, ny);
+ 	    try {
+			normale = normale.normalise();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 	    
+ 	    double produitScalaire = balle.getVitesse().prodScalaire(normale);
+ 	    Vecteur2D vitesseApresCollision = balle.getVitesse().soustrait((normale.multiplie(produitScalaire)).multiplie(2));
+
+ 	  
+
+ 	    balle.setVitesse(vitesseApresCollision.additionne(new Vecteur2D(60,60)));
+        compteurRebonds++;
+
+ 	    
+ 	    
+    }
 
      //calcul rebond sur un coin rectangle
     /**
@@ -295,11 +327,95 @@ public class Collisions {
 		    } 
 		 }
 	}
+
+	 public static void collisionPlaqueRebondissante(Balle balle, PlaqueRebondissante plaque) {
+		 
+			
+		 for (int i = 0; i < segmentRec.length; i++) {
+	    		
+	    		segmentRec[i] = plaque.getSegment(i+1);
+		 }
+		 
+		    boolean toucherCoinsLigne = detectionToucherCoinLigne(segmentRec,balle);
+		   
+		    if (toucherCoinsLigne) {
+		    	calculRebondCoin(balle);
+		     }else if (!toucherCoinsLigne) {
+
+       		double [] longueur = longueurDesSegments(segmentRec );
+			double [] dot = calculDot(segmentRec , balle , longueur);
+		    double [] xProcheSegments = new double[4];
+		    double [] yProcheSegments = new double[4];
+
+		    for (int i = 0; i < segmentRec.length; i++) {
+		    	
+		        Line2D.Double segment = segmentRec[i];
+		  
+		        double dotCopy = dot[i]; 
+		        double xProche = segment.getX1() + (dotCopy * (segment.getX2() - segment.getX1()));
+		        double yProche = segment.getY1() + (dotCopy * (segment.getY2() - segment.getY1()));
+		        
+		        xProcheSegments[i]= xProche;
+		        yProcheSegments[i]= yProche;
+		        
+
+		    }
+		    
+		    boolean[] seg = new boolean[4]; 
+
+		    for (int i = 0; i < segmentRec.length; i++) {
+		        Line2D.Double segment = segmentRec[i];
+		        boolean distanceSegBalle = detectionPointCercle(balle.getPosXCentre(),xProcheSegments[i] ,balle.getPosYCentre(), yProcheSegments[i], balle.getDiametre()/2+buffer);
+		
+		        if (distanceSegBalle) {
+		            seg[i] = true; 
+		            
+		            
+		            boolean surSegment = detectionLigne(xProcheSegments[i], yProcheSegments[i], segment.getX1(), segment.getY1(), segment.getX2(), segment.getY2(), longueur[i]);
+		            
+		            if (!surSegment) {
+		                seg[i] = false; 
+		            }
+		        }
+		    }
+		    if (seg[0] == true) {
+		    	
+		    	calculRebondPhysiquePlaque(segmentRec[0], balle);
+		        System.out.println("SEG 0;");
+		        seg[0] = false;
+		       
+		    }  
+		    if (seg[1] == true) {
+
+		    	calculRebondPhysiquePlaque(segmentRec[1], balle);
+
+		        System.out.println("SEG 1;");
+		        seg[1] = false;
+		    } 
+		    if (seg[2] == true) {
+
+		    	calculRebondPhysiquePlaque(segmentRec[2], balle);
+		     
+		        System.out.println("SEG 2;");
+		        seg[2] = false;
+		    } 
+		    if (seg[3] == true) {
+
+		    	calculRebondPhysiquePlaque(segmentRec[3], balle);
+		       
+		        System.out.println("SEG 3;");
+		        seg[3] = false;
+		        
+		    } 
+		 }
+	}
+
 	 /**
 	  * méthode qui calcul la détection de la collision balle-triangle et calcul le rebond
 	  * @param balle la balle
 	  * @param tri le triangle
 	  */
+
 	 public static void collisionTriangle(Balle balle, Triangle tri) {
 		 
 		 for (int i = 0; i < segmentTri.length; i++) {
