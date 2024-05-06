@@ -233,13 +233,13 @@ public class FenetreNiveaux extends JFrame {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				OutilsImage.lireImageEtPlacerSurBouton("menu2.png", btnRetour);
-				btnRetour.setBounds(longueur/2-170, 528, 340, 65);
+				btnRetour.setBounds(longueur/2-150, 528, 300, 62);
 
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
 				OutilsImage.lireImageEtPlacerSurBouton("menu.png", btnRetour);
-				btnRetour.setBounds(longueur/2-170, 538, 340, 65);
+				btnRetour.setBounds(longueur/2-150, 538, 300, 62);
 
 			}
 		});
@@ -251,7 +251,7 @@ public class FenetreNiveaux extends JFrame {
 				setVisible(false);
 			}
 		});
-		btnRetour.setBounds(longueur/2-170, 538, 340, 65);
+		btnRetour.setBounds(longueur/2-150, 538, 300, 67);
 		contentPane.add(btnRetour);
 		OutilsImage.lireImageEtPlacerSurBouton("menu.png", btnRetour);
 
@@ -324,8 +324,10 @@ public class FenetreNiveaux extends JFrame {
 		        System.out.println(selectedFilePath);
 			}
 		});
-		btnCustom.setBounds(longueur/2-160, 688, 320, 70);
+		btnCustom.setBounds(longueur/2-60, 688, 120, 120);
+		btnCustom.setBorder(emptyBorder);
 		contentPane.add(btnCustom);
+		OutilsImage.lireImageEtPlacerSurBouton("imgCrayon.png", btnCustom);
 		
 		JLabel lbl  = new JLabel("");
 		ImageIcon gifIcon = new ImageIcon(this.getClass().getResource("/fondmodedejeu2.gif"));

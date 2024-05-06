@@ -188,7 +188,7 @@ public class NiveauCustomiser extends Niveaux {
 			
 			pixelParMetres = (double) getWidth()/150;
 
-		   	monstre = new Monstres(1200, 40, pixelParMetres);
+		   	monstre = new Monstres(1200, 40, pixelParMetres,2);
 			canon = new Canon(0, 10,pixelParMetres);
 			
 			System.out.println(monstre.getNombreDeVie()+"___");
@@ -504,7 +504,7 @@ public class NiveauCustomiser extends Niveaux {
 
 		    balleTiree = false;
 		    canon.setPremiereFois(true);
-		    monstre = new Monstres(1000, 20, pixelParMetres);
+		    monstre = new Monstres(1000, 20, pixelParMetres,2);
 		    if(monstre.getNombreDeVie()==0) {
 		    monstre.setNombreDeVie(1);
 		    }

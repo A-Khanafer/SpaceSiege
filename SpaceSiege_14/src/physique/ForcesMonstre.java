@@ -12,10 +12,9 @@ import java.awt.geom.Line2D;
 
 public class ForcesMonstre extends JPanel {
 	
-    /**
-	 * 
-	 */
+    
 	private static final long serialVersionUID = 1L;
+	
 	private Monstres monstre;
 	
 	private Vecteur2D vitesse;
@@ -37,11 +36,11 @@ public class ForcesMonstre extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setStroke(new BasicStroke(2));
 
-        // Calculer le point central du panel
+        
         int centreX = getWidth() / 2;
         int centreY = getHeight() / 2;
         
-        // Dessiner un point noir au centre
+      
         g2d.setColor(Color.RED);
         g2d.fillOval(centreX , centreY , diametre, diametre);
 
@@ -55,13 +54,14 @@ public class ForcesMonstre extends JPanel {
 //            dessinerVecteur(g2d, new Vecteur2D(centreX, centreY), accel, Color.GREEN);
 //        }
         
+        
         if (sommeForces != null) {
         	dessinerVecteur(g2d, new Vecteur2D(centreX, centreY), sommeForces, Color.GREEN);
         }
     }
 
     private void dessinerVecteur(Graphics2D g2d, Vecteur2D centre, Vecteur2D vecteur, Color couleur) {
-        double scale = 2; // Ajuster pour contrôler la longueur des flèches
+        double scale = 2; 
         
         double finX = centre.getX() + vecteur.getX() * scale;
         double finY = centre.getY() + vecteur.getY() * scale;
@@ -74,7 +74,8 @@ public class ForcesMonstre extends JPanel {
     private void dessinerFleche(Graphics2D g2d, Line2D.Double ligne) {
     	
         double angle = Math.atan2(ligne.y2 - ligne.y1, ligne.x2 - ligne.x1);
-        int longueur = 10; // Longueur des bras de la flèche
+        
+        int longueur = 10;
         
         Line2D.Double bras1 = new Line2D.Double(ligne.x2, ligne.y2,
         		
@@ -85,6 +86,7 @@ public class ForcesMonstre extends JPanel {
         		
                 ligne.x2 - longueur * Math.cos(angle + Math.PI / 6),
                 ligne.y2 - longueur * Math.sin(angle + Math.PI / 6));
+        
         g2d.draw(bras1);
         g2d.draw(bras2);
     }

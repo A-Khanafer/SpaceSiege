@@ -452,7 +452,7 @@ public class PanelBacASable extends JPanel {
      */
     public void ajouterMonstre() {
         if (nbrMonstre < 1) {
-            monstre = new Monstres(200,200, pixelParMetres);
+            monstre = new Monstres(200,200, pixelParMetres, 1);
             nbrMonstre++;
             monstredessin = true;
             monstreCreer = true;

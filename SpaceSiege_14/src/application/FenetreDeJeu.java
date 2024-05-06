@@ -263,6 +263,8 @@ public class FenetreDeJeu extends JFrame {
 		contentPane.add(panelFonctionnalites);
 		panelFonctionnalites.setLayout(null);
 		
+		
+		
 		btnRetour = new JButton("RETOUR");
 		btnRetour.setBorder(emptyBorder);
 		btnRetour.addMouseListener(new MouseAdapter() {
@@ -427,42 +429,7 @@ public class FenetreDeJeu extends JFrame {
 		chckbxModeScienti.setBounds(1318, 14, 137, 23);
 		panelFonctionnalites.add(chckbxModeScienti);
 		
-		rdbBalleNormal = new JRadioButton("Balles Normales");
-		rdbBalleNormal.setBackground(new Color(0, 0, 0));
-		rdbBalleNormal.setForeground(new Color(255, 255, 255));
-		rdbBalleNormal.setSelected(true);
-		rdbBalleNormal.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				nivActuel.choisirBalle(1);
-			}
-		});
-		buttonGroup.add(rdbBalleNormal);
-		rdbBalleNormal.setBounds(6, 44, 109, 37);
-		panelFonctionnalites.add(rdbBalleNormal);
 		
-		rdbBalleElastique = new JRadioButton("Balles Elastiques");
-		rdbBalleElastique.setForeground(new Color(255, 255, 255));
-		rdbBalleElastique.setBackground(new Color(0, 0, 0));
-		rdbBalleElastique.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				nivActuel.choisirBalle(2);
-			}
-		});
-		buttonGroup.add(rdbBalleElastique);
-		rdbBalleElastique.setBounds(6, 95, 109, 37);
-		panelFonctionnalites.add(rdbBalleElastique);
-		
-		rdbBalleNova = new JRadioButton("Balles Novas");
-		rdbBalleNova.setForeground(new Color(255, 255, 255));
-		rdbBalleNova.setBackground(new Color(0, 0, 0));
-		rdbBalleNova.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				nivActuel.choisirBalle(3);
-			}
-		});
-		buttonGroup.add(rdbBalleNova);
-		rdbBalleNova.setBounds(6, 144, 109, 37);
-		panelFonctionnalites.add(rdbBalleNova);
 		
 		comboBoxTypeGrav = new JComboBox();
 		comboBoxTypeGrav.addActionListener(new ActionListener() {
@@ -476,7 +443,6 @@ public class FenetreDeJeu extends JFrame {
 		});
 		comboBoxTypeGrav.setModel(new DefaultComboBoxModel(new String[] {"ESPACE", "TERRE", "MARS"}));
 		comboBoxTypeGrav.setBounds(423, 135, 109, 46);
-//		comboBoxTypeGrav.setBounds(296, 128, 109, 37);
 		panelFonctionnalites.add(comboBoxTypeGrav);
 		
 		JButton btnNewButton = new JButton("MODES EXTRA");
@@ -500,7 +466,7 @@ public class FenetreDeJeu extends JFrame {
 		
 		JLabel lblNewLabel = new JLabel("CHOIX DE BALLES :");
 		lblNewLabel.setForeground(new Color(255, 255, 255));
-		lblNewLabel.setBounds(6, 11, 109, 26);
+		lblNewLabel.setBounds(6, 12, 109, 26);
 		panelFonctionnalites.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("MASSE DES BALLES :");
@@ -554,7 +520,42 @@ public class FenetreDeJeu extends JFrame {
 		
 		
 	  
+		rdbBalleNormal = new JRadioButton("Balles Normales");
+		rdbBalleNormal.setBackground(new Color(0, 0, 0));
+		rdbBalleNormal.setForeground(new Color(255, 255, 255));
+		rdbBalleNormal.setSelected(true);
+		rdbBalleNormal.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				nivActuel.choisirBalle(1);
+			}
+		});
+		buttonGroup.add(rdbBalleNormal);
+		rdbBalleNormal.setBounds(6, 44, 150, 37);
+		panelFonctionnalites.add(rdbBalleNormal);
 		
+		rdbBalleElastique = new JRadioButton("Balles Elastiques");
+		rdbBalleElastique.setForeground(new Color(255, 255, 255));
+		rdbBalleElastique.setBackground(new Color(0, 0, 0));
+		rdbBalleElastique.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				nivActuel.choisirBalle(2);
+			}
+		});
+		buttonGroup.add(rdbBalleElastique);
+		rdbBalleElastique.setBounds(6, 95, 150, 37);
+		panelFonctionnalites.add(rdbBalleElastique);
+		
+		rdbBalleNova = new JRadioButton("Balles Novas");
+		rdbBalleNova.setForeground(new Color(255, 255, 255));
+		rdbBalleNova.setBackground(new Color(0, 0, 0));
+		rdbBalleNova.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				nivActuel.choisirBalle(3);
+			}
+		});
+		buttonGroup.add(rdbBalleNova);
+		rdbBalleNova.setBounds(6, 144, 120, 37);
+		panelFonctionnalites.add(rdbBalleNova);
 			
 			
 			
@@ -568,10 +569,6 @@ public class FenetreDeJeu extends JFrame {
 			JPanel panel = new JPanel();
 			panel.setBounds(0, 0, 1486, 766);
 			contentPane.add(panel);
-//			
-//			JPanel panel_1 = new JPanel();
-//			panel_1.setBounds(1488, 519, 326, 437);
-//			contentPane.add(panel_1);
 			
 			forces = new ForcesMonstre();
 			forces.setBounds(1485, 519, 316, 437);
@@ -601,6 +598,7 @@ public class FenetreDeJeu extends JFrame {
 		spinnerVieMonstre.setEnabled(true);
 	}
 	}
+	
 	/**
 	 * méthode pour changer le fond du niveau selon la graviter choisie
 	 * @param fond le nom du fond en question

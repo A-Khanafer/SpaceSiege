@@ -243,7 +243,7 @@ public class Niveau3 extends Niveaux {
 		
 			
 			
-		   	monstre = new Monstres(1200, 40, pixelParMetres);
+		   	monstre = new Monstres(1200, 40, pixelParMetres,1);
 			canon = new Canon(0, 10,pixelParMetres);
 			
 			System.out.println(monstre.getNombreDeVie()+"___");
@@ -563,7 +563,7 @@ public class Niveau3 extends Niveaux {
 
 		    balleTiree = false;
 		    canon.setPremiereFois(true);
-		    monstre = new Monstres(1000, 20, pixelParMetres);
+		    monstre = new Monstres(1000, 20, pixelParMetres,1);
 		    if(monstre.getNombreDeVie()==0) {
 		    monstre.setNombreDeVie(1);
 		    }

@@ -136,7 +136,7 @@ public class Niveau1 extends Niveaux {
 	/**
 	 * L'instance du monstre présent dans le niveau.
 	 */
-	private Monstres monstre = new Monstres(1000, 120, pixelParMetres);
+	private Monstres monstre = new Monstres(1000, 120, pixelParMetres,1);
 	
 	/**
 	 * Indique si c'est la première fois que le niveau est affiché, utilisé pour initialiser les objets une seule fois.
@@ -246,7 +246,7 @@ public class Niveau1 extends Niveaux {
 		
 			
 			
-		   	monstre = new Monstres(1000, 120, pixelParMetres);
+		   	monstre = new Monstres(1000, 120, pixelParMetres,1);
 			canon = new Canon(0, 10,pixelParMetres);
 			
 			System.out.println(monstre.getNombreDeVie()+"___");
@@ -559,7 +559,7 @@ public class Niveau1 extends Niveaux {
 
 		    balleTiree = false;
 		    canon.setPremiereFois(true);
-		    monstre = new Monstres(1000, 120, pixelParMetres);
+		    monstre = new Monstres(1000, 120, pixelParMetres, 1);
 		    if(monstre.getNombreDeVie()==0) {
 		    monstre.setNombreDeVie(1);
 		    }

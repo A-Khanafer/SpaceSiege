@@ -122,9 +122,9 @@ public class FenetreModeDeJeu extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		Titre titre_1 = new Titre("etoiles1.png", "modedejeu.png", 300,250, 430, 320);
+		Titre titre_1 = new Titre("etoiles1.png", "modedejeu.png", 270,190, 390,320);
 		titre_1.setBackground(new Color(0, 0, 0));
-		titre_1.setBounds(longueur/2- 412/2, 116, 412, 359);
+		titre_1.setBounds(longueur/2-412/2, 116, 412, 359);
 		contentPane.add(titre_1);
 						
 						JButton btnClassic = new JButton("CLASSIQUE");
@@ -133,14 +133,14 @@ public class FenetreModeDeJeu extends JFrame {
 							@Override
 							public void mouseEntered(MouseEvent e) {
 								OutilsImage.lireImageEtPlacerSurBouton("classique2.png", btnClassic);
-								btnClassic.setBounds(581, 565, 302, 69);
+								btnClassic.setBounds(458, 565, 302, 69);
 
 								
 							}
 							@Override
 							public void mouseExited(MouseEvent e) {
 								OutilsImage.lireImageEtPlacerSurBouton("classique.png", btnClassic);
-								btnClassic.setBounds(575, 575, 302, 69);
+								btnClassic.setBounds(458, 575, 302, 69);
 
 								
 							}
@@ -245,7 +245,7 @@ public class FenetreModeDeJeu extends JFrame {
 								JLabel lbl  = new JLabel("");
 								ImageIcon gifIcon = new ImageIcon(this.getClass().getResource("/fondmodedejeu3.gif"));
 								Image img = gifIcon.getImage();
-								Image resizedImg = img.getScaledInstance(1920,1080, Image.SCALE_DEFAULT);
+								Image resizedImg = img.getScaledInstance(longueur,hauteur, Image.SCALE_DEFAULT);
 								lbl.setIcon(new ImageIcon(resizedImg));
 								lbl.setBounds(0, 0, longueur, hauteur);
 								contentPane.add(lbl);

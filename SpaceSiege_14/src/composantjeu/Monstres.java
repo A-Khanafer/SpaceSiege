@@ -25,7 +25,7 @@ import physique.Vecteur2D;
  * Elle est utilisée pour créer des monstres qui peuvent être éliminés dans le jeu.
  * @author ZAKARIA SOUDAKI, ahamd khanafer
  */
-public class Monstres extends JPanel implements Runnable, Serializable{
+public class Monstres extends JPanel implements  Serializable{
 	
 	private static final long serialVersionUID = -4198412908689199658L;
 	
@@ -73,7 +73,12 @@ public class Monstres extends JPanel implements Runnable, Serializable{
 	    /**
 	     * nom image du monstre
 	     */
-	    private String nomImg = "images.jpg";
+	    private String nomImg1 = "monstre1.png";
+	    
+	    /**
+	     * nom image du monstre
+	     */
+	    private String nomImg2 = "monstre2.png";
 	    
 	    /**
 	     * index pour parcourir tableau d'objet
@@ -135,15 +140,21 @@ public class Monstres extends JPanel implements Runnable, Serializable{
 		 * @param nomImage Le nom de l'image à utiliser pour représenter le monstre.
 		 **/
 	    //ZAKARIA SOUDAKI
-	    public Monstres(int posX, int posY, double pixelsParMetres) {
+	    public Monstres(int posX, int posY, double pixelsParMetres, int indexImg) {
 	    	setOpaque(false);
 	    	this.pixelsParMetres = pixelsParMetres;
 	        this.position = new Vecteur2D(posX,posY);
 	        
 	        longueurRectangle = 5*this.pixelsParMetres;
 	        hauteurRectangle = 5*this.pixelsParMetres;
-	        imgDecor = OutilsImage.lireImage(nomImg); 
-	       
+	        if (indexImg == 1) {
+		        imgDecor = OutilsImage.lireImage(nomImg1); 
+	        }
+	        if (indexImg == 2){
+		        imgDecor = OutilsImage.lireImage(nomImg2); 
+
+	        }
+	
 	       creerLaGeometrie();
 
 	    }
@@ -173,10 +184,10 @@ public class Monstres extends JPanel implements Runnable, Serializable{
 	    //ZAKARIA SOUDAKI
 	    private void creerLaGeometrie() {
 	    	
-	    	if(premiereFois) {
-	    		imgDecor = OutilsImage.lireImage(nomImg); 
-	    		premiereFois = false;
-	    	}
+//	    	if(premiereFois) {
+//	    		imgDecor = OutilsImage.lireImage(nomImg); 
+//	    		premiereFois = false;
+//	    	}
 	    	
 	        rec = new Rectangle2D.Double(position.getX(),position.getY(),longueurRectangle,hauteurRectangle);
 	        aireMonstre = new Path2D.Double(rec);
@@ -231,30 +242,7 @@ public class Monstres extends JPanel implements Runnable, Serializable{
 	    	nombreDeVie=nb;
 	    	
 	    }
-	    //ZAKARIA SOUDAKI
-	    public void demarrer() {
-			if (!enCourDAnimation) {
-				Thread proc = new Thread(this);
-				proc.start();
-				enCourDAnimation = true;
-			}
-		}//fin
-	    
-		@Override
-	    //ZAKARIA SOUDAKI
-		public void run() {
-		while(enCourDAnimation) {
-			
-			
-			imgActuel =  nomImg + index;
-			index++;
-			
-			
-			
-			repaint();
-		}
-				
-	}
+	   
 		
 	
 	  
