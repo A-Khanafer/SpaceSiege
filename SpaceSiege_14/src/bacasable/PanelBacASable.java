@@ -11,6 +11,7 @@ import java.awt.geom.Point2D;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Stack;
 
 import javax.swing.JOptionPane;
@@ -389,11 +390,13 @@ public class PanelBacASable extends JPanel {
 	    addKeyListener(new KeyAdapter() {
 	        @Override
 	        public void keyPressed(KeyEvent e) {
-	        	 for(Obstacles ob : obHolder.getObstacleHolder()) { 
+	        	ArrayList<Obstacles> obTemp =  obHolder.getObstacleHolder();
+	        	 for(Obstacles ob : obTemp) { 
 	        		if(ob.isClickedOnIt() && e.getKeyCode() == KeyEvent.VK_BACK_SPACE ) {
 	        			obHolder.getObstacleHolder().remove(ob);
 	        			ctrlZ.push(ob);
 	        			repaint();
+	        			break;
 	        		}
 	        	 }
 	        	 
