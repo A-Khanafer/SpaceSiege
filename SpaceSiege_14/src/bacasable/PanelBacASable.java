@@ -8,6 +8,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
+import java.awt.geom.Rectangle2D;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -142,7 +144,9 @@ public class PanelBacASable extends JPanel {
 	
 	private Stack<Obstacles> ctrlZ = new Stack<Obstacles>();
    
+	private Rectangle2D.Double limiteCanon;
 
+	
    
     
    
@@ -176,6 +180,9 @@ public class PanelBacASable extends JPanel {
             obHolder.drawContient(g2d);
         }
         canon.dessiner(g2d);
+        g2d.setColor( new Color(255, 0, 0, 100) );
+        limiteCanon = new Rectangle2D.Double(0, 0, canon.getPointeX()+50, getHeight());
+        g2d.fill(limiteCanon);
         
         if (monstredessin) {
             monstre.dessiner(g2d);
@@ -360,6 +367,10 @@ public class PanelBacASable extends JPanel {
                     ob.move(e.getX(), (int) (  getHeight()/2));
                 } 
                 
+                if (ob.getPositionCentre().getX() <= canon.getPointeX() + 50) {
+                    ob.move(getWidth()/2, e.getY());
+                } 
+                
                 repaint();
                 break;
             }       
@@ -403,32 +414,59 @@ public class PanelBacASable extends JPanel {
 	        	 if(e.getKeyCode() == KeyEvent.VK_Z && e.isControlDown() && !ctrlZ.isEmpty()) {
 	        		 	Obstacles ob = ctrlZ.pop();
 	        		 	ob.setClickedOnIt(false);
+	        		 	
 		        		obHolder.getObstacleHolder().add(ob);
 		        		repaint();
 		        	}
             }
 	    });
 	}
-    
-
+    //Permet la sauvegarde de niveau en creant un fichier texte et le met sur le bureau et verifie si une des formes est dans une zone interdite
+    //Ahmad Khanafer
 	public void sauvegardeNiveau() {
-
-		String filePath = System.getProperty("user.home") + "/Documents/obstacles.txt";
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-			for (Obstacles obstacle : obHolder.getObstacleHolder()) {
-
-                String[] lines = obstacle.toString().split("\\n");
-                writer.write("*" + lines[0]);
-                for (int i = 1; i < lines.length; i++) {
-                    writer.newLine();
-                    writer.write(lines[i]);
-                }
-                writer.newLine();
-            }
-            writer.write("//");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+		boolean niveauPasAccepte = false;
+		ArrayList<Obstacles> obTemp =  obHolder.getObstacleHolder();
+	   	for(Obstacles ob : obTemp) {
+	   		Double[] coins = ob.getCoins();
+	   			if(limiteCanon.contains(coins[0])){
+	   				niveauPasAccepte = true;
+	   				break;
+	   			}
+	   			if(limiteCanon.contains(coins[1])){
+	   				niveauPasAccepte = true;
+	   				break;
+	   			}
+	   			if(limiteCanon.contains(coins[2])){
+	   				niveauPasAccepte = true;
+	   				break;
+	   			}
+	   			if(limiteCanon.contains(coins[3])){
+	   				niveauPasAccepte = true;
+	   				break;
+	   			}	
+	   	}
+	   	
+	   	if(niveauPasAccepte) {
+	   		JOptionPane.showInternalMessageDialog(null, "Une ou plusieurs formes est dans une zone interdite");
+	   	}else {
+	   	
+		   	System.out.println("gangn");
+				String filePath = System.getProperty("user.home") + "/Documents/obstacles.txt";
+				try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+					for (Obstacles obstacle : obHolder.getObstacleHolder()) {
+		                String[] lines = obstacle.toString().split("\\n");
+		                writer.write("*" + lines[0]);
+		                for (int j = 1; j < lines.length; j++) {
+		                    writer.newLine();
+		                    writer.write(lines[j]);
+		                }
+		                writer.newLine();
+		            }
+		            writer.write("//");
+		        } catch (IOException e) {
+		            e.printStackTrace();
+		        }
+	   	}
     }
 
     /**
