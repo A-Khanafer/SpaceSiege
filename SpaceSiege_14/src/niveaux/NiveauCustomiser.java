@@ -145,6 +145,12 @@ public class NiveauCustomiser extends Niveaux {
 
    private Vecteur2D forceTotal= new Vecteur2D(0,0);
    
+   /**
+	 * force de déplacement du monstre
+	 */
+	private int forceMonstre = 50;
+   
+   
 
     
     
@@ -534,6 +540,14 @@ public class NiveauCustomiser extends Niveaux {
 		repaint();
 		
 	}
+	
+	/**
+	 * Méthode pour changer la force de déplacement du monstre
+	 */
+	public void setForceMonstre(int force) {
+		this.forceMonstre = force;
+	}
+	
 	/**
 	 * Méthode qui permet de choisir le type de balle à tirer.
 	 * @param nb Le numéro de la balle à choisir.
@@ -635,6 +649,7 @@ public class NiveauCustomiser extends Niveaux {
 		return this.nombreDeVie;
 		
 	}
+
 	/**
 	 * Méthode qui gère les événements du clavier.
 	 */
@@ -657,21 +672,29 @@ public class NiveauCustomiser extends Niveaux {
 
 	            switch (keyCode) {
 	                case KeyEvent.VK_UP:
-	                	forceHautBas.setY(-50);
+	                  
+	                	forceHautBas.setY(-forceMonstre);
+
 	                    break;
 	                case KeyEvent.VK_DOWN:
-	                	forceHautBas.setY(50);
+	                    
+	                	forceHautBas.setY(forceMonstre);
+
 	                	
 	                	
 	                    break;
 	                case KeyEvent.VK_LEFT:
-	                	forceDroiteGauche.setX(-50);
+
+	                    
+	                	forceDroiteGauche.setX(-forceMonstre);
+
 	                	
 	                	
 	                    break;
 	                case KeyEvent.VK_RIGHT:
-	                	forceDroiteGauche.setX(50);
-	                		
+	                   
+	                	forceDroiteGauche.setX(forceMonstre);
+
 	                	
 	                    break;
 	                default:
@@ -687,22 +710,23 @@ public class NiveauCustomiser extends Niveaux {
 	    		  keyCode = e.getKeyCode();
 		            switch (keyCode) {
 		                case KeyEvent.VK_UP:
-		                 
+
 		                	forceHautBas.setY(0);
 		                    break;
 		                case KeyEvent.VK_DOWN:
-		               
+
 		                	forceHautBas.setY(0);
 		                	
 		                	
 		                    break;
 		                case KeyEvent.VK_LEFT:
-		              
+
 		                	forceDroiteGauche.setX(0);
 		                	
 		                	
 		                    break;
 		                case KeyEvent.VK_RIGHT:
+
 		                	forceDroiteGauche.setX(0);
 		                		
 		                	

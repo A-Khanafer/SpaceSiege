@@ -191,7 +191,10 @@ public class Niveau3 extends Niveaux {
 	 */
 	private boolean ancienneValeur;
 	
+
     private boolean enExplosion=false;
+
+	private int forceMonstre = 50;
 
 
    
@@ -729,34 +732,31 @@ public class Niveau3 extends Niveaux {
 
 	            switch (keyCode) {
 	                case KeyEvent.VK_UP:
-	                    // Action à effectuer lors de l'appui sur la flèche vers le haut
-//	                		monstre.setPosY(-2);
-	                	forceHautBas.setY(-50);
+	                 
+	                	forceHautBas.setY(-forceMonstre);
+
 	                    break;
 	                case KeyEvent.VK_DOWN:
-	                    // Action à effectuer lors de l'appui sur la flèche vers le bas
-//	                		monstre.setPosY(2);
-	                	forceHautBas.setY(50);
-	                	
+	                  
+	                	forceHautBas.setY(forceMonstre);
+
 	                	
 	                    break;
 	                case KeyEvent.VK_LEFT:
-	                    // Action à effectuer lors de l'appui sur la flèche vers la gauche
-//	                		monstre.setPosX(-2);
-	                	forceDroiteGauche.setX(-50);
+	                  
+	                	forceDroiteGauche.setX(-forceMonstre);
+
 	                	
 	                	
 	                    break;
 	                case KeyEvent.VK_RIGHT:
-	                    // Action à effectuer lors de l'appui sur la flèche vers la droite
-//	                		monstre.setPosX(2);
-	                	forceDroiteGauche.setX(50);
+	                   
+	                	forceDroiteGauche.setX(forceMonstre);
 	                		
 	                	
 	                    break;
 	                default:
 	                	keyCode = 0;
-	                    // Action à effectuer pour d'autres touches, si nécessaire
 	                    break;
 	            }
 	          
@@ -865,6 +865,13 @@ public class Niveau3 extends Niveaux {
 		this.modeScience=sc;
 		repaint();
 	}
+	/**
+	 * Méthode pour changer la force de déplacement du monstre
+	 */
+	public void setForceMonstre(int force) {
+		this.forceMonstre = force;
+	}
+	
 	/**
 	 * Méthode qui permet de exploser la balle
 	 */

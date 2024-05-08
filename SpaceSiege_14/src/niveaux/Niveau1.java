@@ -194,6 +194,10 @@ public class Niveau1 extends Niveaux {
 	 * Ancienne valeur de l'état d'animation.
 	 */
 	private boolean ancienneValeur;
+	/**
+	 * force de déplacement du monstre
+	 */
+	private int forceMonstre = 50; 
 
 	private boolean enExplosion=false;;
 
@@ -346,11 +350,7 @@ public class Niveau1 extends Niveaux {
 			}
 			
           
-			Area areaBalle = new Area(canon.getBalle().getCercle()); 
-	        Area areaMonstre = monstre.toAire();
-	        areaBalle.intersect(areaMonstre);
-
-	        if (!areaBalle.isEmpty()) {
+	        if (Collisions.collisionMonstreBalle(monstre, canon.getBalle())) {
 	        	monstre.perdUneVie();
 	        	reinitialiserPosition();
 	        }
@@ -726,7 +726,7 @@ public class Niveau1 extends Niveaux {
 
 	            switch (keyCode) {
 	                case KeyEvent.VK_UP:
-	                	forceHautBas.setY(-50);
+	                	forceHautBas.setY(-forceMonstre);
 	                    break;
 	                case KeyEvent.VK_DOWN:
 	                	forceHautBas.setY(50);
@@ -734,12 +734,12 @@ public class Niveau1 extends Niveaux {
 	                	
 	                    break;
 	                case KeyEvent.VK_LEFT:
-	                	forceDroiteGauche.setX(-50);
+	                	forceDroiteGauche.setX(-forceMonstre);
 	                	
 	                	
 	                    break;
 	                case KeyEvent.VK_RIGHT:
-	                	forceDroiteGauche.setX(50);
+	                	forceDroiteGauche.setX(forceMonstre);
 	                		
 	                	
 	                    break;
@@ -783,6 +783,16 @@ public class Niveau1 extends Niveaux {
 	    	}
 	    });
 	}
+	/**
+	 * Méthode pour changer la force de déplacement du monstre
+	 */
+	public void setForceMonstre(int force) {
+		this.forceMonstre = force;
+	}
+	
+	
+	
+	
 
 /**
  * Méthode qui modifie la masse de la balle actuelle.

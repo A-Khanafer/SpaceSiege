@@ -204,6 +204,7 @@ public class Niveau2 extends Niveaux {
 	 */
 	private boolean ancienneValeur;
 
+
 	   private boolean enExplosion=false;;
 
 	   private Rectangle[] tableauRectangles = {
@@ -243,6 +244,10 @@ public class Niveau2 extends Niveaux {
 		        new PlaqueRebondissante(1180, 49, 240, 45, 0.35691193635167046),
 		        new PlaqueRebondissante(1003, 49, 152, 36, -0.4048917862850834)
 		    };
+
+	private int forceMonstre = 50;
+   
+
 
     
     
@@ -522,6 +527,13 @@ public class Niveau2 extends Niveaux {
 		}
 
 	  
+	  /**
+		 * Méthode pour changer la force de déplacement du monstre
+		 */
+		public void setForceMonstre(int force) {
+			this.forceMonstre = force;
+		}
+	  
 	/**
      * Calcule une itération physique en fonction du deltaT.
      * @param deltaT Le temps écoulé depuis la dernière itération.
@@ -778,34 +790,34 @@ public class Niveau2 extends Niveaux {
 
 	            switch (keyCode) {
 	                case KeyEvent.VK_UP:
-	                    // Action à effectuer lors de l'appui sur la flèche vers le haut
-//	                		monstre.setPosY(-2);
-	                	forceHautBas.setY(-50);
+	                   
+	                	forceHautBas.setY(-forceMonstre);
+	                   
 	                    break;
 	                case KeyEvent.VK_DOWN:
-	                    // Action à effectuer lors de l'appui sur la flèche vers le bas
-//	                		monstre.setPosY(2);
-	                	forceHautBas.setY(50);
+	                    
+	                	forceHautBas.setY(forceMonstre);
+	                   
 	                	
 	                	
 	                    break;
 	                case KeyEvent.VK_LEFT:
-	                    // Action à effectuer lors de l'appui sur la flèche vers la gauche
-//	                		monstre.setPosX(-2);
-	                	forceDroiteGauche.setX(-50);
+	                  
+	                	forceDroiteGauche.setX(-forceMonstre);
+	                   
 	                	
 	                	
 	                    break;
 	                case KeyEvent.VK_RIGHT:
-	                    // Action à effectuer lors de l'appui sur la flèche vers la droite
-//	                		monstre.setPosX(2);
-	                	forceDroiteGauche.setX(50);
+	                   
+	                	forceDroiteGauche.setX(forceMonstre);
+	                    
+	                	
 	                		
 	                	
 	                    break;
 	                default:
 	                	keyCode = 0;
-	                    // Action à effectuer pour d'autres touches, si nécessaire
 	                    break;
 	            }
 	          
