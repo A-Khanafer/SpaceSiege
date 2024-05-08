@@ -91,9 +91,6 @@ public class Monstres extends JPanel implements  Serializable{
 	    private String imgActuel;
 	    
 	    
-	    
-	    
-	    
 	    /**
 	     * Masse de la balle, affectant son comportement dans les calculs physiques.
 	     */
@@ -128,10 +125,12 @@ public class Monstres extends JPanel implements  Serializable{
 	    
 	    private Vecteur2D sommeForcesSurLaBalle = new Vecteur2D(0,0);
 
-/**
- * boolean effectuer une tache une seule fois
- */
+        /**
+         * boolean effectuer une tache une seule fois
+         */
 		private boolean premiereFois = true;
+		
+		private Vecteur2D posCentre ;
 
 	    /**
 		 * Constructeur de la classe Monstres.
@@ -147,6 +146,9 @@ public class Monstres extends JPanel implements  Serializable{
 	        
 	        longueurRectangle = 5*this.pixelsParMetres;
 	        hauteurRectangle = 5*this.pixelsParMetres;
+	        
+	        this.posCentre = new Vecteur2D(posX +longueurRectangle, posY+hauteurRectangle);
+	        
 	        if (indexImg == 1) {
 		        imgDecor = OutilsImage.lireImage(nomImg1); 
 	        }
@@ -184,10 +186,6 @@ public class Monstres extends JPanel implements  Serializable{
 	    //ZAKARIA SOUDAKI
 	    private void creerLaGeometrie() {
 	    	
-//	    	if(premiereFois) {
-//	    		imgDecor = OutilsImage.lireImage(nomImg); 
-//	    		premiereFois = false;
-//	    	}
 	    	
 	        rec = new Rectangle2D.Double(position.getX(),position.getY(),longueurRectangle,hauteurRectangle);
 	        aireMonstre = new Path2D.Double(rec);

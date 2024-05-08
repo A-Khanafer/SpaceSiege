@@ -145,6 +145,12 @@ public class NiveauCustomiser extends Niveaux {
 
    private Vecteur2D forceTotal= new Vecteur2D(0,0);
    
+   /**
+	 * force de déplacement du monstre
+	 */
+	private int forceMonstre = 50;
+   
+   
 
     
     
@@ -246,39 +252,35 @@ public class NiveauCustomiser extends Niveaux {
 
 
 			Area areaBalle = new Area(canon.getBalle().getCercle());
+	        boolean enCollisionAvecEpines = false;
 
+	       
+	        for(Obstacles ob : obHolder.getObstacleHolder()) {
+	            if (ob instanceof Rectangle) {
+	                Collisions.collisionRectangle(canon.getBalle(), (Rectangle) ob);
+	                Collisions.collisionMonstreRec(monstre, (Rectangle) ob);
+	            } else if (ob instanceof Cercle) {
+	                Collisions.collisionCercle(canon.getBalle(), (Cercle) ob);
+	            } else if (ob instanceof Triangle) {
+	                Collisions.collisionTriangle(canon.getBalle(), (Triangle) ob);
+	            } else if (ob instanceof Epines) {
+	                Area areaEpines = ((Epines) ob).toAire();
+	                areaEpines.intersect(areaBalle);
+	                if (!areaEpines.isEmpty()) {
+	                    enCollisionAvecEpines = true;
+	                }
+	            } else if (ob instanceof PlaqueRebondissante) {
+	                Collisions.collisionPlaqueRebondissante(canon.getBalle(), (PlaqueRebondissante) ob);
+	            }
+	        }
 
-			//Traverse toutes les obstacles...
-			//tu dois ajouter les collisions pour chaque obstacles
-			for(Obstacles ob : obHolder.getObstacleHolder()) {
-				
-				if (ob instanceof Rectangle) {
-					Collisions.collisionRectangle(canon.getBalle(),(Rectangle) ob);
-				    Collisions.collisionMonstreRec(monstre, (Rectangle) ob);	
-
-			    }else if(ob instanceof Cercle) {
-			    	Collisions.collisionCercle(canon.getBalle(), (Cercle) ob);
-			    }else if(ob instanceof Triangle) {
-			    	Collisions.collisionTriangle(canon.getBalle(), (Triangle) ob);
-			    }else if(ob instanceof Epines) {
-			    	areaBalle.intersect(((Epines)ob).toAire());
- 
-
-                    if(!areaBalle.isEmpty()) {
-                    	System.out.println("ENCOURS ANIM");
-                    	 ancienneValeur = enCoursDAnimation;
-         	    	    enCoursDAnimation = false;
-         	    	    pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
-                        reinitialiserPosition();
-                    }
-
-			    }else if(ob instanceof PlaqueRebondissante) {
-			    	Collisions.collisionPlaqueRebondissante(canon.getBalle(), (PlaqueRebondissante)ob);
-			    }
-
-	        
-			}
-
+	        if (enCollisionAvecEpines) {
+	            System.out.println("ENCOURS ANIM");
+	            ancienneValeur = enCoursDAnimation;
+	            enCoursDAnimation = false;
+	            pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
+	            reinitialiserPosition();
+	        }
 	        Area areaMonstre = monstre.toAire();
 	        areaBalle.intersect(areaMonstre);
 
@@ -484,32 +486,31 @@ public class NiveauCustomiser extends Niveaux {
 		 forceElec=new Vecteur2D(0,0);
 		
 		 for (Obstacles ob : obHolder.getObstacleHolder()) {
-			    if (ob instanceof CercleElectrique) {
-			        try {
-			            Vecteur2D positionBalle = canon.getBalle().getPosCentral();
-			            Vecteur2D positionCentre = ((CercleElectrique) ob).getPositionCentre();
-			            double distance = positionBalle.distance(positionCentre);
-			            double rayonElectrique = ((CercleElectrique) ob).getRayonElectrique();
-			            
-			            if (distance < rayonElectrique) {
-			                // Calculate unit vector
-			                Vecteur2D vecteurUnitaire = positionCentre.soustrait(positionBalle).normalise();
-			                
-			                // Calculate electric force
-			                double forceElectrique = K_CONST / distance; // Simplified the expression
-			                System.out.println(forceElectrique + "____________________________---");
-			                
-			                // Calculate electric force vector
-			                Vecteur2D forceElecToAdd = vecteurUnitaire.multiplie(forceElectrique);
-			                forceElec = forceElec.additionne(forceElecToAdd); // Accumulate the electric forces
-			            }
-			        } catch (Exception e) {
-			            System.err.println("Une erreur est survenue lors du calcul de la force électrique : " + e.getMessage());
-			        }
-			    }
-			}
-		 
-	 forceTotal=forceDeGravite.additionne(forceElec);
+             if (ob instanceof CercleElectrique) {
+                 try {
+                     Vecteur2D positionBalle = canon.getBalle().getPosCentral();
+                     Vecteur2D positionCentre = ((CercleElectrique) ob).getPositionCentre();
+                     double distance = positionBalle.distance(positionCentre);
+                     double rayonElectrique = ((CercleElectrique) ob).getRayonElectrique();
+
+                     if (distance < rayonElectrique) {
+                         // Calculate unit vector
+                         Vecteur2D vecteurUnitaire = positionCentre.soustrait(positionBalle).normalise();
+
+                         // Calculate electric force
+                         double forceElectrique = K_CONST / distance; // Simplified the expression
+                         System.out.println(forceElectrique + "__---");
+
+                         // Calculate electric force vector
+                         Vecteur2D forceElecToAdd = vecteurUnitaire.multiplie(forceElectrique);
+                         forceElec = forceElec.additionne(forceElecToAdd); // Accumulate the electric forces
+                     }
+                 } catch (Exception e) {
+                     System.err.println("Une erreur est survenue lors du calcul de la force électrique : " + e.getMessage());
+                 }
+             }
+         }
+
 	 canon.getBalle().setSommeDesForces(forceTotal);
 	 monstre.setSommeDesForces(forceMonstre);
 	}
@@ -560,6 +561,14 @@ public class NiveauCustomiser extends Niveaux {
 		repaint();
 		
 	}
+	
+	/**
+	 * Méthode pour changer la force de déplacement du monstre
+	 */
+	public void setForceMonstre(int force) {
+		this.forceMonstre = force;
+	}
+	
 	/**
 	 * Méthode qui permet de choisir le type de balle à tirer.
 	 * @param nb Le numéro de la balle à choisir.
@@ -646,8 +655,8 @@ public class NiveauCustomiser extends Niveaux {
 		    }
 
 		   
-		    if (canon.contient(e.getX(), e.getY())) {
-		        canon.moveY(e.getY());
+		    if (canon.contient(e.getX(), e.getY()) && e.getY()-canon.getBalle().getDiametre()/2>0 &&  e.getY()+canon.getBalle().getDiametre()/2<getHeight()) {		
+		    	canon.moveY(e.getY());
 		    }
 		    repaint();
 		}
@@ -661,6 +670,7 @@ public class NiveauCustomiser extends Niveaux {
 		return this.nombreDeVie;
 		
 	}
+
 	/**
 	 * Méthode qui gère les événements du clavier.
 	 */
@@ -683,21 +693,29 @@ public class NiveauCustomiser extends Niveaux {
 
 	            switch (keyCode) {
 	                case KeyEvent.VK_UP:
-	                	forceHautBas.setY(-50);
+	                  
+	                	forceHautBas.setY(-forceMonstre);
+
 	                    break;
 	                case KeyEvent.VK_DOWN:
-	                	forceHautBas.setY(50);
+	                    
+	                	forceHautBas.setY(forceMonstre);
+
 	                	
 	                	
 	                    break;
 	                case KeyEvent.VK_LEFT:
-	                	forceDroiteGauche.setX(-50);
+
+	                    
+	                	forceDroiteGauche.setX(-forceMonstre);
+
 	                	
 	                	
 	                    break;
 	                case KeyEvent.VK_RIGHT:
-	                	forceDroiteGauche.setX(50);
-	                		
+	                   
+	                	forceDroiteGauche.setX(forceMonstre);
+
 	                	
 	                    break;
 	                default:
@@ -713,22 +731,23 @@ public class NiveauCustomiser extends Niveaux {
 	    		  keyCode = e.getKeyCode();
 		            switch (keyCode) {
 		                case KeyEvent.VK_UP:
-		                 
+
 		                	forceHautBas.setY(0);
 		                    break;
 		                case KeyEvent.VK_DOWN:
-		               
+
 		                	forceHautBas.setY(0);
 		                	
 		                	
 		                    break;
 		                case KeyEvent.VK_LEFT:
-		              
+
 		                	forceDroiteGauche.setX(0);
 		                	
 		                	
 		                    break;
 		                case KeyEvent.VK_RIGHT:
+
 		                	forceDroiteGauche.setX(0);
 		                		
 		                	
@@ -794,7 +813,7 @@ public class NiveauCustomiser extends Niveaux {
 	            g.drawString("(" + positionX + ", " + positionY + ")", 20, 60);
 	            g.drawString("(" + vitesseX + ", " + vitesseY + ")", 250, 60);
 	            g.drawString("(" + accelerationX + ", " + accelerationY + ")", 400, 60);
-	            g.drawString(Integer.toString(masse), 20, 100);
+	            g.drawString(Integer.toString(masse)+" kg", 20, 100);
 	            g.drawString("(" + forceElectriqueX + ", " + forceElectriqueY + ")", 250, 100);
 	            g.drawString("(" + forceAppliqueeX + ", " + forceAppliqueeY + ")", 400, 100);
 	        }

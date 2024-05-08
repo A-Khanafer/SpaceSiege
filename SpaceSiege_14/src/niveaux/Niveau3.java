@@ -190,6 +190,11 @@ public class Niveau3 extends Niveaux {
 	 * Ancienne valeur de l'état d'animation.
 	 */
 	private boolean ancienneValeur;
+	
+
+    private boolean enExplosion=false;
+
+	private int forceMonstre = 50;
 
 
    
@@ -475,7 +480,7 @@ public class Niveau3 extends Niveaux {
      * Calcule une itération physique en fonction du deltaT.
      * @param deltaT Le temps écoulé depuis la dernière itération.
      */
-	//Benakmoum Walid & ZAKARIA SOUDAKI
+	//Benakmoum Walid
 	public void calculerUneIterationPhysique(double deltaT) {
 		tempsTotalEcoule += deltaT;
 	try {
@@ -631,9 +636,13 @@ public class Niveau3 extends Niveaux {
 	//walid benakmoum
 	public void stopperAnim() {
 		if(enCoursDAnimation==true) {
-	enCoursDAnimation=false;
+			 ancienneValeur = enCoursDAnimation;
+			    enCoursDAnimation = false;
+			    pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
+			    enExplosion=false;
 		}else {
 		demarrer();
+		enExplosion=true;
 		}
 	}
 
@@ -685,8 +694,8 @@ public class Niveau3 extends Niveaux {
 		    }
 
 		   
-		    if (canon.contient(e.getX(), e.getY())) {
-		        canon.moveY(e.getY());
+		    if (canon.contient(e.getX(), e.getY()) && e.getY()-canon.getBalle().getDiametre()/2>0 &&  e.getY()+canon.getBalle().getDiametre()/2<getHeight()) {		       
+		    	canon.moveY(e.getY());
 		    }
 		    repaint();
 		}
@@ -713,6 +722,7 @@ public class Niveau3 extends Niveaux {
 	        	switch (e.getKeyCode()) {
                 case KeyEvent.VK_SPACE:
                exploserBalle();
+               enExplosion=true;
                 	
             }
 
@@ -722,34 +732,31 @@ public class Niveau3 extends Niveaux {
 
 	            switch (keyCode) {
 	                case KeyEvent.VK_UP:
-	                    // Action à effectuer lors de l'appui sur la flèche vers le haut
-//	                		monstre.setPosY(-2);
-	                	forceHautBas.setY(-50);
+	                 
+	                	forceHautBas.setY(-forceMonstre);
+
 	                    break;
 	                case KeyEvent.VK_DOWN:
-	                    // Action à effectuer lors de l'appui sur la flèche vers le bas
-//	                		monstre.setPosY(2);
-	                	forceHautBas.setY(50);
-	                	
+	                  
+	                	forceHautBas.setY(forceMonstre);
+
 	                	
 	                    break;
 	                case KeyEvent.VK_LEFT:
-	                    // Action à effectuer lors de l'appui sur la flèche vers la gauche
-//	                		monstre.setPosX(-2);
-	                	forceDroiteGauche.setX(-50);
+	                  
+	                	forceDroiteGauche.setX(-forceMonstre);
+
 	                	
 	                	
 	                    break;
 	                case KeyEvent.VK_RIGHT:
-	                    // Action à effectuer lors de l'appui sur la flèche vers la droite
-//	                		monstre.setPosX(2);
-	                	forceDroiteGauche.setX(50);
+	                   
+	                	forceDroiteGauche.setX(forceMonstre);
 	                		
 	                	
 	                    break;
 	                default:
 	                	keyCode = 0;
-	                    // Action à effectuer pour d'autres touches, si nécessaire
 	                    break;
 	            }
 	          
@@ -842,7 +849,7 @@ public class Niveau3 extends Niveaux {
 	            g.drawString("(" + positionX + ", " + positionY + ")", 20, 60);
 	            g.drawString("(" + vitesseX + ", " + vitesseY + ")", 250, 60);
 	            g.drawString("(" + accelerationX + ", " + accelerationY + ")", 400, 60);
-	            g.drawString(Integer.toString(masse), 20, 100);
+	            g.drawString(Integer.toString(masse)+" kg", 20, 100);
 	            g.drawString("(" + forceElectriqueX + ", " + forceElectriqueY + ")", 250, 100);
 	            g.drawString("(" + forceAppliqueeX + ", " + forceAppliqueeY + ")", 400, 100);
 	        }
@@ -859,6 +866,13 @@ public class Niveau3 extends Niveaux {
 		repaint();
 	}
 	/**
+	 * Méthode pour changer la force de déplacement du monstre
+	 */
+	public void setForceMonstre(int force) {
+		this.forceMonstre = force;
+	}
+	
+	/**
 	 * Méthode qui permet de exploser la balle
 	 */
 	//Benakmoum Walid
@@ -872,16 +886,20 @@ public class Niveau3 extends Niveaux {
 	      
 
 	        timer.scheduleAtFixedRate(new TimerTask() {
-	            @Override
+	      
+
+				@Override
 	            public void run() {
-	            
+	            if(enExplosion) {
 	                if (canon.getBalle().getDiametre() < 200) {
 	                    canon.getBalle().exploser();
 	                    repaint();
 	                  
 	                } else {
 	                    timer.cancel();
+	               
 	                }
+	            }
 	            }
 	        }, 0, delai);
 	    }
