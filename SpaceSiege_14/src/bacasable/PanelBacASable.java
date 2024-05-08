@@ -8,9 +8,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
+import java.awt.geom.Rectangle2D;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Stack;
 
 import javax.swing.JOptionPane;
@@ -72,29 +75,13 @@ public class PanelBacASable extends JPanel {
 	 */
 	private int nbrMonstre = 0;
 	/**
-	 * Le nombre actuel de canon dans le panneau.
-	 */
-	private int nbrCanon = 0;
-	/**
 	 * Le nombre actuel de plaque rebondissante dans le panneau.
 	 */
 	private int nbrPlaqueRebondissante = 0;
-	
-	/**
-	 * boolean activer désactiver mode éditeur
-	 */
-	private boolean editeurModeOn = true;
-	
 /**
  * porteur d'obstacles
  */
 	private ObstacleHolder obHolder = new ObstacleHolder();
-	
-	/**
-	 * boolean canon cliqué
-	 */
-	private boolean canonClick = false;
-
 	/**
 	 * canon lui-même
 	 */
@@ -141,7 +128,10 @@ public class PanelBacASable extends JPanel {
 	
 	private Stack<Obstacles> ctrlZ = new Stack<Obstacles>();
    
+	
+	private Rectangle2D.Double limiteCanon;
 
+	
    
     
    
@@ -175,6 +165,9 @@ public class PanelBacASable extends JPanel {
             obHolder.drawContient(g2d);
         }
         canon.dessiner(g2d);
+        g2d.setColor( new Color(255, 0, 0, 100) );
+        limiteCanon = new Rectangle2D.Double(0, 0, canon.getPointeX()+50, getHeight());
+        g2d.fill(limiteCanon);
         
         if (monstredessin) {
             monstre.dessiner(g2d);
@@ -187,13 +180,11 @@ public class PanelBacASable extends JPanel {
   //Ahmad Khanafer
     public void ajouterRectangle() {
         if(nbrRec < 3) {
-            double espace = 0;
-            Rectangle rec = new Rectangle(100 + espace, 100 + espace, pixelParMetres);
+            double espace = getWidth()/2;
+            Rectangle rec = new Rectangle(100 + espace, getHeight()/2, pixelParMetres);
             obHolder.addObstacle(rec);
             espace = espace + 20;
             nbrRec++;
-            
-            coinsRec = rec.getCoins();
             
             repaint();
         } else {
@@ -207,14 +198,11 @@ public class PanelBacASable extends JPanel {
   //Ahmad Khanafer
     public void ajouterTriangle() {
         if(nbrTri < 2) {
-            double espace = 0;
-            Triangle tri = new Triangle(50 + espace, 50 + espace, pixelParMetres);
+        	double espace = getWidth()/2;
+            Triangle tri = new Triangle(50 + espace, getHeight()/2, pixelParMetres);
             obHolder.addObstacle(tri);
             espace = espace + 20;
             nbrTri++;
-            
-            coinsTri = tri.getCoins();
-            
             repaint();
         } else {
             JOptionPane.showMessageDialog(null, "Nombre maximal de triangles atteint");
@@ -227,13 +215,10 @@ public class PanelBacASable extends JPanel {
   //Ahmad Khanafer
     public void ajouterCercle() {
         if(nbrCercle < 3) {
-            double espace = 0;
-            Cercle cer = new Cercle(50 + espace, 50 + espace, pixelParMetres);
+        	double espace = getWidth()/2;
+            Cercle cer = new Cercle(50 + espace, getHeight()/2, pixelParMetres);
             obHolder.addObstacle(cer);
             nbrCercle++;
-            
-            coinsCercle = cer.getCoins();
-            
             repaint();
         } else {
             JOptionPane.showMessageDialog(null, "Nombre maximal de cercles atteint");
@@ -246,13 +231,10 @@ public class PanelBacASable extends JPanel {
   //Ahmad Khanafer
     public void ajouterCercleElectrique() {
         if(nbrCercleElectrique < 3) {
-            double espace = 0;
-            CercleElectrique cer = new CercleElectrique(50 + espace, 50 + espace, pixelParMetres);
+        	double espace = getWidth()/2;
+            CercleElectrique cer = new CercleElectrique(50 + espace, getHeight()/2, pixelParMetres);
             obHolder.addObstacle(cer);
-            nbrCercleElectrique++;
-            
-            coinsCercleE = cer.getCoins();
-            
+            nbrCercleElectrique++;  
             repaint();
         } else {
             JOptionPane.showMessageDialog(null, "Nombre maximal de cercles électriques atteint");
@@ -265,13 +247,10 @@ public class PanelBacASable extends JPanel {
   //Ahmad Khanafer
     public void ajouterEpines() {
         if(nbrEpines < 3) {
-            double espace = 0;
-            Epines epi = new Epines(50 + espace, 50 + espace, pixelParMetres);
+        	double espace = getWidth()/2;
+            Epines epi = new Epines(50 + espace,getHeight()/2, pixelParMetres);
             obHolder.addObstacle(epi);
             nbrEpines++;
-            
-            coinsEpines = epi.getCoins();
-            
             repaint();
         } else {
             JOptionPane.showMessageDialog(null, "Nombre maximal d'épines atteint");
@@ -284,13 +263,10 @@ public class PanelBacASable extends JPanel {
   //Ahmad Khanafer
     public void ajouterPlaqueRebondissante() {
         if(nbrPlaqueRebondissante < 3) {
-            double espace = 0;
-            PlaqueRebondissante plaque = new PlaqueRebondissante(50 + espace, 50 + espace, pixelParMetres);
+        	double espace = getWidth()/2;
+            PlaqueRebondissante plaque = new PlaqueRebondissante(50 + espace, getHeight()/2, pixelParMetres);
             obHolder.addObstacle(plaque);
             nbrPlaqueRebondissante++;
-            
-            coinsEpines = plaque.getCoins();
-            
             repaint();
         } else {
             JOptionPane.showMessageDialog(null, "Nombre maximal de plaques rebondissantes atteint");
@@ -318,10 +294,6 @@ public class PanelBacASable extends JPanel {
             }
         });
     }
-    
-    
-    
-
     /**
      * Gère les actions de l'utilisateur lorsqu'il déplace la souris.
      * @param e L'événement souris.
@@ -359,6 +331,10 @@ public class PanelBacASable extends JPanel {
                     ob.move(e.getX(), (int) (  getHeight()/2));
                 } 
                 
+                if (ob.getPositionCentre().getX() <= canon.getPointeX() + 50) {
+                    ob.move(getWidth()/2, e.getY());
+                } 
+                
                 repaint();
                 break;
             }       
@@ -389,43 +365,72 @@ public class PanelBacASable extends JPanel {
 	    addKeyListener(new KeyAdapter() {
 	        @Override
 	        public void keyPressed(KeyEvent e) {
-	        	 for(Obstacles ob : obHolder.getObstacleHolder()) { 
+	        	ArrayList<Obstacles> obTemp =  obHolder.getObstacleHolder();
+	        	 for(Obstacles ob : obTemp) { 
 	        		if(ob.isClickedOnIt() && e.getKeyCode() == KeyEvent.VK_BACK_SPACE ) {
 	        			obHolder.getObstacleHolder().remove(ob);
 	        			ctrlZ.push(ob);
 	        			repaint();
+	        			break;
 	        		}
 	        	 }
 	        	 
 	        	 if(e.getKeyCode() == KeyEvent.VK_Z && e.isControlDown() && !ctrlZ.isEmpty()) {
 	        		 	Obstacles ob = ctrlZ.pop();
 	        		 	ob.setClickedOnIt(false);
+	        		 	
 		        		obHolder.getObstacleHolder().add(ob);
 		        		repaint();
 		        	}
             }
 	    });
 	}
-    
-
+    //Permet la sauvegarde de niveau en creant un fichier texte et le met sur le bureau et verifie si une des formes est dans une zone interdite
+    //Ahmad Khanafer
 	public void sauvegardeNiveau() {
-
-		String filePath = System.getProperty("user.home") + "/Documents/obstacles.txt";
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-			for (Obstacles obstacle : obHolder.getObstacleHolder()) {
-
-                String[] lines = obstacle.toString().split("\\n");
-                writer.write("*" + lines[0]);
-                for (int i = 1; i < lines.length; i++) {
-                    writer.newLine();
-                    writer.write(lines[i]);
-                }
-                writer.newLine();
-            }
-            writer.write("//");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+		boolean niveauPasAccepte = false;
+		ArrayList<Obstacles> obTemp =  obHolder.getObstacleHolder();
+	   	for(Obstacles ob : obTemp) {
+	   		Double[] coins = ob.getCoins();
+	   			if(limiteCanon.contains(coins[0])){
+	   				niveauPasAccepte = true;
+	   				break;
+	   			}
+	   			if(limiteCanon.contains(coins[1])){
+	   				niveauPasAccepte = true;
+	   				break;
+	   			}
+	   			if(limiteCanon.contains(coins[2])){
+	   				niveauPasAccepte = true;
+	   				break;
+	   			}
+	   			if(limiteCanon.contains(coins[3])){
+	   				niveauPasAccepte = true;
+	   				break;
+	   			}	
+	   	}
+	   	
+	   	if(niveauPasAccepte) {
+	   		JOptionPane.showInternalMessageDialog(null, "Une ou plusieurs formes est dans une zone interdite");
+	   	}else {
+	   	
+		   	System.out.println("gangn");
+				String filePath = System.getProperty("user.home") + "/Documents/obstacles.txt";
+				try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+					for (Obstacles obstacle : obHolder.getObstacleHolder()) {
+		                String[] lines = obstacle.toString().split("\\n");
+		                writer.write("*" + lines[0]);
+		                for (int j = 1; j < lines.length; j++) {
+		                    writer.newLine();
+		                    writer.write(lines[j]);
+		                }
+		                writer.newLine();
+		            }
+		            writer.write("//");
+		        } catch (IOException e) {
+		            e.printStackTrace();
+		        }
+	   	}
     }
 
     /**
