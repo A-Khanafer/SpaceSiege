@@ -143,6 +143,12 @@ public class NiveauCustomiser extends Niveaux {
 
    private Vecteur2D forceTotal= new Vecteur2D(0,0);
    
+   /**
+	 * force de déplacement du monstre
+	 */
+	private int forceMonstre = 50;
+   
+   
 
     
     
@@ -537,6 +543,14 @@ public class NiveauCustomiser extends Niveaux {
 		repaint();
 		
 	}
+	
+	/**
+	 * Méthode pour changer la force de déplacement du monstre
+	 */
+	public void setForceMonstre(int force) {
+		this.forceMonstre = force;
+	}
+	
 	/**
 	 * Méthode qui permet de choisir le type de balle à tirer.
 	 * @param nb Le numéro de la balle à choisir.
@@ -626,26 +640,9 @@ public class NiveauCustomiser extends Niveaux {
 
 	public int getVie() {
 		return this.nombreDeVie;
-		/*
-	      public void keyPressed(KeyEvent e) {
-	        	
-	            switch (e.getKeyCode()) {
-	                case KeyEvent.VK_SPACE:
-	                	  if(canon.getBalle().quelleTypeBalle()==3) {
-	               for (int i = 0; i < 10; i++) {
-				
-	                       canon.getBalle().exploser();
-	               }
-	                     
-	                     repaint();
-	                	  }
-	                	
-	            }
-
-	         
-	        }
-	        */
+		
 	}
+	//ZAKARIA SOUDAKI
 	public void ecouteurClavier() {
 
 	    addKeyListener(new KeyAdapter() {
@@ -671,34 +668,29 @@ public class NiveauCustomiser extends Niveaux {
 
 	            switch (keyCode) {
 	                case KeyEvent.VK_UP:
-	                    // Action à effectuer lors de l'appui sur la flèche vers le haut
-//	                		monstre.setPosY(-2);
-	                	forceHautBas.setY(-50);
+	                  
+	                	forceHautBas.setY(-forceMonstre);
 	                    break;
 	                case KeyEvent.VK_DOWN:
-	                    // Action à effectuer lors de l'appui sur la flèche vers le bas
-//	                		monstre.setPosY(2);
-	                	forceHautBas.setY(50);
+	                    
+	                	forceHautBas.setY(forceMonstre);
 	                	
 	                	
 	                    break;
 	                case KeyEvent.VK_LEFT:
-	                    // Action à effectuer lors de l'appui sur la flèche vers la gauche
-//	                		monstre.setPosX(-2);
-	                	forceDroiteGauche.setX(-50);
+	                    
+	                	forceDroiteGauche.setX(-forceMonstre);
 	                	
 	                	
 	                    break;
 	                case KeyEvent.VK_RIGHT:
-	                    // Action à effectuer lors de l'appui sur la flèche vers la droite
-//	                		monstre.setPosX(2);
-	                	forceDroiteGauche.setX(50);
+	                   
+	                	forceDroiteGauche.setX(forceMonstre);
 	                		
 	                	
 	                    break;
 	                default:
 	                	keyCode = 0;
-	                    // Action à effectuer pour d'autres touches, si nécessaire
 	                    break;
 	            }
 	          
@@ -710,34 +702,29 @@ public class NiveauCustomiser extends Niveaux {
 	    		  keyCode = e.getKeyCode();
 		            switch (keyCode) {
 		                case KeyEvent.VK_UP:
-		                    // Action à effectuer lors de l'appui sur la flèche vers le haut
-//		                		monstre.setPosY(-2);
+
 		                	forceHautBas.setY(0);
 		                    break;
 		                case KeyEvent.VK_DOWN:
-		                    // Action à effectuer lors de l'appui sur la flèche vers le bas
-//		                		monstre.setPosY(2);
+		                    
 		                	forceHautBas.setY(0);
 		                	
 		                	
 		                    break;
 		                case KeyEvent.VK_LEFT:
-		                    // Action à effectuer lors de l'appui sur la flèche vers la gauche
-//		                		monstre.setPosX(-2);
+		                   
 		                	forceDroiteGauche.setX(0);
 		                	
 		                	
 		                    break;
 		                case KeyEvent.VK_RIGHT:
-		                    // Action à effectuer lors de l'appui sur la flèche vers la droite
-//		                		monstre.setPosX(2);
+		                    
 		                	forceDroiteGauche.setX(0);
 		                		
 		                	
 		                    break;
 		                default:
 		                	keyCode = 0;
-		                    // Action à effectuer pour d'autres touches, si nécessaire
 		                    break;
 		            }
 	    	}

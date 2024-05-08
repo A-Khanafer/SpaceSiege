@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -18,6 +19,8 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
@@ -26,6 +29,7 @@ import javax.swing.JSpinner;
 import javax.swing.JSlider;
 import javax.swing.JFileChooser;
 import javax.swing.JRadioButton;
+import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 
 public class FenetreBacASable extends JFrame {
@@ -152,9 +156,12 @@ public class FenetreBacASable extends JFrame {
 	 */
 	//ZAKARIA SOUDAKI
 	public FenetreBacASable() {
+		
+		 Border emptyBorder = BorderFactory.createEmptyBorder();
+
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(0, 0, 1920, 1080);
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		setBounds(0, 0, 1505, 950);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(0, 0, 0));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -163,70 +170,139 @@ public class FenetreBacASable extends JFrame {
 		contentPane.setLayout(null);
 		
 		panelBacASable = new PanelBacASable();
-		panelBacASable.setBounds(0, 0, 1920, 864);
+		panelBacASable.setBounds(0, 0, 1486, 765);
 		contentPane.add(panelBacASable);
+		
+		btnCarre = new JButton("Carre");
+		btnCarre.setBounds(10, 795, 115, 105);
+		contentPane.add(btnCarre);
+		btnCarre.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelBacASable.ajouterRectangle();
+			}
+		});
+		OutilsImage.lireImageEtPlacerSurBouton("carre.png", btnCarre);
+		
+		btnCercle = new JButton("Cercle");
+		btnCercle.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelBacASable.ajouterCercle();
+			}
+		});
+		btnCercle.setBounds(141, 795, 115, 105);
+		contentPane.add(btnCercle);
+		OutilsImage.lireImageEtPlacerSurBouton("cercle.png", btnCercle);
+		
+		btnTriangle = new JButton("Triangle");
+		btnTriangle.setBounds(273, 795, 115, 105);
+		contentPane.add(btnTriangle);
+		btnTriangle.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelBacASable.ajouterTriangle();
+			}
+		});
+		OutilsImage.lireImageEtPlacerSurBouton("imageTriangle.jpg", btnTriangle);
+		
+		btnEpines = new JButton("Spikes");
+		btnEpines.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelBacASable.ajouterEpines();
+			}
+		});
+		btnEpines.setBounds(398, 795, 115, 105);
+		contentPane.add(btnEpines);
+		OutilsImage.lireImageEtPlacerSurBouton("spikes.png", btnEpines);
+		
+		btnPlaqueRebondissante = new JButton("Plaque Rebondissante");
+		btnPlaqueRebondissante.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelBacASable.ajouterPlaqueRebondissante();
+			}
+		});
+		btnPlaqueRebondissante.setBounds(523, 795, 115, 105);
+		contentPane.add(btnPlaqueRebondissante);
+		OutilsImage.lireImageEtPlacerSurBouton("bouncePad.png", btnPlaqueRebondissante);
+		
+		btnCercleElectrique = new JButton("BouleAiment");
+		btnCercleElectrique.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelBacASable.ajouterCercleElectrique();
+			}
+		});
+		btnCercleElectrique.setBounds(648, 795, 115, 105);
+		contentPane.add(btnCercleElectrique);
+		OutilsImage.lireImageEtPlacerSurBouton("balle.png", btnCercleElectrique);
+		
 
-		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(255, 255, 255));
-		panel_1.setBounds(1052, 901, 842, 223);
-		contentPane.add(panel_1);
-		panel_1.setLayout(null);
 		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.setBounds(10, 155, 261, 31);
-		panel_1.add(btnNewButton);
+
+		btnSauvegarder = new JButton("Sauvegarder");
+		btnSauvegarder.setBorder(emptyBorder);
+		btnSauvegarder.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				OutilsImage.lireImageEtPlacerSurBouton("telechargement2.png", btnSauvegarder);
+
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				OutilsImage.lireImageEtPlacerSurBouton("telecharger.png", btnSauvegarder);
+
+			}
+		});
+		btnSauvegarder.setBounds(1252, 795, 110, 105);
+		contentPane.add(btnSauvegarder);
+		OutilsImage.lireImageEtPlacerSurBouton("telecharger.png", btnSauvegarder);
+
 		
-		JButton btnNewButton_1 = new JButton("New button");
-		btnNewButton_1.setBounds(197, 155, 74, 31);
-		panel_1.add(btnNewButton_1);
+		btnLoad = new JButton("Load Niveau");
+		btnLoad.setBorder(emptyBorder);
+		btnLoad.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				OutilsImage.lireImageEtPlacerSurBouton("load1.png", btnLoad);
+
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				OutilsImage.lireImageEtPlacerSurBouton("load.png", btnLoad);
+
+			}
+		});
+		btnLoad.setBounds(1118, 795, 124, 105);
+		contentPane.add(btnLoad);
+		OutilsImage.lireImageEtPlacerSurBouton("load.png", btnLoad);
+
 		
-		btnRetour = new JButton("RETOUR");
+		
+		
+		
+		
+		
+		JButton btnRetour = new JButton("New button");
+		btnRetour.setBorder(emptyBorder);
+		btnRetour.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				OutilsImage.lireImageEtPlacerSurBouton("retour2.png", btnRetour);
+
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				OutilsImage.lireImageEtPlacerSurBouton("retour1.png", btnRetour);
+
+			}
+		});
 		btnRetour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FenetreModeDeJeu.retour(appli);
 				setVisible(false);
 			}
 		});
-		btnRetour.setBounds(10, 92, 73, 52);
-		panel_1.add(btnRetour);
-		
-		JButton btnNewButton_3 = new JButton("New button");
-		btnNewButton_3.setBounds(93, 92, 96, 52);
-		panel_1.add(btnNewButton_3);
-		
-		JLabel lblNbDeBalle = new JLabel("Nombre de balles total  :");
-		lblNbDeBalle.setBounds(477, 11, 135, 28);
-		panel_1.add(lblNbDeBalle);
-		
-		JSpinner spinner = new JSpinner();
-		spinner.setBounds(549, 50, 63, 34);
-		panel_1.add(spinner);
-		
-		JLabel lblNewLabel = new JLabel("Nombre de balles elastiques :");
-		lblNewLabel.setBounds(676, 11, 156, 28);
-		panel_1.add(lblNewLabel);
-		
-		JSpinner spinner_1 = new JSpinner();
-		spinner_1.setBounds(676, 50, 75, 34);
-		panel_1.add(spinner_1);
-		
-		JLabel lblNewLabel_1 = new JLabel("New label");
-		lblNewLabel_1.setBounds(93, 17, 63, 22);
-		panel_1.add(lblNewLabel_1);
-		
-		JSpinner spinner_2 = new JSpinner();
-		spinner_2.setBounds(93, 50, 63, 34);
-		panel_1.add(spinner_2);
-		
-		JLabel lblNewLabel_2 = new JLabel("New label");
-		lblNewLabel_2.setBounds(10, 17, 71, 22);
-		panel_1.add(lblNewLabel_2);
-		
-		JSlider slider = new JSlider();
-		slider.setBounds(11, 55, 70, 26);
-		panel_1.add(slider);
-		
-		btnLoad = new JButton("Load Niveau");
+		btnRetour.setBounds(1372, 795, 114, 105);
+		contentPane.add(btnRetour);
+		OutilsImage.lireImageEtPlacerSurBouton("retour1.png", btnRetour);
+
 		btnLoad.addActionListener(new ActionListener() {
 			//Ahmad Khanafer
 			public void actionPerformed(ActionEvent e) {
@@ -272,80 +348,11 @@ public class FenetreBacASable extends JFrame {
 		        
 			}
 		});
-		btnLoad.setBounds(736, 155, 96, 57);
-		panel_1.add(btnLoad);
-		
-
-		
-
-		btnSauvegarder = new JButton("Sauvegarder");
 		btnSauvegarder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panelBacASable.sauvegardeNiveau();
 			}
 		});
-		btnSauvegarder.setBounds(635, 155, 96, 57);
-		panel_1.add(btnSauvegarder);
-		
-		btnCarre = new JButton("Carre");
-		btnCarre.setBounds(10, 1019, 115, 105);
-		contentPane.add(btnCarre);
-		btnCarre.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				panelBacASable.ajouterRectangle();
-			}
-		});
-		OutilsImage.lireImageEtPlacerSurBouton("carre.png", btnCarre);
-		
-		btnCercle = new JButton("Cercle");
-		btnCercle.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				panelBacASable.ajouterCercle();
-			}
-		});
-		btnCercle.setBounds(141, 1019, 115, 105);
-		contentPane.add(btnCercle);
-		OutilsImage.lireImageEtPlacerSurBouton("cercle.png", btnCercle);
-		
-		btnTriangle = new JButton("Triangle");
-		btnTriangle.setBounds(273, 1019, 115, 105);
-		contentPane.add(btnTriangle);
-		btnTriangle.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				panelBacASable.ajouterTriangle();
-			}
-		});
-		OutilsImage.lireImageEtPlacerSurBouton("imageTriangle.jpg", btnTriangle);
-		
-		btnEpines = new JButton("Spikes");
-		btnEpines.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				panelBacASable.ajouterEpines();
-			}
-		});
-		btnEpines.setBounds(402, 1019, 115, 105);
-		contentPane.add(btnEpines);
-		OutilsImage.lireImageEtPlacerSurBouton("spikes.png", btnEpines);
-		
-		btnPlaqueRebondissante = new JButton("Plaque Rebondissante");
-		btnPlaqueRebondissante.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				panelBacASable.ajouterPlaqueRebondissante();
-			}
-		});
-		btnPlaqueRebondissante.setBounds(527, 1019, 115, 105);
-		contentPane.add(btnPlaqueRebondissante);
-		OutilsImage.lireImageEtPlacerSurBouton("bouncePad.png", btnPlaqueRebondissante);
-		
-		btnCercleElectrique = new JButton("BouleAiment");
-		btnCercleElectrique.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				panelBacASable.ajouterCercleElectrique();
-			}
-		});
-		btnCercleElectrique.setBounds(662, 1019, 115, 105);
-		contentPane.add(btnCercleElectrique);
-		OutilsImage.lireImageEtPlacerSurBouton("balle.png", btnCercleElectrique);
 		
 	
 	}

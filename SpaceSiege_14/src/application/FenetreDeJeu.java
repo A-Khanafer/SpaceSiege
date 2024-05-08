@@ -49,6 +49,8 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.border.BevelBorder;
+import javax.swing.SwingConstants;
 /**
  * Classe principale de l'interface de jeu, gérant la disposition des éléments de jeu et les interactions utilisateur.
  * Cette classe crée une fenêtre contenant une zone d'animation pour visualiser le jeu, un ensemble de contrôles pour interagir avec le jeu,
@@ -178,6 +180,14 @@ public class FenetreDeJeu extends JFrame {
      */
     private JSpinner spinnerVieMonstre;
     
+    /**
+     * Slider pour décider de la force du monstre
+     */
+    private JSlider slider; 
+    
+    /**
+     * Panel de type forcesMonstre pour afficher les vecteurs physique du monstre
+     */
     private static ForcesMonstre forces;
     
    
@@ -187,6 +197,7 @@ public class FenetreDeJeu extends JFrame {
             {"Niveau 2", "Donnée 1 Niveau 2", "Donnée 2 Niveau 2", "Donnée 3 Niveau 2"},
             {"Niveau 3", "Donnée 1 Niveau 3", "Donnée 2 Niveau 3", "Donnée 3 Niveau 3"}
     };
+    private JLabel lblForceMonstre;
 
 	
 	/**
@@ -389,8 +400,21 @@ public class FenetreDeJeu extends JFrame {
 		OutilsImage.lireImageEtPlacerSurBouton("demarrer1.png",btnDemarrer);
 
 		
-		JSlider slider = new JSlider();
-		slider.setBounds(142, 59, 440, 26);
+		slider = new JSlider();
+		slider.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				nivActuel.setForceMonstre(slider.getValue());
+			}
+		});
+		slider.setMinorTickSpacing(10);
+		slider.setMaximum(80);
+		slider.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		slider.setForeground(new Color(255, 255, 255));
+		slider.setBackground(new Color(0, 0, 0));
+		slider.setSnapToTicks(true);
+		slider.setPaintTicks(true);
+		slider.setPaintLabels(true);
+		slider.setBounds(142, 44, 440, 26);
 		panelFonctionnalites.add(slider);
 		
 		spinnerMasse = new JSpinner();
@@ -519,7 +543,29 @@ public class FenetreDeJeu extends JFrame {
 		contentPane.add(planCartesien);
 		
 		
-	  
+		JLabel lblNewLabel_4 = new JLabel("0");
+		lblNewLabel_4.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_4.setForeground(new Color(255, 255, 255));
+		lblNewLabel_4.setBackground(new Color(0, 0, 0));
+		lblNewLabel_4.setBounds(129, 61, 46, 37);
+		panelFonctionnalites.add(lblNewLabel_4);
+		
+		JLabel lblNewLabel_5 = new JLabel("40");
+		lblNewLabel_5.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_5.setBackground(new Color(0, 0, 0));
+		lblNewLabel_5.setForeground(new Color(255, 255, 255));
+		lblNewLabel_5.setBounds(333, 66, 58, 26);
+		panelFonctionnalites.add(lblNewLabel_5);
+		
+		JLabel lblNewLabel_6 = new JLabel("80");
+		lblNewLabel_6.setForeground(new Color(255, 255, 255));
+		lblNewLabel_6.setBackground(new Color(0, 0, 0));
+		lblNewLabel_6.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_6.setBounds(549, 66, 46, 26);
+		panelFonctionnalites.add(lblNewLabel_6);
+			
+		
+		
 		rdbBalleNormal = new JRadioButton("Balles Normales");
 		rdbBalleNormal.setBackground(new Color(0, 0, 0));
 		rdbBalleNormal.setForeground(new Color(255, 255, 255));
@@ -556,6 +602,13 @@ public class FenetreDeJeu extends JFrame {
 		buttonGroup.add(rdbBalleNova);
 		rdbBalleNova.setBounds(6, 144, 120, 37);
 		panelFonctionnalites.add(rdbBalleNova);
+		
+		lblForceMonstre = new JLabel("FORCE DE DÉPLACEMENT DU MONSTRE :");
+		lblForceMonstre.setForeground(new Color(255, 255, 255));
+		lblForceMonstre.setBackground(new Color(0, 0, 0));
+		lblForceMonstre.setBounds(152, 19, 267, 14);
+		panelFonctionnalites.add(lblForceMonstre);
+		
 			
 			
 			
@@ -587,6 +640,8 @@ public class FenetreDeJeu extends JFrame {
 		comboBoxTypeGrav.setEnabled(false);
 		spinnerMasse.setEnabled(false);
 		spinnerVieMonstre.setEnabled(false);
+		slider.setEnabled(false);
+		
 		
 	}
 	if(nivActuel.getEnCoursAnimation()==false) {
@@ -596,6 +651,7 @@ public class FenetreDeJeu extends JFrame {
 		comboBoxTypeGrav.setEnabled(true);
 		spinnerMasse.setEnabled(true);
 		spinnerVieMonstre.setEnabled(true);
+		slider.setEnabled(true);
 	}
 	}
 	

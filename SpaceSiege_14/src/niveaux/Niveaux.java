@@ -127,6 +127,8 @@ public class Niveaux extends JPanel implements Runnable {
 	 */
 	protected boolean modeScience=false;
 	
+	protected int forceMonstre;
+	
 
 
     
@@ -284,6 +286,9 @@ public class Niveaux extends JPanel implements Runnable {
 	// AHMAD KHANAFER
 	public void setObHolder(ObstacleHolder obHolder) {
 		
+		
+	}
+	public void setForceMonstre(int force) {
 		
 	}
 	
