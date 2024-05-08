@@ -90,8 +90,8 @@ public class Triangle implements Obstacles, Serializable {
 	/**
 	 * Contruire un triangle en spécifiant les dimensions de son rectangle englobant imaginaire.
 	 *  
-	 * @param x Le x du coin supérieur-gauche du rectangle qui englobe le sapin
-	 * @param y Le y du coin supérieur-gauche du rectangle qui englobe le sapin
+	 * @param x Le x du coin supérieur-gauche du rectangle qui englobe le triangle.
+	 * @param y Le y du coin supérieur-gauche du rectangle qui englobe le triangle.
 	 */
 	public Triangle(double x, double y, double pixelsParMetres) {
 		//on mémorise les caractéristique du sapin dans son ensemble
@@ -251,7 +251,7 @@ public class Triangle implements Obstacles, Serializable {
             }
         } 
 	}
-	private Point2D.Double transformMousePoint(double mouseX, double mouseY) {
+	private Point2D.Double transformePosSouris(double mouseX, double mouseY) {
         // Inverser l'angle de rotation pour transformer les coordonnées
         double inverseAngle = -this.angleRotation;
 
@@ -282,7 +282,7 @@ public class Triangle implements Obstacles, Serializable {
 		// Vérifier si le redimensionnement est activé
         if (estClique) {
         	
-        	Point2D point = transformMousePoint(eX, eY);
+        	Point2D point = transformePosSouris(eX, eY);
         	eX = (int) point.getX();
         	eY = (int) point.getY();
         	
@@ -290,6 +290,7 @@ public class Triangle implements Obstacles, Serializable {
             double offsetX = eX - poigneRedimensionnement[index].getCenterX();
             double offsetY = eY - poigneRedimensionnement[index].getCenterY();
             
+            if(angleRotation < 0.05 && angleRotation > -0.05) {
             // Effectuer le redimensionnement en fonction de l'index du point de redimensionnement sélectionné
             switch (index) {
                 case 0: // En haut à gauche
@@ -348,7 +349,7 @@ public class Triangle implements Obstacles, Serializable {
             }
             creerLaGeometrie();
         }
-		
+        }
 	}
 	/**
      * Méthode pour effectuer la rotation du rectangle en fonction de la position de la souris.

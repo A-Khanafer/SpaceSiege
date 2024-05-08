@@ -1,50 +1,35 @@
 package niveaux;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
-
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
-import composantdessin.PlanCartesien;
 import composantjeu.Balle;
-import composantjeu.BalleBasique;
 import composantjeu.Canon;
-import composantjeu.FlecheDeTir;
 import composantjeu.Monstres;
 import interfaces.Obstacles;
-import physique.Vecteur2D;
-
-import java.awt.Color;
-
 import obstacles.Cercle;
 import obstacles.CercleElectrique;
 import obstacles.Epines;
 import obstacles.ObstacleHolder;
 import obstacles.PlaqueRebondissante;
 import obstacles.Rectangle;
-
 import obstacles.Triangle;
 import physique.Collisions;
 import physique.MoteurPhysique;
+import physique.Vecteur2D;
 
 public class NiveauCustomiser extends Niveaux {
 
@@ -303,13 +288,6 @@ public class NiveauCustomiser extends Niveaux {
 	            reinitialiserApplication();
 	    	}
 
-
-
-			
-			System.out.println("________________________________"+Collisions.getNbRebond());
-			
-
-
 			if(Collisions.getNbRebond()>=3) {
 				ancienneValeur = enCoursDAnimation;
 			    enCoursDAnimation = false;
@@ -486,34 +464,33 @@ public class NiveauCustomiser extends Niveaux {
 		 forceElec=new Vecteur2D(0,0);
 		
 		 for (Obstacles ob : obHolder.getObstacleHolder()) {
-             if (ob instanceof CercleElectrique) {
-                 try {
-                     Vecteur2D positionBalle = canon.getBalle().getPosCentral();
-                     Vecteur2D positionCentre = ((CercleElectrique) ob).getPositionCentre();
-                     double distance = positionBalle.distance(positionCentre);
-                     double rayonElectrique = ((CercleElectrique) ob).getRayonElectrique();
-
-                     if (distance < rayonElectrique) {
-                         // Calculate unit vector
-                         Vecteur2D vecteurUnitaire = positionCentre.soustrait(positionBalle).normalise();
-
-                         // Calculate electric force
-                         double forceElectrique = K_CONST / distance; // Simplified the expression
-                         System.out.println(forceElectrique + "__---");
-
-                         // Calculate electric force vector
-                         Vecteur2D forceElecToAdd = vecteurUnitaire.multiplie(forceElectrique);
-                         forceElec = forceElec.additionne(forceElecToAdd); // Accumulate the electric forces
-                     }
-                 } catch (Exception e) {
-                     System.err.println("Une erreur est survenue lors du calcul de la force électrique : " + e.getMessage());
-                 }
-             }
-         }
+			    if (ob instanceof CercleElectrique) {
+			        try {
+			            Vecteur2D positionBalle = canon.getBalle().getPosCentral();
+			            Vecteur2D positionCentre = ((CercleElectrique) ob).getPositionCentre();
+			            double distance = positionBalle.distance(positionCentre);
+			            double rayonElectrique = ((CercleElectrique) ob).getRayonElectrique();
+			            
+			            if (distance < rayonElectrique) {
+			                // Calculate unit vector
+			                Vecteur2D vecteurUnitaire = positionCentre.soustrait(positionBalle).normalise();
+			                
+			                // Calculate electric force
+			                double forceElectrique = K_CONST / distance; // Simplified the expression
+			                
+			                // Calculate electric force vector
+			                Vecteur2D forceElecToAdd = vecteurUnitaire.multiplie(forceElectrique);
+			                forceElec = forceElec.additionne(forceElecToAdd); // Accumulate the electric forces
+			            }
+			        } catch (Exception e) {
+			            System.err.println("Une erreur est survenue lors du calcul de la force électrique : " + e.getMessage());
+			        }
+			    }
+			}
 		 
-		 forceTotal.additionne(forceDeGravite);
-		 canon.getBalle().setSommeDesForces(forceTotal);
-		 monstre.setSommeDesForces(forceMonstre);
+	 forceTotal=forceDeGravite.additionne(forceElec);
+	 canon.getBalle().setSommeDesForces(forceTotal);
+	 monstre.setSommeDesForces(forceMonstre);
 	}
 	/**
 	 * Réinitialise l'application à son état initial, incluant la remise à zéro de tous les composants d'animation et des variables d'état.

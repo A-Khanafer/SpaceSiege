@@ -1,11 +1,37 @@
 package application;
 
-import java.awt.EventQueue;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JSlider;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
+import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import composantdessin.PlanCartesien;
 import niveaux.Niveau1;
 import niveaux.Niveau2;
 import niveaux.Niveau3;
@@ -13,44 +39,8 @@ import niveaux.NiveauCustomiser;
 import niveaux.Niveaux;
 import obstacles.ObstacleHolder;
 import outils.OutilsImage;
-import composantdessin.PlanCartesien;
-import java.awt.Color;
-import java.awt.Component;
-
-import javax.swing.JTable;
-import javax.swing.JButton;
-import javax.swing.JSlider;
-import java.awt.Font;
-import java.awt.Image;
-
-import javax.swing.JSpinner;
-import javax.swing.JCheckBox;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
-import javax.swing.event.ChangeListener;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
-
 import physique.ForcesMonstre;
 import physique.Vecteur2D;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import javax.swing.border.BevelBorder;
-import javax.swing.SwingConstants;
 /**
  * Classe principale de l'interface de jeu, gérant la disposition des éléments de jeu et les interactions utilisateur.
  * Cette classe crée une fenêtre contenant une zone d'animation pour visualiser le jeu, un ensemble de contrôles pour interagir avec le jeu,
@@ -110,7 +100,7 @@ public class FenetreDeJeu extends JFrame {
 	/**
 	 * JComboBox choix de gravité
 	 */
-	private JComboBox comboBoxTypeGrav;
+	private JComboBox<Object> comboBoxTypeGrav;
 
 	/**
 	 * niveau 1
@@ -463,7 +453,7 @@ public class FenetreDeJeu extends JFrame {
 		
 		
 		
-		comboBoxTypeGrav = new JComboBox();
+		comboBoxTypeGrav = new JComboBox<Object>();
 		comboBoxTypeGrav.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String typeGravite = (String) comboBoxTypeGrav.getSelectedItem();
@@ -473,7 +463,7 @@ public class FenetreDeJeu extends JFrame {
 		     
 			}
 		});
-		comboBoxTypeGrav.setModel(new DefaultComboBoxModel(new String[] {"ESPACE", "TERRE", "MARS"}));
+		comboBoxTypeGrav.setModel(new DefaultComboBoxModel<Object>(new String[] {"ESPACE", "TERRE", "MARS"}));
 		comboBoxTypeGrav.setBounds(423, 135, 109, 46);
 		panelFonctionnalites.add(comboBoxTypeGrav);
 		

@@ -1,8 +1,18 @@
 package application;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
 
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
@@ -10,27 +20,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import bacasable.PanelBacASable;
 import bacasable.SauvegardeNiveau;
-import interfaces.Obstacles;
 import outils.OutilsImage;
-
-import java.awt.Color;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.File;
-import java.awt.event.ActionEvent;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JSpinner;
-import javax.swing.JSlider;
-import javax.swing.JFileChooser;
-import javax.swing.JRadioButton;
-import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
 
 public class FenetreBacASable extends JFrame {
 
@@ -70,15 +60,6 @@ public class FenetreBacASable extends JFrame {
 	 */
 	private JButton btnCercleElectrique;
 	/**
-	 *  bouton du canon
-	 */
-	private JButton btnCanon;
-
-	/**
-	 * bouton retour
-	 */
-	private JButton btnRetour;
-	/**
 	 * panel de construction de niveau
 	 */
 	private PanelBacASable panelBacASable;
@@ -106,15 +87,7 @@ public class FenetreBacASable extends JFrame {
 	 * bouton sauvegarder
 	 */
 	private JButton btnSauvegarder;
-	
-	/**
-	 * longueur fenetre
-	 */
-	private int longueur = 1800;
-	/**
-	 * largeur fenetre
-	 */
-	private int hauteur = 950;
+
 	
 	
 	/**

@@ -13,10 +13,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
-import java.util.Random;
 
 import interfaces.Obstacles;
-import outils.OutilsImage;
 import physique.Vecteur2D;
 
 /**
@@ -257,7 +255,7 @@ public class PlaqueRebondissante implements Obstacles,  Serializable {
             // Calculer le décalage entre la position actuelle et la position de la souris
             double offsetX = eX - poigneRedimensionnement[index].getCenterX();
             double offsetY = eY - poigneRedimensionnement[index].getCenterY();
-            
+            if(angleRotation < 0.05 && angleRotation > -0.05) {
             // Effectuer le redimensionnement en fonction de l'index du point de redimensionnement sélectionné
             switch (index) {
                 case 0: // En haut à gauche
@@ -315,6 +313,7 @@ public class PlaqueRebondissante implements Obstacles,  Serializable {
                     break;
             }
             creerLaGeometrie();
+        }
         }
     }
 
@@ -483,40 +482,7 @@ public class PlaqueRebondissante implements Obstacles,  Serializable {
         }
         return seg;
     }
-//    /**
-//     * Cette méthode retourne les coordonnées des deux points définissant un segment de ligne.
-//     *
-//     * @param segment Le segment de ligne dont vous souhaitez obtenir les coordonnées des points.
-//     * @return Un tableau de double de longueur 4 contenant les coordonnées des deux points du segment.
-//     *         Les deux premiers éléments du tableau représentent les coordonnées (x, y) du premier point
-//     *         et les deux derniers éléments du tableau représentent les coordonnées (x, y) du deuxième point.
-//     */
-//    //Zakaria Soudaki
-//    public double[] getPointsSegment(Line2D.Double segment) {
-//        double[] points = new double[4];
-//        points[0] = segment.getX1();
-//        points[1] = segment.getY1();
-//        points[2] = segment.getX2();
-//        points[3] = segment.getY2();
-//        return points;
-//    }
     
-    private void textureRandom() {
-    	 Random rand = new Random();
-         int i = rand.nextInt(3) + 1;
-         
-         switch(i) {
-         case 1 : 
-        	 texture = (BufferedImage) OutilsImage.lireImage("textureRec1.jpg");
-        	 break;
-         case 2 : 
-        	 texture = (BufferedImage) OutilsImage.lireImage("textureRec2.jpg");
-        	 break;
-         case 3 : 
-        	 texture = (BufferedImage) OutilsImage.lireImage("textureRec3.jpg");
-        	 break;
-         }
-    }
     
     public String toString() {
     	

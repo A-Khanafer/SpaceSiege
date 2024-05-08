@@ -264,7 +264,7 @@ public class Rectangle implements Obstacles,  Serializable {
             // Calculer le décalage entre la position actuelle et la position de la souris
             double offsetX = eX - poigneRedimensionnement[index].getCenterX();
             double offsetY = eY - poigneRedimensionnement[index].getCenterY();
-            
+            if(angleRotation < 0.05 && angleRotation > -0.05) {
             // Effectuer le redimensionnement en fonction de l'index du point de redimensionnement sélectionné
             switch (index) {
                 case 0: // En haut à gauche
@@ -322,6 +322,7 @@ public class Rectangle implements Obstacles,  Serializable {
                     break;
             }
             creerLaGeometrie();
+        }
         }
     }
 
