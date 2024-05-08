@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Double;
 import java.awt.geom.Rectangle2D;
@@ -101,40 +102,11 @@ public class PanelBacASable extends JPanel {
 	 * boolean monstre créer ou non
 	 */
 	boolean monstreCreer = false;
-	
-	/**
-	 * les coins du cercle
-	 */
-	private Point2D.Double[] coinsCercle;
-	
-	/**
-	 * les coins du cercle éléctrique
-	 */
-	private Point2D.Double[] coinsCercleE;
-	
-	/**
-	 * les coins des épines
-	 */
-	private Point2D.Double[] coinsEpines;
-	/**
-	 * les coins du rectangle
-	 */
-	private Point2D.Double[] coinsRec;
-	/**
-	 * les coins du triangle
-	 */
-	private Point2D.Double[] coinsTri;
-	
-	
+		
 	private Stack<Obstacles> ctrlZ = new Stack<Obstacles>();
    
 	
-	private Rectangle2D.Double limiteCanon;
-
-	
-   
-    
-   
+	private Rectangle2D.Double limiteCanon, limiteMonstre;
 
     /**
      * Constructeur par défaut de PanelBacASable.
@@ -143,7 +115,7 @@ public class PanelBacASable extends JPanel {
     public PanelBacASable() {
     	setFocusable(true);
         setBackground(new Color(255, 255, 255));
-        canon = new Canon(0, 10, pixelParMetres);	
+        	
         ecouteurSouris();
         ecouteurFormeEffacage();
         
@@ -158,20 +130,22 @@ public class PanelBacASable extends JPanel {
     public void paintComponent(Graphics g ) {
     	requestFocusInWindow();
         super.paintComponent(g);
+        
         Graphics2D g2d = (Graphics2D) g;
         pixelParMetres = getWidth()/150;
-        
+        canon = new Canon(0, 10, pixelParMetres);
+        monstre = new Monstres(getWidth()- ((8*pixelParMetres)/2) - 100, getHeight()/2 - ((8*pixelParMetres)/2), pixelParMetres);
         if(obHolder != null) {
             obHolder.drawContient(g2d);
         }
         canon.dessiner(g2d);
         g2d.setColor( new Color(255, 0, 0, 100) );
         limiteCanon = new Rectangle2D.Double(0, 0, canon.getPointeX()+50, getHeight());
+        limiteMonstre = new Rectangle2D.Double(getWidth()- ((20*pixelParMetres)/2) - 100,getHeight()/2 - ((20*pixelParMetres)/2) , 20*pixelParMetres, 20*pixelParMetres);
         g2d.fill(limiteCanon);
-        
-        if (monstredessin) {
-            monstre.dessiner(g2d);
-        }
+        g2d.fill(limiteMonstre);
+        monstre.dessiner(g2d);
+
     }
 
     /**
@@ -179,13 +153,12 @@ public class PanelBacASable extends JPanel {
      */
   //Ahmad Khanafer
     public void ajouterRectangle() {
-        if(nbrRec < 3) {
+        if(nbrRec < 100) {
             double espace = getWidth()/2;
             Rectangle rec = new Rectangle(100 + espace, getHeight()/2, pixelParMetres);
             obHolder.addObstacle(rec);
             espace = espace + 20;
             nbrRec++;
-            
             repaint();
         } else {
             JOptionPane.showMessageDialog(null, "Nombre maximal de rectangles atteint");
@@ -197,7 +170,7 @@ public class PanelBacASable extends JPanel {
      */
   //Ahmad Khanafer
     public void ajouterTriangle() {
-        if(nbrTri < 2) {
+        if(nbrTri < 100) {
         	double espace = getWidth()/2;
             Triangle tri = new Triangle(50 + espace, getHeight()/2, pixelParMetres);
             obHolder.addObstacle(tri);
@@ -214,7 +187,7 @@ public class PanelBacASable extends JPanel {
      */
   //Ahmad Khanafer
     public void ajouterCercle() {
-        if(nbrCercle < 3) {
+        if(nbrCercle < 100) {
         	double espace = getWidth()/2;
             Cercle cer = new Cercle(50 + espace, getHeight()/2, pixelParMetres);
             obHolder.addObstacle(cer);
@@ -230,7 +203,7 @@ public class PanelBacASable extends JPanel {
      */
   //Ahmad Khanafer
     public void ajouterCercleElectrique() {
-        if(nbrCercleElectrique < 3) {
+        if(nbrCercleElectrique < 100) {
         	double espace = getWidth()/2;
             CercleElectrique cer = new CercleElectrique(50 + espace, getHeight()/2, pixelParMetres);
             obHolder.addObstacle(cer);
@@ -246,7 +219,7 @@ public class PanelBacASable extends JPanel {
      */
   //Ahmad Khanafer
     public void ajouterEpines() {
-        if(nbrEpines < 3) {
+        if(nbrEpines < 100) {
         	double espace = getWidth()/2;
             Epines epi = new Epines(50 + espace,getHeight()/2, pixelParMetres);
             obHolder.addObstacle(epi);
@@ -262,7 +235,7 @@ public class PanelBacASable extends JPanel {
      */
   //Ahmad Khanafer
     public void ajouterPlaqueRebondissante() {
-        if(nbrPlaqueRebondissante < 3) {
+        if(nbrPlaqueRebondissante < 100) {
         	double espace = getWidth()/2;
             PlaqueRebondissante plaque = new PlaqueRebondissante(50 + espace, getHeight()/2, pixelParMetres);
             obHolder.addObstacle(plaque);
@@ -281,8 +254,7 @@ public class PanelBacASable extends JPanel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                gestionSourisFormeClick(e);
-                repaint();
+                gestionSourisFormeClick(e);     
             }
         });
     
@@ -290,7 +262,6 @@ public class PanelBacASable extends JPanel {
             @Override
             public void mouseDragged(MouseEvent e) {
                 gestionSourisFormeDragged(e);
-                repaint();
             }
         });
     }
@@ -393,24 +364,31 @@ public class PanelBacASable extends JPanel {
 	public void sauvegardeNiveau() {
 		boolean niveauPasAccepte = false;
 		ArrayList<Obstacles> obTemp =  obHolder.getObstacleHolder();
+		
 	   	for(Obstacles ob : obTemp) {
+	   		Area limiteMonstreAire = new Area(limiteMonstre);
+	   		limiteMonstreAire.intersect(ob.toAire());
 	   		Double[] coins = ob.getCoins();
-	   			if(limiteCanon.contains(coins[0])){
-	   				niveauPasAccepte = true;
-	   				break;
-	   			}
-	   			if(limiteCanon.contains(coins[1])){
-	   				niveauPasAccepte = true;
-	   				break;
-	   			}
-	   			if(limiteCanon.contains(coins[2])){
-	   				niveauPasAccepte = true;
-	   				break;
-	   			}
-	   			if(limiteCanon.contains(coins[3])){
-	   				niveauPasAccepte = true;
-	   				break;
-	   			}	
+	   		if(limiteCanon.contains(coins[0])){
+				niveauPasAccepte = true;
+	   			break;
+	   		}
+	   		if(limiteCanon.contains(coins[1])){
+				niveauPasAccepte = true;
+	   			break;
+	   		}
+	   		if(limiteCanon.contains(coins[2])){
+				niveauPasAccepte = true;
+	   			break;
+	   		}
+	  		if(limiteCanon.contains(coins[3])){
+	   			niveauPasAccepte = true;
+	   			break;
+	   		}
+	  		if(!limiteMonstreAire.isEmpty()) {
+	  			niveauPasAccepte = true;
+	   			break;
+	  		}
 	   	}
 	   	
 	   	if(niveauPasAccepte) {

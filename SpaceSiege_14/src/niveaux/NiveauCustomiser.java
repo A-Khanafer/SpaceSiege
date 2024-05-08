@@ -196,7 +196,7 @@ public class NiveauCustomiser extends Niveaux {
 			
 			pixelParMetres = (double) getWidth()/150;
 
-		   	monstre = new Monstres(1200, 40, pixelParMetres,2);
+			monstre = new Monstres(getWidth()- ((8*pixelParMetres)/2) -50, getHeight()/2 - ((8*pixelParMetres)/2), pixelParMetres);
 			canon = new Canon(0, 10,pixelParMetres);
 			
 			System.out.println(monstre.getNombreDeVie()+"___");
@@ -252,39 +252,35 @@ public class NiveauCustomiser extends Niveaux {
 
 
 			Area areaBalle = new Area(canon.getBalle().getCercle());
+	        boolean enCollisionAvecEpines = false;
 
+	       
+	        for(Obstacles ob : obHolder.getObstacleHolder()) {
+	            if (ob instanceof Rectangle) {
+	                Collisions.collisionRectangle(canon.getBalle(), (Rectangle) ob);
+	                Collisions.collisionMonstreRec(monstre, (Rectangle) ob);
+	            } else if (ob instanceof Cercle) {
+	                Collisions.collisionCercle(canon.getBalle(), (Cercle) ob);
+	            } else if (ob instanceof Triangle) {
+	                Collisions.collisionTriangle(canon.getBalle(), (Triangle) ob);
+	            } else if (ob instanceof Epines) {
+	                Area areaEpines = ((Epines) ob).toAire();
+	                areaEpines.intersect(areaBalle);
+	                if (!areaEpines.isEmpty()) {
+	                    enCollisionAvecEpines = true;
+	                }
+	            } else if (ob instanceof PlaqueRebondissante) {
+	                Collisions.collisionPlaqueRebondissante(canon.getBalle(), (PlaqueRebondissante) ob);
+	            }
+	        }
 
-			//Traverse toutes les obstacles...
-			//tu dois ajouter les collisions pour chaque obstacles
-			for(Obstacles ob : obHolder.getObstacleHolder()) {
-				
-				if (ob instanceof Rectangle) {
-					Collisions.collisionRectangle(canon.getBalle(),(Rectangle) ob);
-				    Collisions.collisionMonstreRec(monstre, (Rectangle) ob);	
-
-			    }else if(ob instanceof Cercle) {
-			    	Collisions.collisionCercle(canon.getBalle(), (Cercle) ob);
-			    }else if(ob instanceof Triangle) {
-			    	Collisions.collisionTriangle(canon.getBalle(), (Triangle) ob);
-			    }else if(ob instanceof Epines) {
-			    	areaBalle.intersect(((Epines)ob).toAire());
- 
-
-                    if(!areaBalle.isEmpty()) {
-                    	System.out.println("ENCOURS ANIM");
-                    	 ancienneValeur = enCoursDAnimation;
-         	    	    enCoursDAnimation = false;
-         	    	    pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
-                        reinitialiserPosition();
-                    }
-
-			    }else if(ob instanceof PlaqueRebondissante) {
-			    	Collisions.collisionPlaqueRebondissante(canon.getBalle(), (PlaqueRebondissante)ob);
-			    }
-
-	        
-			}
-
+	        if (enCollisionAvecEpines) {
+	            System.out.println("ENCOURS ANIM");
+	            ancienneValeur = enCoursDAnimation;
+	            enCoursDAnimation = false;
+	            pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
+	            reinitialiserPosition();
+	        }
 	        Area areaMonstre = monstre.toAire();
 	        areaBalle.intersect(areaMonstre);
 
@@ -439,18 +435,36 @@ public class NiveauCustomiser extends Niveaux {
 			reinitialiserPosition();
 		}
 		
-	
-		//Traverse toutes les obstacles...
-		//tu dois ajouter les collisions pour chaque obstacles
+		Area areaBalle = new Area(canon.getBalle().getCercle());
+		boolean enCollisionAvecEpines = false; // Variable pour indiquer si la balle est en collision avec des épines
+
+		// Traverse tous les obstacles...
 		for(Obstacles ob : obHolder.getObstacleHolder()) {
-			
-			if (ob instanceof Rectangle) {
-			    Collisions.collisionMonstreRec(monstre,(Rectangle) ob);
-		    }else if(ob instanceof Cercle) {
-		    	Collisions.collisionMonstreCercle(monstre, (Cercle) ob );
-		    }else if (ob instanceof Triangle){
-		    	Collisions.collisionMonstreTri(monstre, (Triangle) ob);
-		    }        
+		    if (ob instanceof Rectangle) {
+		        Collisions.collisionRectangle(canon.getBalle(), (Rectangle) ob);
+		        Collisions.collisionMonstreRec(monstre, (Rectangle) ob);
+		    } else if (ob instanceof Cercle) {
+		        Collisions.collisionCercle(canon.getBalle(), (Cercle) ob);
+		    } else if (ob instanceof Triangle) {
+		        Collisions.collisionTriangle(canon.getBalle(), (Triangle) ob);
+		    } else if (ob instanceof Epines) {
+		        Area areaEpines = ((Epines) ob).toAire();
+		        areaEpines.intersect(areaBalle); // Intersection avec l'aire de la balle
+		        if (!areaEpines.isEmpty()) {
+		            enCollisionAvecEpines = true;
+		        }
+		    } else if (ob instanceof PlaqueRebondissante) {
+		        Collisions.collisionPlaqueRebondissante(canon.getBalle(), (PlaqueRebondissante) ob);
+		    }
+		}
+
+		// Si la balle est en collision avec des épines, réinitialise sa position
+		if (enCollisionAvecEpines) {
+		    System.out.println("ENCOURS ANIM");
+		    ancienneValeur = enCoursDAnimation;
+		    enCoursDAnimation = false;
+		    pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
+		    reinitialiserPosition();
 		}
 		
 		
@@ -471,36 +485,35 @@ public class NiveauCustomiser extends Niveaux {
 		Vecteur2D forceMonstre= forceHautBas.additionne(forceDroiteGauche);
 		 forceElec=new Vecteur2D(0,0);
 		
-		for(Obstacles ob : obHolder.getObstacleHolder()) {
-			
-			if (ob instanceof CercleElectrique) {
-				
-				double distance = canon.getBalle().getPosCentral().distance(((CercleElectrique) ob).getPositionCentre());
-				
-				
-				    double rayonElectrique =((CercleElectrique) ob).getRayonElectrique();
-				
-				    if (distance < rayonElectrique) {
-				        try {
-				        	//
-				        
-				        	//
-				            Vecteur2D vecteurUnitaire =((CercleElectrique) ob).getPositionCentre().soustrait(canon.getBalle().getPosCentral()).normalise();
-				    // Pour le bien de l'appli K est reduit
-				            double forceElectrique = K_CONST * (1 / distance);
-			               System.out.println(forceElectrique+"____________________________---");
-				           forceElec = vecteurUnitaire.multiplie(forceElectrique);			           
-				        } catch (Exception e) {
-				            
-				            System.err.println("Une erreur est survenue lors de la normalisation du vecteur unitaire : " + e.getMessage());
-				        }
-				    }
-		    }
-		    	
-		 }
-	 forceTotal=forceDeGravite.additionne(forceElec);
-	 canon.getBalle().setSommeDesForces(forceTotal);
-	 monstre.setSommeDesForces(forceMonstre);
+		 for (Obstacles ob : obHolder.getObstacleHolder()) {
+             if (ob instanceof CercleElectrique) {
+                 try {
+                     Vecteur2D positionBalle = canon.getBalle().getPosCentral();
+                     Vecteur2D positionCentre = ((CercleElectrique) ob).getPositionCentre();
+                     double distance = positionBalle.distance(positionCentre);
+                     double rayonElectrique = ((CercleElectrique) ob).getRayonElectrique();
+
+                     if (distance < rayonElectrique) {
+                         // Calculate unit vector
+                         Vecteur2D vecteurUnitaire = positionCentre.soustrait(positionBalle).normalise();
+
+                         // Calculate electric force
+                         double forceElectrique = K_CONST / distance; // Simplified the expression
+                         System.out.println(forceElectrique + "__---");
+
+                         // Calculate electric force vector
+                         Vecteur2D forceElecToAdd = vecteurUnitaire.multiplie(forceElectrique);
+                         forceElec = forceElec.additionne(forceElecToAdd); // Accumulate the electric forces
+                     }
+                 } catch (Exception e) {
+                     System.err.println("Une erreur est survenue lors du calcul de la force électrique : " + e.getMessage());
+                 }
+             }
+         }
+		 
+		 forceTotal.additionne(forceDeGravite);
+		 canon.getBalle().setSommeDesForces(forceTotal);
+		 monstre.setSommeDesForces(forceMonstre);
 	}
 	/**
 	 * Réinitialise l'application à son état initial, incluant la remise à zéro de tous les composants d'animation et des variables d'état.
@@ -643,8 +656,8 @@ public class NiveauCustomiser extends Niveaux {
 		    }
 
 		   
-		    if (canon.contient(e.getX(), e.getY())) {
-		        canon.moveY(e.getY());
+		    if (canon.contient(e.getX(), e.getY()) && e.getY()-canon.getBalle().getDiametre()/2>0 &&  e.getY()+canon.getBalle().getDiametre()/2<getHeight()) {		
+		    	canon.moveY(e.getY());
 		    }
 		    repaint();
 		}
@@ -801,7 +814,7 @@ public class NiveauCustomiser extends Niveaux {
 	            g.drawString("(" + positionX + ", " + positionY + ")", 20, 60);
 	            g.drawString("(" + vitesseX + ", " + vitesseY + ")", 250, 60);
 	            g.drawString("(" + accelerationX + ", " + accelerationY + ")", 400, 60);
-	            g.drawString(Integer.toString(masse), 20, 100);
+	            g.drawString(Integer.toString(masse)+" kg", 20, 100);
 	            g.drawString("(" + forceElectriqueX + ", " + forceElectriqueY + ")", 250, 100);
 	            g.drawString("(" + forceAppliqueeX + ", " + forceAppliqueeY + ")", 400, 100);
 	        }

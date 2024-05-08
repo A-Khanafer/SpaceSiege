@@ -252,6 +252,7 @@ public class FenetreDeJeu extends JFrame {
 	           	        rdbBalleElastique.setSelected(false);
 	           	        rdbBalleNova.setSelected(false);
 	                }
+		 	
 		 	}
 		 });
 
@@ -365,6 +366,7 @@ public class FenetreDeJeu extends JFrame {
               rdbBalleElastique.setSelected(false);
               rdbBalleNova.setSelected(false);
               planCartesien.reset();
+              spinnerMasse.setValue(50);
               desactiverLesRadios();
               
               

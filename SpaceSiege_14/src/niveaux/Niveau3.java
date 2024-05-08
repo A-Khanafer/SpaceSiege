@@ -191,6 +191,9 @@ public class Niveau3 extends Niveaux {
 	 */
 	private boolean ancienneValeur;
 	
+
+    private boolean enExplosion=false;
+
 	private int forceMonstre = 50;
 
 
@@ -477,7 +480,7 @@ public class Niveau3 extends Niveaux {
      * Calcule une itération physique en fonction du deltaT.
      * @param deltaT Le temps écoulé depuis la dernière itération.
      */
-	//Benakmoum Walid & ZAKARIA SOUDAKI
+	//Benakmoum Walid
 	public void calculerUneIterationPhysique(double deltaT) {
 		tempsTotalEcoule += deltaT;
 	try {
@@ -633,9 +636,13 @@ public class Niveau3 extends Niveaux {
 	//walid benakmoum
 	public void stopperAnim() {
 		if(enCoursDAnimation==true) {
-	enCoursDAnimation=false;
+			 ancienneValeur = enCoursDAnimation;
+			    enCoursDAnimation = false;
+			    pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
+			    enExplosion=false;
 		}else {
 		demarrer();
+		enExplosion=true;
 		}
 	}
 
@@ -687,8 +694,8 @@ public class Niveau3 extends Niveaux {
 		    }
 
 		   
-		    if (canon.contient(e.getX(), e.getY())) {
-		        canon.moveY(e.getY());
+		    if (canon.contient(e.getX(), e.getY()) && e.getY()-canon.getBalle().getDiametre()/2>0 &&  e.getY()+canon.getBalle().getDiametre()/2<getHeight()) {		       
+		    	canon.moveY(e.getY());
 		    }
 		    repaint();
 		}
@@ -715,6 +722,7 @@ public class Niveau3 extends Niveaux {
 	        	switch (e.getKeyCode()) {
                 case KeyEvent.VK_SPACE:
                exploserBalle();
+               enExplosion=true;
                 	
             }
 
@@ -841,7 +849,7 @@ public class Niveau3 extends Niveaux {
 	            g.drawString("(" + positionX + ", " + positionY + ")", 20, 60);
 	            g.drawString("(" + vitesseX + ", " + vitesseY + ")", 250, 60);
 	            g.drawString("(" + accelerationX + ", " + accelerationY + ")", 400, 60);
-	            g.drawString(Integer.toString(masse), 20, 100);
+	            g.drawString(Integer.toString(masse)+" kg", 20, 100);
 	            g.drawString("(" + forceElectriqueX + ", " + forceElectriqueY + ")", 250, 100);
 	            g.drawString("(" + forceAppliqueeX + ", " + forceAppliqueeY + ")", 400, 100);
 	        }
@@ -878,16 +886,20 @@ public class Niveau3 extends Niveaux {
 	      
 
 	        timer.scheduleAtFixedRate(new TimerTask() {
-	            @Override
+	      
+
+				@Override
 	            public void run() {
-	            
+	            if(enExplosion) {
 	                if (canon.getBalle().getDiametre() < 200) {
 	                    canon.getBalle().exploser();
 	                    repaint();
 	                  
 	                } else {
 	                    timer.cancel();
+	               
 	                }
+	            }
 	            }
 	        }, 0, delai);
 	    }
