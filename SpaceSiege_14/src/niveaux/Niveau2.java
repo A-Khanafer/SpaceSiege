@@ -36,6 +36,8 @@ import java.awt.Color;
 
 import obstacles.Cercle;
 import obstacles.CercleElectrique;
+import obstacles.Epines;
+import obstacles.PlaqueRebondissante;
 import obstacles.Rectangle;
 
 import obstacles.Triangle;
@@ -81,10 +83,7 @@ public class Niveau2 extends Niveaux {
 	 */
 	private int tempsDuSleep = 10;
 	
-	/**
-	 * Un tableau de rectangles servant d'obstacles dans la zone d'animation.
-	 */
-	private Rectangle[] tableauRec;
+	
 	
 	/**
 	 * Indique si une balle a été tirée par le canon.
@@ -205,8 +204,45 @@ public class Niveau2 extends Niveaux {
 	 */
 	private boolean ancienneValeur;
 
-   
-   
+	   private boolean enExplosion=false;;
+
+	   private Rectangle[] tableauRectangles = {
+		        new Rectangle(1435, 5, 37, 120, 0.0),
+		        new Rectangle(672, 738, 120, 120, 0.0),
+		        new Rectangle(796, 740, 120, 120, 0.0),
+		        new Rectangle(919, 741, 120, 120, 0.0),
+		        new Rectangle(1042, 737, 120, 120, 0.0),
+		        new Rectangle(796, 621, 120, 120, 0.0),
+		        new Rectangle(919, 624, 120, 120, 0.0),
+		        new Rectangle(862, 309, 120, 318, 0.0),
+		        new Rectangle(878, 2, 120, 175, 0.0),
+		        new Rectangle(1363, 612, 120, 253, 0.0)
+		    };
+
+		    private Epines[] tableauEpines = {
+		        new Epines(208, 800, 461, 60, 0.0),
+		        new Epines(699, 406, 260, 67, -1.5855011491727482),
+		        new Epines(1157, 804, 207, 60, 0.0)
+		    };
+
+		    private CercleElectrique[] tableauCerclesElectriques = {
+		        new CercleElectrique(494, 353, 120, 120, 0),
+		        new CercleElectrique(1072, 278, 181, 155, 0)
+		    };
+
+		    private Triangle[] tableauTriangles = {
+		        new Triangle(275, 460, 238, 188, 1.0703378675923554)
+		    };
+
+		    private Cercle[] tableauCercles = {
+		        new Cercle(586, 562, 120, 120, 0),
+		        new Cercle(515, 0, 360, 60, 3.141592653589793)
+		    };
+
+		    private PlaqueRebondissante[] tableauPlaquesRebondissantes = {
+		        new PlaqueRebondissante(1180, 49, 240, 45, 0.35691193635167046),
+		        new PlaqueRebondissante(1003, 49, 152, 36, -0.4048917862850834)
+		    };
 
     
     
@@ -217,9 +253,6 @@ public class Niveau2 extends Niveaux {
 	public Niveau2() {
 		
 		setLayout(null);
-		tableauRec = new Rectangle[3];
-		tableauTri = new Triangle[1];
-		tableauCercle = new Cercle[3];
 		
 		 setFocusable(true);
 
@@ -234,7 +267,7 @@ public class Niveau2 extends Niveaux {
 		
 		
 		
-		tableauRec = new Rectangle[11];
+;
 		ecouteurSouris();
 		ecouteurClavier();
 		
@@ -267,41 +300,41 @@ public class Niveau2 extends Niveaux {
 			
 			System.out.println(monstre.getNombreDeVie()+"___");
 		
-			 
-			 tableauRec[0] = new Rectangle(  143,  354, 330, 53,0);
-			 
-			 tableauRec[1] = new Rectangle(  1200,  120, 186, 48,0);
-			 
-			 tableauRec[2] = new Rectangle(  1000,  0, 229, 57,0);
-			 
-			 tableauRec[3] = new Rectangle(  1100,  393, 280, 56,0);
-			 
-			 tableauRec[4] = new Rectangle( 1300, 0, 258, 57,0);
-			 
-			 tableauRec[5] = new Rectangle(  398, 377, 290, 52,0);
-			 
-			 tableauRec[6] = new Rectangle( 1050, 0, 238, 47,0);
-			 
-			 tableauRec[7] = new Rectangle(  1100,458, 210, 60,0);
-			 
-			 tableauRec[8] = new Rectangle( 1000, 20, 162, 36,45);
-			 
-			 tableauRec[9] = new Rectangle(  1080, 464, 140, 124,45);
-			 
-			 tableauRec[10] = new Rectangle(  1172, 238, 113, 92,0);
-
-			
+		
 			 premiereFois = false;
 			
 		}
 
-		
-
-		for (int i = 0; i < tableauRec.length; i++) {
-			tableauRec[i].dessiner(g2d);
+	
+		for (int i = 0; i < tableauRectangles.length; i++) {
+	tableauRectangles[i].dessiner(g2d);
 			
 		}
 
+	    // Dessiner les épines
+	    for (int i = 0; i < tableauEpines.length; i++) {
+	        tableauEpines[i].dessiner(g2d);
+	    }
+
+	    // Dessiner les cercles électriques
+	    for (int i = 0; i < tableauCerclesElectriques.length; i++) {
+	        tableauCerclesElectriques[i].dessiner(g2d);
+	    }
+
+	    // Dessiner les triangles
+	    for (int i = 0; i < tableauTriangles.length; i++) {
+	        tableauTriangles[i].dessiner(g2d);
+	    }
+
+	    // Dessiner les cercles
+	    for (int i = 0; i < tableauCercles.length; i++) {
+	        tableauCercles[i].dessiner(g2d);
+	    }
+
+	    // Dessiner les plaques rebondissantes
+	    for (int i = 0; i < tableauPlaquesRebondissantes.length; i++) {
+	        tableauPlaquesRebondissantes[i].dessiner(g2d);
+	    }
 		
 
 
@@ -358,8 +391,8 @@ public class Niveau2 extends Niveaux {
 			this.pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
 
 			
-			for(int i =0 ; i < tableauRec.length ; i++) {
-				Collisions.collisionRectangle(canon.getBalle(),tableauRec[i]);
+			for(int i =0 ; i < tableauRectangles.length ; i++) {
+				Collisions.collisionRectangle(canon.getBalle(),tableauRectangles[i]);
 			}
 			
 
@@ -521,9 +554,9 @@ public class Niveau2 extends Niveaux {
 		
 	
 		
-		for(int i =0 ; i < tableauRec.length ; i++) {
-		    Collisions.collisionMonstreRec(monstre, tableauRec[1]);	
-		    Collisions.collisionMonstreRec(monstre, tableauRec[2]);	
+		for(int i =0 ; i < tableauRectangles.length ; i++) {
+		    Collisions.collisionMonstreRec(monstre, tableauRectangles[1]);	
+		    Collisions.collisionMonstreRec(monstre, tableauRectangles[2]);	
         
 		}
 		
@@ -646,12 +679,16 @@ public class Niveau2 extends Niveaux {
 	/**
 	 * Méthode qui arrête ou démarre l'animation en fonction de son état actuel.
 	 */
-	//walid benakmoum
+	//Benakmoum Walid
 	public void stopperAnim() {
 		if(enCoursDAnimation==true) {
-	enCoursDAnimation=false;
+			 ancienneValeur = enCoursDAnimation;
+			    enCoursDAnimation = false;
+			    pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
+			    enExplosion=false;
 		}else {
 		demarrer();
+		enExplosion=true;
 		}
 	}
 
@@ -703,8 +740,8 @@ public class Niveau2 extends Niveaux {
 		    }
 
 		   
-		    if (canon.contient(e.getX(), e.getY())) {
-		        canon.moveY(e.getY());
+		    if (canon.contient(e.getX(), e.getY()) && e.getY()-canon.getBalle().getDiametre()/2>0 &&  e.getY()+canon.getBalle().getDiametre()/2<getHeight()) {		   
+             canon.moveY(e.getY());
 		    }
 		    repaint();
 		}
@@ -731,6 +768,7 @@ public class Niveau2 extends Niveaux {
 	        	switch (e.getKeyCode()) {
                 case KeyEvent.VK_SPACE:
                exploserBalle();
+               enExplosion=true;
                 	
             }
 
@@ -860,7 +898,7 @@ public class Niveau2 extends Niveaux {
 	            g.drawString("(" + positionX + ", " + positionY + ")", 20, 60);
 	            g.drawString("(" + vitesseX + ", " + vitesseY + ")", 250, 60);
 	            g.drawString("(" + accelerationX + ", " + accelerationY + ")", 400, 60);
-	            g.drawString(Integer.toString(masse), 20, 100);
+	            g.drawString(Integer.toString(masse)+" kg", 20, 100);
 	            g.drawString("(" + forceElectriqueX + ", " + forceElectriqueY + ")", 250, 100);
 	            g.drawString("(" + forceAppliqueeX + ", " + forceAppliqueeY + ")", 400, 100);
 	        }
@@ -890,9 +928,10 @@ public class Niveau2 extends Niveaux {
 	      
 
 	        timer.scheduleAtFixedRate(new TimerTask() {
-	            @Override
+	         
+				@Override
 	            public void run() {
-	            
+	            if(enExplosion) {
 	                if (canon.getBalle().getDiametre() < 200) {
 	                    canon.getBalle().exploser();
 	                    repaint();
@@ -901,7 +940,9 @@ public class Niveau2 extends Niveaux {
 	                    timer.cancel();
 	                }
 	            }
+	            }
 	        }, 0, delai);
+	        
 	    }
 	}
 

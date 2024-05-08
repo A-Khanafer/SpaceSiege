@@ -179,7 +179,7 @@ public class PanelBacASable extends JPanel {
      */
   //Ahmad Khanafer
     public void ajouterRectangle() {
-        if(nbrRec < 3) {
+        if(nbrRec < 100) {
             double espace = getWidth()/2;
             Rectangle rec = new Rectangle(100 + espace, getHeight()/2, pixelParMetres);
             obHolder.addObstacle(rec);
@@ -197,7 +197,7 @@ public class PanelBacASable extends JPanel {
      */
   //Ahmad Khanafer
     public void ajouterTriangle() {
-        if(nbrTri < 2) {
+        if(nbrTri < 100) {
         	double espace = getWidth()/2;
             Triangle tri = new Triangle(50 + espace, getHeight()/2, pixelParMetres);
             obHolder.addObstacle(tri);
@@ -214,7 +214,7 @@ public class PanelBacASable extends JPanel {
      */
   //Ahmad Khanafer
     public void ajouterCercle() {
-        if(nbrCercle < 3) {
+        if(nbrCercle < 100) {
         	double espace = getWidth()/2;
             Cercle cer = new Cercle(50 + espace, getHeight()/2, pixelParMetres);
             obHolder.addObstacle(cer);
@@ -230,7 +230,7 @@ public class PanelBacASable extends JPanel {
      */
   //Ahmad Khanafer
     public void ajouterCercleElectrique() {
-        if(nbrCercleElectrique < 3) {
+        if(nbrCercleElectrique < 100) {
         	double espace = getWidth()/2;
             CercleElectrique cer = new CercleElectrique(50 + espace, getHeight()/2, pixelParMetres);
             obHolder.addObstacle(cer);
@@ -246,7 +246,7 @@ public class PanelBacASable extends JPanel {
      */
   //Ahmad Khanafer
     public void ajouterEpines() {
-        if(nbrEpines < 3) {
+        if(nbrEpines < 100) {
         	double espace = getWidth()/2;
             Epines epi = new Epines(50 + espace,getHeight()/2, pixelParMetres);
             obHolder.addObstacle(epi);
@@ -262,7 +262,7 @@ public class PanelBacASable extends JPanel {
      */
   //Ahmad Khanafer
     public void ajouterPlaqueRebondissante() {
-        if(nbrPlaqueRebondissante < 3) {
+        if(nbrPlaqueRebondissante < 100) {
         	double espace = getWidth()/2;
             PlaqueRebondissante plaque = new PlaqueRebondissante(50 + espace, getHeight()/2, pixelParMetres);
             obHolder.addObstacle(plaque);

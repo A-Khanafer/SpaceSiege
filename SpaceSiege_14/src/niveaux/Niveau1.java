@@ -195,6 +195,8 @@ public class Niveau1 extends Niveaux {
 	 */
 	private boolean ancienneValeur;
 
+	private boolean enExplosion=false;;
+
    
    
 
@@ -579,6 +581,7 @@ public class Niveau1 extends Niveaux {
 	 */
 	//Benakmoum Walid
 	public void reinitialiserPosition() {
+		
 		ancienneValeur = enCoursDAnimation;
 	    enCoursDAnimation = false;
 	    pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
@@ -624,14 +627,16 @@ public class Niveau1 extends Niveaux {
 	/**
 	 * Méthode qui arrête ou démarre l'animation en fonction de son état actuel.
 	 */
-	//walid benakmoum
+	//Benakmoum Walid
 	public void stopperAnim() {
 		if(enCoursDAnimation==true) {
 			 ancienneValeur = enCoursDAnimation;
 			    enCoursDAnimation = false;
 			    pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
+			    enExplosion=false;
 		}else {
 		demarrer();
+		enExplosion=true;
 		}
 	}
 
@@ -683,7 +688,7 @@ public class Niveau1 extends Niveaux {
 		    }
 
 		   
-		    if (canon.contient(e.getX(), e.getY())) {
+		    if (canon.contient(e.getX(), e.getY()) && e.getY()-canon.getBalle().getDiametre()/2>0 &&  e.getY()+canon.getBalle().getDiametre()/2<getHeight()) {
 		        canon.moveY(e.getY());
 		    }
 		    repaint();
@@ -711,6 +716,7 @@ public class Niveau1 extends Niveaux {
 	        	switch (e.getKeyCode()) {
                 case KeyEvent.VK_SPACE:
                exploserBalle();
+               enExplosion=true;
                 	
             }
 
@@ -831,7 +837,7 @@ public class Niveau1 extends Niveaux {
 	            g.drawString("(" + positionX + ", " + positionY + ")", 20, 60);
 	            g.drawString("(" + vitesseX + ", " + vitesseY + ")", 250, 60);
 	            g.drawString("(" + accelerationX + ", " + accelerationY + ")", 400, 60);
-	            g.drawString(Integer.toString(masse), 20, 100);
+	            g.drawString(Integer.toString(masse)+" kg", 20, 100);
 	            g.drawString("(" + forceElectriqueX + ", " + forceElectriqueY + ")", 250, 100);
 	            g.drawString("(" + forceAppliqueeX + ", " + forceAppliqueeY + ")", 400, 100);
 	        }
@@ -863,7 +869,7 @@ public class Niveau1 extends Niveaux {
 	        timer.scheduleAtFixedRate(new TimerTask() {
 	            @Override
 	            public void run() {
-	            
+	            if(enExplosion) {
 	                if (canon.getBalle().getDiametre() < 200) {
 	                    canon.getBalle().exploser();
 	                    repaint();
@@ -872,6 +878,7 @@ public class Niveau1 extends Niveaux {
 	                    timer.cancel();
 	               
 	                }
+	            }
 	            }
 	        }, 0, delai);
 	    }
