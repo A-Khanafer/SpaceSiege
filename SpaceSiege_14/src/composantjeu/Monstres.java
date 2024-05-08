@@ -34,7 +34,8 @@ public class Monstres extends JPanel implements  Serializable{
 	 	 * pixels par mètre
 	 	 */
 	 	private double pixelsParMetres;
-	    /** Le rectangle représentant le monstre
+	    /** 
+	     * Le rectangle représentant le monstre
 	     *  **/
 
 	    private Rectangle2D rec ;
@@ -79,6 +80,8 @@ public class Monstres extends JPanel implements  Serializable{
 	     * nom image du monstre
 	     */
 	    private String nomImg2 = "monstre2.png";
+	    
+	    private String nomImg3 = "monstre3.png";
 	    
 	    /**
 	     * index pour parcourir tableau d'objet
@@ -154,7 +157,9 @@ public class Monstres extends JPanel implements  Serializable{
 	        }
 	        if (indexImg == 2){
 		        imgDecor = OutilsImage.lireImage(nomImg2); 
-
+	        }
+	        if (indexImg == 3){
+	        	imgDecor = OutilsImage.lireImage(nomImg3); 
 	        }
 	
 	       creerLaGeometrie();

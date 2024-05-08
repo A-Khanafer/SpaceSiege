@@ -31,6 +31,9 @@ import javax.swing.JFileChooser;
 import javax.swing.JRadioButton;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
+import javax.swing.SwingConstants;
+import java.awt.Font;
+import javax.swing.border.TitledBorder;
 
 public class FenetreBacASable extends JFrame {
 
@@ -115,6 +118,8 @@ public class FenetreBacASable extends JFrame {
 	 * largeur fenetre
 	 */
 	private int hauteur = 950;
+	private JLabel lbl;
+	private JPanel panel;
 	
 	
 	/**
@@ -173,9 +178,15 @@ public class FenetreBacASable extends JFrame {
 		panelBacASable.setBounds(0, 0, 1486, 765);
 		contentPane.add(panelBacASable);
 		
+		panel = new JPanel();
+		panel.setBorder(new TitledBorder(null, "JPanel title", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel.setBounds(191, 779, 752, 127);
+		contentPane.add(panel);
+		panel.setLayout(null);
+		
 		btnCarre = new JButton("Carre");
-		btnCarre.setBounds(10, 795, 115, 105);
-		contentPane.add(btnCarre);
+		btnCarre.setBounds(6, 16, 115, 105);
+		panel.add(btnCarre);
 		btnCarre.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panelBacASable.ajouterRectangle();
@@ -184,54 +195,54 @@ public class FenetreBacASable extends JFrame {
 		OutilsImage.lireImageEtPlacerSurBouton("carre.png", btnCarre);
 		
 		btnCercle = new JButton("Cercle");
+		btnCercle.setBounds(131, 16, 115, 105);
+		panel.add(btnCercle);
 		btnCercle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panelBacASable.ajouterCercle();
 			}
 		});
-		btnCercle.setBounds(141, 795, 115, 105);
-		contentPane.add(btnCercle);
 		OutilsImage.lireImageEtPlacerSurBouton("cercle.png", btnCercle);
 		
 		btnTriangle = new JButton("Triangle");
-		btnTriangle.setBounds(273, 795, 115, 105);
-		contentPane.add(btnTriangle);
+		btnTriangle.setBounds(256, 16, 115, 105);
+		panel.add(btnTriangle);
 		btnTriangle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panelBacASable.ajouterTriangle();
 			}
 		});
-		OutilsImage.lireImageEtPlacerSurBouton("imageTriangle.jpg", btnTriangle);
+		OutilsImage.lireImageEtPlacerSurBouton("triangle.png", btnTriangle);
 		
 		btnEpines = new JButton("Spikes");
+		btnEpines.setBounds(381, 16, 115, 105);
+		panel.add(btnEpines);
 		btnEpines.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panelBacASable.ajouterEpines();
 			}
 		});
-		btnEpines.setBounds(398, 795, 115, 105);
-		contentPane.add(btnEpines);
 		OutilsImage.lireImageEtPlacerSurBouton("spikes.png", btnEpines);
 		
 		btnPlaqueRebondissante = new JButton("Plaque Rebondissante");
+		btnPlaqueRebondissante.setBounds(506, 16, 115, 105);
+		panel.add(btnPlaqueRebondissante);
 		btnPlaqueRebondissante.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panelBacASable.ajouterPlaqueRebondissante();
 			}
 		});
-		btnPlaqueRebondissante.setBounds(523, 795, 115, 105);
-		contentPane.add(btnPlaqueRebondissante);
 		OutilsImage.lireImageEtPlacerSurBouton("bouncePad.png", btnPlaqueRebondissante);
 		
 		btnCercleElectrique = new JButton("BouleAiment");
+		btnCercleElectrique.setBounds(631, 16, 115, 105);
+		panel.add(btnCercleElectrique);
 		btnCercleElectrique.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panelBacASable.ajouterCercleElectrique();
 			}
 		});
-		btnCercleElectrique.setBounds(648, 795, 115, 105);
-		contentPane.add(btnCercleElectrique);
-		OutilsImage.lireImageEtPlacerSurBouton("balle.png", btnCercleElectrique);
+		OutilsImage.lireImageEtPlacerSurBouton("cerclenoir.jpg", btnCercleElectrique);
 		
 
 		
@@ -250,7 +261,7 @@ public class FenetreBacASable extends JFrame {
 
 			}
 		});
-		btnSauvegarder.setBounds(1252, 795, 110, 105);
+		btnSauvegarder.setBounds(1252, 795, 115, 105);
 		contentPane.add(btnSauvegarder);
 		OutilsImage.lireImageEtPlacerSurBouton("telecharger.png", btnSauvegarder);
 
@@ -269,7 +280,7 @@ public class FenetreBacASable extends JFrame {
 
 			}
 		});
-		btnLoad.setBounds(1118, 795, 124, 105);
+		btnLoad.setBounds(1118, 795,  115, 105);
 		contentPane.add(btnLoad);
 		OutilsImage.lireImageEtPlacerSurBouton("load.png", btnLoad);
 
@@ -302,6 +313,14 @@ public class FenetreBacASable extends JFrame {
 		btnRetour.setBounds(1372, 795, 114, 105);
 		contentPane.add(btnRetour);
 		OutilsImage.lireImageEtPlacerSurBouton("retour1.png", btnRetour);
+		
+		lbl = new JLabel("COMPOSANTS :");
+		lbl.setFont(new Font("Trebuchet MS", Font.PLAIN, 20));
+		lbl.setHorizontalAlignment(SwingConstants.CENTER);
+		lbl.setBackground(new Color(0, 0, 0));
+		lbl.setForeground(new Color(255, 255, 255));
+		lbl.setBounds(10, 795, 162, 105);
+		contentPane.add(lbl);
 
 		btnLoad.addActionListener(new ActionListener() {
 			//Ahmad Khanafer

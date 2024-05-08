@@ -326,6 +326,9 @@ public class PanelBacASable extends JPanel {
                 if(ob.getPositionCentre().getY() < getHeight()-20) {
                     ob.move(e.getX(), e.getY());
                 }
+                if(ob.getPositionCentre().getX() > getWidth()-20) {
+                	ob.move(getWidth()/2, e.getY());
+                }
 
                 if (ob.getPositionCentre().getY() >= getHeight()-20) {
                     ob.move(e.getX(), (int) (  getHeight()/2));
