@@ -579,6 +579,7 @@ public class Niveau3 extends Niveaux {
 		    canon = new Canon(0, 10,pixelParMetres);
 		    Collisions.setNbrebond(0);
 		   monstreMort=false;
+		   forceMonstre=50;
 
 
 		   repaint();
