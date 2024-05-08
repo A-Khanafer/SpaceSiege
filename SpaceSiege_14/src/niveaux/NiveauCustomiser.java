@@ -196,7 +196,7 @@ public class NiveauCustomiser extends Niveaux {
 			
 			pixelParMetres = (double) getWidth()/150;
 
-		   	monstre = new Monstres(1200, 40, pixelParMetres,2);
+			monstre = new Monstres(getWidth()- ((8*pixelParMetres)/2) -50, getHeight()/2 - ((8*pixelParMetres)/2), pixelParMetres);
 			canon = new Canon(0, 10,pixelParMetres);
 			
 			System.out.println(monstre.getNombreDeVie()+"___");
@@ -510,9 +510,10 @@ public class NiveauCustomiser extends Niveaux {
                  }
              }
          }
-
-	 canon.getBalle().setSommeDesForces(forceTotal);
-	 monstre.setSommeDesForces(forceMonstre);
+		 
+		 forceTotal.additionne(forceDeGravite);
+		 canon.getBalle().setSommeDesForces(forceTotal);
+		 monstre.setSommeDesForces(forceMonstre);
 	}
 	/**
 	 * Réinitialise l'application à son état initial, incluant la remise à zéro de tous les composants d'animation et des variables d'état.

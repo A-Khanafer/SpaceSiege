@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Double;
 import java.awt.geom.Rectangle2D;
@@ -101,35 +102,11 @@ public class PanelBacASable extends JPanel {
 	 * boolean monstre créer ou non
 	 */
 	boolean monstreCreer = false;
-	
-	/**
-	 * les coins du cercle
-	 */
-	private Point2D.Double[] coinsCercle;
-	
-	/**
-	 * les coins du cercle éléctrique
-	 */
-	private Point2D.Double[] coinsCercleE;
-	
-	/**
-	 * les coins des épines
-	 */
-	private Point2D.Double[] coinsEpines;
-	/**
-	 * les coins du rectangle
-	 */
-	private Point2D.Double[] coinsRec;
-	/**
-	 * les coins du triangle
-	 */
-	private Point2D.Double[] coinsTri;
-	
-	
+		
 	private Stack<Obstacles> ctrlZ = new Stack<Obstacles>();
    
 	
-	private Rectangle2D.Double limiteCanon;
+	private Rectangle2D.Double limiteCanon, limiteMonstre;
 
     /**
      * Constructeur par défaut de PanelBacASable.
@@ -138,7 +115,7 @@ public class PanelBacASable extends JPanel {
     public PanelBacASable() {
     	setFocusable(true);
         setBackground(new Color(255, 255, 255));
-        canon = new Canon(0, 10, pixelParMetres);	
+        	
         ecouteurSouris();
         ecouteurFormeEffacage();
         
@@ -153,20 +130,22 @@ public class PanelBacASable extends JPanel {
     public void paintComponent(Graphics g ) {
     	requestFocusInWindow();
         super.paintComponent(g);
+        
         Graphics2D g2d = (Graphics2D) g;
         pixelParMetres = getWidth()/150;
-        
+        canon = new Canon(0, 10, pixelParMetres);
+        monstre = new Monstres(getWidth()- ((8*pixelParMetres)/2) - 100, getHeight()/2 - ((8*pixelParMetres)/2), pixelParMetres);
         if(obHolder != null) {
             obHolder.drawContient(g2d);
         }
         canon.dessiner(g2d);
         g2d.setColor( new Color(255, 0, 0, 100) );
         limiteCanon = new Rectangle2D.Double(0, 0, canon.getPointeX()+50, getHeight());
+        limiteMonstre = new Rectangle2D.Double(getWidth()- ((20*pixelParMetres)/2) - 100,getHeight()/2 - ((20*pixelParMetres)/2) , 20*pixelParMetres, 20*pixelParMetres);
         g2d.fill(limiteCanon);
-        
-        if (monstredessin) {
-            monstre.dessiner(g2d);
-        }
+        g2d.fill(limiteMonstre);
+        monstre.dessiner(g2d);
+
     }
 
     /**
@@ -275,8 +254,7 @@ public class PanelBacASable extends JPanel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                gestionSourisFormeClick(e);
-                repaint();
+                gestionSourisFormeClick(e);     
             }
         });
     
@@ -284,7 +262,6 @@ public class PanelBacASable extends JPanel {
             @Override
             public void mouseDragged(MouseEvent e) {
                 gestionSourisFormeDragged(e);
-                repaint();
             }
         });
     }
@@ -384,7 +361,10 @@ public class PanelBacASable extends JPanel {
 	public void sauvegardeNiveau() {
 		boolean niveauPasAccepte = false;
 		ArrayList<Obstacles> obTemp =  obHolder.getObstacleHolder();
+		
 	   	for(Obstacles ob : obTemp) {
+	   		Area limiteMonstreAire = new Area(limiteMonstre);
+	   		limiteMonstreAire.intersect(ob.toAire());
 	   		Double[] coins = ob.getCoins();
 	   		if(limiteCanon.contains(coins[0])){
 				niveauPasAccepte = true;
@@ -401,7 +381,11 @@ public class PanelBacASable extends JPanel {
 	  		if(limiteCanon.contains(coins[3])){
 	   			niveauPasAccepte = true;
 	   			break;
-	   		}	
+	   		}
+	  		if(!limiteMonstreAire.isEmpty()) {
+	  			niveauPasAccepte = true;
+	   			break;
+	  		}
 	   	}
 	   	
 	   	if(niveauPasAccepte) {
