@@ -97,9 +97,7 @@ public class PlaqueRebondissante implements Obstacles,  Serializable {
 	private Point2D.Double[] coins;
 	
 	private transient BufferedImage texture;
-	
-	private boolean premiereFois = true;
-	
+
 	 private Vecteur2D positionCentre;
 
 	
@@ -222,18 +220,16 @@ public class PlaqueRebondissante implements Obstacles,  Serializable {
     }
     
 	private Point2D.Double transformMousePoint(double mouseX, double mouseY) {
-        // Inverser l'angle de rotation pour transformer les coordonnées
+        
         double inverseAngle = -this.angleRotation;
 
-        // Calculer le vecteur de la souris par rapport au centre du rectangle
+        
         double mouseXfromCenter = mouseX - this.centreX;
         double mouseYfromCenter = mouseY - this.centreY;
 
-        // Appliquer la rotation inverse
         double rotatedX = mouseXfromCenter * Math.cos(inverseAngle) - mouseYfromCenter * Math.sin(inverseAngle);
         double rotatedY = mouseXfromCenter * Math.sin(inverseAngle) + mouseYfromCenter * Math.cos(inverseAngle);
 
-        // Re-calculer les coordonnées par rapport à l'origine
         double finalX = rotatedX + this.centreX;
         double finalY = rotatedY + this.centreY;
 

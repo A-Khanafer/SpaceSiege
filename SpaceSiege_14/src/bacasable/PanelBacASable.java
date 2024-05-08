@@ -131,11 +131,6 @@ public class PanelBacASable extends JPanel {
 	
 	private Rectangle2D.Double limiteCanon;
 
-	
-   
-    
-   
-
     /**
      * Constructeur par défaut de PanelBacASable.
      * Initialise les paramètres par défaut et ajoute des écouteurs de souris.
@@ -185,7 +180,6 @@ public class PanelBacASable extends JPanel {
             obHolder.addObstacle(rec);
             espace = espace + 20;
             nbrRec++;
-            
             repaint();
         } else {
             JOptionPane.showMessageDialog(null, "Nombre maximal de rectangles atteint");
@@ -392,22 +386,22 @@ public class PanelBacASable extends JPanel {
 		ArrayList<Obstacles> obTemp =  obHolder.getObstacleHolder();
 	   	for(Obstacles ob : obTemp) {
 	   		Double[] coins = ob.getCoins();
-	   			if(limiteCanon.contains(coins[0])){
-	   				niveauPasAccepte = true;
-	   				break;
-	   			}
-	   			if(limiteCanon.contains(coins[1])){
-	   				niveauPasAccepte = true;
-	   				break;
-	   			}
-	   			if(limiteCanon.contains(coins[2])){
-	   				niveauPasAccepte = true;
-	   				break;
-	   			}
-	   			if(limiteCanon.contains(coins[3])){
-	   				niveauPasAccepte = true;
-	   				break;
-	   			}	
+	   		if(limiteCanon.contains(coins[0])){
+				niveauPasAccepte = true;
+	   			break;
+	   		}
+	   		if(limiteCanon.contains(coins[1])){
+				niveauPasAccepte = true;
+	   			break;
+	   		}
+	   		if(limiteCanon.contains(coins[2])){
+				niveauPasAccepte = true;
+	   			break;
+	   		}
+	  		if(limiteCanon.contains(coins[3])){
+	   			niveauPasAccepte = true;
+	   			break;
+	   		}	
 	   	}
 	   	
 	   	if(niveauPasAccepte) {
