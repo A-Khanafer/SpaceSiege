@@ -414,6 +414,7 @@ public class Canon extends JPanel implements Selectionnable, Dessinable, Seriali
      * 
      * @param bol true pour afficher la prochaine image, false sinon.
      */
+    //Benakmoum Walid
     public void setProchaineImage(boolean bol) {
         prochaineImage = bol;
     }

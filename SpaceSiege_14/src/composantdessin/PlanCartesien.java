@@ -128,6 +128,14 @@ public class PlanCartesien extends JPanel {
 		g2d.setColor(Color.black);
 		creerTaquets(g2d);
 		
+	    g2d.setColor(Color.black);
+	    Font font = new Font("SansSerif", Font.BOLD, 14);
+	    g2d.setFont(font);
+	    String texte = "Position de la balle en mètre";
+	    int textLarg = g2d.getFontMetrics().stringWidth(texte);
+	    int xTexte = (getWidth() - textLarg) / 2; 
+	    int yTexte = 20; 
+	    g2d.drawString(texte, xTexte, yTexte);
 		
 	}
 	/**

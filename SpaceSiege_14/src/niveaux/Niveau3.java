@@ -34,8 +34,10 @@ import physique.Vecteur2D;
 
 import java.awt.Color;
 
+import obstacles.Cercle;
 import obstacles.CercleElectrique;
-import obstacles.ObstacleHolder;
+import obstacles.Epines;
+import obstacles.PlaqueRebondissante;
 import obstacles.Rectangle;
 
 import obstacles.Triangle;
@@ -81,10 +83,7 @@ public class Niveau3 extends Niveaux {
 	 */
 	private int tempsDuSleep = 10;
 	
-	/**
-	 * Un tableau de rectangles servant d'obstacles dans la zone d'animation.
-	 */
-	private Rectangle[] tableauRec;
+	
 	
 	/**
 	 * Indique si une balle a été tirée par le canon.
@@ -147,9 +146,18 @@ public class Niveau3 extends Niveaux {
 	private boolean premiereFois = true;
 	
 	/**
-	 * Un tableau de triangles servant d'obstacles dans la zone d'animation (commenté pour le moment).
-	 */
-	private Triangle[] tableauTri;
+     * L'index de la balle choisie par le joueur.
+     */
+    private  int balleChoisie;
+    /**
+     * Un tableau de triangles servant d'obstacles dans la zone d'animation (commenté pour le moment).
+     */
+   
+  
+   
+    
+	
+	
 	
 	/**
 	 * Code de la touche enfoncée.
@@ -166,7 +174,7 @@ public class Niveau3 extends Niveaux {
 	 */
 	private Canon canon;
 	
-	/**
+     /**
 	 * Indique si le monstre est mort.
 	 */
 	private boolean monstreMort = false;
@@ -190,15 +198,63 @@ public class Niveau3 extends Niveaux {
 	 * Ancienne valeur de l'état d'animation.
 	 */
 	private boolean ancienneValeur;
-	
 
-    private boolean enExplosion=false;
-
+/**
+ * Boolean pour voir si la balle explose ou pas
+ */
+	   private boolean enExplosion=false;;
+	   /**
+	     * Tableau des rectangles présents dans la configuration.
+	     */
+	   private Rectangle[] tableauRectangles = {
+		        new Rectangle(503, 619, 199, 90, -1.5587487169407106),
+		        new Rectangle(558, 280, 90, 183, 0.0),
+		        new Rectangle(558, -2, 90, 186, 0.0)
+		    };
+	   /**
+	     * Tableau des épingles présentes dans la configuration.
+	     */
+	   private Epines[] tableauEpines = {
+		        new Epines(667, 710, 793, 45, 0.0)
+		    };
+		    /**
+		     * Tableau des cercles électriques présents dans la configuration.
+		     */
+	   private CercleElectrique[] tableauCerclesElectriques = {
+		        new CercleElectrique(944, 335, 90, 90, 0)
+		    };
+		    /**
+		     * Tableau des triangles présents dans la configuration.
+		     */
+	   private Triangle[] tableauTriangles = {
+		        new Triangle(361, 589, 90, 180, 1.039455695100122),
+		        new Triangle(348, 4, 90, 180, 1.9379701606131159)
+		    };
+		    /**
+		     * Tableau des cercles présents dans la configuration.
+		     */
+	   private Cercle[] tableauCercles = {
+		        new Cercle(684, 593, 90, 90, 0),
+		        new Cercle(670, 330, 90, 90, 0),
+		        new Cercle(676, 52, 90, 90, 0)
+		    };
+		    /**
+		     * Tableau des plaques rebondissantes présentes dans la configuration.
+		     */
+	   private PlaqueRebondissante[] tableauPlaquesRebondissantes = {
+		        new PlaqueRebondissante(931, 83, 180, 27, 0.5232783221319754),
+		        new PlaqueRebondissante(972, 581, 180, 27, -0.7044940642422177)
+		    };
+		    /**
+		     * Force du monstre dans cette configuration.
+		     */
 	private int forceMonstre = 50;
-
-
+/**
+ * Voir si la balle fait la collision avec epine
+ */
+			private boolean enCollisionAvecEpines=false;
    
-   
+
 
     
     
@@ -208,6 +264,7 @@ public class Niveau3 extends Niveaux {
 	//ZAKARIA SOUDAKI
 	public Niveau3() {
 		
+		setLayout(null);
 		
 		 setFocusable(true);
 
@@ -222,7 +279,7 @@ public class Niveau3 extends Niveaux {
 		
 		
 		
-		tableauRec = new Rectangle[11];
+;
 		ecouteurSouris();
 		ecouteurClavier();
 		
@@ -250,50 +307,44 @@ public class Niveau3 extends Niveaux {
 		
 			
 			
-		   	monstre = new Monstres(1200, 40, pixelParMetres,1);
+			 monstre = new Monstres(getWidth()- ((8*pixelParMetres)/2) - 100, getHeight()/2 - ((8*pixelParMetres)/2), pixelParMetres);
 			canon = new Canon(0, 10,pixelParMetres);
 			
-			System.out.println(monstre.getNombreDeVie()+"___");
 		
-
-			 tableauRec[0] = new Rectangle(  143,  354, 330, 53,0);
-			 
-			 tableauRec[1] = new Rectangle(  1200,  120, 186, 48,0);
-			 
-			 tableauRec[2] = new Rectangle(  1000,  0, 229, 57,0);
-			 
-			 tableauRec[3] = new Rectangle(  1100,  393, 280, 56,0);
-			 
-			 tableauRec[4] = new Rectangle( 1300, 0, 258, 57,0);
-			 
-			 tableauRec[5] = new Rectangle(  398, 377, 290, 52,0);
-			 
-			 tableauRec[6] = new Rectangle( 1050, 0, 238, 47,0);
-			 
-			 tableauRec[7] = new Rectangle(  1100,458, 210, 60,0);
-			 
-			 tableauRec[8] = new Rectangle( 1000, 20, 162, 36,45);
-			 
-			 tableauRec[9] = new Rectangle(  1080, 464, 140, 124,45);
-			 
-			 tableauRec[10] = new Rectangle(  1172, 238, 113, 92,0);
-
-			
+		
 			 premiereFois = false;
-	        
-		}
-
-		
-
-		for (int i = 0; i < tableauRec.length; i++) {
-			tableauRec[i].dessiner(g2d);
 			
 		}
 
+	
+		for (int i = 0; i < tableauRectangles.length; i++) {
+	tableauRectangles[i].dessiner(g2d);
+			
+		}
+
+	    for (int i = 0; i < tableauEpines.length; i++) {
+	        tableauEpines[i].dessiner(g2d);
+	    }
+
+	    for (int i = 0; i < tableauCerclesElectriques.length; i++) {
+	        tableauCerclesElectriques[i].dessiner(g2d);
+	    }
+
+	    for (int i = 0; i < tableauTriangles.length; i++) {
+	        tableauTriangles[i].dessiner(g2d);
+	    }
+
+	    for (int i = 0; i < tableauCercles.length; i++) {
+	        tableauCercles[i].dessiner(g2d);
+	    }
+
+	    for (int i = 0; i < tableauPlaquesRebondissantes.length; i++) {
+	        tableauPlaquesRebondissantes[i].dessiner(g2d);
+	    }
 		
 
 
-		boule= new CercleElectrique(398 ,200,pixelParMetres);
+		boule=  new CercleElectrique(944, 335, 90, 90, 0);
 		boule.dessiner(g2d);
           
 
@@ -323,6 +374,7 @@ public class Niveau3 extends Niveaux {
 	    
 	   
 	}
+	
 	/**
      * Exécute l'animation en boucle tant que enCoursDAnimation est vrai. Gère le calcul physique et les collisions.
      */
@@ -344,13 +396,36 @@ public class Niveau3 extends Niveaux {
 			
 			this.pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
 
-			
-			for(int i =0 ; i < tableauRec.length ; i++) {
-				Collisions.collisionRectangle(canon.getBalle(),tableauRec[i]);
-			}
-			
-
 			Area areaBalle = new Area(canon.getBalle().getCercle()); 
+			  enCollisionAvecEpines = false;
+			for(int i =0 ; i < tableauRectangles.length ; i++) {
+				Collisions.collisionRectangle(canon.getBalle(),tableauRectangles[i]);
+			}
+			for(int i =0 ; i < tableauCercles.length ; i++) {
+				Collisions.collisionCercle(canon.getBalle(),tableauCercles[i]);
+			}
+			for(int i =0 ; i < tableauTriangles.length ; i++) {
+				Collisions.collisionTriangle(canon.getBalle(),tableauTriangles[i]);
+			}
+			for(int i =0 ; i < tableauPlaquesRebondissantes.length ; i++) {
+				Collisions.collisionPlaqueRebondissante(canon.getBalle(),tableauPlaquesRebondissantes[i]);
+			}
+			for(int i =0 ; i < tableauEpines.length ; i++) {
+				enCollisionAvecEpines = false; 
+				 Area areaEpines = tableauEpines[i].toAire();
+	                areaEpines.intersect(areaBalle);
+	                if (!areaEpines.isEmpty()) {
+	                    enCollisionAvecEpines = true;
+			}
+	                if (enCollisionAvecEpines) {
+	    	         
+	    	            ancienneValeur = enCoursDAnimation;
+	    	            enCoursDAnimation = false;
+	    	            pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
+	    	            reinitialiserPosition();
+	    	        }
+
+		
 	        Area areaMonstre = monstre.toAire();
 	        areaBalle.intersect(areaMonstre);
 
@@ -380,7 +455,7 @@ public class Niveau3 extends Niveaux {
 			
 
 
-			if(Collisions.getNbRebond()>=3) {
+			if(Collisions.getNbRebond()>=10) {
 				ancienneValeur = enCoursDAnimation;
 			    enCoursDAnimation = false;
 			    pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
@@ -397,6 +472,7 @@ public class Niveau3 extends Niveaux {
 			}
 		}//fin while
 		System.out.println("Le thread est mort...!");	
+		}
      }
 
 	/**
@@ -476,11 +552,18 @@ public class Niveau3 extends Niveaux {
 		}
 
 	  
+	  /**
+		 * Méthode pour changer la force de déplacement du monstre
+		 */
+		public void setForceMonstre(int force) {
+			this.forceMonstre = force;
+		}
+	  
 	/**
      * Calcule une itération physique en fonction du deltaT.
      * @param deltaT Le temps écoulé depuis la dernière itération.
      */
-	//Benakmoum Walid
+	//Benakmoum Walid & ZAKARIA SOUDAKI
 	public void calculerUneIterationPhysique(double deltaT) {
 		tempsTotalEcoule += deltaT;
 	try {
@@ -508,9 +591,9 @@ public class Niveau3 extends Niveaux {
 		
 	
 		
-		for(int i =0 ; i < tableauRec.length ; i++) {
-		    Collisions.collisionMonstreRec(monstre, tableauRec[1]);	
-		    Collisions.collisionMonstreRec(monstre, tableauRec[2]);	
+		for(int i =0 ; i < tableauRectangles.length ; i++) {
+		    Collisions.collisionMonstreRec(monstre, tableauRectangles[1]);	
+		    Collisions.collisionMonstreRec(monstre, tableauRectangles[2]);	
         
 		}
 		
@@ -572,15 +655,14 @@ public class Niveau3 extends Niveaux {
 
 		    balleTiree = false;
 		    canon.setPremiereFois(true);
-		    monstre = new Monstres(1000, 20, pixelParMetres,1);
+		    monstre = new Monstres(getWidth()- ((8*pixelParMetres)/2) - 100, getHeight()/2 - ((8*pixelParMetres)/2), pixelParMetres);
 		    if(monstre.getNombreDeVie()==0) {
 		    monstre.setNombreDeVie(1);
 		    }
 		    canon = new Canon(0, 10,pixelParMetres);
 		    Collisions.setNbrebond(0);
 		   monstreMort=false;
-		   forceMonstre=50;
-
+          forceMonstre=50;
 
 		   repaint();
 	}
@@ -634,7 +716,7 @@ public class Niveau3 extends Niveaux {
 	/**
 	 * Méthode qui arrête ou démarre l'animation en fonction de son état actuel.
 	 */
-	//walid benakmoum
+	//Benakmoum Walid
 	public void stopperAnim() {
 		if(enCoursDAnimation==true) {
 			 ancienneValeur = enCoursDAnimation;
@@ -695,8 +777,8 @@ public class Niveau3 extends Niveaux {
 		    }
 
 		   
-		    if (canon.contient(e.getX(), e.getY()) && e.getY()-canon.getBalle().getDiametre()/2>0 &&  e.getY()+canon.getBalle().getDiametre()/2<getHeight()) {		       
-		    	canon.moveY(e.getY());
+		    if (canon.contient(e.getX(), e.getY()) && e.getY()-canon.getBalle().getDiametre()/2>0 &&  e.getY()+canon.getBalle().getDiametre()/2<getHeight()) {		   
+             canon.moveY(e.getY());
 		    }
 		    repaint();
 		}
@@ -733,26 +815,29 @@ public class Niveau3 extends Niveaux {
 
 	            switch (keyCode) {
 	                case KeyEvent.VK_UP:
-	                 
+	                   
 	                	forceHautBas.setY(-forceMonstre);
-
+	                   
 	                    break;
 	                case KeyEvent.VK_DOWN:
-	                  
+	                    
 	                	forceHautBas.setY(forceMonstre);
-
+	                   
+	                	
 	                	
 	                    break;
 	                case KeyEvent.VK_LEFT:
 	                  
 	                	forceDroiteGauche.setX(-forceMonstre);
-
+	                   
 	                	
 	                	
 	                    break;
 	                case KeyEvent.VK_RIGHT:
 	                   
 	                	forceDroiteGauche.setX(forceMonstre);
+	                    
+	                	
 	                		
 	                	
 	                    break;
@@ -867,13 +952,6 @@ public class Niveau3 extends Niveaux {
 		repaint();
 	}
 	/**
-	 * Méthode pour changer la force de déplacement du monstre
-	 */
-	public void setForceMonstre(int force) {
-		this.forceMonstre = force;
-	}
-	
-	/**
 	 * Méthode qui permet de exploser la balle
 	 */
 	//Benakmoum Walid
@@ -887,8 +965,7 @@ public class Niveau3 extends Niveaux {
 	      
 
 	        timer.scheduleAtFixedRate(new TimerTask() {
-	      
-
+	         
 				@Override
 	            public void run() {
 	            if(enExplosion) {
@@ -898,11 +975,11 @@ public class Niveau3 extends Niveaux {
 	                  
 	                } else {
 	                    timer.cancel();
-	               
 	                }
 	            }
 	            }
 	        }, 0, delai);
+	        
 	    }
 	}
 
