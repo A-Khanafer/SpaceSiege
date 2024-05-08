@@ -80,7 +80,7 @@ public class Epines implements Obstacles, Serializable{
 	private final int NB_EPINE = 10;
 	
 	 private Vecteur2D positionCentre;
-
+	 
 	
 	
 	
@@ -166,7 +166,7 @@ public class Epines implements Obstacles, Serializable{
         rotation.transform(sommet, coins[4] = new Point2D.Double());
 		
 	}
-
+	
 	private void creationResizeHandles() {
 		double tailleHandle = 15; 
 
@@ -191,7 +191,7 @@ public class Epines implements Obstacles, Serializable{
                     tailleHandle, tailleHandle);
         }
 	}
-
+	
 	private double[] rotatePoint(double d, double e, double angleRotation) {
 		 double cosAngle = Math.cos(angleRotation);
 	        double sinAngle = Math.sin(angleRotation);
@@ -199,7 +199,7 @@ public class Epines implements Obstacles, Serializable{
 	        double rotatedY = d * sinAngle + e * cosAngle;
 	        return new double[]{rotatedX, rotatedY};
 	}
-
+	
 	@Override
 	public void redimension(int index, int eX, int eY) {
 		// Vérifier si le redimensionnement est activé
@@ -273,7 +273,7 @@ public class Epines implements Obstacles, Serializable{
         }
 		
 	}
-
+	
 	private Point2D.Double transformMousePoint(double mouseX, double mouseY) {
 		// Inverser l'angle de rotation pour transformer les coordonnées
         double inverseAngle = -this.angleRotation;
@@ -292,7 +292,6 @@ public class Epines implements Obstacles, Serializable{
 
         return new Point2D.Double(finalX, finalY);
 	}
-
 	
 	@Override
 	public void rotate(int eX, int eY) {
@@ -375,8 +374,7 @@ public class Epines implements Obstacles, Serializable{
 		this.estClique = clickedOnIt;
 	}
 	
-	public String toString() {
-		    
+	public String toString() {    
 	  String epi;
 		    	
 	  epi= "epi\n" + 
@@ -385,10 +383,8 @@ public class Epines implements Obstacles, Serializable{
 		    	Integer.toString((int) largeur) + "\n" +
 		    	Integer.toString((int) longueur) + "\n" +
 		    	Double.toString(angleRotation) + "\n";
-		return epi;
-		    	
-		}
-
+		return epi;    	
+	}
 
 	@Override
 	public Vecteur2D getPositionCentre() {
@@ -414,10 +410,9 @@ public class Epines implements Obstacles, Serializable{
 		return this.largeur;
 	}
 	
-	
 	public Area toAire() {
 		Area aire = new Area(aireEpines);
-        return aire;
+		return aire;
 	}
 
 	@Override

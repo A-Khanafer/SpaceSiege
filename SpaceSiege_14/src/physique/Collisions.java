@@ -224,9 +224,10 @@ public class Collisions {
 
  	  
 
- 	    balle.setVitesse(vitesseApresCollision.additionne(new Vecteur2D(60,60)));
+ 	    balle.setVitesse(vitesseApresCollision.additionne(new Vecteur2D(10,10)));
+ 	   
         compteurRebonds++;
-
+System.out.println(compteurRebonds+"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
  	    
  	    
     }

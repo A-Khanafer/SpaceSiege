@@ -241,10 +241,16 @@ public class FenetreDeJeu extends JFrame {
 		 nivActuel.addPropertyChangeListener(new PropertyChangeListener() {
 		 	public void propertyChange(PropertyChangeEvent evt) {
 		 		if (evt.getPropertyName().equals("position") ) {
-					planCartesien.setPosition((Vecteur2D) evt.getNewValue());
+		 			Vecteur2D pos= (Vecteur2D)evt.getNewValue();
+		            pos.setY(pos.getY()+5);
+					planCartesien.setPosition(pos);
+					System.out.println( evt.getNewValue().toString()+"TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
 			 }
 		 		 if (evt.getPropertyName().equals("enCoursDAnimation")) {	                   
 	                   desactiverLesRadios();
+	                   rdbBalleNormal.setSelected(true);
+	           	        rdbBalleElastique.setSelected(false);
+	           	        rdbBalleNova.setSelected(false);
 	                }
 		 	}
 		 });

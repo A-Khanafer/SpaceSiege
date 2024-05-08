@@ -16,6 +16,8 @@ import java.awt.geom.Area;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.Arrays;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -327,7 +329,7 @@ public class Niveau1 extends Niveaux {
 		requestFocusInWindow(); 
 		while (enCoursDAnimation) {
 
-			ecouteurClavier();
+			
 			
 
 			Vecteur2D anciennePosition = canon.getBalle().getPositionEnMetre();
@@ -448,7 +450,7 @@ public class Niveau1 extends Niveaux {
 	//Benakmoum Walid
 	  public void prochaineImage() {
 		  
-		  if(canon.getBalle().getVitesse()!=new Vecteur2D(0,0)) {
+		  if(canon.getBalle().getVitesse()!=new Vecteur2D(0,0) && balleTiree) {
 			  canon.setProchaineImage(true);
 			  calculerUneIterationPhysique(deltaT);
 				repaint();
@@ -552,7 +554,9 @@ public class Niveau1 extends Niveaux {
 	//Benakmoum Walid
 	public void reinitialiserApplication() {
 	
-		    enCoursDAnimation = false;
+		ancienneValeur = enCoursDAnimation;
+	    enCoursDAnimation = false;
+	    pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
 
 		    tempsTotalEcoule = 0;
 
@@ -575,7 +579,9 @@ public class Niveau1 extends Niveaux {
 	 */
 	//Benakmoum Walid
 	public void reinitialiserPosition() {
-		enCoursDAnimation=false;
+		ancienneValeur = enCoursDAnimation;
+	    enCoursDAnimation = false;
+	    pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
 		balleTiree = false;
 	    canon.setPremiereFois(true);
 	    canon = new Canon(0, 10,pixelParMetres);
@@ -621,7 +627,9 @@ public class Niveau1 extends Niveaux {
 	//walid benakmoum
 	public void stopperAnim() {
 		if(enCoursDAnimation==true) {
-	enCoursDAnimation=false;
+			 ancienneValeur = enCoursDAnimation;
+			    enCoursDAnimation = false;
+			    pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
 		}else {
 		demarrer();
 		}
@@ -854,21 +862,32 @@ public class Niveau1 extends Niveaux {
 	 */
 	//Benakmoum Walid
 	public void exploserBalle() {
-		  if(canon.getBalle().quelleTypeBalle()==3) {
-              for (int i = 0; i < 10; i++) {
-			
-                      canon.getBalle().exploser();
-                   ancienneValeur = enCoursDAnimation;
-              	    enCoursDAnimation = false;
-              	    pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
-              }
-                    
-                    repaint();
-               	  }
+		  int delai = 100; 
+	        
+
+	        
+	    if (canon.getBalle().quelleTypeBalle() == 3) {
+	        Timer timer = new Timer();
+	      
+
+	        timer.scheduleAtFixedRate(new TimerTask() {
+	            @Override
+	            public void run() {
+	            
+	                if (canon.getBalle().getDiametre() < 200) {
+	                    canon.getBalle().exploser();
+	                    repaint();
+	                  
+	                } else {
+	                    timer.cancel();
+	               
+	                }
+	            }
+	        }, 0, delai);
+	    }
 	}
+
 }
-
-
 		
 			
 
