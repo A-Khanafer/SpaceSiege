@@ -190,14 +190,14 @@ public class Collisions {
  	    Vecteur2D vitesseApresCollision = balle.getVitesse().soustrait((normale.multiplie(produitScalaire)).multiplie(2));
 
  	    if(balle.quelleTypeBalle()==2) {
- 	    	  balle.setVitesse(vitesseApresCollision.additionne(new Vecteur2D(50,50)));	
+ 	    	  balle.setVitesse(vitesseApresCollision.additionne(new Vecteur2D(10,10)));	
  	    }else {
 
  	    balle.setVitesse(vitesseApresCollision);
-        compteurRebonds++;
 
  	    
  	    }
+ 	   compteurRebonds++;
     }
     /**
      * Méthode pour calculer la vitesse de la balle après la collision contre un des segments
@@ -224,7 +224,7 @@ public class Collisions {
 
  	  
 
- 	    balle.setVitesse(vitesseApresCollision.additionne(new Vecteur2D(60,60)));
+ 	    balle.setVitesse(vitesseApresCollision.additionne(new Vecteur2D(10,10)));
  	   
         compteurRebonds++;
 System.out.println(compteurRebonds+"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
@@ -240,6 +240,10 @@ System.out.println(compteurRebonds+"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
   //ZAKARIA SOUDAKI
      public static void calculRebondCoin (Balle balle) {
 
+    	 if(balle.quelleTypeBalle()==2) {
+	    	  balle.setVitesse(balle.getVitesse().additionne(new Vecteur2D(10,10)));	
+	    }
+    	 
 	    balle.setVitesse( new Vecteur2D ( -balle.getVitesse().getX(), -balle.getVitesse().getY() ));
 	    compteurRebonds++;
      }
@@ -554,6 +558,8 @@ System.out.println(compteurRebonds+"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 	        areaMonstre.intersect(areaRec);
 
 	        if (!areaMonstre.isEmpty()) {
+	        	
+	        	
 	        	monstre.setVitesse(new Vecteur2D(-monstre.getVitesse().getX(),-monstre.getVitesse().getY()));
 	        }
 	 }
@@ -621,27 +627,49 @@ System.out.println(compteurRebonds+"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 	  public static void gererCollisionsBordures(double posSol, double posMurDroit, double posMurHaut, double posMurGauche, Balle balle) {
 	    	if ( (balle.getPosition().getY() + balle.getDiametre()) >= ( posSol ) ) {
 	    		
+	    		if(balle.quelleTypeBalle()==2) {
+	  	    	  balle.setVitesse(balle.getVitesse().additionne(new Vecteur2D(10,10)));	
+	  	    }
+	    		
 	    		balle.getVitesse().setY(-balle.getVitesse().getY());
 	    		balle.getPosition().setY(posSol-balle.getDiametre());
 	    		 compteurRebonds++;
 	    		 
 	    	}
+	    	
+	    	
 	    	if ( (balle.getPosition().getX() + balle.getDiametre()) >= ( posMurDroit ) ) {
+	    		
+	    		if(balle.quelleTypeBalle()==2) {
+	  	    	  balle.setVitesse(balle.getVitesse().additionne(new Vecteur2D(10,10)));	
+	  	    }
+	    		
 	    		balle.getVitesse().setX(-balle.getVitesse().getX());
 	    		balle.getPosition().setX(posMurDroit-balle.getDiametre());
 	    		 compteurRebonds++;
 	    	}
 	    	if ( (balle.getPosition().getY()) <= ( posMurHaut ) ) {
+	    		
+	    		if(balle.quelleTypeBalle()==2) {
+	  	    	  balle.setVitesse(balle.getVitesse().additionne(new Vecteur2D(10,10)));	
+	  	    }
+	    		
 	    		balle.getVitesse().setY(-balle.getVitesse().getY());
 	    		balle.getPosition().setY(posMurHaut);
 	    		 compteurRebonds++;
 	    	}
 	    	if ( (balle.getPosition().getX()) <= ( posMurGauche ) ) {
 	    		
+	    		if(balle.quelleTypeBalle()==2) {
+	  	    	  balle.setVitesse(balle.getVitesse().additionne(new Vecteur2D(10,10)));	
+	  	    }
+	    		
 	    		balle.getVitesse().setX(-balle.getVitesse().getX());
 	    		balle.getPosition().setX(posMurGauche);
 	    		 compteurRebonds++;
 	    	}
+	    	
+	    	
 	    }
 	  
 	  /**

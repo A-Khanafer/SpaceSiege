@@ -43,6 +43,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 
+import physique.ForcesMonstre;
 import physique.Vecteur2D;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
@@ -176,6 +177,9 @@ public class FenetreDeJeu extends JFrame {
      * spinner choix nombre vie du monstre
      */
     private JSpinner spinnerVieMonstre;
+    
+    private static ForcesMonstre forces;
+    
    
     
     private Object[][] data = {
@@ -197,8 +201,8 @@ public class FenetreDeJeu extends JFrame {
 		
 		fenetre.setLocationRelativeTo(null);
 		fenetre.setUndecorated(true);
-//		fenetre.setExtendedState(JFrame.MAXIMIZED_BOTH);
         fenetre.setVisible(true);
+        
         app.setVisible(false);
         
     }
@@ -211,7 +215,6 @@ public class FenetreDeJeu extends JFrame {
 	//ZAKARIA SOUDAKI
 	public FenetreDeJeu() {
 		
-
 		 Border emptyBorder = BorderFactory.createEmptyBorder();
 		
 		 niv1 = new Niveau1();
@@ -228,8 +231,8 @@ public class FenetreDeJeu extends JFrame {
 		 	public void propertyChange(PropertyChangeEvent evt) {
 		 		if (evt.getPropertyName().equals("position") ) {
 		 			Vecteur2D pos= (Vecteur2D)evt.getNewValue();
-		            pos.setY(pos.getY()+15);
-					planCartesien.setPosition((Vecteur2D) evt.getNewValue());
+		            pos.setY(pos.getY()+5);
+					planCartesien.setPosition(pos);
 					System.out.println( evt.getNewValue().toString()+"TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
 			 }
 		 		 if (evt.getPropertyName().equals("enCoursDAnimation")) {	                   
@@ -243,9 +246,9 @@ public class FenetreDeJeu extends JFrame {
 
 		 
 		 
-	
+	    setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1920, 1080);
+		setBounds(100, 100, 1800, 950);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(192, 192, 192));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -257,14 +260,16 @@ public class FenetreDeJeu extends JFrame {
 		
 		
 		//
-	    nivActuel.setBounds(0, 0, 1920, 864);
+	    nivActuel.setBounds(0, 0, 1486, 765);
 		contentPane.add(nivActuel);
 		//
 		JPanel panelFonctionnalites = new JPanel();
-		panelFonctionnalites.setBackground(new Color(255, 255, 255));
-		panelFonctionnalites.setBounds(0, 866, 795, 224);
+		panelFonctionnalites.setBackground(new Color(0, 0, 0));
+		panelFonctionnalites.setBounds(0, 763, 1486, 193);
 		contentPane.add(panelFonctionnalites);
 		panelFonctionnalites.setLayout(null);
+		
+		
 		
 		btnRetour = new JButton("RETOUR");
 		btnRetour.setBorder(emptyBorder);
@@ -292,7 +297,7 @@ public class FenetreDeJeu extends JFrame {
 			}
 		});
 		btnRetour.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
-		btnRetour.setBounds(617, 14, 68, 68);
+		btnRetour.setBounds(1318, 44, 148, 137);
 		panelFonctionnalites.add(btnRetour);
 		OutilsImage.lireImageEtPlacerSurBouton("retour1.png", btnRetour);
 
@@ -318,7 +323,7 @@ public class FenetreDeJeu extends JFrame {
 			}
 		});
 		btnPause.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
-		btnPause.setBounds(380, 14, 68, 68);
+		btnPause.setBounds(838, 44, 150, 137);
 		panelFonctionnalites.add(btnPause);
 		OutilsImage.lireImageEtPlacerSurBouton("pause1.png", btnPause);
 
@@ -355,7 +360,7 @@ public class FenetreDeJeu extends JFrame {
 			}
 		});
 		btnReinitialiser.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
-		btnReinitialiser.setBounds(458, 14, 68, 68);
+		btnReinitialiser.setBounds(998, 44, 150, 137);
 		panelFonctionnalites.add(btnReinitialiser);
 		OutilsImage.lireImageEtPlacerSurBouton("recommencer1.png",btnReinitialiser);
 
@@ -385,38 +390,13 @@ public class FenetreDeJeu extends JFrame {
 			}
 		});
 		btnDemarrer.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
-		btnDemarrer.setBounds(302, 14, 68, 68);
+		btnDemarrer.setBounds(678, 44, 150, 137);
 		panelFonctionnalites.add(btnDemarrer);
 		OutilsImage.lireImageEtPlacerSurBouton("demarrer1.png",btnDemarrer);
 
 		
-		btn1Image = new JButton("+1 IMAGE");
-		btn1Image.setBorder(emptyBorder);
-		btn1Image.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				OutilsImage.lireImageEtPlacerSurBouton("plusimg2.png",btn1Image);
-
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				OutilsImage.lireImageEtPlacerSurBouton("plusimg1.png",btn1Image);
-
-			}
-		});
-		btn1Image.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				nivActuel.prochaineImage();
-			}
-		});
-		btn1Image.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
-		btn1Image.setBounds(539, 14, 68, 68);
-		panelFonctionnalites.add(btn1Image);
-		OutilsImage.lireImageEtPlacerSurBouton("plusimg1.png",btn1Image);
-
-		
 		JSlider slider = new JSlider();
-		slider.setBounds(312, 94, 440, 26);
+		slider.setBounds(142, 59, 440, 26);
 		panelFonctionnalites.add(slider);
 		
 		spinnerMasse = new JSpinner();
@@ -428,10 +408,12 @@ public class FenetreDeJeu extends JFrame {
             						
 			}
 		});
-		spinnerMasse.setBounds(167, 52, 109, 46);
+		spinnerMasse.setBounds(282, 135, 109, 46);
 		panelFonctionnalites.add(spinnerMasse);
 		
 		spinnerVieMonstre = new JSpinner();
+		spinnerVieMonstre.setForeground(new Color(255, 255, 255));
+		spinnerVieMonstre.setBackground(new Color(0, 0, 0));
 		spinnerVieMonstre.setModel(new SpinnerNumberModel(Integer.valueOf(1), null, null, Integer.valueOf(1)));
 		spinnerVieMonstre.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
@@ -439,48 +421,21 @@ public class FenetreDeJeu extends JFrame {
 				System.out.println("ALHAMDOULLIHA");
 			}
 		});
-		spinnerVieMonstre.setBounds(167, 131, 109, 44);
+		spinnerVieMonstre.setBounds(142, 137, 109, 44);
 		panelFonctionnalites.add(spinnerVieMonstre);
 		
 		JCheckBox chckbxModeScienti = new JCheckBox("Mode scientifique");
+		chckbxModeScienti.setForeground(new Color(255, 255, 255));
+		chckbxModeScienti.setBackground(new Color(0, 0, 0));
 		chckbxModeScienti.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				nivActuel.setModeScience(chckbxModeScienti.isSelected());
 			}
 		});
-		chckbxModeScienti.setBounds(649, 0, 137, 23);
+		chckbxModeScienti.setBounds(1318, 14, 137, 23);
 		panelFonctionnalites.add(chckbxModeScienti);
 		
-		rdbBalleNormal = new JRadioButton("Balles Normales");
-		rdbBalleNormal.setSelected(true);
-		rdbBalleNormal.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				nivActuel.choisirBalle(1);
-			}
-		});
-		buttonGroup.add(rdbBalleNormal);
-		rdbBalleNormal.setBounds(16, 53, 109, 23);
-		panelFonctionnalites.add(rdbBalleNormal);
 		
-		rdbBalleElastique = new JRadioButton("Balles Elastiques");
-		rdbBalleElastique.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				nivActuel.choisirBalle(2);
-			}
-		});
-		buttonGroup.add(rdbBalleElastique);
-		rdbBalleElastique.setBounds(16, 97, 109, 23);
-		panelFonctionnalites.add(rdbBalleElastique);
-		
-		rdbBalleNova = new JRadioButton("Balles Novas");
-		rdbBalleNova.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				nivActuel.choisirBalle(3);
-			}
-		});
-		buttonGroup.add(rdbBalleNova);
-		rdbBalleNova.setBounds(16, 139, 109, 23);
-		panelFonctionnalites.add(rdbBalleNova);
 		
 		comboBoxTypeGrav = new JComboBox();
 		comboBoxTypeGrav.addActionListener(new ActionListener() {
@@ -493,53 +448,120 @@ public class FenetreDeJeu extends JFrame {
 			}
 		});
 		comboBoxTypeGrav.setModel(new DefaultComboBoxModel(new String[] {"ESPACE", "TERRE", "MARS"}));
-		comboBoxTypeGrav.setBounds(643, 135, 109, 37);
-//		comboBoxTypeGrav.setBounds(296, 128, 109, 37);
+		comboBoxTypeGrav.setBounds(423, 135, 109, 46);
 		panelFonctionnalites.add(comboBoxTypeGrav);
 		
 		JButton btnNewButton = new JButton("MODES EXTRA");
+		btnNewButton.setForeground(new Color(255, 255, 255));
+		btnNewButton.setBackground(new Color(0, 0, 0));
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 8));
-		btnNewButton.setBounds(302, 136, 109, 37);
+		btnNewButton.setBounds(559, 95, 109, 37);
 		panelFonctionnalites.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("QUITTER");
+		btnNewButton_1.setForeground(new Color(255, 255, 255));
+		btnNewButton_1.setBackground(new Color(0, 0, 0));
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
 			}
 		});
 		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 8));
-		btnNewButton_1.setBounds(421, 136, 109, 37);
+		btnNewButton_1.setBounds(559, 144, 109, 37);
 		panelFonctionnalites.add(btnNewButton_1);
 		
 		JLabel lblNewLabel = new JLabel("CHOIX DE BALLES :");
-		lblNewLabel.setBounds(16, 11, 109, 26);
+		lblNewLabel.setForeground(new Color(255, 255, 255));
+		lblNewLabel.setBounds(6, 12, 109, 26);
 		panelFonctionnalites.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("MASSE DES BALLES :");
-		lblNewLabel_1.setBounds(167, 14, 137, 20);
+		lblNewLabel_1.setForeground(new Color(255, 255, 255));
+		lblNewLabel_1.setBounds(282, 103, 137, 20);
 		panelFonctionnalites.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("VIES DES MONSTRES :");
-		lblNewLabel_2.setBounds(167, 106, 148, 26);
+		lblNewLabel_2.setForeground(new Color(255, 255, 255));
+		lblNewLabel_2.setBounds(142, 100, 148, 26);
 		panelFonctionnalites.add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_3 = new JLabel("TYPE DE GRAVITÉ :");
-		lblNewLabel_3.setBounds(539, 142, 109, 23);
+		lblNewLabel_3.setForeground(new Color(255, 255, 255));
+		lblNewLabel_3.setBounds(423, 102, 109, 23);
 		panelFonctionnalites.add(lblNewLabel_3);
 		
 		
 		
 		comboBoxTypeGrav.setSelectedItem("ESPACE");
+		
+				
+				btn1Image = new JButton("+1 IMAGE");
+				btn1Image.setBounds(1158, 44, 150, 137);
+				panelFonctionnalites.add(btn1Image);
+				btn1Image.setBorder(emptyBorder);
+				btn1Image.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseEntered(MouseEvent e) {
+						OutilsImage.lireImageEtPlacerSurBouton("plusimg2.png",btn1Image);
+
+					}
+					@Override
+					public void mouseExited(MouseEvent e) {
+						OutilsImage.lireImageEtPlacerSurBouton("plusimg1.png",btn1Image);
+
+					}
+				});
+				btn1Image.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						nivActuel.prochaineImage();
+					}
+				});
+				btn1Image.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 12));
+				OutilsImage.lireImageEtPlacerSurBouton("plusimg1.png",btn1Image);
 	    niv1.changerTypeGravite("ESPACE"); 
 	    
 		planCartesien = new PlanCartesien(nivActuel.getBalle().getPositionEnMetre());
-		planCartesien.setBounds(1075, 866, 819, 218);
+		planCartesien.setBounds(1485, 0, 316, 517);
 		contentPane.add(planCartesien);
 		
 		
 	  
+		rdbBalleNormal = new JRadioButton("Balles Normales");
+		rdbBalleNormal.setBackground(new Color(0, 0, 0));
+		rdbBalleNormal.setForeground(new Color(255, 255, 255));
+		rdbBalleNormal.setSelected(true);
+		rdbBalleNormal.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				nivActuel.choisirBalle(1);
+			}
+		});
+		buttonGroup.add(rdbBalleNormal);
+		rdbBalleNormal.setBounds(6, 44, 150, 37);
+		panelFonctionnalites.add(rdbBalleNormal);
 		
+		rdbBalleElastique = new JRadioButton("Balles Elastiques");
+		rdbBalleElastique.setForeground(new Color(255, 255, 255));
+		rdbBalleElastique.setBackground(new Color(0, 0, 0));
+		rdbBalleElastique.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				nivActuel.choisirBalle(2);
+			}
+		});
+		buttonGroup.add(rdbBalleElastique);
+		rdbBalleElastique.setBounds(6, 95, 150, 37);
+		panelFonctionnalites.add(rdbBalleElastique);
+		
+		rdbBalleNova = new JRadioButton("Balles Novas");
+		rdbBalleNova.setForeground(new Color(255, 255, 255));
+		rdbBalleNova.setBackground(new Color(0, 0, 0));
+		rdbBalleNova.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				nivActuel.choisirBalle(3);
+			}
+		});
+		buttonGroup.add(rdbBalleNova);
+		rdbBalleNova.setBounds(6, 144, 120, 37);
+		panelFonctionnalites.add(rdbBalleNova);
 			
 			
 			
@@ -551,9 +573,12 @@ public class FenetreDeJeu extends JFrame {
 			contentPane.add(lbl);
 			
 			JPanel panel = new JPanel();
-			panel.setBounds(0, 0, 1920, 666);
+			panel.setBounds(0, 0, 1486, 766);
 			contentPane.add(panel);
 			
+			forces = new ForcesMonstre();
+			forces.setBounds(1485, 519, 316, 437);
+			contentPane.add(forces);
 
 	}
 /**
@@ -579,6 +604,7 @@ public class FenetreDeJeu extends JFrame {
 		spinnerVieMonstre.setEnabled(true);
 	}
 	}
+	
 	/**
 	 * méthode pour changer le fond du niveau selon la graviter choisie
 	 * @param fond le nom du fond en question
@@ -630,6 +656,11 @@ public class FenetreDeJeu extends JFrame {
 	public static void  setNiveauCustom(ObstacleHolder obHolder) {
 		nivActuel.setObHolder(obHolder);
 	}
-	
+
+
+	public static void setDonnees(Vecteur2D vitesse, Vecteur2D accel, Vecteur2D sommeForces) {
+		forces.setVal(vitesse, accel, sommeForces);
+		
+	}
 }
 

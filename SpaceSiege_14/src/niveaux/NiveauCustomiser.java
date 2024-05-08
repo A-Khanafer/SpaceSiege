@@ -16,6 +16,8 @@ import java.awt.geom.Area;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.Arrays;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -64,11 +66,11 @@ public class NiveauCustomiser extends Niveaux {
 	/**
      * L'intervalle de temps (en secondes) utilisé pour chaque itération du calcul physique.
      */
-	private final double deltaT=0.05;
+	private final double deltaT=0.005;
 	/**
      * Le temps de pause (en millisecondes) entre chaque itération de l'animation.
      */
-	private int tempsDuSleep = 10;
+	private int tempsDuSleep = 1;
 
 	
 	/**
@@ -188,7 +190,7 @@ public class NiveauCustomiser extends Niveaux {
 			
 			pixelParMetres = (double) getWidth()/150;
 
-		   	monstre = new Monstres(1200, 40, pixelParMetres);
+		   	monstre = new Monstres(1200, 40, pixelParMetres,2);
 			canon = new Canon(0, 10,pixelParMetres);
 			
 			System.out.println(monstre.getNombreDeVie()+"___");
@@ -229,7 +231,6 @@ public class NiveauCustomiser extends Niveaux {
 		requestFocusInWindow(); 
 		while (enCoursDAnimation) {
 
-			ecouteurClavier();
 			
 
 			Vecteur2D anciennePosition = canon.getBalle().getPositionEnMetre();
@@ -251,6 +252,8 @@ public class NiveauCustomiser extends Niveaux {
 				
 				if (ob instanceof Rectangle) {
 					Collisions.collisionRectangle(canon.getBalle(),(Rectangle) ob);
+				    Collisions.collisionMonstreRec(monstre, (Rectangle) ob);	
+
 			    }else if(ob instanceof Cercle) {
 			    	Collisions.collisionCercle(canon.getBalle(), (Cercle) ob);
 			    }else if(ob instanceof Triangle) {
@@ -377,7 +380,7 @@ public class NiveauCustomiser extends Niveaux {
 	//Benakmoum Walid
 	  public void prochaineImage() {
 		  
-		  if(canon.getBalle().getVitesse()!=new Vecteur2D(0,0)) {
+		  if(canon.getBalle().getVitesse()!=new Vecteur2D(0,0) && balleTiree) {
 			  canon.setProchaineImage(true);
 			  calculerUneIterationPhysique(deltaT);
 				repaint();
@@ -433,11 +436,10 @@ public class NiveauCustomiser extends Niveaux {
 			if (ob instanceof Rectangle) {
 			    Collisions.collisionMonstreRec(monstre,(Rectangle) ob);
 		    }else if(ob instanceof Cercle) {
-		    	
-		    }
-	
-//		    Collisions.collisionMonstreRec(monstre, tableauRec[2]);	
-        
+		    	Collisions.collisionMonstreCercle(monstre, (Cercle) ob );
+		    }else if (ob instanceof Triangle){
+		    	Collisions.collisionMonstreTri(monstre, (Triangle) ob);
+		    }        
 		}
 		
 		
@@ -470,7 +472,7 @@ public class NiveauCustomiser extends Niveaux {
 				    if (distance < rayonElectrique) {
 				        try {
 				        	//
-				        	((CercleElectrique) ob).setAnimation(true);  
+				        
 				        	//
 				            Vecteur2D vecteurUnitaire =((CercleElectrique) ob).getPositionCentre().soustrait(canon.getBalle().getPosCentral()).normalise();
 				    // Pour le bien de l'appli K est reduit
@@ -503,7 +505,7 @@ public class NiveauCustomiser extends Niveaux {
 
 		    balleTiree = false;
 		    canon.setPremiereFois(true);
-		    monstre = new Monstres(1000, 20, pixelParMetres);
+		    monstre = new Monstres(1000, 20, pixelParMetres,2);
 		    if(monstre.getNombreDeVie()==0) {
 		    monstre.setNombreDeVie(1);
 		    }
@@ -570,6 +572,10 @@ public class NiveauCustomiser extends Niveaux {
 		}
 	}
 
+	public void setObHolder(ObstacleHolder obHolder) {
+		this.obHolder = obHolder;
+		repaint();
+	}
 	/**
      * Initialise l'écouteur de clavier pour interagir avec l'animation via le clavier.
      */
@@ -602,6 +608,7 @@ public class NiveauCustomiser extends Niveaux {
 	 * Méthode qui permet de gérer le canon selon les mouvements de la souris
 	 * @param e Événement de la souris
 	 */
+	//Benakmoum Walid
 		private void gestionSourisCanon(MouseEvent e) {
 		boolean toucheObjet = false;
 
@@ -622,29 +629,20 @@ public class NiveauCustomiser extends Niveaux {
 		    }
 		    repaint();
 		}
-
+		/**
+		 * Méthode qui retourne le nombre de vies restantes du joueur.
+		 *
+		 * @return Le nombre de vies restantes.
+		 */
+		//Benakmoum Walid
 	public int getVie() {
 		return this.nombreDeVie;
-		/*
-	      public void keyPressed(KeyEvent e) {
-	        	
-	            switch (e.getKeyCode()) {
-	                case KeyEvent.VK_SPACE:
-	                	  if(canon.getBalle().quelleTypeBalle()==3) {
-	               for (int i = 0; i < 10; i++) {
-				
-	                       canon.getBalle().exploser();
-	               }
-	                     
-	                     repaint();
-	                	  }
-	                	
-	            }
-
-	         
-	        }
-	        */
+		
 	}
+	/**
+	 * Méthode qui gère les événements du clavier.
+	 */
+	//ZAKARIA SOUDAKI
 	public void ecouteurClavier() {
 
 	    addKeyListener(new KeyAdapter() {
@@ -653,14 +651,7 @@ public class NiveauCustomiser extends Niveaux {
 	        	
 	        	switch (e.getKeyCode()) {
                 case KeyEvent.VK_SPACE:
-                	  if(canon.getBalle().quelleTypeBalle()==3) {
-               for (int i = 0; i < 10; i++) {
-			
-                       canon.getBalle().exploser();
-               }
-                     
-                     repaint();
-                	  }
+               exploserBalle();
                 	
             }
 
@@ -670,34 +661,25 @@ public class NiveauCustomiser extends Niveaux {
 
 	            switch (keyCode) {
 	                case KeyEvent.VK_UP:
-	                    // Action à effectuer lors de l'appui sur la flèche vers le haut
-//	                		monstre.setPosY(-2);
 	                	forceHautBas.setY(-50);
 	                    break;
 	                case KeyEvent.VK_DOWN:
-	                    // Action à effectuer lors de l'appui sur la flèche vers le bas
-//	                		monstre.setPosY(2);
 	                	forceHautBas.setY(50);
 	                	
 	                	
 	                    break;
 	                case KeyEvent.VK_LEFT:
-	                    // Action à effectuer lors de l'appui sur la flèche vers la gauche
-//	                		monstre.setPosX(-2);
 	                	forceDroiteGauche.setX(-50);
 	                	
 	                	
 	                    break;
 	                case KeyEvent.VK_RIGHT:
-	                    // Action à effectuer lors de l'appui sur la flèche vers la droite
-//	                		monstre.setPosX(2);
 	                	forceDroiteGauche.setX(50);
 	                		
 	                	
 	                    break;
 	                default:
 	                	keyCode = 0;
-	                    // Action à effectuer pour d'autres touches, si nécessaire
 	                    break;
 	            }
 	          
@@ -709,133 +691,136 @@ public class NiveauCustomiser extends Niveaux {
 	    		  keyCode = e.getKeyCode();
 		            switch (keyCode) {
 		                case KeyEvent.VK_UP:
-		                    // Action à effectuer lors de l'appui sur la flèche vers le haut
-//		                		monstre.setPosY(-2);
+		                 
 		                	forceHautBas.setY(0);
 		                    break;
 		                case KeyEvent.VK_DOWN:
-		                    // Action à effectuer lors de l'appui sur la flèche vers le bas
-//		                		monstre.setPosY(2);
+		               
 		                	forceHautBas.setY(0);
 		                	
 		                	
 		                    break;
 		                case KeyEvent.VK_LEFT:
-		                    // Action à effectuer lors de l'appui sur la flèche vers la gauche
-//		                		monstre.setPosX(-2);
+		              
 		                	forceDroiteGauche.setX(0);
 		                	
 		                	
 		                    break;
 		                case KeyEvent.VK_RIGHT:
-		                    // Action à effectuer lors de l'appui sur la flèche vers la droite
-//		                		monstre.setPosX(2);
 		                	forceDroiteGauche.setX(0);
 		                		
 		                	
 		                    break;
 		                default:
 		                	keyCode = 0;
-		                    // Action à effectuer pour d'autres touches, si nécessaire
 		                    break;
 		            }
 	    	}
 	    });
 	}
+
+/**
+ * Méthode qui modifie la masse de la balle actuelle.
+ *
+ * @param mas La nouvelle masse de la balle.
+ */
+	//Benakmoum Walid
+	public void setMasseBalle(int mas) {
+		canon.getBalle().setMasse(mas);
+	}
 	/**
-	 * Méthode qui modifie la masse de la balle actuelle.
+	 * Méthode qui retourne l'instance du monstre dans le niveau.
 	 *
-	 * @param mas La nouvelle masse de la balle.
+	 * @return L'instance du monstre.
 	 */
-		//Benakmoum Walid
-		public void setMasseBalle(int mas) {
-			canon.getBalle().setMasse(mas);
-		}
-		/**
-		 * Méthode qui retourne l'instance du monstre dans le niveau.
-		 *
-		 * @return L'instance du monstre.
-		 */
-		public Monstres getMonstre() {
-			return this.monstre;
-		}
-		/**
-		 * Méthode qui affiche les données de la balle actuellement tirée.
-		 *
-		 * @param g L'objet Graphics utilisé pour le dessin.
-		 */
-		//Benakmoum Walid
-		public void afficherDonneesBalleActuelle(Graphics g) {
-		    if (balleTiree) {
-		        Balle balle = canon.getBalle();
-		        if (balle != null) {
-		           
-		            g.setColor(Color.white);
-		            g.drawString("Données de la Balle Actuelle :", 20, 20);
-		            g.drawString("Position (x, y)", 20, 40);
-		            g.drawString("Vitesse (vx, vy)", 250, 40);
-		            g.drawString("Accélération (ax, ay)", 400, 40);
-		            g.drawString("Masse", 20, 80);
-		            g.drawString("Force électrique (Fex, Fey)", 250, 80);
-		            g.drawString("Force appliquée (Fax, Fay)", 400, 80);
-		            
-		          
-		            int positionX = (int) balle.getPosition().getX();
-		            int positionY = (int) balle.getPosition().getY();
-		            int vitesseX = (int) balle.getVitesse().getX();
-		            int vitesseY = -(int) balle.getVitesse().getY();
-		            int accelerationX = (int) balle.getAcceleration().getX();
-		            int accelerationY = (int) balle.getAcceleration().getY();
-		            int masse = balle.getMasse();
-		            int forceElectriqueX = (int) forceElec.getX();
-		            int forceElectriqueY = (int) forceElec.getY();
-		            int forceAppliqueeX = (int) forceTotal.getX();
-		            int forceAppliqueeY = (int) forceTotal.getY();
-		            
-		            g.drawString("(" + positionX + ", " + positionY + ")", 20, 60);
-		            g.drawString("(" + vitesseX + ", " + vitesseY + ")", 250, 60);
-		            g.drawString("(" + accelerationX + ", " + accelerationY + ")", 400, 60);
-		            g.drawString(Integer.toString(masse), 20, 100);
-		            g.drawString("(" + forceElectriqueX + ", " + forceElectriqueY + ")", 250, 100);
-		            g.drawString("(" + forceAppliqueeX + ", " + forceAppliqueeY + ")", 400, 100);
-		        }
-		    }
-		}
-		/**
-		 * Méthode qui active ou désactive le mode scientifique.
-		 *
-		 * @param sc true pour activer le mode scientifique, false pour le désactiver.
-		 */
-		//Benakmoum Walid
-		public void setModeScience(boolean sc) {
-			this.modeScience=sc;
-			repaint();
-		}
-		/**
-		 * Méthode qui permet de exploser la balle
-		 */
-		//Benakmoum Walid
-		public void exploserBalle() {
-			  if(canon.getBalle().quelleTypeBalle()==3) {
-	              for (int i = 0; i < 10; i++) {
-				
-	                      canon.getBalle().exploser();
-	                   ancienneValeur = enCoursDAnimation;
-	              	    enCoursDAnimation = false;
-	              	    pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
-	              }
-	                    
-	                    repaint();
-	               	  }
-		}
-	public void setObHolder(ObstacleHolder obHolder) {
-		this.obHolder = obHolder;
+	public Monstres getMonstre() {
+		return this.monstre;
+	}
+	/**
+	 * Méthode qui affiche les données de la balle actuellement tirée.
+	 *
+	 * @param g L'objet Graphics utilisé pour le dessin.
+	 */
+	//Benakmoum Walid
+	public void afficherDonneesBalleActuelle(Graphics g) {
+	    if (balleTiree) {
+	        Balle balle = canon.getBalle();
+	        if (balle != null) {
+	           
+	            g.setColor(Color.white);
+	            g.drawString("Données de la Balle Actuelle :", 20, 20);
+	            g.drawString("Position (x, y)", 20, 40);
+	            g.drawString("Vitesse (vx, vy)", 250, 40);
+	            g.drawString("Accélération (ax, ay)", 400, 40);
+	            g.drawString("Masse", 20, 80);
+	            g.drawString("Force électrique (Fex, Fey)", 250, 80);
+	            g.drawString("Force appliquée (Fax, Fay)", 400, 80);
+	            
+	          
+	            int positionX = (int) balle.getPosition().getX();
+	            int positionY = (int) balle.getPosition().getY();
+	            int vitesseX = (int) balle.getVitesse().getX();
+	            int vitesseY = -(int) balle.getVitesse().getY();
+	            int accelerationX = (int) balle.getAcceleration().getX();
+	            int accelerationY = (int) balle.getAcceleration().getY();
+	            int masse = balle.getMasse();
+	            int forceElectriqueX = (int) forceElec.getX();
+	            int forceElectriqueY = (int) forceElec.getY();
+	            int forceAppliqueeX = (int) forceTotal.getX();
+	            int forceAppliqueeY = (int) forceTotal.getY();
+	            
+	            g.drawString("(" + positionX + ", " + positionY + ")", 20, 60);
+	            g.drawString("(" + vitesseX + ", " + vitesseY + ")", 250, 60);
+	            g.drawString("(" + accelerationX + ", " + accelerationY + ")", 400, 60);
+	            g.drawString(Integer.toString(masse), 20, 100);
+	            g.drawString("(" + forceElectriqueX + ", " + forceElectriqueY + ")", 250, 100);
+	            g.drawString("(" + forceAppliqueeX + ", " + forceAppliqueeY + ")", 400, 100);
+	        }
+	    }
+	}
+	/**
+	 * Méthode qui active ou désactive le mode scientifique.
+	 *
+	 * @param sc true pour activer le mode scientifique, false pour le désactiver.
+	 */
+	//Benakmoum Walid
+	public void setModeScience(boolean sc) {
+		this.modeScience=sc;
 		repaint();
 	}
+	/**
+	 * Méthode qui permet de exploser la balle
+	 */
+	//Benakmoum Walid
+	public void exploserBalle() {
+		  int delai = 100; 
+	        
+
+	        
+	    if (canon.getBalle().quelleTypeBalle() == 3) {
+	        Timer timer = new Timer();
+	      
+
+	        timer.scheduleAtFixedRate(new TimerTask() {
+	            @Override
+	            public void run() {
+	            
+	                if (canon.getBalle().getDiametre() < 200) {
+	                    canon.getBalle().exploser();
+	                    System.out.println(canon.getBalle().getDiametre()+"JE SUIS LE DIAMETRE");
+	                    repaint();
+	                  
+	                } else {
+	                    timer.cancel();
+	                }
+	            }
+	        }, 0, delai);
+	    }
+	}
+
 }
-
-
 		
+			
 			
 
 		

@@ -2,6 +2,8 @@ package bacasable;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -9,6 +11,7 @@ import java.awt.geom.Point2D;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Stack;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -136,7 +139,7 @@ public class PanelBacASable extends JPanel {
 	private Point2D.Double[] coinsTri;
 	
 	
-
+	private Stack<Obstacles> ctrlZ = new Stack<Obstacles>();
    
 
    
@@ -148,9 +151,12 @@ public class PanelBacASable extends JPanel {
      * Initialise les paramètres par défaut et ajoute des écouteurs de souris.
      */
     public PanelBacASable() {
+    	setFocusable(true);
         setBackground(new Color(255, 255, 255));
-        canon = new Canon(0, 10, pixelParMetres);
+        canon = new Canon(0, 10, pixelParMetres);	
         ecouteurSouris();
+        ecouteurFormeEffacage();
+        
     }
 
     /**
@@ -160,6 +166,7 @@ public class PanelBacASable extends JPanel {
     //Ahmad Khanafer
     @Override
     public void paintComponent(Graphics g ) {
+    	requestFocusInWindow();
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         pixelParMetres = getWidth()/150;
@@ -311,7 +318,9 @@ public class PanelBacASable extends JPanel {
             }
         });
     }
-
+    
+    
+    
 
     /**
      * Gère les actions de l'utilisateur lorsqu'il déplace la souris.
@@ -339,14 +348,13 @@ public class PanelBacASable extends JPanel {
             } else if(ob.isClickedOnIt() && index == -1) {
                 ob.rotate(e.getX(), e.getY());
                 repaint();    
-            }
+            } 
+           
             if(ob.contient(e.getX(), e.getY()) && !ob.isClickedOnIt()) {
                 if(ob.getPositionCentre().getY() < getHeight()-20) {
                     ob.move(e.getX(), e.getY());
                 }
-                
-               
-                
+
                 if (ob.getPositionCentre().getY() >= getHeight()-20) {
                     ob.move(e.getX(), (int) (  getHeight()/2));
                 } 
@@ -374,9 +382,32 @@ public class PanelBacASable extends JPanel {
             }
         }
     }
+    
+    //Ahmad Khanafer
+    private void ecouteurFormeEffacage() {
 
+	    addKeyListener(new KeyAdapter() {
+	        @Override
+	        public void keyPressed(KeyEvent e) {
+	        	 for(Obstacles ob : obHolder.getObstacleHolder()) { 
+	        		if(ob.isClickedOnIt() && e.getKeyCode() == KeyEvent.VK_BACK_SPACE ) {
+	        			obHolder.getObstacleHolder().remove(ob);
+	        			ctrlZ.push(ob);
+	        			repaint();
+	        		}
+	        	 }
+	        	 
+	        	 if(e.getKeyCode() == KeyEvent.VK_Z && e.isControlDown() && !ctrlZ.isEmpty()) {
+	        		 	Obstacles ob = ctrlZ.pop();
+	        		 	ob.setClickedOnIt(false);
+		        		obHolder.getObstacleHolder().add(ob);
+		        		repaint();
+		        	}
+            }
+	    });
+	}
+    
 
-	
 	public void sauvegardeNiveau() {
 
 		String filePath = System.getProperty("user.home") + "/Documents/obstacles.txt";
@@ -421,7 +452,7 @@ public class PanelBacASable extends JPanel {
      */
     public void ajouterMonstre() {
         if (nbrMonstre < 1) {
-            monstre = new Monstres(200,200, pixelParMetres);
+            monstre = new Monstres(200,200, pixelParMetres, 1);
             nbrMonstre++;
             monstredessin = true;
             monstreCreer = true;
@@ -464,6 +495,10 @@ public class PanelBacASable extends JPanel {
     	return new Point2D.Double(centre.getX(), posY);
     	
     }
+    
+    
+    
+	
 
    }
 

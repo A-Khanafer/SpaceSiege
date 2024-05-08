@@ -138,7 +138,7 @@ public class Niveau1 extends Niveaux {
 	/**
 	 * L'instance du monstre présent dans le niveau.
 	 */
-	private Monstres monstre;
+	private Monstres monstre = new Monstres(1000, 120, pixelParMetres,1);
 	
 	/**
 	 * Indique si c'est la première fois que le niveau est affiché, utilisé pour initialiser les objets une seule fois.
@@ -248,7 +248,7 @@ public class Niveau1 extends Niveaux {
 		
 			
 			
-		   	monstre = new Monstres(1200, 40, pixelParMetres);
+		   	monstre = new Monstres(1000, 120, pixelParMetres,1);
 			canon = new Canon(0, 10,pixelParMetres);
 			
 			System.out.println(monstre.getNombreDeVie()+"___");
@@ -343,7 +343,7 @@ public class Niveau1 extends Niveaux {
 				Collisions.collisionRectangle(canon.getBalle(),tableauRec[i]);
 			}
 			
-
+          
 			Area areaBalle = new Area(canon.getBalle().getCercle()); 
 	        Area areaMonstre = monstre.toAire();
 	        areaBalle.intersect(areaMonstre);
@@ -369,12 +369,11 @@ public class Niveau1 extends Niveaux {
 
 
 
-			
 		
 			
 
 
-			if(Collisions.getNbRebond()>=3) {
+			if(Collisions.getNbRebond()>=100) {
 				ancienneValeur = enCoursDAnimation;
 			    enCoursDAnimation = false;
 			    pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
@@ -503,9 +502,8 @@ public class Niveau1 extends Niveaux {
 	
 		
 		for(int i =0 ; i < tableauRec.length ; i++) {
-		    Collisions.collisionMonstreRec(monstre, tableauRec[1]);	
-		    Collisions.collisionMonstreRec(monstre, tableauRec[2]);	
-        
+		    Collisions.collisionMonstreRec(monstre, tableauRec[i]);	
+		    
 		}
 		
 		
@@ -535,7 +533,6 @@ public class Niveau1 extends Niveaux {
 
 	    // Pour le bien de l'appli K est reduit
 	            double forceElectrique = K_CONST * (1 / distance);
-                  System.out.println(forceElectrique+"____________________________---");
 	         
 	           forceElec = vecteurUnitaire.multiplie(forceElectrique);
 
@@ -566,7 +563,7 @@ public class Niveau1 extends Niveaux {
 
 		    balleTiree = false;
 		    canon.setPremiereFois(true);
-		    monstre = new Monstres(1000, 20, pixelParMetres);
+		    monstre = new Monstres(1000, 120, pixelParMetres, 1);
 		    if(monstre.getNombreDeVie()==0) {
 		    monstre.setNombreDeVie(1);
 		    }
@@ -630,7 +627,9 @@ public class Niveau1 extends Niveaux {
 	//walid benakmoum
 	public void stopperAnim() {
 		if(enCoursDAnimation==true) {
-	enCoursDAnimation=false;
+			 ancienneValeur = enCoursDAnimation;
+			    enCoursDAnimation = false;
+			    pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
 		}else {
 		demarrer();
 		}
@@ -721,34 +720,25 @@ public class Niveau1 extends Niveaux {
 
 	            switch (keyCode) {
 	                case KeyEvent.VK_UP:
-	                    // Action à effectuer lors de l'appui sur la flèche vers le haut
-//	                		monstre.setPosY(-2);
 	                	forceHautBas.setY(-50);
 	                    break;
 	                case KeyEvent.VK_DOWN:
-	                    // Action à effectuer lors de l'appui sur la flèche vers le bas
-//	                		monstre.setPosY(2);
 	                	forceHautBas.setY(50);
 	                	
 	                	
 	                    break;
 	                case KeyEvent.VK_LEFT:
-	                    // Action à effectuer lors de l'appui sur la flèche vers la gauche
-//	                		monstre.setPosX(-2);
 	                	forceDroiteGauche.setX(-50);
 	                	
 	                	
 	                    break;
 	                case KeyEvent.VK_RIGHT:
-	                    // Action à effectuer lors de l'appui sur la flèche vers la droite
-//	                		monstre.setPosX(2);
 	                	forceDroiteGauche.setX(50);
 	                		
 	                	
 	                    break;
 	                default:
 	                	keyCode = 0;
-	                    // Action à effectuer pour d'autres touches, si nécessaire
 	                    break;
 	            }
 	          
@@ -880,6 +870,7 @@ public class Niveau1 extends Niveaux {
 	                  
 	                } else {
 	                    timer.cancel();
+	               
 	                }
 	            }
 	        }, 0, delai);

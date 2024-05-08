@@ -69,11 +69,11 @@ public class AppPrincipal14 extends JFrame{
 	/**
 	 * longueur fenetre
 	 */
-	private int longueur = 1920;
+	private int longueur = 1800;
 	/**
 	 * largeur fenetre
 	 */
-	private int hauteur = 1200;
+	private int hauteur = 950;
 	/**
 	 * boutons jouer et quitter
 	 */
@@ -86,6 +86,9 @@ public class AppPrincipal14 extends JFrame{
 	 * la fenetre principale elle même
 	 */
 	private AppPrincipal14 actuel = this;
+	
+	
+
 	
 	 /**
      * Lance l'interface utilisateur principale de l'application.
@@ -117,9 +120,7 @@ public class AppPrincipal14 extends JFrame{
 			public void run() {
 				try {
 					AppPrincipal14 frame = new AppPrincipal14();
-					frame.setLocationRelativeTo(null);
-					frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-					
+					frame.setLocationRelativeTo(null);					
 					frame.setUndecorated(true); 
 					
  					frame.setVisible(true);
@@ -157,8 +158,8 @@ public class AppPrincipal14 extends JFrame{
 
 		
 		
-		Titre titre_1 = new Titre("etoiles2.png", "titre2.png", 330,220, 450,360);
-		titre_1.setBounds(1920/2-512/2, 66, 512, 500);
+		Titre titre_1 = new Titre("etoiles2.png", "titre2.png", 270,160, 390,300);
+		titre_1.setBounds(longueur/2-512/2, 66, 512, 500);
 		contentPane.add(titre_1);
 	
 		boutonsIntro = new BoutonsIntro(longueur, hauteur, actuel);
@@ -200,7 +201,7 @@ public class AppPrincipal14 extends JFrame{
 				}
 			}
 		});
-		btnSon.setBounds(10, 1005, 55, 55);
+		btnSon.setBounds(10, 890, 55, 55);
 		contentPane.add(btnSon);
 		OutilsImage.lireImageEtPlacerSurBouton("son1.png", btnSon);
 
@@ -268,9 +269,9 @@ public class AppPrincipal14 extends JFrame{
 		JLabel lbl  = new JLabel("");
 		ImageIcon gifIcon = new ImageIcon(this.getClass().getResource("/fondanime4.gif"));
 		Image img = gifIcon.getImage();
-		Image resizedImg = img.getScaledInstance(1920,1080, Image.SCALE_DEFAULT);
+		Image resizedImg = img.getScaledInstance(longueur,hauteur, Image.SCALE_DEFAULT);
 		lbl.setIcon(new ImageIcon(resizedImg));
-		lbl.setBounds(0, 0, 1920, 1080);
+		lbl.setBounds(0, 0, longueur, hauteur);
 		contentPane.add(lbl);
 		
 		

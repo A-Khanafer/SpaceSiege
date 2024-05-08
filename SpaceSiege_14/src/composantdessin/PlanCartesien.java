@@ -126,7 +126,7 @@ public class PlanCartesien extends JPanel {
 		g2d.draw(ligne);
 		
 		g2d.setColor(Color.black);
-creerTaquets(g2d);
+		creerTaquets(g2d);
 		
 		
 	}
