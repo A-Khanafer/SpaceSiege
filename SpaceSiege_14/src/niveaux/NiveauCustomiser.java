@@ -196,7 +196,7 @@ public class NiveauCustomiser extends Niveaux {
 			
 			pixelParMetres = (double) getWidth()/150;
 
-		   	monstre = new Monstres(1200, 40, pixelParMetres,2);
+			monstre = new Monstres(getWidth()- ((8*pixelParMetres)/2) -50, getHeight()/2 - ((8*pixelParMetres)/2), pixelParMetres);
 			canon = new Canon(0, 10,pixelParMetres);
 			
 			System.out.println(monstre.getNombreDeVie()+"___");
@@ -435,18 +435,36 @@ public class NiveauCustomiser extends Niveaux {
 			reinitialiserPosition();
 		}
 		
-	
-		//Traverse toutes les obstacles...
-		//tu dois ajouter les collisions pour chaque obstacles
+		Area areaBalle = new Area(canon.getBalle().getCercle());
+		boolean enCollisionAvecEpines = false; // Variable pour indiquer si la balle est en collision avec des épines
+
+		// Traverse tous les obstacles...
 		for(Obstacles ob : obHolder.getObstacleHolder()) {
-			
-			if (ob instanceof Rectangle) {
-			    Collisions.collisionMonstreRec(monstre,(Rectangle) ob);
-		    }else if(ob instanceof Cercle) {
-		    	Collisions.collisionMonstreCercle(monstre, (Cercle) ob );
-		    }else if (ob instanceof Triangle){
-		    	Collisions.collisionMonstreTri(monstre, (Triangle) ob);
-		    }        
+		    if (ob instanceof Rectangle) {
+		        Collisions.collisionRectangle(canon.getBalle(), (Rectangle) ob);
+		        Collisions.collisionMonstreRec(monstre, (Rectangle) ob);
+		    } else if (ob instanceof Cercle) {
+		        Collisions.collisionCercle(canon.getBalle(), (Cercle) ob);
+		    } else if (ob instanceof Triangle) {
+		        Collisions.collisionTriangle(canon.getBalle(), (Triangle) ob);
+		    } else if (ob instanceof Epines) {
+		        Area areaEpines = ((Epines) ob).toAire();
+		        areaEpines.intersect(areaBalle); // Intersection avec l'aire de la balle
+		        if (!areaEpines.isEmpty()) {
+		            enCollisionAvecEpines = true;
+		        }
+		    } else if (ob instanceof PlaqueRebondissante) {
+		        Collisions.collisionPlaqueRebondissante(canon.getBalle(), (PlaqueRebondissante) ob);
+		    }
+		}
+
+		// Si la balle est en collision avec des épines, réinitialise sa position
+		if (enCollisionAvecEpines) {
+		    System.out.println("ENCOURS ANIM");
+		    ancienneValeur = enCoursDAnimation;
+		    enCoursDAnimation = false;
+		    pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
+		    reinitialiserPosition();
 		}
 		
 		
@@ -476,22 +494,26 @@ public class NiveauCustomiser extends Niveaux {
                      double rayonElectrique = ((CercleElectrique) ob).getRayonElectrique();
 
                      if (distance < rayonElectrique) {
+                         // Calculate unit vector
                          Vecteur2D vecteurUnitaire = positionCentre.soustrait(positionBalle).normalise();
 
-                         double forceElectrique = K_CONST / distance; 
+                         // Calculate electric force
+                         double forceElectrique = K_CONST / distance; // Simplified the expression
                          System.out.println(forceElectrique + "__---");
 
+                         // Calculate electric force vector
                          Vecteur2D forceElecToAdd = vecteurUnitaire.multiplie(forceElectrique);
-                         forceElec = forceElec.additionne(forceElecToAdd);
+                         forceElec = forceElec.additionne(forceElecToAdd); // Accumulate the electric forces
                      }
                  } catch (Exception e) {
                      System.err.println("Une erreur est survenue lors du calcul de la force électrique : " + e.getMessage());
                  }
              }
          }
-	
-	 canon.getBalle().setSommeDesForces(forceTotal);
-	 monstre.setSommeDesForces(forceMonstre);
+		 
+		 forceTotal.additionne(forceDeGravite);
+		 canon.getBalle().setSommeDesForces(forceTotal);
+		 monstre.setSommeDesForces(forceMonstre);
 	}
 	/**
 	 * Réinitialise l'application à son état initial, incluant la remise à zéro de tous les composants d'animation et des variables d'état.

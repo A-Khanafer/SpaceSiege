@@ -11,6 +11,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
+import java.util.Random;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -139,16 +140,17 @@ public class Monstres extends JPanel implements  Serializable{
 		 * @param nomImage Le nom de l'image à utiliser pour représenter le monstre.
 		 **/
 	    //ZAKARIA SOUDAKI
-	    public Monstres(int posX, int posY, double pixelsParMetres, int indexImg) {
+	    public Monstres(double posX, double posY, double pixelsParMetres) {
 	    	setOpaque(false);
 	    	this.pixelsParMetres = pixelsParMetres;
 	        this.position = new Vecteur2D(posX,posY);
 	        
-	        longueurRectangle = 5*this.pixelsParMetres;
-	        hauteurRectangle = 5*this.pixelsParMetres;
+	        longueurRectangle = 8*this.pixelsParMetres;
+	        hauteurRectangle = 8*this.pixelsParMetres;
 	        
 	        this.posCentre = new Vecteur2D(posX +longueurRectangle, posY+hauteurRectangle);
-	        
+	        Random rand = new Random();
+	        int indexImg = rand.nextInt(2) + 1;
 	        if (indexImg == 1) {
 		        imgDecor = OutilsImage.lireImage(nomImg1); 
 	        }
@@ -174,9 +176,8 @@ public class Monstres extends JPanel implements  Serializable{
 	    	this.position = new Vecteur2D(posX,posY);
 	    	longueurRectangle = largeur;
 	    	hauteurRectangle = longueur;
-	    	
-	       
-	       creerLaGeometrie();
+
+	    	creerLaGeometrie();
 
 	    }
 
