@@ -634,7 +634,7 @@ public class Niveau3 extends Niveaux {
 	/**
 	 * Méthode qui arrête ou démarre l'animation en fonction de son état actuel.
 	 */
-	//walid benakmoum
+	//Benakmoum Walid
 	public void stopperAnim() {
 		if(enCoursDAnimation==true) {
 			 ancienneValeur = enCoursDAnimation;

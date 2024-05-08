@@ -86,8 +86,6 @@ creerEffetVent(g2dPrive);
         running = false;
 
         int incrementRayon = 5;
-        int maxExpansion = 30;
-        int steps = 10;
         int tailleMaximale = 200; 
    
 

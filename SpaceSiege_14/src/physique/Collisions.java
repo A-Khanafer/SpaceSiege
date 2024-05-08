@@ -227,7 +227,6 @@ public class Collisions {
  	    balle.setVitesse(vitesseApresCollision.additionne(new Vecteur2D(10,10)));
  	   
         compteurRebonds++;
-System.out.println(compteurRebonds+"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
  	    
  	    
     }
@@ -332,6 +331,12 @@ System.out.println(compteurRebonds+"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 		    } 
 		 }
 	}
+	 /**
+	     * Méthode principale qui detecte la collision entre la balle et une plaqueRebondissante et ajuste la vitesse de la balle après la collision
+	     * @param balle la géometrie ( la balle)
+	     * @param rec rec la géometrie ( le rectangle )
+	     */
+	    //Benakmoum Walid
 
 	 public static void collisionPlaqueRebondissante(Balle balle, PlaqueRebondissante plaque) {
 		 

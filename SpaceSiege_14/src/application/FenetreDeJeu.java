@@ -478,13 +478,6 @@ public class FenetreDeJeu extends JFrame {
 		comboBoxTypeGrav.setBounds(423, 135, 109, 46);
 		panelFonctionnalites.add(comboBoxTypeGrav);
 		
-		JButton btnNewButton = new JButton("MODES EXTRA");
-		btnNewButton.setForeground(new Color(255, 255, 255));
-		btnNewButton.setBackground(new Color(0, 0, 0));
-		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 8));
-		btnNewButton.setBounds(559, 95, 109, 37);
-		panelFonctionnalites.add(btnNewButton);
-		
 		JButton btnNewButton_1 = new JButton("QUITTER");
 		btnNewButton_1.setForeground(new Color(255, 255, 255));
 		btnNewButton_1.setBackground(new Color(0, 0, 0));

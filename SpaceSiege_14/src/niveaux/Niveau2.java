@@ -152,16 +152,11 @@ public class Niveau2 extends Niveaux {
     /**
      * Un tableau de triangles servant d'obstacles dans la zone d'animation (commenté pour le moment).
      */
-    private Triangle[] tableauTri;
-    private Triangle tri;
+   
   
    
     
 	
-	/**
-	 * tableau des cercle
-	 */
-	private Cercle[] tableauCercle;
 	
 	
 	/**
@@ -204,48 +199,63 @@ public class Niveau2 extends Niveaux {
 	 */
 	private boolean ancienneValeur;
 
-
+/**
+ * Boolean pour voir si la balle explose ou pas
+ */
 	   private boolean enExplosion=false;;
-
+	   /**
+	     * Tableau des rectangles présents dans la configuration.
+	     */
 	   private Rectangle[] tableauRectangles = {
-		        new Rectangle(1435, 5, 37, 120, 0.0),
-		        new Rectangle(672, 738, 120, 120, 0.0),
-		        new Rectangle(796, 740, 120, 120, 0.0),
-		        new Rectangle(919, 741, 120, 120, 0.0),
-		        new Rectangle(1042, 737, 120, 120, 0.0),
-		        new Rectangle(796, 621, 120, 120, 0.0),
-		        new Rectangle(919, 624, 120, 120, 0.0),
-		        new Rectangle(862, 309, 120, 318, 0.0),
-		        new Rectangle(878, 2, 120, 175, 0.0),
-		        new Rectangle(1363, 612, 120, 253, 0.0)
+			   new Rectangle(449, 674, 183, 90, 0.0),
+			    new Rectangle(634, 678, 104, 84, 0.0),
+			    new Rectangle(739, 673, 232, 90, 0.0),
+			    new Rectangle(516, 584, 168, 90, 0.0),
+			    new Rectangle(689, 585, 208, 90, 0.0),
+			    new Rectangle(707, 257, 93, 324, 0.0053202619460245675),
+			    new Rectangle(706, 3, 90, 105, 0.0),
 		    };
-
+	   /**
+	     * Tableau des épingles présentes dans la configuration.
+	     */
 		    private Epines[] tableauEpines = {
-		        new Epines(208, 800, 461, 60, 0.0),
-		        new Epines(699, 406, 260, 67, -1.5855011491727482),
-		        new Epines(1157, 804, 207, 60, 0.0)
-		    };
-
+		    	
+		    	    new Epines(542, 375, 284, 45, -1.5707963267948966),
+		    	 
+		    	    };
+		    /**
+		     * Tableau des cercles électriques présents dans la configuration.
+		     */
 		    private CercleElectrique[] tableauCerclesElectriques = {
-		        new CercleElectrique(494, 353, 120, 120, 0),
-		        new CercleElectrique(1072, 278, 181, 155, 0)
+		    		 new CercleElectrique(500, 250, 90, 90, 0),
+		    		
 		    };
-
+		    /**
+		     * Tableau des triangles présents dans la configuration.
+		     */
 		    private Triangle[] tableauTriangles = {
-		        new Triangle(275, 460, 238, 188, 1.0703378675923554)
+		    		 new Triangle(857, 413, 90, 176, 1.0058022145284227),
+		    		    new Triangle(943, 486, 90, 180, 0.651374961817385),
 		    };
-
+		    /**
+		     * Tableau des cercles présents dans la configuration.
+		     */
 		    private Cercle[] tableauCercles = {
-		        new Cercle(586, 562, 120, 120, 0),
-		        new Cercle(515, 0, 360, 60, 3.141592653589793)
+		    		new Cercle(300, 335, 90, 90, 0),
 		    };
-
+		    /**
+		     * Tableau des plaques rebondissantes présentes dans la configuration.
+		     */
 		    private PlaqueRebondissante[] tableauPlaquesRebondissantes = {
-		        new PlaqueRebondissante(1180, 49, 240, 45, 0.35691193635167046),
-		        new PlaqueRebondissante(1003, 49, 152, 36, -0.4048917862850834)
+		    		 new PlaqueRebondissante(834, 48, 180, 27, -0.5016040541891205),
+		    		 new PlaqueRebondissante(1027, 677, 180, 27, 0.0),
 		    };
-
+		    /**
+		     * Force du monstre dans cette configuration.
+		     */
 	private int forceMonstre = 50;
+
+			private boolean enCollisionAvecEpines=false;
    
 
 
@@ -300,10 +310,9 @@ public class Niveau2 extends Niveaux {
 		
 			
 			
-		   	monstre = new Monstres(1200, 40, pixelParMetres,2);
+			 monstre = new Monstres(getWidth()- ((8*pixelParMetres)/2) - 100, getHeight()/2 - ((8*pixelParMetres)/2), pixelParMetres);
 			canon = new Canon(0, 10,pixelParMetres);
 			
-			System.out.println(monstre.getNombreDeVie()+"___");
 		
 		
 			 premiereFois = false;
@@ -316,34 +325,29 @@ public class Niveau2 extends Niveaux {
 			
 		}
 
-	    // Dessiner les épines
 	    for (int i = 0; i < tableauEpines.length; i++) {
 	        tableauEpines[i].dessiner(g2d);
 	    }
 
-	    // Dessiner les cercles électriques
 	    for (int i = 0; i < tableauCerclesElectriques.length; i++) {
 	        tableauCerclesElectriques[i].dessiner(g2d);
 	    }
 
-	    // Dessiner les triangles
 	    for (int i = 0; i < tableauTriangles.length; i++) {
 	        tableauTriangles[i].dessiner(g2d);
 	    }
 
-	    // Dessiner les cercles
 	    for (int i = 0; i < tableauCercles.length; i++) {
 	        tableauCercles[i].dessiner(g2d);
 	    }
 
-	    // Dessiner les plaques rebondissantes
 	    for (int i = 0; i < tableauPlaquesRebondissantes.length; i++) {
 	        tableauPlaquesRebondissantes[i].dessiner(g2d);
 	    }
 		
 
 
-		boule= new CercleElectrique(398 ,200,pixelParMetres);
+		boule=  new CercleElectrique(500, 250, 90, 90, 0);
 		boule.dessiner(g2d);
           
 
@@ -395,13 +399,36 @@ public class Niveau2 extends Niveaux {
 			
 			this.pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
 
-			
+			Area areaBalle = new Area(canon.getBalle().getCercle()); 
+			  enCollisionAvecEpines = false;
 			for(int i =0 ; i < tableauRectangles.length ; i++) {
 				Collisions.collisionRectangle(canon.getBalle(),tableauRectangles[i]);
 			}
-			
+			for(int i =0 ; i < tableauCercles.length ; i++) {
+				Collisions.collisionCercle(canon.getBalle(),tableauCercles[i]);
+			}
+			for(int i =0 ; i < tableauTriangles.length ; i++) {
+				Collisions.collisionTriangle(canon.getBalle(),tableauTriangles[i]);
+			}
+			for(int i =0 ; i < tableauPlaquesRebondissantes.length ; i++) {
+				Collisions.collisionPlaqueRebondissante(canon.getBalle(),tableauPlaquesRebondissantes[i]);
+			}
+			for(int i =0 ; i < tableauEpines.length ; i++) {
+				enCollisionAvecEpines = false; 
+				 Area areaEpines = tableauEpines[i].toAire();
+	                areaEpines.intersect(areaBalle);
+	                if (!areaEpines.isEmpty()) {
+	                    enCollisionAvecEpines = true;
+			}
+	                if (enCollisionAvecEpines) {
+	    	         
+	    	            ancienneValeur = enCoursDAnimation;
+	    	            enCoursDAnimation = false;
+	    	            pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
+	    	            reinitialiserPosition();
+	    	        }
 
-			Area areaBalle = new Area(canon.getBalle().getCercle()); 
+		
 	        Area areaMonstre = monstre.toAire();
 	        areaBalle.intersect(areaMonstre);
 
@@ -448,6 +475,7 @@ public class Niveau2 extends Niveaux {
 			}
 		}//fin while
 		System.out.println("Le thread est mort...!");	
+		}
      }
 
 	/**
@@ -630,14 +658,14 @@ public class Niveau2 extends Niveaux {
 
 		    balleTiree = false;
 		    canon.setPremiereFois(true);
-		    monstre = new Monstres(1000, 20, pixelParMetres,2);
+		    monstre = new Monstres(getWidth()- ((8*pixelParMetres)/2) - 100, getHeight()/2 - ((8*pixelParMetres)/2), pixelParMetres);
 		    if(monstre.getNombreDeVie()==0) {
 		    monstre.setNombreDeVie(1);
 		    }
 		    canon = new Canon(0, 10,pixelParMetres);
 		    Collisions.setNbrebond(0);
 		   monstreMort=false;
-
+          forceMonstre=50;
 
 		   repaint();
 	}
