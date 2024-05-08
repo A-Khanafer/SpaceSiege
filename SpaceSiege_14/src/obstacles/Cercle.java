@@ -356,7 +356,12 @@ public class Cercle implements Obstacles, Serializable {
 	public void setPositionCentre(Vecteur2D positionCentre) {
 		this.positionCentre = positionCentre;
 	}
-
+	/**
+     * Retourne une représentation sous forme de chaîne de caractères du cercle.
+     *
+     * @return une chaîne de caractères représentant le cercle
+     */
+  //Ahmad Khanafer
 	public String toString() {
 	    	
 	    String cer;
@@ -371,7 +376,7 @@ public class Cercle implements Obstacles, Serializable {
 	    	
 	}
 
-
+	 //Ahmad Khanafer
 	@Override
 	public Vecteur2D getPositionCentre() {
 		return positionCentre;
@@ -387,14 +392,18 @@ public class Cercle implements Obstacles, Serializable {
 
 		return tab;
 	}
-
+	 //Ahmad Khanafer
 	public double getLongueur() {
 		return this.longueur;
 	}
-
+	 //Ahmad Khanafer
 	public double getLargeur() {
 		return this.largeur;
 	}
+	/**
+	 * Methode qui creer une aire representant le cercle
+	 */
+	 //Ahmad Khanafer
 	public Area toAire() {
 		Area aire = new Area(aireCercle);
 		return aire;

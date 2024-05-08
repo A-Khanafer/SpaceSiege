@@ -386,7 +386,7 @@ public class CercleElectrique implements Obstacles, Serializable {
 	public void setAnimation(boolean anim) {
 		this.animation=anim;
 	}
-
+	 //Ahmad Khanafer
 	public String toString() {
     	
 	    String cerE;
@@ -418,14 +418,15 @@ public class CercleElectrique implements Obstacles, Serializable {
 
 		return tab;
 	}
-
+	 //Ahmad Khanafer
 	public double getLongueur() {
 		return this.longueur;
 	}
-
+	 //Ahmad Khanafer
 	public double getLargeur() {
 		return this.largeur;
 	}
+	 //Ahmad Khanafer
 	public Area toAire() {
 		Area aire = new Area(aireCercle);
 		return aire;

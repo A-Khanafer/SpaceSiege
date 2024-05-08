@@ -367,7 +367,12 @@ public class Epines implements Obstacles, Serializable{
 	public void setClickedOnIt(boolean clickedOnIt) {
 		this.estClique = clickedOnIt;
 	}
-	
+	/**
+     * Retourne une représentation sous forme de chaîne de caractères du epine.
+     *
+     * @return une chaîne de caractères représentant le epine
+     */
+  //Ahmad Khanafer
 	public String toString() {    
 	  String epi;
 		    	

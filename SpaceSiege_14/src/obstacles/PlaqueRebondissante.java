@@ -216,7 +216,7 @@ public class PlaqueRebondissante implements Obstacles,  Serializable {
         calculerSegments();
        
     }
-    
+  //Ahmad Khanafer
 	private Point2D.Double transformMousePoint(double mouseX, double mouseY) {
         
         double inverseAngle = -this.angleRotation;
@@ -483,7 +483,12 @@ public class PlaqueRebondissante implements Obstacles,  Serializable {
         return seg;
     }
     
-    
+    /**
+     * Retourne une représentation sous forme de chaîne de caractères du plaque.
+     *
+     * @return une chaîne de caractères représentant le plaque
+     */
+  //Ahmad Khanafer
     public String toString() {
     	
     	String pla;
