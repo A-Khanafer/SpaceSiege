@@ -367,6 +367,7 @@ public class FenetreDeJeu extends JFrame {
               rdbBalleNova.setSelected(false);
               planCartesien.reset();
               spinnerMasse.setValue(50);
+              slider.setValue(50);
               desactiverLesRadios();
               
               

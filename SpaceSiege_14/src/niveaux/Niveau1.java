@@ -33,6 +33,7 @@ import composantjeu.Monstres;
 import physique.Vecteur2D;
 
 import java.awt.Color;
+import java.awt.Font;
 
 import obstacles.CercleElectrique;
 import obstacles.Rectangle;
@@ -822,7 +823,7 @@ public class Niveau1 extends Niveaux {
 	        Balle balle = canon.getBalle();
 	        if (balle != null) {
 	           
-	            g.setColor(Color.white);
+	            
 	            g.drawString("Données de la Balle Actuelle :", 20, 20);
 	            g.drawString("Position (x, y)", 20, 40);
 	            g.drawString("Vitesse (vx, vy)", 250, 40);
@@ -853,6 +854,7 @@ public class Niveau1 extends Niveaux {
 	        }
 	    }
 	}
+
 	/**
 	 * Méthode qui active ou désactive le mode scientifique.
 	 *
