@@ -426,7 +426,7 @@ public class Niveau1 extends Niveaux {
 			
 
 
-			if(Collisions.getNbRebond()>=100) {
+			if(Collisions.getNbRebond()>=15) {
 				ancienneValeur = enCoursDAnimation;
 			    enCoursDAnimation = false;
 			    pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);

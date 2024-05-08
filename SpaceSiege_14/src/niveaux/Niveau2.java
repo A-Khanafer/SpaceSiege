@@ -254,7 +254,9 @@ public class Niveau2 extends Niveaux {
 		     * Force du monstre dans cette configuration.
 		     */
 	private int forceMonstre = 50;
-
+/**
+ * Voir si la collision est fait
+ */
 			private boolean enCollisionAvecEpines=false;
    
 
@@ -458,7 +460,7 @@ public class Niveau2 extends Niveaux {
 			
 
 
-			if(Collisions.getNbRebond()>=3) {
+			if(Collisions.getNbRebond()>=10) {
 				ancienneValeur = enCoursDAnimation;
 			    enCoursDAnimation = false;
 			    pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
