@@ -3,12 +3,10 @@ package obstacles;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -64,10 +62,6 @@ public class Epines implements Obstacles, Serializable{
      * Aire de la poignée de rotation du triangle.
      */
 	private transient Area airePoigne;
-	/**
-     * Les segments du triangles.
-     */
-	private Line2D.Double segmentBas, segmentGauche, segmentDroite;
 	/**
      * Les coordonnées des coins du rectangle pointillé.
      */
@@ -212,7 +206,7 @@ public class Epines implements Obstacles, Serializable{
             // Calculer le décalage entre la position actuelle et la position de la souris
             double offsetX = eX - poigneRedimensionnement[index].getCenterX();
             double offsetY = eY - poigneRedimensionnement[index].getCenterY();
-            
+            if(angleRotation < 0.05 && angleRotation > -0.05) {
             // Effectuer le redimensionnement en fonction de l'index du point de redimensionnement sélectionné
             switch (index) {
                 case 0: // En haut à gauche
@@ -271,7 +265,7 @@ public class Epines implements Obstacles, Serializable{
             }
             creerLaGeometrie();
         }
-		
+        }
 	}
 	
 	private Point2D.Double transformMousePoint(double mouseX, double mouseY) {
@@ -373,7 +367,12 @@ public class Epines implements Obstacles, Serializable{
 	public void setClickedOnIt(boolean clickedOnIt) {
 		this.estClique = clickedOnIt;
 	}
-	
+	/**
+     * Retourne une représentation sous forme de chaîne de caractères du epine.
+     *
+     * @return une chaîne de caractères représentant le epine
+     */
+  //Ahmad Khanafer
 	public String toString() {    
 	  String epi;
 		    	

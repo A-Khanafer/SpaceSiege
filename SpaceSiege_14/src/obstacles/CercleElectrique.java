@@ -75,7 +75,7 @@ public class CercleElectrique implements Obstacles, Serializable {
 	private double rayon;
 	
 	private double rayonElectrique=300;
-	private double charge;
+
 	 /**
     * Position actuelle de la balle dans l'espace de simulation, exprimée par un vecteur.
     */
@@ -238,50 +238,53 @@ public class CercleElectrique implements Obstacles, Serializable {
 		    // Effectuer le redimensionnement en fonction de l'index de la poignée de redimensionnement sélectionnée
 		    switch (index) {
 		    case 0: // En haut à gauche
-		    	if (rectanglePointille.width - offsetX >= 20 && rectanglePointille.height - offsetY >= 20) {
-                    // Calculer le décalage moyen
-                    double averageOffset = (offsetX + offsetY) / 2.0;
+		        if (rectanglePointille.width - offsetX >= 20 && rectanglePointille.height - offsetY >= 20) {
+		            // Calculer le décalage moyen
+		            double averageOffset = (offsetX + offsetY) / 2.0;
 
-                    // Redimensionner le rectangle
-                    largeur -= averageOffset;
-                    longueur -= averageOffset;
-                    coinXGauche += averageOffset;
-                    coinYGauche += averageOffset;
-                }
-                break;
-     
-            case 1: // En haut à droite
-            	if (rectanglePointille.width + offsetX >= 20 && rectanglePointille.height - offsetY >= 20) {
-                    // Calculer le décalage moyen
-                    double averageOffset = (offsetX - offsetY) / 2.0;
+		            // Redimensionner le rectangle
+		            largeur -= averageOffset;
+		            longueur -= averageOffset;
+		            coinXGauche += averageOffset;
+		            coinYGauche += averageOffset;
+		        }
+		        break;
 
-                    // Redimensionner le rectangle
-                    largeur += averageOffset;
-                    longueur -= averageOffset;
-                    coinYGauche -= averageOffset;
-                }
-                break;
-            case 2: // En bas à droite
-            	if (rectanglePointille.width + offsetX >= 20 && rectanglePointille.height + offsetY >= 20) {
-                    // Calculer le décalage moyen
-                    double averageOffset = (offsetX + offsetY) / 2.0;
+		    case 1: // En haut à droite
+		        if (rectanglePointille.width + offsetX >= 20 && rectanglePointille.height - offsetY >= 20) {
+		            // Calculer le décalage moyen
+		            double averageOffset = (offsetX - offsetY) / 2.0;
 
-                    // Redimensionner le rectangle
-                    largeur += averageOffset;
-                    longueur += averageOffset;
-                }
-                break;
-            case 3: // En bas à gauche
-            	double moyenneOffset4 = (-offsetX - offsetY) / 2.0;
-                double nouvelleLargeur4 = rectanglePointille.width - moyenneOffset4;
-                double nouvelleLongueur4 = rectanglePointille.height + moyenneOffset4;
-                if (nouvelleLargeur4 >= 20 && nouvelleLongueur4 >= 20) {
-                    largeur = nouvelleLargeur4;
-                    longueur = nouvelleLongueur4;
-                    coinXGauche += moyenneOffset4;
-                }
-                break;
-            }
+		            // Redimensionner le rectangle
+		            largeur += averageOffset;
+		            longueur += averageOffset;
+		            coinYGauche -= averageOffset;
+		        }
+		        break;
+
+		    case 2: // En bas à droite
+		        if (rectanglePointille.width + offsetX >= 20 && rectanglePointille.height + offsetY >= 20) {
+		            // Calculer le décalage moyen
+		            double averageOffset = (offsetX + offsetY) / 2.0;
+
+		            // Redimensionner le rectangle
+		            largeur += averageOffset;
+		            longueur += averageOffset;
+		        }
+		        break;
+
+		    case 3: // En bas à gauche
+		        if (rectanglePointille.width - offsetX >= 20 && rectanglePointille.height + offsetY >= 20) {
+		            // Calculer le décalage moyen
+		            double averageOffset = (-offsetX + offsetY) / 2.0;
+
+		            // Redimensionner le rectangle
+		            largeur -= averageOffset;
+		            longueur -= averageOffset;
+		            coinXGauche += averageOffset;
+		        }
+		        break;
+		}
            
 
 		    // Recréer la géométrie du rectangle après le redimensionnement
@@ -383,7 +386,7 @@ public class CercleElectrique implements Obstacles, Serializable {
 	public void setAnimation(boolean anim) {
 		this.animation=anim;
 	}
-
+	 //Ahmad Khanafer
 	public String toString() {
     	
 	    String cerE;
@@ -415,16 +418,15 @@ public class CercleElectrique implements Obstacles, Serializable {
 
 		return tab;
 	}
-
+	 //Ahmad Khanafer
 	public double getLongueur() {
-		
 		return this.longueur;
 	}
-
+	 //Ahmad Khanafer
 	public double getLargeur() {
-		
 		return this.largeur;
 	}
+	 //Ahmad Khanafer
 	public Area toAire() {
 		Area aire = new Area(aireCercle);
 		return aire;

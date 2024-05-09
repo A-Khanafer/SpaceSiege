@@ -257,9 +257,6 @@ public class Monstres extends JPanel implements  Serializable{
 		this.sommeForcesSurLaBalle = sommeForcesSurLaBalle;
 		
 		try {
-
- 
-		
 			 accel = MoteurPhysique.calculAcceleration(sommeForcesSurLaBalle, masse);
 
 		} catch (Exception e) {

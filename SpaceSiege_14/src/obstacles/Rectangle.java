@@ -223,7 +223,8 @@ public class Rectangle implements Obstacles,  Serializable {
         calculerSegments();
        
     }
-    
+    //Transforme la position de la souris
+  //Ahmad Khanafer
 	private Point2D.Double transformMousePoint(double mouseX, double mouseY) {
         // Inverser l'angle de rotation pour transformer les coordonnées
         double inverseAngle = -this.angleRotation;
@@ -264,7 +265,7 @@ public class Rectangle implements Obstacles,  Serializable {
             // Calculer le décalage entre la position actuelle et la position de la souris
             double offsetX = eX - poigneRedimensionnement[index].getCenterX();
             double offsetY = eY - poigneRedimensionnement[index].getCenterY();
-            
+            if(angleRotation < 0.05 && angleRotation > -0.05) {
             // Effectuer le redimensionnement en fonction de l'index du point de redimensionnement sélectionné
             switch (index) {
                 case 0: // En haut à gauche
@@ -322,6 +323,7 @@ public class Rectangle implements Obstacles,  Serializable {
                     break;
             }
             creerLaGeometrie();
+        }
         }
     }
 
@@ -516,6 +518,7 @@ public class Rectangle implements Obstacles,  Serializable {
      *
      * @return une chaîne de caractères représentant le rectangle
      */
+  //Ahmad Khanafer
     public String toString() {
     	String rec;
 
@@ -533,6 +536,7 @@ public class Rectangle implements Obstacles,  Serializable {
      *
      * @return un vecteur 2D représentant la position du rectangle
      */
+  //Ahmad Khanafer
     public Vecteur2D getPosition() {
         return new Vecteur2D(coinXGauche, coinYGauche);
     }
@@ -543,6 +547,7 @@ public class Rectangle implements Obstacles,  Serializable {
      *
      * @return un tableau de points représentant les coins du rectangle
      */
+  //Ahmad Khanafer
     public Point2D.Double[] getCoins() {
         Point2D.Double[] tab = new Point2D.Double[4];
         tab[0] = new Point2D.Double(coinXGauche, coinYGauche);
@@ -562,6 +567,7 @@ public class Rectangle implements Obstacles,  Serializable {
      *
      * @return la longueur du rectangle
      */
+	//Ahmad Khanafer
     public double getLongueur() {
         return this.longueurRec;
     }
@@ -571,6 +577,7 @@ public class Rectangle implements Obstacles,  Serializable {
      *
      * @return la largeur du rectangle
      */
+  //Ahmad Khanafer
     public double getLargeur() {
         return this.largeurRec;
     }
@@ -580,11 +587,12 @@ public class Rectangle implements Obstacles,  Serializable {
      *
      * @return une zone (Area) représentant le rectangle
      */
+    //Ahmad Khanafer
 	public Area toAire() {
 		Area aire = new Area(aireRec);
 		return aire;
 	}
-
+	
 	@Override
 	public void setPositionCentre(Vecteur2D positionCentre) {
 		this.positionCentre = positionCentre;

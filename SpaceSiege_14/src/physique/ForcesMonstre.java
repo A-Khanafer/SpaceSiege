@@ -1,21 +1,19 @@
 package physique;
 
-import javax.swing.JPanel;
-
-import composantjeu.Monstres;
-
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Color;
-import java.awt.BasicStroke;
 import java.awt.geom.Line2D;
+
+import javax.swing.JPanel;
 
 public class ForcesMonstre extends JPanel {
 	
     
 	private static final long serialVersionUID = 1L;
 	
-	private Monstres monstre;
+
 	
 	private Vecteur2D vitesse;
 	

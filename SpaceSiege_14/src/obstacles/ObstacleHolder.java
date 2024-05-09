@@ -28,6 +28,7 @@ public class ObstacleHolder implements Serializable {
      * 
      * @param g2d le contexte graphique
      */
+  //Ahmad Khanafer
     public void drawContient(Graphics2D g2d) {
         for (Obstacles obstacle : obstacleHolder) {
             obstacle.dessiner(g2d);
@@ -39,6 +40,7 @@ public class ObstacleHolder implements Serializable {
      * 
      * @return la liste des obstacles
      */
+  //Ahmad Khanafer
     public ArrayList<Obstacles> getObstacleHolder() {
         return obstacleHolder;
     }
@@ -48,6 +50,7 @@ public class ObstacleHolder implements Serializable {
      * 
      * @param obstacle l'obstacle à ajouter
      */
+  //Ahmad Khanafer
     public void addObstacle(Obstacles obstacle) {
         obstacleHolder.add(obstacle);
     }
@@ -57,6 +60,7 @@ public class ObstacleHolder implements Serializable {
      * 
      * @param obstacleHolder la liste des obstacles à définir
      */
+  //Ahmad Khanafer
     public void setObstacleHolder(ArrayList<Obstacles> obstacleHolder) {
         this.obstacleHolder = obstacleHolder;
     }
@@ -66,6 +70,7 @@ public class ObstacleHolder implements Serializable {
      * 
      * @return une chaîne de caractères représentant le conteneur d'obstacles
      */
+  //Ahmad Khanafer
     public String toString() {
         return obstacleHolder.toString();
     }

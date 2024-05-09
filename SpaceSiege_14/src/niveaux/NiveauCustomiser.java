@@ -1,50 +1,35 @@
 package niveaux;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
-
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
-import composantdessin.PlanCartesien;
 import composantjeu.Balle;
-import composantjeu.BalleBasique;
 import composantjeu.Canon;
-import composantjeu.FlecheDeTir;
 import composantjeu.Monstres;
 import interfaces.Obstacles;
-import physique.Vecteur2D;
-
-import java.awt.Color;
-
 import obstacles.Cercle;
 import obstacles.CercleElectrique;
 import obstacles.Epines;
 import obstacles.ObstacleHolder;
 import obstacles.PlaqueRebondissante;
 import obstacles.Rectangle;
-
 import obstacles.Triangle;
 import physique.Collisions;
 import physique.MoteurPhysique;
+import physique.Vecteur2D;
 
 public class NiveauCustomiser extends Niveaux {
 
@@ -120,7 +105,9 @@ public class NiveauCustomiser extends Niveaux {
      */
 	private boolean premiereFois = true;
 
-    
+    /**
+     * Ecouteur de clavier
+     */
     private int keyCode = 0;
     
     /**
@@ -131,18 +118,30 @@ public class NiveauCustomiser extends Niveaux {
     * Indique si le monstre est mort.
     */
     private boolean monstreMort=false;
-    
+    /**
+     * Indique si c'est la première fois que le contexte est utilisé ou non.
+     */
     private boolean first =true;
-    
+    /**
+     * Vecteur représentant la force exercée dans le sens haut-bas.
+     */
     private Vecteur2D forceHautBas = new Vecteur2D(0,0);
-    
+    /**
+     * Vecteur représentant la force exercée dans le sens droite-gauche.
+     */
     private Vecteur2D forceDroiteGauche = new Vecteur2D(0,0);
-    
+    /**
+     * Ancienne valeur associée à un certain état ou paramètre.
+     */
     private boolean ancienneValeur;
-  
+    /**
+     * Objet responsable de la gestion des obstacles dans le contexte.
+     */
     private ObstacleHolder obHolder;
 
-
+    /**
+     * Vecteur représentant la somme totale des forces exercées dans le contexte.
+     */
    private Vecteur2D forceTotal= new Vecteur2D(0,0);
    
    /**
@@ -157,6 +156,7 @@ public class NiveauCustomiser extends Niveaux {
 	/**
 	 * Constructeur de la classe. Permet de crée l'interface
 	 */
+	//Ahmad Khanafer
 	public NiveauCustomiser() {
 		
 		
@@ -275,7 +275,6 @@ public class NiveauCustomiser extends Niveaux {
 	        }
 
 	        if (enCollisionAvecEpines) {
-	            System.out.println("ENCOURS ANIM");
 	            ancienneValeur = enCoursDAnimation;
 	            enCoursDAnimation = false;
 	            pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
@@ -302,13 +301,6 @@ public class NiveauCustomiser extends Niveaux {
 	            
 	            reinitialiserApplication();
 	    	}
-
-
-
-			
-			System.out.println("________________________________"+Collisions.getNbRebond());
-			
-
 
 			if(Collisions.getNbRebond()>=3) {
 				ancienneValeur = enCoursDAnimation;
@@ -436,9 +428,8 @@ public class NiveauCustomiser extends Niveaux {
 		}
 		
 		Area areaBalle = new Area(canon.getBalle().getCercle());
-		boolean enCollisionAvecEpines = false; // Variable pour indiquer si la balle est en collision avec des épines
+		boolean enCollisionAvecEpines = false; 
 
-		// Traverse tous les obstacles...
 		for(Obstacles ob : obHolder.getObstacleHolder()) {
 		    if (ob instanceof Rectangle) {
 		        Collisions.collisionRectangle(canon.getBalle(), (Rectangle) ob);
@@ -449,7 +440,7 @@ public class NiveauCustomiser extends Niveaux {
 		        Collisions.collisionTriangle(canon.getBalle(), (Triangle) ob);
 		    } else if (ob instanceof Epines) {
 		        Area areaEpines = ((Epines) ob).toAire();
-		        areaEpines.intersect(areaBalle); // Intersection avec l'aire de la balle
+		        areaEpines.intersect(areaBalle); 
 		        if (!areaEpines.isEmpty()) {
 		            enCollisionAvecEpines = true;
 		        }
@@ -458,7 +449,7 @@ public class NiveauCustomiser extends Niveaux {
 		    }
 		}
 
-		// Si la balle est en collision avec des épines, réinitialise sa position
+	
 		if (enCollisionAvecEpines) {
 		    System.out.println("ENCOURS ANIM");
 		    ancienneValeur = enCoursDAnimation;
@@ -486,6 +477,7 @@ public class NiveauCustomiser extends Niveaux {
 		 forceElec=new Vecteur2D(0,0);
 		
 		 for (Obstacles ob : obHolder.getObstacleHolder()) {
+
              if (ob instanceof CercleElectrique) {
                  try {
                      Vecteur2D positionBalle = canon.getBalle().getPosCentral();
@@ -494,26 +486,27 @@ public class NiveauCustomiser extends Niveaux {
                      double rayonElectrique = ((CercleElectrique) ob).getRayonElectrique();
 
                      if (distance < rayonElectrique) {
-                         // Calculate unit vector
+                         
                          Vecteur2D vecteurUnitaire = positionCentre.soustrait(positionBalle).normalise();
 
-                         // Calculate electric force
-                         double forceElectrique = K_CONST / distance; // Simplified the expression
+                        
+                         double forceElectrique = K_CONST / distance; 
                          System.out.println(forceElectrique + "__---");
 
-                         // Calculate electric force vector
+                      
                          Vecteur2D forceElecToAdd = vecteurUnitaire.multiplie(forceElectrique);
-                         forceElec = forceElec.additionne(forceElecToAdd); // Accumulate the electric forces
+                         forceElec = forceElec.additionne(forceElecToAdd);
                      }
                  } catch (Exception e) {
                      System.err.println("Une erreur est survenue lors du calcul de la force électrique : " + e.getMessage());
                  }
              }
          }
+
 		 
-		 forceTotal.additionne(forceDeGravite);
-		 canon.getBalle().setSommeDesForces(forceTotal);
-		 monstre.setSommeDesForces(forceMonstre);
+	 forceTotal=forceDeGravite.additionne(forceElec);
+	 canon.getBalle().setSommeDesForces(forceTotal);
+	 monstre.setSommeDesForces(forceMonstre);
 	}
 	/**
 	 * Réinitialise l'application à son état initial, incluant la remise à zéro de tous les composants d'animation et des variables d'état.
@@ -596,6 +589,7 @@ public class NiveauCustomiser extends Niveaux {
 	/**
 	 * Méthode qui arrête ou démarre l'animation en fonction de son état actuel.
 	 */
+	//Benakmoum Walid
 	public void stopperAnim() {
 		if(enCoursDAnimation==true) {
 	enCoursDAnimation=false;

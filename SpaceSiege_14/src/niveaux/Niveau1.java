@@ -33,8 +33,12 @@ import composantjeu.Monstres;
 import physique.Vecteur2D;
 
 import java.awt.Color;
+import java.awt.Font;
 
+import obstacles.Cercle;
 import obstacles.CercleElectrique;
+import obstacles.Epines;
+import obstacles.PlaqueRebondissante;
 import obstacles.Rectangle;
 
 import obstacles.Triangle;
@@ -80,10 +84,7 @@ public class Niveau1 extends Niveaux {
 	 */
 	private int tempsDuSleep = 10;
 	
-	/**
-	 * Un tableau de rectangles servant d'obstacles dans la zone d'animation.
-	 */
-	private Rectangle[] tableauRec;
+	
 	
 	/**
 	 * Indique si une balle a été tirée par le canon.
@@ -199,10 +200,37 @@ public class Niveau1 extends Niveaux {
 	 * force de déplacement du monstre
 	 */
 	private int forceMonstre = 50; 
-
+/**
+ * Boolean pour voir si la balle explose
+ */
 	private boolean enExplosion=false;;
 
-   
+	 private Rectangle[] tableauRectangles = {
+		        new Rectangle(191, 668, 569, 90, 0.0),
+		        new Rectangle(676, 1, 96, 407, 0.0)
+		    };
+
+		    private Epines[] tableauEpines = {
+		        new Epines(765, 670, 708, 86, 0.0)
+		    };
+
+		    private CercleElectrique[] tableauCerclesElectriques = {
+		        new CercleElectrique(432, 317, 90, 90, 0)
+		    };
+
+		    private Triangle[] tableauTriangles = {
+		        new Triangle(1126, 125, 90, 180, -2.452668265374932)
+		    };
+
+		    private Cercle[] tableauCercles = {
+		        new Cercle(833, 308, 90, 90, 0)
+		    };
+
+		    private PlaqueRebondissante[] tableauPlaquesRebondissantes = {
+		        new PlaqueRebondissante(839, 118, 180, 27, -0.42483216291934245)
+		    };
+
+			private boolean enCollisionAvecEpines;
    
 
     
@@ -227,7 +255,7 @@ public class Niveau1 extends Niveaux {
 		
 		
 		
-		tableauRec = new Rectangle[11];
+		
 		ecouteurSouris();
 		ecouteurClavier();
 		
@@ -255,34 +283,14 @@ public class Niveau1 extends Niveaux {
 		
 			
 			
+<<<<<<< HEAD
 	        monstre = new Monstres(getWidth()/2 , getHeight()/2 - 10, pixelParMetres);
+=======
+			monstre = new Monstres(getWidth()- ((8*pixelParMetres)/2) -50, getHeight()/2 - ((8*pixelParMetres)/2), pixelParMetres);
+>>>>>>> branch 'master' of https://gitlab.com/AhmadKnf/spacesiege.git
 			canon = new Canon(0, 10,pixelParMetres);
 			
-			System.out.println(monstre.getNombreDeVie()+"___");
 		
-			 
-			 tableauRec[0] = new Rectangle(  143,  354, 330, 53,0);
-			 
-			 tableauRec[1] = new Rectangle(  1200,  120, 186, 48,0);
-			 
-			 tableauRec[2] = new Rectangle(  1000,  0, 229, 57,0);
-			 
-			 tableauRec[3] = new Rectangle(  1100,  393, 280, 56,0);
-			 
-			 tableauRec[4] = new Rectangle( 1300, 0, 258, 57,0);
-			 
-			 tableauRec[5] = new Rectangle(  398, 377, 290, 52,0);
-			 
-			 tableauRec[6] = new Rectangle( 1050, 0, 238, 47,0);
-			 
-			 tableauRec[7] = new Rectangle(  1100,458, 210, 60,0);
-			 
-			 tableauRec[8] = new Rectangle( 1000, 20, 162, 36,45);
-			 
-			 tableauRec[9] = new Rectangle(  1080, 464, 140, 124,45);
-			 
-			 tableauRec[10] = new Rectangle(  1172, 238, 113, 92,0);
-
 			
 			 premiereFois = false;
 			
@@ -290,15 +298,37 @@ public class Niveau1 extends Niveaux {
 
 		
 
-		for (int i = 0; i < tableauRec.length; i++) {
-			tableauRec[i].dessiner(g2d);
-			
-		}
 
+			
+			for (int i = 0; i < tableauRectangles.length; i++) {
+		tableauRectangles[i].dessiner(g2d);
+				
+			}
+
+		    for (int i = 0; i < tableauEpines.length; i++) {
+		        tableauEpines[i].dessiner(g2d);
+		    }
+
+		    for (int i = 0; i < tableauCerclesElectriques.length; i++) {
+		        tableauCerclesElectriques[i].dessiner(g2d);
+		    }
+
+		    for (int i = 0; i < tableauTriangles.length; i++) {
+		        tableauTriangles[i].dessiner(g2d);
+		    }
+
+		    for (int i = 0; i < tableauCercles.length; i++) {
+		        tableauCercles[i].dessiner(g2d);
+		    }
+
+		    for (int i = 0; i < tableauPlaquesRebondissantes.length; i++) {
+		        tableauPlaquesRebondissantes[i].dessiner(g2d);
+		    }
+			
 		
 
 
-		boule= new CercleElectrique(398 ,200,pixelParMetres);
+		boule= new CercleElectrique(432, 317, 90, 90, 0);
 		boule.dessiner(g2d);
           
 
@@ -345,11 +375,36 @@ public class Niveau1 extends Niveaux {
 			
 			this.pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
 
-			
-			for(int i =0 ; i < tableauRec.length ; i++) {
-				Collisions.collisionRectangle(canon.getBalle(),tableauRec[i]);
+
+			Area areaBalle = new Area(canon.getBalle().getCercle()); 
+			  enCollisionAvecEpines = false;
+			for(int i =0 ; i < tableauRectangles.length ; i++) {
+				Collisions.collisionRectangle(canon.getBalle(),tableauRectangles[i]);
 			}
-			
+			for(int i =0 ; i < tableauCercles.length ; i++) {
+				Collisions.collisionCercle(canon.getBalle(),tableauCercles[i]);
+			}
+			for(int i =0 ; i < tableauTriangles.length ; i++) {
+				Collisions.collisionTriangle(canon.getBalle(),tableauTriangles[i]);
+			}
+			for(int i =0 ; i < tableauPlaquesRebondissantes.length ; i++) {
+				Collisions.collisionPlaqueRebondissante(canon.getBalle(),tableauPlaquesRebondissantes[i]);
+			}
+			for(int i =0 ; i < tableauEpines.length ; i++) {
+				enCollisionAvecEpines = false; 
+				 Area areaEpines = tableauEpines[i].toAire();
+	                areaEpines.intersect(areaBalle);
+	                if (!areaEpines.isEmpty()) {
+	                    enCollisionAvecEpines = true;
+			}
+	                if (enCollisionAvecEpines) {
+	    	         
+	    	            ancienneValeur = enCoursDAnimation;
+	    	            enCoursDAnimation = false;
+	    	            pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
+	    	            reinitialiserPosition();
+	    	        }
+
           
 	        if (Collisions.collisionMonstreBalle(monstre, canon.getBalle())) {
 	        	monstre.perdUneVie();
@@ -376,7 +431,7 @@ public class Niveau1 extends Niveaux {
 			
 
 
-			if(Collisions.getNbRebond()>=100) {
+			if(Collisions.getNbRebond()>=15) {
 				ancienneValeur = enCoursDAnimation;
 			    enCoursDAnimation = false;
 			    pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
@@ -394,7 +449,7 @@ public class Niveau1 extends Niveaux {
 		}//fin while
 		System.out.println("Le thread est mort...!");	
      }
-
+	}
 	/**
      * Démarre le thread d'animation si ce n'est pas déjà fait.
      */
@@ -504,8 +559,8 @@ public class Niveau1 extends Niveaux {
 		
 	
 		
-		for(int i =0 ; i < tableauRec.length ; i++) {
-		    Collisions.collisionMonstreRec(monstre, tableauRec[i]);	
+		for(int i =0 ; i < tableauRectangles.length ; i++) {
+		    Collisions.collisionMonstreRec(monstre, tableauRectangles[i]);	
 		    
 		}
 		
@@ -566,7 +621,11 @@ public class Niveau1 extends Niveaux {
 
 		    balleTiree = false;
 		    canon.setPremiereFois(true);
+<<<<<<< HEAD
 	        monstre = new Monstres(getWidth()/2 , getHeight()/2 - 10, pixelParMetres);
+=======
+		    monstre = new Monstres(getWidth()- ((8*pixelParMetres)/2) -50, getHeight()/2 - ((8*pixelParMetres)/2), pixelParMetres);
+>>>>>>> branch 'master' of https://gitlab.com/AhmadKnf/spacesiege.git
 		    if(monstre.getNombreDeVie()==0) {
 		    monstre.setNombreDeVie(1);
 		    }
@@ -822,8 +881,8 @@ public class Niveau1 extends Niveaux {
 	    if (balleTiree) {
 	        Balle balle = canon.getBalle();
 	        if (balle != null) {
-	           
-	            g.setColor(Color.white);
+	           g.setColor(Color.white);
+	            
 	            g.drawString("Données de la Balle Actuelle :", 20, 20);
 	            g.drawString("Position (x, y)", 20, 40);
 	            g.drawString("Vitesse (vx, vy)", 250, 40);
@@ -854,6 +913,7 @@ public class Niveau1 extends Niveaux {
 	        }
 	    }
 	}
+
 	/**
 	 * Méthode qui active ou désactive le mode scientifique.
 	 *

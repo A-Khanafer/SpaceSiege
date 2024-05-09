@@ -463,12 +463,7 @@ public class PanelBacASable extends JPanel {
                 // Traitement à faire
             }
         }
-    }
-
-    
-    
-  
-		
+    }	
 /**
  * Calcul la position en hauteur équivalente pour la forme.
  * @param centre Le centre de la forme.
