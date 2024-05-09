@@ -194,7 +194,6 @@ public class Niveau2 extends Niveaux {
 	private boolean premiereFois = true;
 
 	/**
-<<<<<<< HEAD
 
 	 * L'index de la balle choisie par le joueur.
 
@@ -202,21 +201,6 @@ public class Niveau2 extends Niveaux {
 
 	private int balleChoisie;
 
-=======
-     * L'index de la balle choisie par le joueur.
-     */
-    private  int balleChoisie;
-    /**
-     * Un tableau de triangles servant d'obstacles dans la zone d'animation (commenté pour le moment).
-     */
-   
-  
-   
-    
-	
-	
-	
->>>>>>> branch 'master' of https://gitlab.com/AhmadKnf/spacesiege.git
 	/**
 
 	 * Un tableau de triangles servant d'obstacles dans la zone d'animation (commenté pour le moment).
@@ -287,7 +271,6 @@ public class Niveau2 extends Niveaux {
 
 	private boolean ancienneValeur;
 
-<<<<<<< HEAD
 
 
 	/**
@@ -392,73 +375,13 @@ public class Niveau2 extends Niveaux {
 
 	 */
 
-=======
-/**
- * Boolean pour voir si la balle explose ou pas
- */
-	   private boolean enExplosion=false;;
-	   /**
-	     * Tableau des rectangles présents dans la configuration.
-	     */
-	   private Rectangle[] tableauRectangles = {
-			   new Rectangle(449, 674, 183, 90, 0.0),
-			    new Rectangle(634, 678, 104, 84, 0.0),
-			    new Rectangle(739, 673, 232, 90, 0.0),
-			    new Rectangle(516, 584, 168, 90, 0.0),
-			    new Rectangle(689, 585, 208, 90, 0.0),
-			    new Rectangle(707, 257, 93, 324, 0.0053202619460245675),
-			    new Rectangle(706, 3, 90, 105, 0.0),
-		    };
-	   /**
-	     * Tableau des épingles présentes dans la configuration.
-	     */
-		    private Epines[] tableauEpines = {
-		    	
-		    	    new Epines(542, 375, 284, 45, -1.5707963267948966),
-		    	 
-		    	    };
-		    /**
-		     * Tableau des cercles électriques présents dans la configuration.
-		     */
-		    private CercleElectrique[] tableauCerclesElectriques = {
-		    		 new CercleElectrique(500, 250, 90, 90, 0),
-		    		
-		    };
-		    /**
-		     * Tableau des triangles présents dans la configuration.
-		     */
-		    private Triangle[] tableauTriangles = {
-		    		 new Triangle(857, 413, 90, 176, 1.0058022145284227),
-		    		    new Triangle(943, 486, 90, 180, 0.651374961817385),
-		    };
-		    /**
-		     * Tableau des cercles présents dans la configuration.
-		     */
-		    private Cercle[] tableauCercles = {
-		    		new Cercle(300, 335, 90, 90, 0),
-		    };
-		    /**
-		     * Tableau des plaques rebondissantes présentes dans la configuration.
-		     */
-		    private PlaqueRebondissante[] tableauPlaquesRebondissantes = {
-		    		 new PlaqueRebondissante(834, 48, 180, 27, -0.5016040541891205),
-		    		 new PlaqueRebondissante(1027, 677, 180, 27, 0.0),
-		    };
-		    /**
-		     * Force du monstre dans cette configuration.
-		     */
->>>>>>> branch 'master' of https://gitlab.com/AhmadKnf/spacesiege.git
 	private int forceMonstre = 50;
-<<<<<<< HEAD
-=======
-/**
- * Voir si la collision est fait
- */
-			private boolean enCollisionAvecEpines=false;
-   
->>>>>>> branch 'master' of https://gitlab.com/AhmadKnf/spacesiege.git
 
+	/**
 
+	 * Voir si la collision est fait
+
+	 */
 
 	private boolean enCollisionAvecEpines=false;
 
@@ -523,28 +446,13 @@ public class Niveau2 extends Niveaux {
 		if(premiereFois) {
 
 			pixelParMetres = (double) getWidth()/150;
-<<<<<<< HEAD
 
 			monstre = new Monstres(getWidth()- ((8*pixelParMetres)/2) - 100, getHeight()/2 - ((8*pixelParMetres)/2), pixelParMetres);
 
-=======
-		
-			
-			
-			 monstre = new Monstres(getWidth()- ((8*pixelParMetres)/2) - 100, getHeight()/2 - ((8*pixelParMetres)/2), pixelParMetres);
->>>>>>> branch 'master' of https://gitlab.com/AhmadKnf/spacesiege.git
 			canon = new Canon(0, 10,pixelParMetres);
-<<<<<<< HEAD
 
 			premiereFois = false;
 
-=======
-			
-		
-		
-			 premiereFois = false;
-			
->>>>>>> branch 'master' of https://gitlab.com/AhmadKnf/spacesiege.git
 		}
 
 
@@ -555,32 +463,8 @@ public class Niveau2 extends Niveaux {
 
 		}
 
-<<<<<<< HEAD
-=======
-	    for (int i = 0; i < tableauEpines.length; i++) {
-	        tableauEpines[i].dessiner(g2d);
-	    }
-
-	    for (int i = 0; i < tableauCerclesElectriques.length; i++) {
-	        tableauCerclesElectriques[i].dessiner(g2d);
-	    }
-
-	    for (int i = 0; i < tableauTriangles.length; i++) {
-	        tableauTriangles[i].dessiner(g2d);
-	    }
-
-	    for (int i = 0; i < tableauCercles.length; i++) {
-	        tableauCercles[i].dessiner(g2d);
-	    }
-
-	    for (int i = 0; i < tableauPlaquesRebondissantes.length; i++) {
-	        tableauPlaquesRebondissantes[i].dessiner(g2d);
-	    }
-		
->>>>>>> branch 'master' of https://gitlab.com/AhmadKnf/spacesiege.git
 
 
-<<<<<<< HEAD
 		for (int i = 0; i < tableauEpines.length; i++) {
 
 			tableauEpines[i].dessiner(g2d);
@@ -625,9 +509,6 @@ public class Niveau2 extends Niveaux {
 
 		boule= new CercleElectrique(500, 250, 90, 90, 0);
 
-=======
-		boule=  new CercleElectrique(500, 250, 90, 90, 0);
->>>>>>> branch 'master' of https://gitlab.com/AhmadKnf/spacesiege.git
 		boule.dessiner(g2d);
 
 
@@ -694,90 +575,22 @@ public class Niveau2 extends Niveaux {
 
 			this.pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
 
-<<<<<<< HEAD
 
 
 			Area areaBalle = new Area(canon.getBalle().getCercle());
 
 			enCollisionAvecEpines = false;
 
-=======
-			Area areaBalle = new Area(canon.getBalle().getCercle()); 
-			  enCollisionAvecEpines = false;
->>>>>>> branch 'master' of https://gitlab.com/AhmadKnf/spacesiege.git
 			for(int i =0 ; i < tableauRectangles.length ; i++) {
 
 				Collisions.collisionRectangle(canon.getBalle(),tableauRectangles[i]);
 
 			}
-<<<<<<< HEAD
-=======
-			for(int i =0 ; i < tableauCercles.length ; i++) {
-				Collisions.collisionCercle(canon.getBalle(),tableauCercles[i]);
-			}
-			for(int i =0 ; i < tableauTriangles.length ; i++) {
-				Collisions.collisionTriangle(canon.getBalle(),tableauTriangles[i]);
-			}
-			for(int i =0 ; i < tableauPlaquesRebondissantes.length ; i++) {
-				Collisions.collisionPlaqueRebondissante(canon.getBalle(),tableauPlaquesRebondissantes[i]);
-			}
-			for(int i =0 ; i < tableauEpines.length ; i++) {
-				enCollisionAvecEpines = false; 
-				 Area areaEpines = tableauEpines[i].toAire();
-	                areaEpines.intersect(areaBalle);
-	                if (!areaEpines.isEmpty()) {
-	                    enCollisionAvecEpines = true;
-			}
-	                if (enCollisionAvecEpines) {
-	    	         
-	    	            ancienneValeur = enCoursDAnimation;
-	    	            enCoursDAnimation = false;
-	    	            pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
-	    	            reinitialiserPosition();
-	    	        }
->>>>>>> branch 'master' of https://gitlab.com/AhmadKnf/spacesiege.git
 
-<<<<<<< HEAD
 			for(int i =0 ; i < tableauCercles.length ; i++) {
-=======
-		
-	        Area areaMonstre = monstre.toAire();
-	        areaBalle.intersect(areaMonstre);
->>>>>>> branch 'master' of https://gitlab.com/AhmadKnf/spacesiege.git
 
 				Collisions.collisionCercle(canon.getBalle(),tableauCercles[i]);
 
-<<<<<<< HEAD
-=======
-
-
-
-			if(monstre.getNombreDeVie()==0) {
-	    	    monstreMort=true;
-	    	    ancienneValeur = enCoursDAnimation;
-	    	    enCoursDAnimation = false;
-	    	    pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
-	            
-	            JOptionPane.showMessageDialog(null,"VOUS AVEZ GAGNE");
-	            
-	            reinitialiserApplication();
-	    	}
-
-
-
-			
-		
-			
-
-
-			if(Collisions.getNbRebond()>=10) {
-				ancienneValeur = enCoursDAnimation;
-			    enCoursDAnimation = false;
-			    pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
-		
-				reinitialiserPosition();
-				
->>>>>>> branch 'master' of https://gitlab.com/AhmadKnf/spacesiege.git
 			}
 
 			for(int i =0 ; i < tableauTriangles.length ; i++) {
@@ -834,6 +647,14 @@ public class Niveau2 extends Niveaux {
 
 				}
 
+
+
+
+
+
+
+
+
 				if(monstre.getNombreDeVie()==0) {
 
 					monstreMort=true;
@@ -850,7 +671,17 @@ public class Niveau2 extends Niveaux {
 
 				}
 
-				if(Collisions.getNbRebond()>=3) {
+
+
+
+
+
+
+
+
+
+
+				if(Collisions.getNbRebond()>=10) {
 
 					ancienneValeur = enCoursDAnimation;
 
@@ -861,6 +692,8 @@ public class Niveau2 extends Niveaux {
 					reinitialiserPosition();
 
 				}
+
+
 
 				repaint();
 
@@ -1003,18 +836,6 @@ public class Niveau2 extends Niveaux {
 			calculerUneIterationPhysique(deltaT);
 
 			repaint();
-<<<<<<< HEAD
-=======
-			try {
-				Thread.sleep(tempsDuSleep);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}//fin while
-		System.out.println("Le thread est mort...!");	
-		}
-     }
->>>>>>> branch 'master' of https://gitlab.com/AhmadKnf/spacesiege.git
 
 		}
 
@@ -1201,22 +1022,9 @@ public class Niveau2 extends Niveaux {
 		pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
 
 
-<<<<<<< HEAD
 
 		tempsTotalEcoule = 0;
 
-=======
-		    balleTiree = false;
-		    canon.setPremiereFois(true);
-		    monstre = new Monstres(getWidth()- ((8*pixelParMetres)/2) - 100, getHeight()/2 - ((8*pixelParMetres)/2), pixelParMetres);
-		    if(monstre.getNombreDeVie()==0) {
-		    monstre.setNombreDeVie(1);
-		    }
-		    canon = new Canon(0, 10,pixelParMetres);
-		    Collisions.setNbrebond(0);
-		   monstreMort=false;
-          forceMonstre=50;
->>>>>>> branch 'master' of https://gitlab.com/AhmadKnf/spacesiege.git
 
 
 
