@@ -135,6 +135,8 @@ public class Monstres extends JPanel implements  Serializable{
 		private boolean premiereFois = true;
 		
 		private Vecteur2D posCentre ;
+		
+		private boolean premierFois = true;
 
 	    /**
 		 * Constructeur de la classe Monstres.
@@ -153,39 +155,32 @@ public class Monstres extends JPanel implements  Serializable{
 	        
 	        this.posCentre = new Vecteur2D(posX +longueurRectangle, posY+hauteurRectangle);
 	        Random rand = new Random();
-	        int indexImg = rand.nextInt(2) + 1;
-	        if (indexImg == 1) {
-		        imgDecor = OutilsImage.lireImage(nomImg1); 
+	        
+	        int indexImg = 1;
+	        
+			if(premierFois) {
+	        	indexImg = rand.nextInt(3) + 1;
+	        	
+	        	 if (indexImg == 1) {
+	 		        imgDecor = OutilsImage.lireImage(nomImg1); 
+	 	        }
+	 	        if (indexImg == 2){
+	 		        imgDecor = OutilsImage.lireImage(nomImg2); 
+	 	        }
+	 	        if (indexImg == 3){
+	 	        	imgDecor = OutilsImage.lireImage(nomImg3); 
+	 	        }
+	        	
+	        	premierFois = false;
 	        }
-	        if (indexImg == 2){
-		        imgDecor = OutilsImage.lireImage(nomImg2); 
-	        }
-	        if (indexImg == 3){
-	        	imgDecor = OutilsImage.lireImage(nomImg3); 
-	        }
+	        
+	        
+	       
 	
 	       creerLaGeometrie();
 
 	    }
-	    /**
-	     * 2ème constructeur du monstre
-	     * @param posX position du monstre en x
-	     * @param posY position du monstre en y 
-	     * @param largeur largeur du monstre
-	     * @param longueur longueur du monstre
-	     */
-	    //ZAKARIA SOUDAKI
-	    public Monstres(double posX, double posY,double largeur, double longueur) {
-	    	setOpaque(false);
-	    	
-	    	this.position = new Vecteur2D(posX,posY);
-	    	longueurRectangle = largeur;
-	    	hauteurRectangle = longueur;
-
-	    	creerLaGeometrie();
-
-	    }
-
+	   
 	    /**
 		 * Initialise la géométrie du monstre.
 		 **/

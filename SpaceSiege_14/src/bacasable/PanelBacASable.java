@@ -133,15 +133,20 @@ public class PanelBacASable extends JPanel {
         
         Graphics2D g2d = (Graphics2D) g;
         pixelParMetres = getWidth()/150;
+        
+        if (premiereFois) {
         canon = new Canon(0, 10, pixelParMetres);
         monstre = new Monstres(getWidth()- ((8*pixelParMetres)/2) - 100, getHeight()/2 - ((8*pixelParMetres)/2), pixelParMetres);
+        premiereFois = false;
+        }
+        
         if(obHolder != null) {
             obHolder.drawContient(g2d);
         }
         canon.dessiner(g2d);
         g2d.setColor( new Color(255, 0, 0, 100) );
         limiteCanon = new Rectangle2D.Double(0, 0, canon.getPointeX()+50, getHeight());
-        limiteMonstre = new Rectangle2D.Double(getWidth()- ((20*pixelParMetres)/2) - 100,getHeight()/2 - ((20*pixelParMetres)/2) , 20*pixelParMetres, 20*pixelParMetres);
+        limiteMonstre = new Rectangle2D.Double(getWidth()- ((16*pixelParMetres)/2) - 100,getHeight()/2 - ((16*pixelParMetres)/2) , 16*pixelParMetres, 16*pixelParMetres);
         g2d.fill(limiteCanon);
         g2d.fill(limiteMonstre);
         monstre.dessiner(g2d);
@@ -438,7 +443,7 @@ public class PanelBacASable extends JPanel {
      */
     public void ajouterMonstre() {
         if (nbrMonstre < 1) {
-            monstre = new Monstres(200,200, pixelParMetres, 1);
+            monstre = new Monstres(getWidth()- ((8*pixelParMetres)/2) - 100, getHeight()/2 - ((8*pixelParMetres)/2), pixelParMetres);
             nbrMonstre++;
             monstredessin = true;
             monstreCreer = true;

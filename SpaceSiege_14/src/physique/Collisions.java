@@ -552,14 +552,20 @@ System.out.println(compteurRebonds+"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 	  * @param rec le rectangle
 	  */
 	 public static void collisionMonstreRec (Monstres monstre,  Rectangle rec ) {
-		 
+		 Vecteur2D vec = null;
 		 Area areaRec = rec.toAire();
 		 Area areaMonstre = monstre.toAire();
 	        areaMonstre.intersect(areaRec);
 
 	        if (!areaMonstre.isEmpty()) {
+	        	try {
+					 vec = monstre.getVitesse().normalise();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 	        	
-	        	
+
 	        	monstre.setVitesse(new Vecteur2D(-monstre.getVitesse().getX(),-monstre.getVitesse().getY()));
 	        }
 	 }

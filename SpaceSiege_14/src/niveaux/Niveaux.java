@@ -146,7 +146,7 @@ public class Niveaux extends JPanel implements Runnable {
 		pixelParMetres = 8.64;
 		canon = new Canon(0, 10,pixelParMetres);
 
-		monstre = new Monstres(1200, 40, pixelParMetres,1);
+        monstre = new Monstres(getWidth()- ((8*pixelParMetres)/2) - 100, getHeight()/2 - ((8*pixelParMetres)/2), pixelParMetres);
 		
 		
 	}
