@@ -446,16 +446,11 @@ public class Niveau2 extends Niveaux {
 		if(premiereFois) {
 
 			pixelParMetres = (double) getWidth()/150;
-<<<<<<< HEAD
 		
 			
 			
 	        monstre = new Monstres(getWidth()- ((8*pixelParMetres)/2) - 100, getHeight()/2 - ((8*pixelParMetres)/2), pixelParMetres);
-=======
 
-			monstre = new Monstres(getWidth()- ((8*pixelParMetres)/2) - 100, getHeight()/2 - ((8*pixelParMetres)/2), pixelParMetres);
-
->>>>>>> branch 'master' of https://gitlab.com/AhmadKnf/spacesiege.git
 			canon = new Canon(0, 10,pixelParMetres);
 
 			premiereFois = false;
@@ -1029,7 +1024,7 @@ public class Niveau2 extends Niveaux {
 		pcs.firePropertyChange("enCoursDAnimation", ancienneValeur, enCoursDAnimation);
 
 
-<<<<<<< HEAD
+
 		    balleTiree = false;
 		    canon.setPremiereFois(true);
 	        monstre = new Monstres(getWidth()- ((8*pixelParMetres)/2) - 100, getHeight()/2 - ((8*pixelParMetres)/2), pixelParMetres);
@@ -1039,10 +1034,8 @@ public class Niveau2 extends Niveaux {
 		    canon = new Canon(0, 10,pixelParMetres);
 		    Collisions.setNbrebond(0);
 		   monstreMort=false;
-=======
 
 		tempsTotalEcoule = 0;
->>>>>>> branch 'master' of https://gitlab.com/AhmadKnf/spacesiege.git
 
 
 

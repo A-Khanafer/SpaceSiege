@@ -307,11 +307,8 @@ public class Niveau3 extends Niveaux {
 		
 			
 			
-<<<<<<< HEAD
 	        monstre = new Monstres(getWidth()- ((8*pixelParMetres)/2) - 100, getHeight()/2 - ((8*pixelParMetres)/2), pixelParMetres);
-=======
-			monstre = new Monstres(getWidth()- ((8*pixelParMetres)/2) -50, getHeight()/2 - ((8*pixelParMetres)/2), pixelParMetres);
->>>>>>> branch 'master' of https://gitlab.com/AhmadKnf/spacesiege.git
+
 			canon = new Canon(0, 10,pixelParMetres);
 			
 		
@@ -659,11 +656,8 @@ public class Niveau3 extends Niveaux {
 
 		    balleTiree = false;
 		    canon.setPremiereFois(true);
-<<<<<<< HEAD
-	        monstre = new Monstres(getWidth()- ((8*pixelParMetres)/2) - 100, getHeight()/2 - ((8*pixelParMetres)/2), pixelParMetres);
-=======
+
 		    monstre = new Monstres(getWidth()- ((8*pixelParMetres)/2) -50, getHeight()/2 - ((8*pixelParMetres)/2), pixelParMetres);
->>>>>>> branch 'master' of https://gitlab.com/AhmadKnf/spacesiege.git
 		    if(monstre.getNombreDeVie()==0) {
 		    monstre.setNombreDeVie(1);
 		    }
